@@ -10,6 +10,9 @@ en:
     id: No.
     name: Term
     name_en: English
+    name_cn: Chinese
+    name_fr: French
+    tech_en: "Technical English"
     category: Category
     datatype: "Data type for coding"
     codename: "Abbreviation for coding"
