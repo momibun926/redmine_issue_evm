@@ -1,0 +1,45 @@
+= Redmine Glossary Plugin
+
+This is the Redmine(Project manage system) plug-in which adds the feature of the glossary.
+
+== The Use
+
+ * Management of technical terms in a system analysis phase
+ * Interlinear translation table
+ * Translate table from term to data type (class name)
+ * Management of naming examples in a coding
+
+
+== Gegging a plugin package
+
+{SourceForge.JP}[http://sourceforge.jp/projects/rp-glossary/releases/]
+
+
+== Installation and Setup
+
+cf. http://www.redmine.org/wiki/1/Plugins
+
+1. Extends the dawnloaded package in vender/plugins directory.
+2. run the following command to upgrade your database. 
+    rake db:migrate_plugins RAILS_ENV=production
+3. Restart Redmine WEB server.
+4. Set permissions of glossary plugin in "Administration" -> "Roles and permissions"
+5. Open the setting page of projects you need, check the "Glossray" module
+6. If you need, select items to make hidden in plugin setting page.
+
+== Usage
+
+Start from "Glossary" item of a project menu.
+
+
+For the details of the usage, see the following page.
+* http://www.r-labs.org/projects/rp-glossary/wiki/UsageEn
+
+
+== Quesion or Proposal
+
+If you find a bug(Defect) or hava a Proposal, create a new issue.
+http://www.r-labs.org/projects/rp-glossary/issues
+
+If you quest about this plugin, write the forum.
+http://www.r-labs.org/projects/rp-glossary/boards

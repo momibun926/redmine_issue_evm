@@ -1,0 +1,42 @@
+
+<div class="contextual">
+  <%= link_to_if_authorized(l(:label_term_new), {:controller => 'glossary', :action => 'new', :id => @project}, :class => 'icon icon-add') %>
+</div>
+
+<% 
+subtitle = ""
+if params[:search_index_ch]
+  subtitlle = "- #{params[:search_index_ch]} -"
+end %>
+
+<h1><%= t('glossary_title') %> <%= subtitlle %>  </h1>
+
+<br />
+<% if User.current.allowed_to?(:view_terms, @project, :global => true) %>
+  <%= render(:partial => "glossary_styles/search") %>
+  <br />
+<% end %>
+
+<% tempname = "glossary/#{@glossary_style.show_desc ? 'show_all' : 'index'}_in_category" %>
+<% unless @terms.empty? %>
+  <% if @glossary_style.grouping? %>
+    <% list_number = 1 %>
+    <% @terms.each do |gterms| %>
+        <h2><%= "#{list_number}. #{gterms.name}" %></h2>
+        <% list_number += 1 %>
+        <%= render(:partial => tempname, :object => gterms.ary) %>
+    <% end %>
+  <% else %>
+    <%= render(:partial => tempname, :object => @terms) %>
+  <% end %>
+
+  <% other_formats_links do |f| %>
+    <%= f.link_to 'CSV' %>
+  <% end %>
+
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+
+<%= render :partial => 'glossary/view_term' %>

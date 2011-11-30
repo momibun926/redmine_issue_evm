@@ -1,0 +1,103 @@
+# English strings go here for Rails i18n
+zh:
+  project_module_glossary: 术语名词
+  permission_view_terms: 查看术语名词
+  permission_manage_terms: 术语名词管理
+  permission_manage_term_categories: 术语名词类别管理
+
+  glossary_title: 术语名词
+  label:
+    id: No.
+    name: 术语名称
+    name_en: 术语英文拼写
+    category: 分类
+    datatype: "编码数据类型"
+    codename: "术语缩写"
+    description: 术语说明
+    rubi: Ruby
+    abbr_whole: 全称
+  label_updater: 更新人
+  label_term_plural: 术语名词
+
+  label_manage: 管理
+  label_manage_term_category: 管理术语类别
+  label_not_categorized: 未分类
+
+  label_view: 视图浏览
+  label_style: 样式
+    
+  label_term: 术语
+  label_term_new: 新增术语
+  label_index: 列表显示
+
+  label_grouping: 分组
+  label_glossary_style_show_desc: 是否显示描述
+  label_glossary_style_all_project: 所有项目
+
+  label_glossary_style_project_current: 当前项目
+  label_glossary_style_project_mine: 我的项目
+  label_glossary_style_project_all: 全部项目
+
+  label_latest: 最近
+  label_indays: 天
+
+  label_glossary_style_index: 索引
+
+  label_import: 导入
+  label_glossary_import_csv: 从CSV文件导入
+  label_csv_file: CSV文件
+  label_csv_import_is_first_comment: 第一行是否注释行？
+  label_import_items: 导入配置
+  label_item: 导入项
+  label_column: 对应列
+  message_import_item: 对项目、创建人等，取用当前值。
+  label_csv_import_finished: CSV文件导入完成。
+  error_import_failed: 无法导入文件。
+  label_create_category_num: 类别新建数量
+  label_create_term_num: 属于新建数量
+  label_update_term_num: 术语更新数量
+  label_file_encoding: 文件编码
+  label_movement_project: 目标项目
+  label_move_all_terms: 移动所有术语到新项目
+  
+  label_term_category: 术语类别
+  label_term_category_new: 新增术语类别
+  
+  field_term_counts_under_category: 术语数量
+
+  text_term_category_destroy_question: 术语({{value}})已配置到当前类别。请选择下一步操作?
+  text_term_category_destroy_assignments: 将当前术语从该类别中移出
+  text_term_category_reassign_to: 重新指定术语所属类别
+
+  label_hide_item: 设置隐藏项
+  label_tag_termlink: 链接到术语
+
+  notice_glossary_style_create_f: 无法创建术语名词样式数据。
+
+  error_term_macro_arg: "\"term\" 宏需提供参数, 1 或 2。"
+  error_termno_macro_arg: "\"termno\" 宏仅需要一个参数。"
+  error_term_not_found_id: "\"%s\": 不存在对应编号的术语。"
+  error_term_not_found_name: "\"%s\": 没有这样名称的术语。"
+  error_term_not_found_name_project: "\"%s\": 在【\"%s\"】项目中，不存在对应名称的术语。"
+  error_project_not_found: "\"%s\": 不存在该标示符对应的项目。"
+  error_to_number: 无法转换位数字类型 --- %s
+
+  error_csv_import_row: " 行 : %d"
+  error_import_no_name: "\"%s\" isn't descrived."
+  error_create_term_category: 无法创建术语类别。
+  error_create_term: 无法创建术语。
+  error_file_none: 未指定文件。
+  error_no_movement_project: 当前无可移动的项目。请在相关项目中开启术语名词模块。
+  
+  index_ary_en_sep_cnt: 6
+  index_ary_en:  [A, B, C, D, E, F, 
+                  G, H, I, J, K, L, 
+                  M, N, O, P, Q, R, 
+                  S, T, U, V, W, X, 
+                  Y, Z]
+  index_ary_sep_cnt: 0
+  index_ary: []
+  index_subary: []
+
+  in_encoding_candidates: []
+

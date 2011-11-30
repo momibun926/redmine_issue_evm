@@ -1,0 +1,47 @@
+= Redmine 用語集プラグイン
+
+Redmine(プロジェクト管理システム)に用語集の機能を追加するプラグインです。
+以下のような用途に使えます。
+ * 業務分析工程での専門用語の管理
+ * 対訳表
+ * 用語とデータ型(クラス名)との変換辞書
+ * コーディング時の略名の付け方の方針管理
+
+
+== プラグインパッケージの取得
+
+プラグインパッケージは以下から取得してください。
+* {SourceForge.JP}[http://sourceforge.jp/projects/rp-glossary/releases/]
+
+
+== インストールと設定
+
+1. 取得した圧縮ファイルを (インストールディレクトリ)/vender/plugins に展開します。
+2. データベースの設定を行います。 http://www.redmine.org/wiki/1/Plugins
+   rake db:migrate_plugins RAILS_ENV=production
+3. Redmine の WEB サーバ(Apache など)を再起動します。
+4. "管理" メニューの "ロールと権限" から用語集の各権限を設定します。
+5. 用語集を使用したいプロジェクトの "設定" メニューで "用語集" のモジュールにチェックを入れます。
+6. 非表示にしたい項目があれば、プラグインの "設定" ページで設定してください。
+
+cf. http://www.r-labs.org/projects/r-labs/wiki/%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E6%96%B9%E6%B3%95
+
+
+== 使用法
+
+プロジェクトメニューの "用語集" からご利用ください。
+
+使用法の詳細は以下をご覧ください。
+* http://www.r-labs.org/projects/rp-glossary/wiki/Usage
+
+
+== 質問、バグ報告など
+
+不具合報告や要望などありましたら、以下で Defect や Proposal のチケットを発行して下さい。
+http://www.r-labs.org/projects/rp-glossary/issues
+
+質問などは以下のフォーラムに記述して下さい。要望などはこちらに書いてもらってもかまいません。
+http://www.r-labs.org/projects/rp-glossary/boards
+
+
+

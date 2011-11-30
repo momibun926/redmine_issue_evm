@@ -1,0 +1,43 @@
+
+<% urlopts = {:controller => 'glossary_styles', :action => 'edit',
+		     :id => @project,
+		     :glossary_style_id => @glossary_style.id}
+  add_search_params(urlopts)
+  form_for :glossary_style, @glossary_style, :url => urlopts do |f| %>
+
+  
+<label> <%= f.check_box "show_desc" %> <%= l(:label_glossary_style_show_desc) %> </label>
+<br />
+
+<%=h l(:label_project) %>
+<%=
+    options = []
+    options << [l(:label_glossary_style_project_current), GlossaryStyle::ProjectCurrent]
+    options << [l(:label_glossary_style_project_mine), GlossaryStyle::ProjectMine] if User.current.logged?
+    options << [l(:label_glossary_style_project_all), GlossaryStyle::ProjectAll]
+    f.select('project_scope', options)
+%>
+
+
+<fieldset id="grouping"><legend><%= l(:label_grouping) %></legend>
+<% group_labels = [:label_none, :field_category, :label_project] %>
+<% for gby in [GlossaryStyle::GroupByNone,
+	       GlossaryStyle::GroupByCategory,
+	       GlossaryStyle::GroupByProject] %>
+<label><%= f.radio_button('groupby', gby,
+		          { :checked => (gby == @glossary_style.groupby ) } ) %>
+ <%= l(group_labels[gby]) %></label>
+<% end %>
+</fieldset>
+
+
+<fieldset id="sort"><legend><%= l(:label_sort) %></legend>
+<% for cnt in 0...2 %>
+  <%= cnt+1 %> : <%= params_select(f, "sort_item_#{cnt}", default_sort_params) %><br />
+<% end %>
+</fieldset>
+
+<%= submit_tag l(:label_view) %>
+<%= submit_tag l(:button_clear), :name => 'clear' %>
+
+<% end %>

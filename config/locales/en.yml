@@ -1,0 +1,103 @@
+# English strings go here for Rails i18n
+en:
+  project_module_glossary: Glossary
+  permission_view_terms: View Glossary
+  permission_manage_terms: Manage Glossary
+  permission_manage_term_categories: Manage Term Categories
+
+  glossary_title: Glossary
+  label:
+    id: No.
+    name: Term
+    name_en: English
+    category: Category
+    datatype: "Data type for coding"
+    codename: "Abbreviation for coding"
+    description: Description
+    rubi: Ruby
+    abbr_whole: Whole word for Abbreviation
+  label_updater: Updater
+  label_term_plural: Glossary
+
+  label_manage: Manage
+  label_manage_term_category: Manage category
+  label_not_categorized: Not categorized
+
+  label_view: View
+  label_style: Style
+    
+  label_term: Term
+  label_term_new: New term
+  label_index: List view
+
+  label_grouping: Grouping
+  label_glossary_style_show_desc: Show descriptions
+  label_glossary_style_all_project: All projects
+
+  label_glossary_style_project_current: Current
+  label_glossary_style_project_mine: Mine
+  label_glossary_style_project_all: All  
+
+  label_latest: Latest
+  label_indays: Days
+
+  label_glossary_style_index: Index
+
+  label_import: Import
+  label_glossary_import_csv: Import from CSV
+  label_csv_file: CSV file
+  label_csv_import_is_first_comment: First row is comment line ?
+  label_import_items: Import items
+  label_item: Item
+  label_column: Column
+  message_import_item: For the project, creater and so on, the current value is used.
+  label_csv_import_finished: CSV Import finished
+  error_import_failed: Failed to import file.
+  label_create_category_num: The number of create categories
+  label_create_term_num: The number of create terms
+  label_update_term_num: The number of update terms
+  label_file_encoding: File encoding
+  label_movement_project: The movement project
+  label_move_all_terms: Move all terms
+  
+  label_term_category: Term category
+  label_term_category_new: New category
+  
+  field_term_counts_under_category: Term count
+
+  text_term_category_destroy_question: Some term ({{value}}) is assigned to this category. What do you want to do ?
+  text_term_category_destroy_assignments: Remove category assignments
+  text_term_category_reassign_to: Reassign term to this category
+
+  label_hide_item: Settings of hidden items
+  label_tag_termlink: Link to a term
+
+  notice_glossary_style_create_f: Fail to create Glossary Style data
+
+  error_term_macro_arg: "\"term\" macro need arguments, 1 or 2."
+  error_termno_macro_arg: "\"termno\" macro need only one argument."
+  error_term_not_found_id: "\"%s\": No term with such an No."
+  error_term_not_found_name: "\"%s\": No term with such a name."
+  error_term_not_found_name_project: "\"%s\": No term with such a name in \"%s\" project."
+  error_project_not_found: "\"%s\": No project of such an identifier."
+  error_to_number: Failed converting to number. --- %s
+
+  error_csv_import_row: " row : %d"
+  error_import_no_name: "\"%s\" isn't descrived."
+  error_create_term_category: Failed to create Term Category.
+  error_create_term: Failed to create Term.
+  error_file_none: No File is specified.
+  error_no_movement_project: There is no project to which a term is moved.
+  
+  index_ary_en_sep_cnt: 6
+  index_ary_en:  [A, B, C, D, E, F, 
+                  G, H, I, J, K, L, 
+                  M, N, O, P, Q, R, 
+                  S, T, U, V, W, X, 
+                  Y, Z]
+  index_ary_sep_cnt: 0
+  index_ary: []
+  index_subary: []
+
+  in_encoding_candidates: []
+

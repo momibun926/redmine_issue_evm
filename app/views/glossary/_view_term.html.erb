@@ -1,0 +1,10 @@
+
+<% content_for :sidebar do %>
+    <%= render :partial => 'glossary/sidebar' %>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'glossary', :plugin => 'redmine_glossary' %>
+<% end %>
+
+<% html_title(l(:glossary_title)) -%>

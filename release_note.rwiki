@@ -1,0 +1,55 @@
+h1. リリースノート
+
+h2. 0.6.1
+
+機能追加
+* 用語とカテゴリのテーブルで、 編集と削除のリンクをアイコンだけで表示
+不具合修正
+* カテゴリでのフィルタリングで、カテゴリ名に正規表現の特殊文字を含んでいるときのエラーを修正
+
+---
+
+Feature
+* In term and term categories tables, Edit and Delete link display only icons.
+Bugifx
+* Filtering by category.
+
+
+
+h2. 0.6.0
+
+機能追加
+# プロジェクトの用語を一括移動
+# 用語の一覧表示に説明の一部を表示
+# インデックス検索の解除の改良
+# メッセージファイルの追加
+## ドイツ語 (de)
+## 簡易中国語 (zh)
+
+不具合修正
+# プロジェクトの選択
+# カテゴリによるフィルター
+# カテゴリなしの場合の用語集を CSV の出力
+# rake によるデータベース更新
+# 用語集から以外の term Wiki マクロの利用
+# & を含んだ用語の term マクロ
+# フリガナ、展開名称の非表示設定
+
+---
+
+Feature
+# Feature to move all terms
+# Show parts of description in index lists
+# Add clear button for index filter
+# Add translation
+## German (de)
+## Simplified Chinese (zh)
+
+Bug fix
+# Selection of project target
+# Filter by categories
+# CSV export when category is None
+# Update database by rake
+# The Wiki term macro error in wiki page except glossary page
+# The Wiki term macro error of terms which have & caractor.
+# Hiden settings of rubi and abbrev.

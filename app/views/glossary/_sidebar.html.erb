@@ -1,0 +1,45 @@
+
+<% if User.current.allowed_to?(:view_terms, @project, :global => true) %>
+  <h3><%= l(:label_view) %></h3>
+  <%= render(:partial => "glossary_styles/form",
+	   :object => @view_style) %>
+  <br />
+<% end %>
+
+
+<% if User.current.allowed_to?(:manage_terms, @project, :global => true) %>
+  <h3><%= l(:label_term) %></h3>
+  <%= link_to(l(:label_term_new), {:controller => 'glossary', :action => 'new', :id => @project}, :class => 'icon icon-add') %>
+  <br />
+<%   if (Term.find(:first, :conditions => "project_id = #{@project.id}")) %>
+  <%= link_to_if_authorized(l(:label_move_all_terms), {:controller => 'glossary', :action => 'move_all', :id => @project}, :class => 'icon icon-move') %>
+  <br />
+<%   end %>
+  <%= link_to(l(:label_glossary_import_csv), {:controller => 'glossary', :action => 'import_csv', :id => @project}) %>
+  <br />
+<% end %>
+
+
+<% if User.current.allowed_to?(:manage_term_categories, @project, :global => true) %>
+  <h3><%= l(:label_term_category) %></h3>
+  <%= link_to l(:label_term_category_new), {:controller => 'glossary', :action => 'add_term_category', :id => @project}, :class => 'icon icon-add' %>
+  <br />
+  <%= link_to l(:label_manage_term_category), { :controller => 'term_categories', :action => 'index', :id => @project } %>
+  <br />
+<% end %>
+
+
+<% if User.current.allowed_to?(:view_terms, @project, :global => true) %>
+  <h3><%= l(:label_glossary_style_index) %></h3>
+  
+<% if params[:search_index_ch] %>
+<div class="contextual">
+  <%= link_to_if_authorized(l(:button_clear), {:controller => 'glossary', :action => 'index_clear', :id => @project}, :class => 'icon icon-reload') %>
+</div>
+<% end %>
+
+  <%= search_index_table(l(:index_ary_en), l(:index_ary_en_sep_cnt), @project, 'en') %>
+  <br />
+  <%= search_index_table(l(:index_ary), l(:index_ary_sep_cnt), @project) %>
+  <br />
+<% end %>

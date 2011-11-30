@@ -1,0 +1,23 @@
+<div class="contextual">
+<%= link_to_if_authorized(l(:button_edit), {:controller => 'glossary', :action => 'edit', :id => @project, :term_id => @term}, :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'glossary', :action => 'destroy', :id => @project, :term_id => @term}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+</div>
+
+<h2><%= l(:label_term) %> #<%= @term.id %></h2>
+
+<div class="term" >
+
+<h3><%=h @term.name %> </h3>
+<%= render(:partial => "glossary/show_one", :object => @term) %>
+
+<p class="author">
+<%= authoring @term.created_on, @term.author %>.
+<%= updated_by(@term.updated_on, @term.updater) + '.' if @term.created_on != @term.updated_on %>
+</p>
+
+</div>
+
+
+<%= render :partial => 'glossary/view_term' %>
+
+<% html_title "##{@term.id}: #{@term.name}" -%>

@@ -1,0 +1,104 @@
+# German strings go here for Rails i18n
+# Initial version: 2011/09/08
+# Author: Frank Holznagel
+de:
+  project_module_glossary: Glossar
+  permission_view_terms: Glossar anzeigen
+  permission_manage_terms: Glossar bearbeiten
+  permission_manage_term_categories: Glossarkategorien bearbeiten
+
+  glossary_title: Glossar
+  label:
+    id: Nr.
+    name: Begriff
+    name_en: Englisch
+    category: Kategorie
+    datatype: "Datentyp im Programmcode"
+    codename: "Abkürzung im Programmcode"
+    description: Beschreibung
+    rubi: Ruby
+    abbr_whole: "Ausgeschriebener Begriff (bei Abkürzungen)"
+  label_updater: Updater
+  label_term_plural: Glossare
+
+  label_manage: Verwalten
+  label_manage_term_category: Kategorien verwalten
+  label_not_categorized: ohne Zuordnung
+
+  label_view: Ansicht
+  label_style: Stil
+    
+  label_term: Begriff
+  label_term_new: Neuer Begriff
+  label_index: Listenansicht
+
+  label_grouping: Gruppierung
+  label_glossary_style_show_desc: Beschreibungen anzeigen
+  label_glossary_style_all_project: Alle Projekte
+
+  label_glossary_style_project_current: Aktuelles
+  label_glossary_style_project_mine: Meine
+  label_glossary_style_project_all: Alle 
+
+  label_latest: Letzte
+  label_indays: Tage
+
+  label_glossary_style_index: Index
+
+  label_import: Importieren
+  label_glossary_import_csv: Aus einer CSV-Datei importieren
+  label_csv_file: CSV-Datei
+  label_csv_import_is_first_comment: die erste Zeile der Datei beim Einlesen ignorieren
+  label_import_items: Elemente zu Spalten zuordnen
+  label_item: Element
+  label_column: Spalte
+  message_import_item: Als Projekt und Benutzer für die importierten Begriffe werden die aktuellen Einstellungen verwendet.
+  label_csv_import_finished: Der CSV-Datenimport wurde erfolgreich beendet
+  error_import_failed: Konnte den CSV-Datenimport nicht ausführen
+  label_create_category_num: Anzahl der neu erstellten Kategorien
+  label_create_term_num: Anzahl der neu erstellten Begriffe
+  label_update_term_num: Anzahl der aktualisierten Begriffe
+  label_file_encoding: Zeichensatz der Datei (File encoding)
+  label_movement_project: Zielprojekt für das Verschieben
+  label_move_all_terms: Alle Begriffe verschieben
+  
+  label_term_category: Begriffskategorie
+  label_term_category_new: Neue Kategorie
+  
+  field_term_counts_under_category: Anzahl der Begriffe
+
+  text_term_category_destroy_question: Dieser Kategorie sind ({{value}}) Begriffe zugeordnet. Was wollen sie tun?
+  text_term_category_destroy_assignments: Kategoriezuordnung entfernen
+  text_term_category_reassign_to: Kategoriezuordnung ändern zu
+
+  label_hide_item: Verstecke folgende Elemente
+  label_tag_termlink: Link zu einem Begriff
+
+  notice_glossary_style_create_f: Konnte die Stil-Daten des Glossars nicht anlegen
+
+  error_term_macro_arg: Das Makro "term" benötigt entweder ein oder zwei Argumente (den Glossar-Begriff und optional die ID des Projekts)
+  error_termno_macro_arg: Das Makro "termno" benötigt genau ein Argument."
+  error_term_not_found_id: "\"%s\": Keinen Begriff mit dieser Nummer gefunden."
+  error_term_not_found_name: "\"%s\": Keinen Begriff mit diesem Namen gefunden."
+  error_term_not_found_name_project: "\"%s\": Keinen Begriff mit diesem Namen im Projekt \"%s\" gefunden."
+  error_project_not_found: "\"%s\": Kein Projekt unter diesem Namen gefunden."
+  error_to_number: Ung�ltige Zahl. --- %s
+
+  error_csv_import_row: " Zeile : %d"
+  error_import_no_name: "\"%s\" ist unbekannt."
+  error_create_term_category: Konnte eine Begriffskategorie nicht speichern.
+  error_create_term: Konnte einen Begriff nicht speichern.
+  error_file_none: Dateiname fehlt.
+  error_no_movement_project: Kein Zielprojekt für das Verschieben der Begriffe.
+  
+  index_ary_en_sep_cnt: 6
+  index_ary_en:  [A, B, C, D, E, F, 
+                  G, H, I, J, K, L, 
+                  M, N, O, P, Q, R, 
+                  S, T, U, V, W, X, 
+                  Y, Z]
+  index_ary_sep_cnt: 0
+  index_ary: []
+  index_subary: []
+
+  in_encoding_candidates: []

@@ -1,0 +1,2 @@
+module TermCategoriesHelper
+end

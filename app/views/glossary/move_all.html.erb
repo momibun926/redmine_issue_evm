@@ -1,0 +1,21 @@
+<h2><%= l(:label_move_all_terms) %></h2>
+
+<% if params[:new_project_id] %>
+
+<% elsif @allowed_projs.blank? %>
+<div class="nodata">
+<%=  simple_format(l(:error_no_movement_project)) %>
+</div>
+<% else %>
+<%   form_tag({:id => @project}, :id => 'move_all_form') do %>
+
+<div class="box tabular">
+<p><label for="new_project_id"><%=l(:label_movement_project)%>:</label>
+<%=   select_tag "new_project_id",
+                 project_tree_options_for_select(@allowed_projs) %>
+</p>
+</div>
+<%=   submit_tag l(:button_move) %>
+<%   end %>
+<% end %>
+

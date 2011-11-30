@@ -1,0 +1,121 @@
+# English strings go here for Rails i18n
+ja:
+  project_module_glossary: 用語集
+  permission_view_terms: 用語集の閲覧
+  permission_manage_terms: 用語集の管理
+  permission_manage_term_categories: 用語のカテゴリの管理
+
+  glossary_title: 用語集
+  label:
+    name: 用語
+    name_en: 英語名
+    category: カテゴリ
+    datatype: データ型
+    codename: "コーディング用名称例"
+    description: 説明
+    rubi: ふりがな
+    abbr_whole: 略語の展開名称
+  label_updater: 更新者
+  label_term_plural: 用語集
+
+  label_manage: 管理
+  label_manage_term_category: 用語のカテゴリを編集
+  label_not_categorized: 未分類
+
+  label_view: 表示
+  label_style: 形式
+
+  label_term: 用語
+  label_term_new: 用語の追加
+  label_index: リスト表示
+
+  label_grouping: グループ化
+  label_glossary_style_show_desc: 説明を表示
+  label_glossary_style_all_project: 全プロジェクト
+
+  label_glossary_style_project_current: カレント
+  label_glossary_style_project_mine: 自分の
+  label_glossary_style_project_all: 全て
+
+  label_latest: 最近
+  label_indays: 日以内
+
+  label_glossary_style_index: 索引
+
+  label_import: インポート
+  label_glossary_import_csv: CSV からインポート
+  label_csv_file: CSV ファイル
+  label_csv_import_is_first_comment: 先頭行はコメント行とみなす ?
+  label_import_items: 入力項目
+  label_item: 項目
+  label_column: 桁
+  message_import_item: プロジェクトや作成者などは現在のものが使用されます。
+  label_csv_import_finished: インポートの完了
+  error_import_failed: インポート中にエラーが発生しました。
+  label_create_category_num: 作成したカテゴリの数
+  label_create_term_num: 作成した用語の数
+  label_update_term_num: 更新した用語の数
+  label_file_encoding: ファイルの文字コード
+  label_movement_project: 移動先のプロジェクト
+  label_move_all_terms: 用語の一括移動
+
+  label_term_category: 用語のカテゴリ
+  label_term_category_new: 新しいカテゴリ
+
+  field_term_counts_under_category: 割り当て用語数
+
+  text_term_category_destroy_question: いくつかの用語 ({{value}}) は、このカテゴリに分類されています。どうしましょうか?
+  text_term_category_destroy_assignments: カテゴリから用語を解除する
+  text_term_category_reassign_to: 用語をこのカテゴリに関連付けする
+
+  label_hide_item: 非表示にする項目の選択
+  label_tag_termlink: 用語へのリンク
+
+  notice_glossary_style_create_f: 表示形式情報の保存に失敗しました。
+
+  error_term_macro_arg: "\"term\" マクロは 1 または 2 つの引数を必要とします。"
+  error_termno_macro_arg: "\"termno\" マクロでは引数を一つ指定してください。"
+  error_term_not_found_id: "\"%s\": 指定された番号の用語はありません。"
+  error_term_not_found_name: "\"%s\": 指定された名前の用語はありません。"
+  error_term_not_found_name_project: "プロジェクト \"%2$s\" には \"%1$s\" という名前の用語はありません。"
+  error_project_not_found: "\"%s\": 指定された識別子のプロジェクトはありません。"
+  error_to_number: 数値への変換に失敗しました。 --- %s
+
+  error_csv_import_row: " 行数 : %d"
+  error_import_no_name: "\"%s\" が記述されていません。"
+  error_create_term_category: 用語のカテゴリの作成に失敗しました。
+  error_create_term: 用語の作成に失敗しました。
+  error_file_none: ファイルが指定されていません。
+  error_no_movement_project: 用語を移動可能なプロジェクトがありません。
+
+  index_ary_en_sep_cnt: 6
+  index_ary_en:  [A, B, C, D, E, F, 
+                  G, H, I, J, K, L, 
+                  M, N, O, P, Q, R, 
+                  S, T, U, V, W, X, 
+                  Y, Z]
+  index_ary_sep_cnt: 5
+  index_ary:  [あ, い, う, え, お, 
+               か, き, く, け, こ, 
+               さ, し, す, せ, そ, 
+               た, ち, つ, て, と, 
+               な, に, ぬ, ね, の, 
+               は, ひ, ふ, へ, ほ, 
+               ま, み, む, め, も, 
+               や, "", ゆ, "", よ, 
+               ら, り, る, れ, ろ, 
+               わ]
+  index_subary:  [ア, イ, ウ, エ, オ, 
+                  [カ, ガ, が], [キ, ギ, ぎ], [ク, グ, ぐ], [ケ, ゲ, げ], [コ, ゴ, ご], 
+                  [サ, ザ, ざ], [シ, ジ, じ], [ス, ズ, ず], [セ, ゼ, ぜ], [ソ, ゾ, ぞ], 
+                  [タ, ダ, だ], [チ, ヂ, じ], [ツ, ヅ, づ], [テ, デ, で], [ト, ド, ど], 
+                  ナ, ニ, ヌ, ネ, ノ, 
+                  [ハ, バ, パ, ば, ぱ], [ヒ, ビ, ピ, び, ぴ], [フ, ブ, プ, ぶ, ぷ], 
+                  [ヘ, ベ, ペ, べ, ぺ], [ホ, ボ, ポ, ぼ, ぽ], 
+                  マ, ミ, ム, メ, モ, 
+                  ヤ, "", ユ, "", ヨ, 
+                  ラ, リ, ル, レ, ロ, 
+                  ワ]
+
+  in_encoding_candidates: [UTF-8, EUC-JP, SHIFT_JIS, ISO-2022-JP]
+

@@ -1,0 +1,19 @@
+
+<% term = show_one %>
+<table class="term_items">
+<% for prm in @show_params %>
+<tr><th><%=h label_param(prm) %>:</th><td><%= term.value(prm) %></td></tr>
+<% end %>
+</table>
+<% unless (term.description.empty?) %>
+<strong><%=l(:field_description)%></strong>:
+<div class="wiki">
+<%= textilizable term, :description, :attachments => term.attachments %>
+</div>
+
+<% if term.attachments.any? %>
+    <%= (@is_index) ? "" : '<hr />' %>
+    <%= link_to_attachments term %>
+<% end %>
+<% end %>
+

@@ -1,0 +1,28 @@
+<table class="list glossary">
+<thead><tr align="left">
+<th>#</th>
+<th><%=h t('label.name')     %></th>
+<% for prm in @show_params %>
+  <th><%=h label_param(prm) %></th>
+<% end %>
+<th><%=h l(:field_description)%></th>
+<th></th>
+</tr></thead>
+<tbody>
+<% for term in index_in_category -%>	
+<tr class="<%= cycle("odd", "even") %> term">
+<td><%=h term.id       %></td>
+<td><%= term_link(term) %></td>
+<% for prm in @show_params %>
+<td><%=h term.value(prm) %></td>
+<% end %>
+<td><%=h truncate(term.description, :length=>50) %></td>
+<td align="right">
+<%= link_to_if_authorized(image_tag('edit.png'), {:action => 'edit', :id => @project, :term_id => term}, :title => l(:button_edit)) %>
+<%= link_to_if_authorized(image_tag('delete.png'), {:action => 'destroy', :id => @project, :term_id => term}, :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete)) %>
+</td>
+</tr>
+<% end %>
+</tbody>
+</table>
+<br />

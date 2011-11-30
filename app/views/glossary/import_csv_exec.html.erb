@@ -1,0 +1,13 @@
+<h2> <%=h l(:label_csv_import_finished) %> </h2>
+
+
+<table class="term_items">
+<tr><th><%=h l(:label_csv_file) %> : </th><td>
+<%=h (@import_info.import_file) ? @import_info.import_file.original_filename : "" %>
+</td></tr>
+<tr><th><%=h l(:label_create_category_num) %> : </th><td> <%= @import_info.cat_num %> </td></tr>
+<tr><th><%=h l(:label_create_term_num) %> : </th><td> <%= @import_info.newterm_num %> </td></tr>
+<tr><th><%=h l(:label_update_term_num) %> : </th><td> <%= @import_info.upterm_num %> </td></tr>
+</table>
+
+<%= render :partial => 'glossary/view_term' %>

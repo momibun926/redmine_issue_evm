@@ -1,0 +1,56 @@
+<h2><%=h l(:label_glossary_import_csv) %> </h2>
+
+
+<% form_tag({:controller => 'glossary', :action => 'import_csv_exec', :id=>@project},
+            {:multipart => true}) do %>
+
+<%= l(:label_csv_file) %> 
+<%= file_field_tag 'import_file', :accept => 'text/csv', :size => '60%' %>
+<br />
+<br />
+<% encs = l(:in_encoding_candidates)
+   if (encs and encs.is_a?(Array) and !encs.empty?)
+     enc_options = []
+     encs.each {|enc|
+       enc_options << enc
+     }
+     %>
+   <%=h l(:label_file_encoding) %>
+   <%= select_tag("in_encoding", options_for_select(enc_options)) %>
+<br />
+<% end %>
+
+<label> <%= check_box_tag("is_first_comment", '1', true) %>
+ <%= l(:label_csv_import_is_first_comment) %> </label>
+<br />
+   
+<br />
+
+<%
+    name_options = []
+    options = [""]
+    for num in 1 ... 30
+      name_options << num
+      options << num
+    end
+%>
+<fieldset>
+<legend><%= l(:label_import_items) %></legend>
+
+<table>
+<tr><th><%=h l(:label_item) %></th><th><%=h l(:label_column) %></th></tr>
+<% CsvGlossaryImportInfo.default_param_cols {|prm, col| %>
+<tr><td><%=h label_param(prm) %></td><td>
+<%= select_tag("colno_#{prm}",
+    options_for_select((prm == 'name') ? name_options : options, col)) %>
+</td></tr>
+<% } %>
+</table>
+* <%=h l(:message_import_item) %>
+</fieldset>
+<br />
+
+<%= submit_tag(l(:label_import)) %>
+<% end %>
+
+<% html_title(l(:glossary_title)) -%>
