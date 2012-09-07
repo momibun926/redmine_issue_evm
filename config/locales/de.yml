@@ -82,7 +82,7 @@ de:
   error_term_not_found_name: "\"%s\": Keinen Begriff mit diesem Namen gefunden."
   error_term_not_found_name_project: "\"%s\": Keinen Begriff mit diesem Namen im Projekt \"%s\" gefunden."
   error_project_not_found: "\"%s\": Kein Projekt unter diesem Namen gefunden."
-  error_to_number: Ungültige Zahl. --- %s
+  error_to_number: Ungï¿½ltige Zahl. --- %s
 
   error_csv_import_row: " Zeile : %d"
   error_import_no_name: "\"%s\" ist unbekannt."

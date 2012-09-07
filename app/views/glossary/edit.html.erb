@@ -1,7 +1,7 @@
 <h2><%= l(:label_term) %> #<%= @term.id %></h2>
 
 <% labelled_tabular_form_for :term, @term, 
-                             :url => {:action => 'edit', :id => @project, :term_id => @term},
+                             :url => {:action => 'edit', :project_id => @project, :id => @term},
                              :html => {:multipart => true, :id => 'term-form'} do |f| %>
     <%= error_messages_for 'term' %>
     <div class="box">
@@ -9,7 +9,7 @@
     </div>
     <%= submit_tag l(:button_edit) %>
     <%= link_to_remote l(:label_preview),
-                       { :url => { :controller => 'glossary', :action => 'preview', :id => @project },
+                       { :url => { :controller => 'glossary', :action => 'preview', :project_id => @project },
                          :method => 'post',
                          :update => 'preview',
                          :with => "Form.serialize('term-form')",

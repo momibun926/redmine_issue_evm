@@ -29,7 +29,7 @@ module GlossaryStylesHelper
       cnt += 1
       str += '<td>'
       if (ch and !ch.empty?)
-        prms = {:controller => 'glossary', :action => 'index',  :id => proj,
+        prms = {:controller => 'glossary', :action => 'index',  :project_id => proj,
                 :search_index_ch => ch}
         prms[:search_index_type] = search_index_type	if (search_index_type)
         str += link_to(ch, prms)

@@ -1,5 +1,5 @@
 <div class="contextual">
-  <%= link_to_if_authorized(l(:label_term_category_new), {:controller => 'glossary', :action => 'add_term_category', :id => @project}, :class => 'icon icon-add') %>
+  <%= link_to_if_authorized(l(:label_term_category_new), {:controller => 'glossary', :action => 'add_term_category', :project_id => @project}, :class => 'icon icon-add') %>
 </div>
 
 
@@ -23,15 +23,15 @@
             <td><%=h(category.terms.size) %></td>
             <td align="center">
               <% if authorize_for("term_categories", "edit") %>
-                <%= link_to image_tag('2uparrow.png', :alt => l(:label_sort_highest)), {:controller => 'term_categories', :action => 'change_order', :id => @project, :category_id => category, :position => 'highest'}, :method => :post, :title => l(:label_sort_highest) %>
-                <%= link_to image_tag('1uparrow.png', :alt => l(:label_sort_higher)), {:controller => 'term_categories', :action => 'change_order', :id => @project, :category_id => category, :position => 'higher'}, :method => :post, :title => l(:label_sort_higher) %> -
-                <%= link_to image_tag('1downarrow.png', :alt => l(:label_sort_lower)), {:controller => 'term_categories', :action => 'change_order', :id => @project, :category_id => category, :position => 'lower'}, :method => :post, :title => l(:label_sort_lower) %>
-                <%= link_to image_tag('2downarrow.png', :alt => l(:label_sort_lowest)), {:controller => 'term_categories', :action => 'change_order', :id => @project, :category_id => category, :position => 'lowest'}, :method => :post, :title => l(:label_sort_lowest) %>
+                <%= link_to image_tag('2uparrow.png', :alt => l(:label_sort_highest)), {:controller => 'term_categories', :action => 'change_order', :project_id => @project, :id => category, :position => 'highest'}, :method => :post, :title => l(:label_sort_highest) %>
+                <%= link_to image_tag('1uparrow.png', :alt => l(:label_sort_higher)), {:controller => 'term_categories', :action => 'change_order', :project_id => @project, :id => category, :position => 'higher'}, :method => :post, :title => l(:label_sort_higher) %> -
+                <%= link_to image_tag('1downarrow.png', :alt => l(:label_sort_lower)), {:controller => 'term_categories', :action => 'change_order', :project_id => @project, :id => category, :position => 'lower'}, :method => :post, :title => l(:label_sort_lower) %>
+                <%= link_to image_tag('2downarrow.png', :alt => l(:label_sort_lowest)), {:controller => 'term_categories', :action => 'change_order', :project_id => @project, :id => category, :position => 'lowest'}, :method => :post, :title => l(:label_sort_lowest) %>
               <% end %>
             </td>
             <td align="right">
-<%= link_to_if_authorized(image_tag('edit.png'), { :action => 'edit', :id => @project, :category_id => category }, :title => l(:button_edit)) %>
-<%= link_to_if_authorized(image_tag('delete.png'), {:action => 'destroy', :id => @project, :category_id => category}, :method => :post, :title => l(:button_delete)) %></td>
+<%= link_to_if_authorized(image_tag('edit.png'), { :action => 'edit', :project_id => @project, :id => category }, :title => l(:button_edit)) %>
+<%= link_to_if_authorized(image_tag('delete.png'), {:action => 'destroy', :project_id => @project, :id => category}, :method => :post, :title => l(:button_delete)) %></td>
           </tr>
         <% end %>
       <% end %>

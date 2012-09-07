@@ -1,16 +1,11 @@
-h1. ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½Xï¿½mï¿½[ï¿½g
-
-h2. 0.6.2 - Martin Denizet's fork
-
-Feature
-* Add French, Chinese and Technical English fields.
+h1. ƒŠƒŠ[ƒXƒm[ƒg
 
 h2. 0.6.1
 
-ï¿½@ï¿½\ï¿½Ç‰ï¿½
-* ï¿½pï¿½ï¿½ÆƒJï¿½eï¿½Sï¿½ï¿½ï¿½Ìƒeï¿½[ï¿½uï¿½ï¿½ï¿½ÅA ï¿½ÒWï¿½Æíœï¿½Ìƒï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½Cï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å•\ï¿½ï¿½
-ï¿½sï¿½ï‡ï¿½Cï¿½ï¿½
-* ï¿½Jï¿½eï¿½Sï¿½ï¿½ï¿½Å‚Ìƒtï¿½Bï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ÅAï¿½Jï¿½eï¿½Sï¿½ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½Kï¿½\ï¿½ï¿½ï¿½Ì“ï¿½ï¿½ê•¶ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½Å‚ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÌƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Cï¿½ï¿½
+‹@”\’Ç‰Á
+* —pŒê‚ÆƒJƒeƒSƒŠ‚Ìƒe[ƒuƒ‹‚ÅA •ÒW‚Æíœ‚ÌƒŠƒ“ƒN‚ðƒAƒCƒRƒ“‚¾‚¯‚Å•\Ž¦
+•s‹ï‡C³
+* ƒJƒeƒSƒŠ‚Å‚ÌƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ÅAƒJƒeƒSƒŠ–¼‚É³‹K•\Œ»‚Ì“ÁŽê•¶Žš‚ðŠÜ‚ñ‚Å‚¢‚é‚Æ‚«‚ÌƒGƒ‰[‚ðC³
 
 ---
 
@@ -23,22 +18,22 @@ Bugifx
 
 h2. 0.6.0
 
-ï¿½@ï¿½\ï¿½Ç‰ï¿½
-# ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì—pï¿½ï¿½ï¿½ï¿½êŠ‡ï¿½Ú“ï¿½
-# ï¿½pï¿½ï¿½Ìˆê——ï¿½\ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½Ìˆê•”ï¿½ï¿½\ï¿½ï¿½
-# ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½
-# ï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ì’Ç‰ï¿½
-## ï¿½hï¿½Cï¿½cï¿½ï¿½ (de)
-## ï¿½ÈˆÕ’ï¿½ï¿½ï¿½ï¿½ï¿½ (zh)
+‹@”\’Ç‰Á
+# ƒvƒƒWƒFƒNƒg‚Ì—pŒê‚ðˆêŠ‡ˆÚ“®
+# —pŒê‚Ìˆê——•\Ž¦‚Éà–¾‚Ìˆê•”‚ð•\Ž¦
+# ƒCƒ“ƒfƒbƒNƒXŒŸõ‚Ì‰ðœ‚Ì‰ü—Ç
+# ƒƒbƒZ[ƒWƒtƒ@ƒCƒ‹‚Ì’Ç‰Á
+## ƒhƒCƒcŒê (de)
+## ŠÈˆÕ’†‘Œê (zh)
 
-ï¿½sï¿½ï‡ï¿½Cï¿½ï¿½
-# ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì‘Iï¿½ï¿½
-# ï¿½Jï¿½eï¿½Sï¿½ï¿½ï¿½É‚ï¿½ï¿½tï¿½Bï¿½ï¿½ï¿½^ï¿½[
-# ï¿½Jï¿½eï¿½Sï¿½ï¿½ï¿½È‚ï¿½ï¿½Ìê‡ï¿½Ì—pï¿½ï¿½Wï¿½ï¿½ CSV ï¿½Ìoï¿½ï¿½
-# rake ï¿½É‚ï¿½ï¿½fï¿½[ï¿½^ï¿½xï¿½[ï¿½Xï¿½Xï¿½V
-# ï¿½pï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ÈŠOï¿½ï¿½ term Wiki ï¿½}ï¿½Nï¿½ï¿½ï¿½Ì—ï¿½ï¿½p
-# & ï¿½ï¿½ï¿½Ü‚ñ‚¾—pï¿½ï¿½ï¿½ term ï¿½}ï¿½Nï¿½ï¿½
-# ï¿½tï¿½ï¿½ï¿½Kï¿½iï¿½Aï¿½Wï¿½Jï¿½ï¿½ï¿½Ì‚Ì”ï¿½\ï¿½ï¿½ï¿½Ý’ï¿½
+•s‹ï‡C³
+# ƒvƒƒWƒFƒNƒg‚Ì‘I‘ð
+# ƒJƒeƒSƒŠ‚É‚æ‚éƒtƒBƒ‹ƒ^[
+# ƒJƒeƒSƒŠ‚È‚µ‚Ìê‡‚Ì—pŒêW‚ð CSV ‚Ìo—Í
+# rake ‚É‚æ‚éƒf[ƒ^ƒx[ƒXXV
+# —pŒêW‚©‚çˆÈŠO‚Ì term Wiki ƒ}ƒNƒ‚Ì—˜—p
+# & ‚ðŠÜ‚ñ‚¾—pŒê‚Ì term ƒ}ƒNƒ
+# ƒtƒŠƒKƒiA“WŠJ–¼Ì‚Ì”ñ•\Ž¦Ý’è
 
 ---
 
@@ -58,3 +53,14 @@ Bug fix
 # The Wiki term macro error in wiki page except glossary page
 # The Wiki term macro error of terms which have & caractor.
 # Hiden settings of rubi and abbrev.
+
+
+h2. 0.6.0
+
+‹@”\’Ç‰Á
+# Redmine 1.4.0 ‘Î‰ž
+
+---
+
+Feature
+# support for Redmine 1.4 ‘Î‰ž

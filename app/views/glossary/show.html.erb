@@ -1,6 +1,6 @@
 <div class="contextual">
-<%= link_to_if_authorized(l(:button_edit), {:controller => 'glossary', :action => 'edit', :id => @project, :term_id => @term}, :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'glossary', :action => 'destroy', :id => @project, :term_id => @term}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+<%= link_to_if_authorized(l(:button_edit), {:controller => 'glossary', :action => 'edit', :project_id => @project, :id => @term}, :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'glossary', :action => 'destroy', :project_id => @project, :id => @term}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
 
 <h2><%= l(:label_term) %> #<%= @term.id %></h2>
@@ -12,7 +12,13 @@
 
 <p class="author">
 <%= authoring @term.created_on, @term.author %>.
-<%= updated_by(@term.updated_on, @term.updater) + '.' if @term.created_on != @term.updated_on %>
+<% if @term.created_on != @term.updated_on
+     if (@term.author_id == @term.updater_id) %>
+   <%= l(:label_updated_time, time_tag(@term.updated_on)).html_safe + '.' %>
+<%   else %>
+   <%= updated_by(@term.updated_on, @term.updater) + '.' %>
+<%   end %>
+<% end %>
 </p>
 
 </div>

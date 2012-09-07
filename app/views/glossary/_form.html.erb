@@ -11,7 +11,7 @@
 <p><%= f.select :category_id, (@term_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
 <%= prompt_to_remote(l(:label_term_category_new),
                      l(:label_term_category_new), 'category[name]', 
-                     {:controller => 'glossary', :action => 'add_term_category', :id => @project},
+                     {:controller => 'glossary', :action => 'add_term_category', :project_id => @project},
                      :class => 'icon icon-add', :tabindex => 199) if authorize_for('glossary', 'add_term_category') %></p>
 </div>
 <p><%= f.text_area :description, :label=>t('label.description'),

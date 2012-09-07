@@ -25,7 +25,7 @@ class TermCategoriesController < ApplicationController
     @category = TermCategory.find(:first, :conditions => "project_id = #{@project.id} and id = #{params[:category_id]}")
     if request.post? and @category.update_attributes(params[:category])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :controller => 'term_categories', :action => 'index', :id => @project
+      redirect_to :controller => 'term_categories', :action => 'index', :project_id => @project
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -33,29 +33,29 @@ class TermCategoriesController < ApplicationController
 
   def change_order
     if request.post? 
-      category = TermCategory.find(:first, :conditions => "project_id = #{@project.id} and id = #{params[:category_id]}")
+      category = TermCategory.find(:first, :conditions => "project_id = #{@project.id} and id = #{params[:id]}")
       case params[:position]
       when 'highest'; category.move_to_top
       when 'higher'; category.move_higher
       when 'lower'; category.move_lower
       when 'lowest'; category.move_to_bottom
       end if params[:position]
-      redirect_to :controller => 'term_categories', :action => 'index', :id => @project
+      redirect_to :controller => 'term_categories', :action => 'index', :project_id => @project
     end
   rescue ActiveRecord::RecordNotFound
     render_404
   end
   
   def destroy
-    @category = TermCategory.find(:first, :conditions => "project_id = #{@project.id} and id = #{params[:category_id]}")
+    @category = TermCategory.find(:first, :conditions => "project_id = #{@project.id} and id = #{params[:id]}")
     @term_count = @category.terms.size
     if @term_count == 0
       @category.destroy
-      redirect_to :controller => 'term_categories', :action => 'index', :id => @project
+      redirect_to :controller => 'term_categories', :action => 'index', :project_id => @project
     elsif params[:todo]
       reassign_to = TermCategory.find(:first, :conditions => "project_id = #{@project.id} and id = #{params[:reassign_to_id]}") if params[:todo] == 'reassign'
       @category.destroy(reassign_to)
-      redirect_to :controller => 'term_categories', :action => 'index', :id => @project
+      redirect_to :controller => 'term_categories', :action => 'index', :project_id => @project
     end
     @categories = TermCategory.find(:all, :conditions => "project_id = #{@project.id}") - [@category]
   rescue ActiveRecord::RecordNotFound
@@ -64,7 +64,7 @@ class TermCategoriesController < ApplicationController
   
 private
   def find_project   
-    @project = Project.find(params[:id])
+    @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
