@@ -7,14 +7,14 @@ module ActionView
 
       def term_link_new(name, proj)
         link_to(name + '?',
-                {:controller => 'glossary', :action => 'new', :id => proj,
+                {:controller => 'glossary', :action => 'new', :project_id => proj,
                  :new_term_name => CGI::escapeHTML(name)},
                 {:class=>'new'})
       end
       
       def term_link(term)
-        str = link_to(term.name, :controller => 'glossary', :action => 'show', :id => term.project,
-                      :term_id => term)
+        str = link_to(term.name, :controller => 'glossary', :action => 'show',
+                      :project_id => term.project, :id => term.id)
         unless (term.abbr_whole.empty?)
           str = content_tag(:abbr, str, :title=>term.abbr_whole)
         end

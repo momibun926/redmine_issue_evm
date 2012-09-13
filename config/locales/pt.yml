@@ -1,0 +1,103 @@
+# Colocar aqui as cadeias de caracteres para o i18n do Rails
+pt:
+  project_module_glossary: Glossário
+  permission_view_terms: Ver Glossário
+  permission_manage_terms: Gerir Glossário
+  permission_manage_term_categories: Gerir Categoria dos Termos
+
+  glossary_title: Glossário
+  label:
+    id: N.º
+    name: Termo
+    name_en: Inglês
+    category: Categoria
+    datatype: "Tipo de dados a usar no código"
+    codename: "Abreviatura a usar no código"
+    description: Descrição
+    rubi: Ruby
+    abbr_whole: Palavra completa correspondente à abreviatura
+  label_updater: Actualizador
+  label_term_plural: Glossário
+
+  label_manage: Gerir
+  label_manage_term_category: Gerir categoria
+  label_not_categorized: Por categorizar
+
+  label_view: Ver
+  label_style: Estilo
+    
+  label_term: Termo
+  label_term_new: Novo termo
+  label_index: Vista em lista
+
+  label_grouping: Agrupamento
+  label_glossary_style_show_desc: Mostrar descrições
+  label_glossary_style_all_project: Todos os projectos
+
+  label_glossary_style_project_current: Corrente
+  label_glossary_style_project_mine: Meus
+  label_glossary_style_project_all: Todos
+
+  label_latest: Últimos
+  label_indays: Dias
+
+  label_glossary_style_index: Índice
+
+  label_import: Importar
+  label_glossary_import_csv: Importar de CSV
+  label_csv_file: Ficheiro CSV
+  label_csv_import_is_first_comment: A primeira linha é um comentário?
+  label_import_items: Importar itens
+  label_item: Item
+  label_column: Coluna
+  message_import_item: Para o projecto, criador, etc., usa-se o valor corrente.
+  label_csv_import_finished: Importação de CSV terminada
+  error_import_failed: Importação de ficheiro falhou.
+  label_create_category_num: Número de categorias criadas
+  label_create_term_num: Número de termos criados
+  label_update_term_num: Número de termos actualizados
+  label_file_encoding: Codificação do ficheiro
+  label_movement_project: Movimentações no projecto
+  label_move_all_terms: Mover todos os termos
+  
+  label_term_category: Categoria do termo
+  label_term_category_new: Nova categoria
+  
+  field_term_counts_under_category: Contagem de termos
+
+  text_term_category_destroy_question: Há um termo ({{value}}) com esta categoria. Que deseja que se faça?
+  text_term_category_destroy_assignments: Remover atribuição à categoria
+  text_term_category_reassign_to: Atribuir termo a esta categoria
+
+  label_hide_item: Preferências de atributos escondidos
+  label_tag_termlink: Ligação a um item
+
+  notice_glossary_style_create_f: Criação de dados de Estilo de Glossário falhou
+
+  error_term_macro_arg: "A macro \"term\" precisa de argumentos, 1 ou 2."
+  error_termno_macro_arg: "A macro \"termno\" precisa de exactamente 1 argumento."
+  error_term_not_found_id: "\"%s\": Não há termos com esse n.º."
+  error_term_not_found_name: "\"%s\": Não há termos com esse nome."
+  error_term_not_found_name_project: "\"%s\": Não há termos com esse nome no projecto \"%s\"."
+  error_project_not_found: "\"%s\": Não há qualquer projecto com esse identificador."
+  error_to_number: A conversão em número falhou. --- %s
+
+  error_csv_import_row: " linha : %d"
+  error_import_no_name: "\"%s\" não está descrito."
+  error_create_term_category: Criação de Categoria de Termo falhou.
+  error_create_term: Criação de Termo falhou.
+  error_file_none: Faltou especificar o Ficheiro.
+  error_no_movement_project: Projecto para o qual mover o termo não existe.
+  
+  index_ary_en_sep_cnt: 6
+  index_ary_en:  [A, B, C, D, E, F, 
+                  G, H, I, J, K, L, 
+                  M, N, O, P, Q, R, 
+                  S, T, U, V, W, X, 
+                  Y, Z]
+  index_ary_sep_cnt: 0
+  index_ary: []
+  index_subary: []
+
+  in_encoding_candidates: []
+

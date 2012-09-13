@@ -6,7 +6,7 @@ class GlossaryStylesController < ApplicationController
 
   def search
     newparams = {
-      :controller => 'glossary', :action => 'index', :id => params[:id]
+      :controller => 'glossary', :action => 'index', :project_id => Project.find(params[:project_id])
     }
     unless (params[:search_clear])
       for prm in [:search_category, :search_str, :latest_days]
@@ -53,7 +53,7 @@ class GlossaryStylesController < ApplicationController
       end
     end
     newparams = {:controller => 'glossary', :action => 'index',
-                :id => params[:id],
+                :project_id => Project.find(params[:project_id]),
                  :glossary_style_id => @glossary_style_id}
     add_search_params(newparams)
     redirect_to(newparams)

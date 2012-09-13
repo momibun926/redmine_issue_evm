@@ -1,5 +1,6 @@
 
 class GlossaryController < ApplicationController
+  menu_item :glossary
   unloadable
 
   layout 'base'  
@@ -53,7 +54,7 @@ class GlossaryController < ApplicationController
 
   def index_clear
     params[:search_index_ch] = nil
-    redirect_to :controller => 'glossary', :action => 'index', :id => @project
+    redirect_to :controller => 'glossary', :action => 'index', :project_id => @project
   end
   
 
@@ -78,10 +79,10 @@ class GlossaryController < ApplicationController
         attach_files(@term, params[:attachments])
         flash[:notice] = l(:notice_successful_create)
         if (params[:continue])
-          redirect_to :controller => 'glossary', :action => 'new', :id => @project
+          redirect_to :controller => 'glossary', :action => 'new', :project_id => @project
         else
-          redirect_to :controller => 'glossary', :action => 'show', :id => @project,
-                  :term_id => @term
+          redirect_to :controller => 'glossary', :action => 'show', :project_id => @project,
+                  :id => @term
         end
       end		
     end
@@ -101,7 +102,8 @@ class GlossaryController < ApplicationController
       if @term.save
         attach_files(@term, params[:attachments])
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :controller => 'glossary', :action => 'show', :id => @project, :term_id => @term
+        redirect_to(:controller => 'glossary', :action => 'show',
+                    :project_id => @project, :id => @term.id)
         return
       end
     end
@@ -112,7 +114,7 @@ class GlossaryController < ApplicationController
 
   def destroy
     @term.destroy
-    redirect_to :action => 'index', :id => @project
+    redirect_to :action => 'index', :project_id => @project
   end
 
   def add_term_category
@@ -122,7 +124,7 @@ class GlossaryController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_create)
-          redirect_to :controller => 'term_categories', :action => 'index', :id => @project
+          redirect_to :controller => 'term_categories', :action => 'index', :project_id => @project
         end
         format.js do
           term_categories = TermCategory.find(:all, :conditions => "project_id = #{@project.id}")
@@ -155,7 +157,7 @@ class GlossaryController < ApplicationController
       }
       Term::update_all("project_id = #{newproj.id}", "project_id = #{@project.id}")
       flash[:notice] = l(:notice_successful_update)
-      redirect_to({:action => 'index', :id => newproj})
+      redirect_to({:action => 'index', :project_id => newproj})
     end
   end
   
@@ -315,7 +317,7 @@ class GlossaryController < ApplicationController
     return	unless (ch and !ch.empty?)
     charset = get_search_index_charset(ch, type)
     searchprms = [:name, :abbr_whole, :rubi]
-    searchprms << [:name_en]	if (type)
+    searchprms << :name_en	if (type)
     cnt = 0
     charset.each {|tch|
       symbols["search_ch_#{cnt}".to_sym] = tch + '%'
@@ -364,14 +366,15 @@ class GlossaryController < ApplicationController
 
   
   def find_project   
-    @project = Project.find(params[:id])
+    project_id = params[:project_id] || (params[:issue] && params[:issue][:project_id])
+    @project = Project.find(project_id)
   rescue ActiveRecord::RecordNotFoundpp
     render_404
   end
   
   def find_term
     @term = Term.find(:first,
-                      :conditions => "project_id = #{@project.id} and id = #{params[:term_id]}")
+                      :conditions => "project_id = #{@project.id} and id = #{params[:id]}")
     render_404 unless @term
   rescue
     render_404

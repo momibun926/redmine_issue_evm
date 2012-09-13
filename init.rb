@@ -11,8 +11,8 @@ end
 Redmine::Plugin.register :redmine_glossary do
   name 'Redmine Glossary Plugin'
   author 'M. Yoshida'
-  description "This is a fork of M. Yoshida Redmine plugin. It is used to create a glossary which is is a list of terms in a project"
-  version '0.6.2'
+  description "This is a Redmine plugin to create a glossary which is is a list of terms in a project"
+  version '0.7.0'
   author_url 'http://yohshiy.blog.fc2.com/'
   url 'http://www.r-labs.org/projects/rp-glossary/wiki/GlossaryEn'
 
@@ -38,7 +38,7 @@ Redmine::Plugin.register :redmine_glossary do
 
   menu(:project_menu, :glossary,
        { :controller => 'glossary', :action => 'index' },
-       :caption => :glossary_title)
+       :caption => :glossary_title, :param => :project_id)
 
 end
 
@@ -63,8 +63,7 @@ Redmine::WikiFormatting::Macros.register do
     term = nil
     case sargs.size
     when 1
-      proj = Project.find_by_identifier(params[:id])
-      proj = Project.find_by_identifier(params[:project_id])	unless proj
+      proj = Project.find_by_identifier(params[:project_id])
       term = Term.find_for_macro(sargs[0], proj, true)
     when 2
       proj = Project.find_by_identifier(sargs[1])

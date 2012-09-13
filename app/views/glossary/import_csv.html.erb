@@ -1,7 +1,7 @@
 <h2><%=h l(:label_glossary_import_csv) %> </h2>
 
 
-<% form_tag({:controller => 'glossary', :action => 'import_csv_exec', :id=>@project},
+<% form_tag({:controller => 'glossary', :action => 'import_csv_exec', :project_id=>@project},
             {:multipart => true}) do %>
 
 <%= l(:label_csv_file) %> 

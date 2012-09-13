@@ -7,7 +7,7 @@
 <%=  simple_format(l(:error_no_movement_project)) %>
 </div>
 <% else %>
-<%   form_tag({:id => @project}, :id => 'move_all_form') do %>
+<%   form_tag({:project_id => @project}, :id => 'move_all_form') do %>
 
 <div class="box tabular">
 <p><label for="new_project_id"><%=l(:label_movement_project)%>:</label>
