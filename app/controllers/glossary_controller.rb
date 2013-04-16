@@ -96,14 +96,14 @@ class GlossaryController < ApplicationController
   def edit
     @term_categories = TermCategory.find(:all, :conditions => "project_id = #{@project.id}", :order => "position")
     
-    if request.post?
+    if request.post? || request.put?
       @term.attributes = params[:term]
       @term.updater_id = User.current.id
       if @term.save
         attach_files(@term, params[:attachments])
         flash[:notice] = l(:notice_successful_update)
-        redirect_to(:controller => 'glossary', :action => 'show',
-                    :project_id => @project, :id => @term.id)
+        redirect_to(:controller => 'glossary', :action => 'show', 
+          :project_id => @project, :id => @term.id)
         return
       end
     end

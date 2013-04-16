@@ -1,8 +1,9 @@
 <h2><%=l(:label_term_category)%></h2>
 
-<% labelled_tabular_form_for :category, @category, :url => { :action => 'edit', :project_id => @project, :id => @category } do |f| %>
+<% form = labelled_form_for @category, :as => :category, :url => { :action => 'edit', :project_id => @project, :id => @category }, :html => {:class => 'tabular'} do |f| %>
 <%= render :partial => 'term_categories/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
 <% end %>
+<%= form if Rails::VERSION::MAJOR >= 3 %>
 
 <% html_title(l(:glossary_title)) -%>

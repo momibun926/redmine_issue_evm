@@ -1,0 +1,12 @@
+
+<h2> <%= t('label_hide_item') %> </h2>
+<table>
+<% for item in Term.hidable_params %>
+  <% name = "hide_item_#{item}" %>
+  <tr><td>
+  <%= check_box_tag("settings[#{name}]", 1, @settings[name]) %>
+  </td><td>
+  <%= t("label.#{item}") %>
+  </td><tr>
+<% end %>
+</table>

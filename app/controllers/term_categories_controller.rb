@@ -7,9 +7,6 @@ class TermCategoriesController < ApplicationController
   before_filter :find_project, :authorize
   before_filter :retrieve_glossary_style, :only => [:index]
 
-  verify :method => :post, :only => :destroy
-  verify :mothod => :post, :only => :change_order
-
   helper :glossary
   include GlossaryHelper
   helper :glossary_styles

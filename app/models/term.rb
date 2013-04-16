@@ -111,35 +111,35 @@ class Term < ActiveRecord::Base
   end
 
   def self.default_show_params
-    ['name_cn', 'name_fr', 'name_en', 'tech_en', 'rubi', 'abbr_whole', 'datatype', 'codename', 'project', 'category']
+    ['name_en', 'rubi', 'abbr_whole', 'datatype', 'codename', 'project', 'category']
   end
 
   def self.default_searched_params
-    ['name', 'name_en', 'name_cn', 'name_fr', 'tech_en', 'abbr_whole', 'datatype', 'codename', 'description']
+    ['name', 'name_en', 'abbr_whole', 'datatype', 'codename', 'description']
   end
 
   def self.default_sort_params
-    ['id', 'name', 'name_en', 'name_cn', 'name_fr', 'tech_en', 'abbr_whole', 'datatype', 'codename', 'project', 'category',
+    ['id', 'name', 'name_en', 'abbr_whole', 'datatype', 'codename', 'project', 'category',
      'datetime']
   end
 
   def self.hidable_params
-    ['name_en', 'name_cn', 'name_fr', 'tech_en', 'rubi', 'abbr_whole', 'datatype', 'codename']
+    ['name_en', 'rubi', 'abbr_whole', 'datatype', 'codename']
   end
 
   def self.setting_params
-    ['name_en', 'name_cn', 'name_fr', 'tech_en', 'rubi', 'abbr_whole', 'datatype', 'codename']
+    ['name_en', 'rubi', 'abbr_whole', 'datatype', 'codename']
   end
 
   def self.export_params
     ['id','project',
-     'name', 'name_en', 'name_cn', 'name_fr', 'tech_en', 'rubi', 'abbr_whole', 'category', 'datatype', 'codename',
+     'name', 'name_en', 'rubi', 'abbr_whole', 'category', 'datatype', 'codename',
      'author',  'updater', 'created_on', 'updated_on',
      'description']
   end
 
   def self.import_params
-    ['name', 'name_en', 'name_cn', 'name_fr', 'tech_en', 'rubi', 'abbr_whole', 'category', 'datatype', 'codename',
+    ['name', 'name_en', 'rubi', 'abbr_whole', 'category', 'datatype', 'codename',
      'description']
   end
                   

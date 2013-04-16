@@ -3,7 +3,7 @@
 		     :project_id => @project,
 		     :glossary_style_id => @glossary_style.id}
   add_search_params(urlopts)
-  form_for :glossary_style, @glossary_style, :url => urlopts do |f| %>
+  form = form_for @glossary_style, :url => urlopts do |f| %>
 
   
 <label> <%= f.check_box "show_desc" %> <%= l(:label_glossary_style_show_desc) %> </label>
@@ -41,3 +41,4 @@
 <%= submit_tag l(:button_clear), :name => 'clear' %>
 
 <% end %>
+<%= form if Rails::VERSION::MAJOR >= 3 %>

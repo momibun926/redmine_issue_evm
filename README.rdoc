@@ -2,6 +2,9 @@
 
 This is the Redmine(Project manage system) plug-in which adds the feature of the glossary.
 
+Ported to and tested on 2.3.x Redmine branch.
+Care has been taken to keep compatibility with 1.4.x, but not tested!
+
 == The Use
 
  * Management of technical terms in a system analysis phase
@@ -10,21 +13,21 @@ This is the Redmine(Project manage system) plug-in which adds the feature of the
  * Management of naming examples in a coding
 
 
-== Gegging a plugin package
+== Getting a plugin package
 
 {SourceForge.JP}[http://sourceforge.jp/projects/rp-glossary/releases/]
 
 
-== Installation and Setup
+== Installation and Setup (redmine 2.x)
 
 cf. http://www.redmine.org/wiki/1/Plugins
 
-1. Extends the dawnloaded package in vender/plugins directory.
+1. Put the downloaded package in the /plugins directory.
 2. run the following command to upgrade your database. 
-    rake db:migrate_plugins RAILS_ENV=production
+    rake redmine:plugins:migrate RAILS_ENV=production
 3. Restart Redmine WEB server.
 4. Set permissions of glossary plugin in "Administration" -> "Roles and permissions"
-5. Open the setting page of projects you need, check the "Glossray" module
+5. Open the setting page of projects you need, check the "Glossary" module
 6. If you need, select items to make hidden in plugin setting page.
 
 == Usage
@@ -36,9 +39,9 @@ For the details of the usage, see the following page.
 * http://www.r-labs.org/projects/rp-glossary/wiki/UsageEn
 
 
-== Quesion or Proposal
+== Question or Proposal
 
-If you find a bug(Defect) or hava a Proposal, create a new issue.
+If you find a bug(Defect) or have a Proposal, create a new issue.
 http://www.r-labs.org/projects/rp-glossary/issues
 
 If you quest about this plugin, write the forum.

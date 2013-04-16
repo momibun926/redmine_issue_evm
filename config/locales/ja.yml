@@ -64,7 +64,7 @@ ja:
 
   field_term_counts_under_category: 割り当て用語数
 
-  text_term_category_destroy_question: いくつかの用語 ({{value}}) は、このカテゴリに分類されています。どうしましょうか?
+  text_term_category_destroy_question: いくつかの用語 (%{value}) は、このカテゴリに分類されています。どうしましょうか?
   text_term_category_destroy_assignments: カテゴリから用語を解除する
   text_term_category_reassign_to: 用語をこのカテゴリに関連付けする
 

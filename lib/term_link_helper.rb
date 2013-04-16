@@ -13,8 +13,8 @@ module ActionView
       end
       
       def term_link(term)
-        str = link_to(term.name, :controller => 'glossary', :action => 'show',
-                      :project_id => term.project, :id => term.id)
+        str = link_to(term.name, :controller => 'glossary', :action => 'show', :project_id => term.project,
+                      :id => term.id)
         unless (term.abbr_whole.empty?)
           str = content_tag(:abbr, str, :title=>term.abbr_whole)
         end

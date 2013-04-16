@@ -67,8 +67,7 @@ module GlossaryHelper
 
   
   def updated_by(updated, author)
-    l(:label_updated_time_by,
-      :author => link_to_user(author), :age => time_tag(updated)).html_safe
+    l(:label_updated_time_by, :author => link_to_user(author), :age => time_tag(updated)).html_safe
   end
 
 end

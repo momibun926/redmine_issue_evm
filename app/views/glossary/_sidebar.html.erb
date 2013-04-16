@@ -37,7 +37,6 @@
   <%= link_to_if_authorized(l(:button_clear), {:controller => 'glossary', :action => 'index_clear', :project_id => @project}, :class => 'icon icon-reload') %>
 </div>
 <% end %>
-
   <%= search_index_table(l(:index_ary_en), l(:index_ary_en_sep_cnt), @project, 'en') %>
   <br />
   <%= search_index_table(l(:index_ary), l(:index_ary_sep_cnt), @project) %>

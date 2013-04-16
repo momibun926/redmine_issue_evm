@@ -63,7 +63,7 @@ Redmine::WikiFormatting::Macros.register do
     term = nil
     case sargs.size
     when 1
-      proj = Project.find_by_identifier(params[:project_id])
+      proj = Project.find_by_identifier(params[:project_id])	unless proj
       term = Term.find_for_macro(sargs[0], proj, true)
     when 2
       proj = Project.find_by_identifier(sargs[1])

@@ -1,6 +1,6 @@
 <h2><%=l(:label_term_category)%>: <%=h @category.name %></h2>
 
-<% form_tag({}) do %>
+<% form = form_tag({}) do %>
 <div class="box">
 <p><strong><%= l(:text_term_category_destroy_question, :value => @term_count) %></strong></p>
 <p><label><%= radio_button_tag 'todo', 'nullify', true %> <%= l(:text_term_category_destroy_assignments) %></label><br />
@@ -14,5 +14,6 @@
 <%= submit_tag l(:button_apply) %>
 <%= link_to l(:button_cancel), :controller => 'term_categories', :action => 'index', :project_id => @project %>
 <% end %>
+<%= form if Rails::VERSION::MAJOR >= 3 %>
 
 <% html_title(l(:glossary_title)) -%>

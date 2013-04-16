@@ -11,8 +11,8 @@
       <th style="text-align:left">#</th>
       <th style="text-align:left"><%= l(:field_name) %></th>
       <th style="text-align:left"><%= l(:field_term_counts_under_category) %></th>
-      <th style="text-align:left;width:15%"></th>
-      <th style="text-align:left;width:30%"></th>
+      <th style="text-align:left;width:100px"></th>
+      <th style="text-align:left;width:40px"></th>
     </thead>
     <tbody>
       <% for category in @categories %>
@@ -30,8 +30,8 @@
               <% end %>
             </td>
             <td align="right">
-<%= link_to_if_authorized(image_tag('edit.png'), { :action => 'edit', :project_id => @project, :id => category }, :title => l(:button_edit)) %>
-<%= link_to_if_authorized(image_tag('delete.png'), {:action => 'destroy', :project_id => @project, :id => category}, :method => :post, :title => l(:button_delete)) %></td>
+              <%= link_to_if_authorized(image_tag('edit.png'), { :action => 'edit', :controller => 'term_categories', :project_id => @project, :id => category }, :title => l(:button_edit)) %>
+              <%= link_to_if_authorized(image_tag('delete.png'), {:action => 'destroy', :controller => 'term_categories', :project_id => @project, :id => category}, :method => :post, :title => l(:button_delete)) %></td>
           </tr>
         <% end %>
       <% end %>

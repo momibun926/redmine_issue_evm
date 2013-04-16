@@ -65,7 +65,7 @@ zh:
   
   field_term_counts_under_category: 术语数量
 
-  text_term_category_destroy_question: 术语({{value}})已配置到当前类别。请选择下一步操作?
+  text_term_category_destroy_question: 术语(%{value})已配置到当前类别。请选择下一步操作?
   text_term_category_destroy_assignments: 将当前术语从该类别中移出
   text_term_category_reassign_to: 重新指定术语所属类别
 

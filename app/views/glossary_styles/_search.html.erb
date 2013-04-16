@@ -1,5 +1,5 @@
 
-<% form_tag({:controller => 'glossary_styles', :action => 'search', :project_id => @project},
+<% form = form_tag({:controller => 'glossary_styles', :action => 'search', :project_id => @project},
 	    {:method => 'get', :id=>'search_form'}
 	    ) do %>
 <%= hidden_field_tag 'project_id', @project.id.to_s %>
@@ -42,3 +42,5 @@
 </div>
 
 <% end %>
+<%= form if Rails::VERSION::MAJOR >= 3 %>
+

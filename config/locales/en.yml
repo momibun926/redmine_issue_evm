@@ -10,9 +10,6 @@ en:
     id: No.
     name: Term
     name_en: English
-    name_cn: Chinese
-    name_fr: French
-    tech_en: "Technical English"
     category: Category
     datatype: "Data type for coding"
     codename: "Abbreviation for coding"
@@ -68,7 +65,7 @@ en:
   
   field_term_counts_under_category: Term count
 
-  text_term_category_destroy_question: Some term ({{value}}) is assigned to this category. What do you want to do ?
+  text_term_category_destroy_question: Some term (%{value}) is assigned to this category. What do you want to do ?
   text_term_category_destroy_assignments: Remove category assignments
   text_term_category_reassign_to: Reassign term to this category
 
@@ -103,3 +100,4 @@ en:
   index_subary: []
 
   in_encoding_candidates: []
+

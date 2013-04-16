@@ -37,6 +37,7 @@ module GlossaryStylesHelper
       str += '</td>'
     end
     str += '</tr></table>'
+    str.html_safe
   end
 
   def search_params
