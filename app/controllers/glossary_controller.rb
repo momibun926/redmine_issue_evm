@@ -368,7 +368,7 @@ class GlossaryController < ApplicationController
   def find_project   
     project_id = params[:project_id] || (params[:issue] && params[:issue][:project_id])
     @project = Project.find(project_id)
-  rescue ActiveRecord::RecordNotFoundpp
+  rescue ActiveRecord::RecordNotFound
     render_404
   end
   
