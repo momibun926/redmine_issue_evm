@@ -2,21 +2,15 @@
 
 This is the Redmine(Project manage system) plug-in which adds the feature of the glossary.
 
-Ported to and tested on 2.3.x Redmine branch.
+Ported to and tested on 2.3.x and 2.4.x Redmine branch.
 Care has been taken to keep compatibility with 1.4.x, but not tested!
 
-== The Use
+== Use Cases
 
  * Management of technical terms in a system analysis phase
  * Interlinear translation table
  * Translate table from term to data type (class name)
  * Management of naming examples in a coding
-
-
-== Getting a plugin package
-
-{SourceForge.JP}[http://sourceforge.jp/projects/rp-glossary/releases/]
-
 
 == Installation and Setup (redmine 2.x)
 
@@ -37,12 +31,3 @@ Start from "Glossary" item of a project menu.
 
 For the details of the usage, see the following page.
 * http://www.r-labs.org/projects/rp-glossary/wiki/UsageEn
-
-
-== Question or Proposal
-
-If you find a bug(Defect) or have a Proposal, create a new issue.
-http://www.r-labs.org/projects/rp-glossary/issues
-
-If you quest about this plugin, write the forum.
-http://www.r-labs.org/projects/rp-glossary/boards
