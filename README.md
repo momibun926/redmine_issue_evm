@@ -1,9 +1,9 @@
-*** redmine_issue_evm
+redmine_issue_evm
 ===
 
 EVM using the isuue of redmine
 
-*** About
+About
 ===
 
 
