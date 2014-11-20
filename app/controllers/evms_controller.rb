@@ -1,4 +1,4 @@
-class EvmController < ApplicationController
+class EvmsController < ApplicationController
   unloadable
 
 
