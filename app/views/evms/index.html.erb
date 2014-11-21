@@ -1,22 +1,31 @@
 <% html_title('Issue EVM') %>
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'evm',                     :plugin => 'redmine_evm' %>
-  <%= javascript_include_tag 'drawchart',            :plugin => 'redmine_evm' %>
-  <%= javascript_include_tag 'jquery.1.9.1.min.js',  :plugin => 'redmine_evm' %>
-  <%= javascript_include_tag 'highcharts.js',        :plugin => 'redmine_evm' %>
+  <%= stylesheet_link_tag 'issue_evm',               :plugin => 'redmine_issue_evm' %>
+  <%= javascript_include_tag 'drawchart',            :plugin => 'redmine_issue_evm' %>
+  <%= javascript_include_tag 'jquery.1.9.1.min.js',  :plugin => 'redmine_issue_evm' %>
+  <%= javascript_include_tag 'highcharts.js',        :plugin => 'redmine_issue_evm' %>
   <%= javascript_include_tag '../../../javascripts/select_list_move', :plugin => 'redmine_issue_evm' %>
 <% end %>
 
-<h2>EvmsController#index</h2>
-<%= @iss %>
-<%= @pi %>
+<!--Header-->
+<h2 id="evm-title"><%=l(:title_evm_tab)%></h2>
+<p id="evm-subtitle"><%=l(:subtitle_evm_tab)%></p>
+
+<!--Indicator value-->
+<h3><%= l(:subtitle_evm_summary)%></h3>
+<div id="evm-suummary-wrapper">
+  <%= render :partial => '/evms/evm_measure' %>
+</div>
 
 <!--Charts-->
 <div id="evm-charts-wrapper">
-
   <!-- Main Chart -->
   <h3 class="version"> <%= l(:subtitle_evm_graph_main) %></h3>
   <div id='evm-graph-lines' class='evm-chart'></div>
-  <%= render :partial => '/evms/chart_js', :locals => { project_chart_data: @chart_data , project_name: @project.name } %>
-  
+  <%= render :partial => '/evms/evm_chart_js', :locals => { project_chart_data: @chart_data , project_name: @project.name } %>
 </div>
+
+<!--Sidebar-->
+<% content_for :sidebar do %>
+  <%= render :partial => '/evms/evm_explanation' %> 
+<% end %>
