@@ -1,0 +1,58 @@
+/*** evm charts ***/
+#evm-charts-wrapper
+{ 
+	margin: auto; 
+}
+div[class*="evm-chart"] 
+{ 
+  margin: auto;
+  height: 450px;
+  padding: 5px; 
+}
+
+/*** Option ***/
+#evm-option-table
+{
+  width: auto;
+  border-collapse: collapse;
+}
+#evm-option-table tr,
+#evm-option-table th,
+#evm-option-table td
+{
+  padding: 5px;
+  width: 250px;
+  text-align: left;
+}
+
+/*** summary evm indicator ***/
+#evm-suummary-wrapper
+{ 
+	margin: auto;
+	padding: 0 0 20px 0; 
+}
+#evm-indicator-value-table
+{
+  width: auto;
+  border-collapse: collapse;
+}
+#evm-indicator-value-table th,
+#evm-indicator-value-table td
+{
+  width: 60px;
+  padding: 2px;
+  text-align: center;
+  border: 1px solid #bbb; 
+}
+#evm-indicator-value-table th
+{
+  background-color: #eee;
+}
+
+/*** sidebar ***/
+div[class*="evm-explanation"] 
+{
+  width: auto;
+  padding-left: 20px;
+  padding-bottom: 20px;
+}

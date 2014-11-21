@@ -1,3 +1,5 @@
+require 'redmine'
+
 Redmine::Plugin.register :redmine_issue_evm do
 	
   name 'Redmine Issue Evm plugin'
