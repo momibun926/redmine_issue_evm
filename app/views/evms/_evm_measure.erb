@@ -24,17 +24,17 @@
     <th>TCPI</th>
   </tr>
   <tr>
-    <td rowspan="2">NA</td>
-    <td>NA</td>
-    <td rowspan="2">99%</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td rowspan="2">NA</td>
-    <td rowspan="2">NA</td>
-    <td rowspan="2">NA</td>
+    <td rowspan="2"><%=Time.now.to_date%></td>
+    <td><%=@todays_value['bac_value_hours']%></td>
+    <td rowspan="2"><%=@todays_value['complete_ev_value']%></td>
+    <td><%=@todays_value['todays_pv_value_hours']%></td>
+    <td><%=@todays_value['todays_ev_value_hours']%></td>
+    <td><%=@todays_value['todays_ac_value_hours']%></td>
+    <td><%=@todays_value['todays_sv_value_hours']%></td>
+    <td><%=@todays_value['todays_cv_value_hours']%></td>
+    <td><%=@todays_value['todays_spi_value_hours']%></td>
+    <td><%=@todays_value['todays_cpi_value_hours']%></td>
+    <td><%=@todays_value['todays_cr_value_hours']%></td>
     <td>NA</td>
     <td>NA</td>
     <td>NA</td>
@@ -42,12 +42,15 @@
     <td rowspan="2">NA</td>
   </tr>
   <tr>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
+    <td><%=@todays_value['bac_value_days']%></td>
+    <td><%=@todays_value['todays_pv_value_days']%></td>
+    <td><%=@todays_value['todays_ev_value_days']%></td>
+    <td><%=@todays_value['todays_ac_value_days']%></td>
+    <td><%=@todays_value['todays_sv_value_days']%></td>
+    <td><%=@todays_value['todays_cv_value_days']%></td>
+    <td><%=@todays_value['todays_spi_value_days']%></td>
+    <td><%=@todays_value['todays_cpi_value_days']%></td>
+    <td><%=@todays_value['todays_cr_value_days']%></td>
     <td>NA</td>
     <td>NA</td>
     <td>NA</td>

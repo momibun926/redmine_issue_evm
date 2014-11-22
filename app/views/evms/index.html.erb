@@ -22,7 +22,7 @@
   <!-- Main Chart -->
   <h3 class="version"> <%= l(:subtitle_evm_graph_main) %></h3>
   <div id='evm-graph-lines' class='evm-chart'></div>
-  <%= render :partial => '/evms/evm_chart_js', :locals => { project_chart_data: @chart_data , project_name: @project.name } %>
+  <%= render :partial => '/evms/evm_chart_js', :locals => { project_chart_data: @chart_data , todays_value: @todays_value, project_name: @project.name } %>
 </div>
 
 <!--Sidebar-->
