@@ -20,40 +20,41 @@
     <th>EAC</th>
     <th>ETC</th>
     <th>VAC</th>
-    <th>Delay</th>
     <th>TCPI</th>
+    <th>Delay</th>
   </tr>
   <tr>
-    <td rowspan="2"><%=Time.now.to_date%></td>
-    <td><%=@todays_value['bac_value_hours']%></td>
-    <td rowspan="2"><%=@todays_value['complete_ev_value']%></td>
-    <td><%=@todays_value['todays_pv_value_hours']%></td>
-    <td><%=@todays_value['todays_ev_value_hours']%></td>
-    <td><%=@todays_value['todays_ac_value_hours']%></td>
-    <td><%=@todays_value['todays_sv_value_hours']%></td>
-    <td><%=@todays_value['todays_cv_value_hours']%></td>
-    <td><%=@todays_value['todays_spi_value_hours']%></td>
-    <td><%=@todays_value['todays_cpi_value_hours']%></td>
-    <td><%=@todays_value['todays_cr_value_hours']%></td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td rowspan="2">NA Days</td>
-    <td rowspan="2">NA</td>
+    <td rowspan="2"><%=@evm.basis_date%></td>
+    <td><%=@evm.bac(1)%></td>
+    <td rowspan="2"><%=@evm.complete_ev%></td>
+    <td><%=@evm.today_pv(1)%></td>
+    <td><%=@evm.today_ev(1)%></td>
+    <td><%=@evm.today_ac(1)%></td>
+    <td><%=@evm.today_sv(1)%></td>
+    <td><%=@evm.today_cv(1)%></td>
+    <td><%=@evm.today_spi(1)%></td>
+    <td><%=@evm.today_cpi(1)%></td>
+    <td><%=@evm.today_cr(1)%></td>
+    <td><%=@evm.eac(1)%></td>
+    <td><%=@evm.etc(1)%></td>
+    <td><%=@evm.vac(1)%></td>
+    <td><%=@evm.tcpi(1)%></td>
+    <td rowspan="2"><%=@evm.delay%>Days</td>
   </tr>
   <tr>
-    <td><%=@todays_value['bac_value_days']%></td>
-    <td><%=@todays_value['todays_pv_value_days']%></td>
-    <td><%=@todays_value['todays_ev_value_days']%></td>
-    <td><%=@todays_value['todays_ac_value_days']%></td>
-    <td><%=@todays_value['todays_sv_value_days']%></td>
-    <td><%=@todays_value['todays_cv_value_days']%></td>
-    <td><%=@todays_value['todays_spi_value_days']%></td>
-    <td><%=@todays_value['todays_cpi_value_days']%></td>
-    <td><%=@todays_value['todays_cr_value_days']%></td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
+    <td><%=@evm.bac(8)%></td>
+    <td><%=@evm.today_pv(8)%></td>
+    <td><%=@evm.today_ev(8)%></td>
+    <td><%=@evm.today_ac(8)%></td>
+    <td><%=@evm.today_sv(8)%></td>
+    <td><%=@evm.today_cv(8)%></td>
+    <td><%=@evm.today_spi(8)%></td>
+    <td><%=@evm.today_cpi(8)%></td>
+    <td><%=@evm.today_cr(8)%></td>
+    <td><%=@evm.eac(8)%></td>
+    <td><%=@evm.etc(8)%></td>
+    <td><%=@evm.vac(8)%></td>
+    <td><%=@evm.tcpi(8)%></td>
   </tr>
 </table>
 <%= l(:explanation_upper_row)%> <%= l(:explanation_lower_row)%>
