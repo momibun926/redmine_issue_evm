@@ -1,8 +1,0 @@
-<script>
-  var graphTitleMain = <%= raw project_name.to_json %> ;
-  var actualWeek = <%= Time.now.to_date.to_time(:utc).to_i  * 1000 %>;
-  var projectChartData = <%= raw project_chart_data.to_json %>;
-  var mainChartHtmlElement = 'evm-graph-lines';
-  drawChart(projectChartData, mainChartHtmlElement, actualWeek, graphTitleMain); //from drawchart.js
-</script>
-
