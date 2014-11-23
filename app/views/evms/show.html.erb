@@ -1,1 +1,34 @@
 <h2>EvmsController#show</h2>
+<% if @evm_baselines.nil? %>
+    <table class="list versions">
+      <thead><tr>
+        <th><%= l(:label_baseline) %></th>
+        <th><%= l(:label_created_date) %></th>
+        <th><%= l(:field_description) %></th>
+        <th><%= l(:field_status) %></th>
+        <th style="width:15%"></th>
+      </tr></thead>
+      <tbody>
+      <!-- TODO: Remove order by replacing model that orders when it stores -->
+      <% @evm_baselines.order( 'created_on DESC' ).each do |baseline| %>
+          <tr class="baseline">
+            <td class="name"><%= link_to baseline.name, baseline_path(baseline) %></td>
+            <td class="created-date"><%= format_date(baseline.created_on) %></td>
+            <td class="description"><%= baseline.description %></td>
+            <td class="status"><%= baseline.state %></td>
+            <td class="buttons">
+            </td>
+          </tr>
+      <% end; reset_cycle %>
+      </tbody>
+    </table>
+
+<% else %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<div>
+  <%= link_to l(:label_baseline_set), {controller:"evms", action:"new"}, :class => 'icon icon-add' %>
+  <%= link_to "View EVM", {controller:"evms", action:"index"}, :class => 'icon icon-add' %>
+</div>
+

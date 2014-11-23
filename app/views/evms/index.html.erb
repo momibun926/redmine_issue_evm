@@ -7,6 +7,10 @@
   <%= javascript_include_tag '../../../javascripts/select_list_move', :plugin => 'redmine_issue_evm' %>
 <% end %>
 
+<div class="contextual">
+  <%= link_to "ベースラインの設定", {controller:"evms", action:"show", id: @project.id} ,:class => 'icon icon-edit'%>
+</div>
+
 <!--Header-->
 <h2 id="evm-title"><%=l(:title_evm_tab)%></h2>
 <p id="evm-subtitle"><%=l(:subtitle_evm_tab)%></p>
