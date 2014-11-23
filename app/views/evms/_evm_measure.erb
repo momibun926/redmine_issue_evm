@@ -26,7 +26,7 @@
   <tr>
     <td rowspan="2"><%=@evm.basis_date%></td>
     <td><%=@evm.bac(1)%></td>
-    <td rowspan="2"><%=@evm.complete_ev%></td>
+    <td><%=@evm.complete_ev(1)%> %</td>
     <td><%=@evm.today_pv(1)%></td>
     <td><%=@evm.today_ev(1)%></td>
     <td><%=@evm.today_ac(1)%></td>
@@ -39,10 +39,11 @@
     <td><%=@evm.etc(1)%></td>
     <td><%=@evm.vac(1)%></td>
     <td><%=@evm.tcpi(1)%></td>
-    <td rowspan="2"><%=@evm.delay%>Days</td>
+    <td rowspan="2"><%=@evm.delay%> Days</td>
   </tr>
   <tr>
     <td><%=@evm.bac(8)%></td>
+    <td><%=@evm.complete_ev(8)%> %</td>
     <td><%=@evm.today_pv(8)%></td>
     <td><%=@evm.today_ev(8)%></td>
     <td><%=@evm.today_ac(8)%></td>

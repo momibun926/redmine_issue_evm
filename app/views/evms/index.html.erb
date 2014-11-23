@@ -10,6 +10,76 @@
 <!--Header-->
 <h2 id="evm-title"><%=l(:title_evm_tab)%></h2>
 <p id="evm-subtitle"><%=l(:subtitle_evm_tab)%></p>
+
+<%= form_tag url_for(action: :index), method: :get, id: 'query_form' do %>
+  <!-- Option -->  
+  <fieldset id="filters" class="collapsible collapsed">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+    <div style="display: none;">
+      <table id="evm-option-table">
+        <tr>
+          <th>
+            <%= l(:label_graph) %>
+          </th>
+          <th>
+            <%= l(:label_calculate) %>
+          </th>
+          <th>
+            <%= l(:label_Display) %>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <!-- Display forecast line -->
+            <% unless @project.actual_cost(@baseline) == 0 %>
+              <%= check_box_tag 'forecast', 'true', @forecast_is_enabled  %>
+              <%= label_tag l(:label_forecast) %>
+            <% end %>
+          </td>
+          <td>
+            <!-- select calcurate ETC -->
+            <%= radio_button_tag :calcetc, 'method1', @calc_etc_method == 'method1' %>
+            <%= label_tag l(:label_calc_method1) %>
+          </td>
+          <td>
+            <!-- Display EVM value explanation -->
+            <%= check_box_tag 'display_explanation' , 'true', @display_explanation_is_enabled %>
+            <%= label_tag l(:label_display_explanation) %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!-- Display Version Graph -->
+            <%= check_box_tag 'display_version' , 'true', @display_version_is_enabled , {:disabled => true} %>
+            <%= label_tag l(:label_display_version) %>
+          </td>
+          <td>
+            <!-- select calcurate ETC -->
+            <%= radio_button_tag :calcetc, 'method2', @calc_etc_method == 'method2' %>
+            <%= label_tag l(:label_calc_method2) %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!-- Display performance Graph -->
+            <%= check_box_tag 'display_performance' , 'true', @display_performance_is_enabled , {:disabled => true}%>
+            <%= label_tag l(:label_display_performance) %>
+          </td>
+          <td>
+            <!-- select calcurate ETC -->
+            <%= radio_button_tag :calcetc, 'method3', @calc_etc_method == 'method3' %>
+            <%= label_tag l(:label_calc_method3) %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </fieldset>
+  <p>
+    <!-- Apply button -->
+    <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
+  </p>
+<% end %>
+
 <!--Indicator value-->
 <h3><%= l(:subtitle_evm_summary)%></h3>
 <div id="evm-suummary-wrapper">
@@ -17,14 +87,16 @@
 </div>
 
 <!--Charts-->
+<h3><%= l(:subtitle_evm_graph_main) %></h3>
 <div id="evm-charts-wrapper">
   <!-- Main Chart -->
-  <h3 class="version"> <%= l(:subtitle_evm_graph_main) %></h3>
   <div id='evm-graph-lines' class='evm-chart'></div>
   <%= render :partial => '/evms/evm_chart_js', :locals => { project_evm: @evm, project_name: @project.name } %>
 </div>
 
 <!--Sidebar-->
-<% content_for :sidebar do %>
-  <%= render :partial => '/evms/evm_explanation' %> 
+<% if @display_explanation_is_enabled %>
+  <% content_for :sidebar do %>
+    <%= render :partial => '/evms/evm_explanation' %> 
+  <% end %>
 <% end %>

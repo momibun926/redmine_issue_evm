@@ -2,12 +2,16 @@ module EvmLogic
 
   class IssueEvm
 
-    def initialize proj, basis_date 
+    def initialize proj, basis_date, forecast, etc_method
       @project = proj
       #プロジェクト内のチケットを取得
       @@issues = @project.issues.where( "start_date IS NOT NULL AND due_date IS NOT NULL")
       #基準日
       @@basis_date = basis_date
+      #予測値の表示
+      @@forecast = forecast
+      #ETCの計算方法
+      @@etc_method = etc_method
       #チケットのPV(日付:値)
       @@actual_pv = actual_issue_pv
       if @@actual_pv.nil?
@@ -39,8 +43,8 @@ module EvmLogic
 
     #CompleteEV
     #BACに対する出来高完了率
-    def complete_ev
-      complete_ev = today_ev(1) / bac(1)
+    def complete_ev hours
+      complete_ev = today_ev(hours) / bac(hours)
       complete_ev.nan? ? 0 : complete_ev.round(2)
     end
     
@@ -106,9 +110,18 @@ module EvmLogic
       if today_cpi(hours) == 0.0
         etc = 0.0  
       else
-        etc = (bac(hours) - today_ev(hours)) / today_cpi(hours)
+        case @@etc_method
+        when 'method1' then
+          etc = (bac(hours) - today_ev(hours))
+        when 'method2' then
+          etc = (bac(hours) - today_ev(hours)) / today_cpi(hours)
+        when 'method3' then
+          etc = (bac(hours) - today_ev(hours)) / today_cr(hours)
+        else
+          etc = (bac(hours) - today_ev(hours)) / today_cpi(hours)
+        end
       end
-      etc
+      etc.round(2)
     end
     
     #EAC
@@ -136,21 +149,25 @@ module EvmLogic
       tcpi = (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
       tcpi.nan? ? 0 : tcpi.round(2)
     end
-
+    
+    #Create chart data
     def chart_data
       chart_date = {}
 
       chart_date['planned_value'] = convert_to_chart(@@actual_pv)
       chart_date['actual_cost'] = convert_to_chart(@@issue_ac)
       chart_date['earned_value'] = convert_to_chart(@@issue_ev)
-      bac_top_line = {chrat_minimum_date => bac(1), chrat_maximum_date => bac(1)}
-      chart_date['bac_top_line'] = convert_to_chart(bac_top_line)
-      eac_top_line = {chrat_minimum_date => eac(1), chrat_maximum_date => eac(1)}
-      chart_date['eac_top_line'] = convert_to_chart(eac_top_line)
-      actual_cost_forecast = {@@basis_date => today_ac(1), forecast_finish_date => eac(1)}
-      chart_date['actual_cost_forecast'] = convert_to_chart(actual_cost_forecast)
-      earned_value_forecast = {@@basis_date => today_ev(1), forecast_finish_date => @@actual_pv[@@actual_pv.keys.max]}
-      chart_date['earned_value_forecast'] = convert_to_chart(earned_value_forecast)
+
+      if @@forecast
+        bac_top_line = {chrat_minimum_date => bac(1), chrat_maximum_date => bac(1)}
+        chart_date['bac_top_line'] = convert_to_chart(bac_top_line)
+        eac_top_line = {chrat_minimum_date => eac(1), chrat_maximum_date => eac(1)}
+        chart_date['eac_top_line'] = convert_to_chart(eac_top_line)
+        actual_cost_forecast = {@@basis_date => today_ac(1), forecast_finish_date => eac(1)}
+        chart_date['actual_cost_forecast'] = convert_to_chart(actual_cost_forecast)
+        earned_value_forecast = {@@basis_date => today_ev(1), forecast_finish_date => @@actual_pv[@@actual_pv.keys.max]}
+        chart_date['earned_value_forecast'] = convert_to_chart(earned_value_forecast)
+      end
 
       chart_date
     end
@@ -172,7 +189,7 @@ module EvmLogic
             temp_pv[key].nil? ? temp_pv[key] = hours_per_day : temp_pv[key] += hours_per_day
           end
         end
-        # Sort by key
+        # Sort and sum value
         actual_pv = sort_evm_hash(temp_pv)
       end
 
@@ -205,7 +222,7 @@ module EvmLogic
             end
           end
         end
-        # Sort by key
+        # Sort and sum value
         issue_ev = sort_evm_hash(temp_ev)
         #今日以降のEVは削除
         issue_ev.delete_if{|key, value| key > @@basis_date }
@@ -217,7 +234,7 @@ module EvmLogic
                 joins(:time_entries).
                 group('spent_on').collect { |issue| [issue.spent_on, issue.sum_hours] }
         temp_ac = Hash[query]
-        #　sort by key
+        # Sort and sum value
         issue_ac = sort_evm_hash(temp_ac)
       end
 
