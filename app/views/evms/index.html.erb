@@ -35,10 +35,8 @@
         <tr>
           <td>
             <!-- Display forecast line -->
-            <% unless @project.actual_cost(@baseline) == 0 %>
-              <%= check_box_tag 'forecast', 'true', @forecast_is_enabled  %>
-              <%= label_tag l(:label_forecast) %>
-            <% end %>
+            <%= check_box_tag 'forecast', 'true', @forecast_is_enabled  %>
+            <%= label_tag l(:label_forecast) %>
           </td>
           <td>
             <!-- select calcurate ETC -->
