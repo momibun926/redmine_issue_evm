@@ -6,7 +6,7 @@ class CreateEvmbaselines < ActiveRecord::Migration
       t.string :subject
       t.text :description
       t.string :state
-      t.satetime :created_on
+      t.datetime :created_on
     end
   end
 end
