@@ -1,7 +1,6 @@
 class CreateEvmbaselineIssues < ActiveRecord::Migration
   def change
     create_table :evmbaseline_issues do |t|
-      t.integer :id
       t.integer :evmbaseline_id
       t.integer :issue_id
       t.date :start_date
