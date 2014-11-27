@@ -1,5 +1,6 @@
-<h2>EvmsController#show</h2>
-<% if @evm_baselines.nil? %>
+<h2>EvmbaselinesController#index</h2>
+<%= @eb.subject %>
+<% if @baselines.nil? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
     <table class="list versions">
@@ -12,15 +13,15 @@
       </tr></thead>
       <tbody>
       <!-- TODO: Remove order by replacing model that orders when it stores -->
-      <% @evm_baselines.each do |baseline| %>
+      <% @baselines.each do |baseline| %>
           <tr class="baseline">
             <td class="subject"><%= baseline.subject %></td>
             <td class="description"><%= baseline.description %></td>
             <td class="status"><%= baseline.state %></td>
             <td class="created_on"><%= baseline.created_on %></td>
             <td class="buttons">
-              <%= link_to l(:button_edit), {controller: :evms, action: 'edit', id: baseline.id}, :class => 'icon icon-edit' %>
-              <%= link_to "del" ,{controller: :evms, action: 'edit'}, :class => 'icon icon-del' %>
+              <%= link_to l(:button_edit), {controller: :evmbaselines, action: 'edit', id: baseline.id}, :class => 'icon icon-edit' %>
+              <%= link_to "del" ,{controller: :evmbaselines, action: 'destroy'}, :class => 'icon icon-del' %>
             </td>
           </tr>
       <% end; reset_cycle %>
@@ -29,7 +30,7 @@
 <% end %>
 
 <div>
-  <%= link_to l(:label_baseline_set), {controller:"evms", action:"new"}, :class => 'icon icon-add' %>
-  <%= link_to "View EVM", {controller:"evms", action:"index"}, :class => 'icon icon-add' %>
+  <%= link_to "new", {controller:"evmbaselines", action:"new"}, :class => 'icon icon-add' %>
+  <%= link_to "View EVM", {controller:"evms", action:"index"}, :class => 'icon icon-show' %>
 </div>
 

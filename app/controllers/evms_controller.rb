@@ -24,16 +24,8 @@ class EvmsController < ApplicationController
   end
 
   def show
-  	@evm_baselines = EvmBaseline.new()
   end
   
-  def new
-  	@evm_baselines = EvmBaseline.new()
-  end
-
-  def edit
-  	@evm_baselines = EvmBaseline.new()
-  end
 
 private
   def find_project

@@ -1,4 +1,5 @@
 <h2><%=l(:label_baseline_set)%></h2>
-under construction
-
-
+<%= form_tag {controller:"evms", action:"show", id: @project.id} do |f| %>
+  <%= render :partial => 'form', :locals => { :project => @project , :f => @evm_baselines } %>
+  <%= submit_tag l(:button_save) %>
+<% end %>
