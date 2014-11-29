@@ -4,7 +4,7 @@ class EvmbaselinesController < ApplicationController
   menu_item :issueevm
 
   def index
-    @eb = Evmbaseline.where('project_id = ? ',params[:id])
+    @evm_baselines = Evmbaseline.where('id = ? ', params[:id] )
   end
 
   def new
@@ -17,5 +17,7 @@ class EvmbaselinesController < ApplicationController
   end
 
   def destroy
+    @evm_baselines.destroy
   end
+
 end
