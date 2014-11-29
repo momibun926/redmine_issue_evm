@@ -14,19 +14,13 @@ module EvmLogic
       @@etc_method = etc_method
       #チケットのPV(日付:値)
       @@actual_pv = actual_issue_pv
-      if @@actual_pv.nil?
-        @@actual_pv[@@basis_date] = 0.0
-      end
+      @@actual_pv[@@basis_date] = 0.0 if @@actual_pv.nil?
       #チケットのEV(日付:値)
       @@issue_ev = issue_ev
-      if @@issue_ev.nil?
-        @@issue_ev[@@basis_date] = 0.0
-      end
+      @@issue_ev[@@basis_date] = 0.0 if @@issue_ev.nil?
       #チケットのAC(日付:値)
       @@issue_ac = issue_ac
-      if @@issue_ac.nil?
-        @@issue_ac[@@basis_date] = 0.0
-      end
+      @@issue_ac[@@basis_date] = 0.0 if @@issue_ac.nil?
     end
 
     #基準日
