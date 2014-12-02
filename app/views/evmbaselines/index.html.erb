@@ -1,4 +1,5 @@
 <h2>EvmbaselinesController#index</h2>
+<%= @p %>
 <% if @evm_baselines.nil? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
@@ -28,7 +29,7 @@
 <% end %>
 
 <div>
-  <%= link_to "new", {controller:"evmbaselines", action:"new"}, :class => 'icon icon-add' %>
+  <%= link_to "new", {controller:"evmbaselines", action:"new", id: @project.id}, :class => 'icon icon-add' %>
   <%= link_to "View EVM", {controller:"evms", action:"index"}, :class => 'icon icon-show' %>
 </div>
 
