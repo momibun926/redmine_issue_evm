@@ -1,6 +1,4 @@
 
-require 'redmine'
-
 include EvmLogic
 
 class EvmsController < ApplicationController

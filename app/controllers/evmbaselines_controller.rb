@@ -6,8 +6,7 @@ class EvmbaselinesController < ApplicationController
   before_filter :find_project, :authorize
 
   def index
-    @evm_baselines = Evmbaseline.where('project_id = ? ', params[:id] )
-    @p = params[:id] 
+    @evm_baselines = Evmbaseline.where('project_id = ? ', @project.id)
   end
 
   def new
@@ -15,6 +14,19 @@ class EvmbaselinesController < ApplicationController
   end
 
   def edit
+    @evm_baselines = Evmbaseline.find(params[:id])
+  end
+
+  def update
+    attributes = params[:evmbaseline].dup
+    @evm_baselines.safe_attributes = attributes
+
+    if @evm_baselines.save
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to :action => 'index'
+    else
+      render :action => 'edit'
+    end
   end
 
   def create
@@ -22,7 +34,7 @@ class EvmbaselinesController < ApplicationController
     @evm_baselines.project_id = @project.id
     if @evm_baselines.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'index', :id => @project.id
+      redirect_to :action => 'index'
     else
       render :action => 'new'
     end
