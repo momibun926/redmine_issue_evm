@@ -21,6 +21,7 @@
             <td class="created_on"><%= baseline.created_on %></td>
             <td class="buttons">
               <%= link_to l(:button_edit), {controller: :evmbaselines, action: 'edit', id: baseline.id}, :class => 'icon icon-edit' %>
+              <%= link_to l(:button_delete), {controller: :evmbaselines, action: 'destroy', id: baseline.id} , :method => :delete , :class => 'icon icon-del' %>
             </td>
           </tr>
       <% end; reset_cycle %>

@@ -40,7 +40,10 @@ class EvmbaselinesController < ApplicationController
   end
 
   def destroy
+    @evm_baselines = Evmbaseline.find(params[:id])
     @evm_baselines.destroy
+    flash[:notice] = l(:notice_successful_delete)
+    redirect_to :action => 'index'
   end
 
 private
