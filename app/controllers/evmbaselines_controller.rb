@@ -18,9 +18,8 @@ class EvmbaselinesController < ApplicationController
   end
 
   def update
-    attributes = params[:evmbaseline].dup
-    @evm_baselines.safe_attributes = attributes
-
+    @evm_baselines = Evmbaseline.find(params[:id])
+    @evm_baselines.update_attributes(params[:evmbaseline])
     if @evm_baselines.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'

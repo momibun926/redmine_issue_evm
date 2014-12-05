@@ -1,0 +1,45 @@
+<%= back_url_hidden_field_tag %>
+<%= error_messages_for 'baseline' %>
+
+<% disabled =  false %>
+<% if @baseline.id %>
+  <% disabled = true %> 
+<% end %>
+
+<% default_date = @baseline.due_date || project.maximum_date %>
+
+<div class="box tabular">
+  <p><%= f.text_field :name, size: 60, required: true %></p>
+  <p><%= f.text_field :description, size: 60 %></p>
+  <p>
+    <%= f.text_field :due_date, size: 10, required: true , value: default_date, disabled: disabled %>
+    <% unless disabled %>
+      <%= calendar_for('baseline_due_date') %>
+    <% end %>
+  </p>
+  <p>
+    <%= label_tag "Target Version"%>
+    <%# check_box_tag :enable_taget_versions, :true, false, disabled: disabled %>
+    <%= select_tag :operator_target_versions, options_for_select(["any", "is", "is not", "none"]), hidden: disabled %>
+    <%= select_tag :selected_target_versions, options_from_collection_for_select(project.versions, :id, :name, @baseline.get_targeted_versions ), multiple: true, disabled: disabled, hidden: true %>
+  </p> 
+  <p>
+      <label> <%=l(:label_update_estimated_hours)%> </label>
+      <%= hidden_field_tag('update_estimated_hours', 0)  %>
+      <%= check_box_tag 'update_estimated_hours', 1, false, disabled: disabled %>
+    </p>
+
+  <% @baseline.custom_field_values.each do |value| %>
+    <p><%= custom_field_tag_with_label :baseline, value %></p>
+  <% end %>
+
+</div>
+
+<script>
+  $("#operator_target_versions").change(function() {   //When operator is selected.
+    if (this.value == "none" || this.value == "any")
+      $("#selected_target_versions").hide()
+    else
+      $("#selected_target_versions").show()
+  });
+</script>
