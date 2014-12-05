@@ -1,15 +1,18 @@
 ﻿# japanease translation
 ja:
   # Setting Tab
-  label_baseline: ベースライン
-  label_baseline_plural: ベースライン
-  label_baseline_version: ベースライン バージョン
+  label_baseline: タイトル
+  label_baseline_edit: ベースラインの編集
+  label_baseline_create: ベースラインの作成
+  label_baseline_version: ベースライン　バージョン
   label_baseline_set: ベースラインを設定
-  label_due_date: 期日
+  label_baseline_start_date: 開始日
+  label_baseline_due_date: 終了日
+  label_baseline_bac: BAC
   label_created_date: 作成日
   label_current_baseline: 現在
   label_old_baseline: 過去
-  label_select_baseline: ベースラインを選択
+  label_latest_baseline: 最新のベースラインで表示
 
   title_evm_tab: EVM指標
   subtitle_evm_tab: このプロジェクトの進捗をEVMでみる事が出来ます

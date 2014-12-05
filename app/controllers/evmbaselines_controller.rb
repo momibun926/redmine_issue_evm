@@ -18,9 +18,9 @@ class EvmbaselinesController < ApplicationController
   end
 
   def update
-    @evm_baselines = Evmbaseline.find(params[:id])
-    @evm_baselines.update_attributes(params[:evmbaseline])
-    if @evm_baselines.save
+    evm_baselines = Evmbaseline.find(params[:id])
+    evm_baselines.update_attributes(params[:evmbaseline])
+    if evm_baselines.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else
@@ -29,21 +29,17 @@ class EvmbaselinesController < ApplicationController
   end
 
   def create
-    @evm_baselines = Evmbaseline.new(params[:evmbaseline])
-    @evm_baselines.project_id = @project.id
+    evm_baselines = Evmbaseline.new(params[:evmbaseline])
+    evm_baselines.project_id = @project.id
+    evm_baselines.state = l(:label_current_baseline)
     issues = @project.issues.where( "start_date IS NOT NULL AND due_date IS NOT NULL")
     issues.each do |issue|
       next unless issue.leaf?
-      baseline_issues = EvmbaselineIssue.new
-      baseline_issues.issue_id = issue.id
-      baseline_issues.start_date = issue.start_date
-      baseline_issues.due_date = issue.due_date
-      baseline_issues.estimated_hours = issue.estimated_hours
-      baseline_issues.leaf = issue.leaf?
-      @evm_baselines.evmbaselineIssues << baseline_issues
-    end    
-
-    if @evm_baselines.save
+      baseline_issues = EvmbaselineIssue.new(issue_id: issue.id, start_date: issue.start_date, due_date: issue.due_date, estimated_hours: issue.estimated_hours, leaf: issue.leaf?)
+      evm_baselines.evmbaselineIssues << baseline_issues
+    end
+    Evmbaseline.where(project_id: @project.id).update_all(state: l(:label_old_baseline))
+    if evm_baselines.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
     else
@@ -52,8 +48,8 @@ class EvmbaselinesController < ApplicationController
   end
 
   def destroy
-    @evm_baselines = Evmbaseline.find(params[:id])
-    @evm_baselines.destroy
+    evm_baselines = Evmbaseline.find(params[:id])
+    evm_baselines.destroy
     flash[:notice] = l(:notice_successful_delete)
     redirect_to :action => 'index'
   end

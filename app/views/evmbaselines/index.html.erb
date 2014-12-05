@@ -1,4 +1,4 @@
-<h2>EvmbaselinesController#index</h2>
+<h2><%= l(:label_baseline_version) %></h2>
 <% if @evm_baselines.nil? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
@@ -6,6 +6,9 @@
       <thead><tr>
         <th><%= l(:label_baseline) %></th>
         <th><%= l(:field_description) %></th>
+        <th><%= l(:label_baseline_start_date) %></th>
+        <th><%= l(:label_baseline_due_date) %></th>
+        <th><%= l(:label_baseline_bac) %></th>
         <th><%= l(:field_status) %></th>
         <th><%= l(:label_created_date) %></th>
         <th style="width:15%"></th>
@@ -16,6 +19,9 @@
           <tr class="baseline">
             <td class="subject"><%= link_to baseline.subject, {controller:"evms", action:"index", evmbaseline_id: baseline.id} %></td>
             <td class="description"><%= baseline.description %></td>
+            <td class="strat_date"><%= baseline.minimum_start_date %></td>
+            <td class="due_date"><%= baseline.maximum_due_date %></td>
+            <td class="bac"><%= baseline.bac %></td>
             <td class="status"><%= baseline.state %></td>
             <td class="created_on"><%= baseline.created_on %></td>
             <td class="buttons">
@@ -29,7 +35,7 @@
 <% end %>
 
 <div>
-  <%= link_to "new", {controller:"evmbaselines", action:"new", id: @project.id}, :class => 'icon icon-add' %>
-  <%= link_to "View EVM", {controller:"evms", action:"index"}, :class => 'icon icon-show' %>
+  <%= link_to l(:label_baseline_create), {controller:"evmbaselines", action:"new", id: @project.id}, :class => 'icon icon-add' %>
+  <%= link_to l(:label_latest_baseline), {controller:"evms", action:"index"}, :class => 'icon icon-show' %>
 </div>
 
