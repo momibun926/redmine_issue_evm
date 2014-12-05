@@ -1,5 +1,5 @@
 <h2>EvmbaselinesController#new</h2>
-<%= labelled_form_for @evm_baselines, :url => project_evmbaselines_path(@project)  do |f| %>
+<%= labelled_form_for @evm_baselines, :url => project_evmbaselines_path do |f| %>
   <p><%= f.text_field :subject, size: 60, required: true %></p>
   <p><%= f.text_field :description, size: 150 %></p>
   <%= submit_tag l(:button_create) %>
