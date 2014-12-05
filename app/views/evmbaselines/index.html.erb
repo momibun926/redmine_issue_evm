@@ -1,5 +1,4 @@
 <h2>EvmbaselinesController#index</h2>
-<%= @p %>
 <% if @evm_baselines.nil? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
@@ -12,10 +11,10 @@
         <th style="width:15%"></th>
       </tr></thead>
       <tbody>
-      <!-- TODO: Remove order by replacing model that orders when it stores -->
+
       <% @evm_baselines.each do |baseline| %>
           <tr class="baseline">
-            <td class="subject"><%= baseline.subject %></td>
+            <td class="subject"><%= link_to baseline.subject, {controller:"evms", action:"index", evmbaseline_id: baseline.id} %></td>
             <td class="description"><%= baseline.description %></td>
             <td class="status"><%= baseline.state %></td>
             <td class="created_on"><%= baseline.created_on %></td>

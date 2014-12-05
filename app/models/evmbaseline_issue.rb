@@ -1,4 +1,4 @@
 class EvmbaselineIssue < ActiveRecord::Base
   unloadable
-  belong_to :evmbaseline
+  belongs_to :evmbaseline
 end

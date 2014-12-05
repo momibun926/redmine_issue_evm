@@ -2,10 +2,7 @@ module EvmLogic
 
   class IssueEvm
 
-    def initialize proj, basis_date, forecast, etc_method
-      @project = proj
-      #プロジェクト内のチケットを取得
-      @@issues = @project.issues.where( "start_date IS NOT NULL AND due_date IS NOT NULL")
+    def initialize baselines, issues, costs, basis_date, forecast, etc_method
       #基準日
       @@basis_date = basis_date
       #予測値の表示
@@ -13,13 +10,16 @@ module EvmLogic
       #ETCの計算方法
       @@etc_method = etc_method
       #チケットのPV(日付:値)
-      @@actual_pv = actual_issue_pv
+      @@actual_pv = issue_pv issues
       @@actual_pv[@@basis_date] = 0.0 if @@actual_pv.nil?
+      #ベースラインのPV(日付:値)
+      @@baseline_pv = issue_pv baselines
+      @@baseline_pv[@@basis_date] = 0.0 if @@baseline_pv.nil?
       #チケットのEV(日付:値)
-      @@issue_ev = issue_ev
+      @@issue_ev = issue_ev issues
       @@issue_ev[@@basis_date] = 0.0 if @@issue_ev.nil?
       #チケットのAC(日付:値)
-      @@issue_ac = issue_ac
+      @@issue_ac = issue_ac costs
       @@issue_ac[@@basis_date] = 0.0 if @@issue_ac.nil?
     end
 
@@ -151,6 +151,7 @@ module EvmLogic
       chart_date['planned_value'] = convert_to_chart(@@actual_pv)
       chart_date['actual_cost'] = convert_to_chart(@@issue_ac)
       chart_date['earned_value'] = convert_to_chart(@@issue_ev)
+      chart_date['baseline_value'] = convert_to_chart(@@baseline_pv)
 
       if @@forecast
         bac_top_line = {chrat_minimum_date => bac(1), chrat_maximum_date => bac(1)}
@@ -170,10 +171,10 @@ module EvmLogic
       #チケットからPlanValueを計算
       #
       #
-      def actual_issue_pv
+      def issue_pv issues
         temp_pv = {}
         #チケットごとに以下を繰り返す
-        @@issues.each do |issue|
+        issues.each do |issue|
           #親チケットは除外
           next unless issue.leaf?
           #一日当たりの時間
@@ -184,16 +185,13 @@ module EvmLogic
           end
         end
         # Sort and sum value
-        actual_pv = sort_evm_hash(temp_pv)
+        issue_pv = sort_evm_hash(temp_pv)
       end
 
-      def baseline_issue_pv
-      end
-
-      def issue_ev
+      def issue_ev issues
         temp_ev = {}
         #チケットごとに以下を繰り返す
-        @@issues.each do |issue|
+        issues.each do |issue|
           #親チケットは除外
           next unless issue.leaf?
           if issue.closed?
@@ -222,12 +220,9 @@ module EvmLogic
         issue_ev.delete_if{|key, value| key > @@basis_date }
       end
 
-      def issue_ac
+      def issue_ac costs
         temp_ac = {}
-        query = @project.issues.select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours').
-                joins(:time_entries).
-                group('spent_on').collect { |issue| [issue.spent_on, issue.sum_hours] }
-        temp_ac = Hash[query]
+        temp_ac = Hash[costs]
         # Sort and sum value
         issue_ac = sort_evm_hash(temp_ac)
       end

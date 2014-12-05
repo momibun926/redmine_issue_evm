@@ -73,9 +73,14 @@ function drawChart(dataToChart, placeholder, nowdate, graphtitle){
             },
             series:[
                 {
-                    name: 'PV',
+                    name: 'PV-ACTUAL',
                     color: '#0f75bc',
                     data: data.planned_value
+                },
+                {
+                    name: 'PV-BASELINE',
+                    color: '#000033',
+                    data: data.baseline_value
                 },
                 {
                     name: 'AC', 

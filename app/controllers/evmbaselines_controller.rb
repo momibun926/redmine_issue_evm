@@ -6,7 +6,7 @@ class EvmbaselinesController < ApplicationController
   before_filter :find_project, :authorize
 
   def index
-    @evm_baselines = Evmbaseline.where('project_id = ? ', @project.id)
+    @evm_baselines = Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
   end
 
   def new
@@ -31,6 +31,18 @@ class EvmbaselinesController < ApplicationController
   def create
     @evm_baselines = Evmbaseline.new(params[:evmbaseline])
     @evm_baselines.project_id = @project.id
+    issues = @project.issues.where( "start_date IS NOT NULL AND due_date IS NOT NULL")
+    issues.each do |issue|
+      next unless issue.leaf?
+      baseline_issues = EvmbaselineIssue.new
+      baseline_issues.issue_id = issue.id
+      baseline_issues.start_date = issue.start_date
+      baseline_issues.due_date = issue.due_date
+      baseline_issues.estimated_hours = issue.estimated_hours
+      baseline_issues.leaf = issue.leaf?
+      @evm_baselines.evmbaselineIssues << baseline_issues
+    end    
+
     if @evm_baselines.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
