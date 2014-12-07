@@ -8,22 +8,18 @@ module EvmLogic
       @@etc_method = etc_method
 
       #PV-ACTUAL
-      @@actual_pv = issue_pv issues
-      @@actual_pv[@@basis_date] = 0.0 if @@actual_pv.nil?
+      @@pv_actual = calculate_planed_value issues
       #PV-BASELINE
-      @@baseline_pv = issue_pv baselines
-      @@baseline_pv[@@basis_date] = 0.0 if @@baseline_pv.nil?
+      @@pv_baseline = calculate_planed_value baselines
       #EV
-      @@issue_ev = issue_ev issues
-      @@issue_ev[@@basis_date] = 0.0 if @@issue_ev.nil?
+      @@ev = calculate_earned_value issues
       #AC
-      @@issue_ac = issue_ac costs
-      @@issue_ac[@@basis_date] = 0.0 if @@issue_ac.nil?
+      @@ac = calculate_actual_cost costs
 
       #今日が最大日を超えていたら、今日に最大値をセット
-      if @@basis_date > @@actual_pv.keys.max && @@actual_pv[@@actual_pv.keys.max] != @@issue_ev[@@issue_ev.keys.max]
-        @@actual_pv[@@basis_date] = @@actual_pv[@@actual_pv.keys.max]
-        @@issue_ev[@@basis_date] = @@issue_ev[@@issue_ev.keys.max]
+      if @@basis_date > @@pv_actual.keys.max && @@pv_actual[@@pv_actual.keys.max] != @@ev[@@ev.keys.max]
+        @@pv_actual[@@basis_date] = @@pv_actual[@@pv_actual.keys.max]
+        @@ev[@@basis_date] = @@ev[@@ev.keys.max]
       end
 
     end
@@ -36,7 +32,7 @@ module EvmLogic
     #BAC
     #予定総工数
     def bac hours
-      bac = @@actual_pv[@@actual_pv.keys.max] / hours
+      bac = @@pv_actual[@@pv_actual.keys.max] / hours
       bac.round(2)
     end
 
@@ -50,21 +46,21 @@ module EvmLogic
     #PV
     #基準日時点のPV
     def today_pv hours
-      pv = @@actual_pv[@@basis_date] / hours
+      pv = @@pv_actual[@@basis_date] / hours
       pv.round(2)
     end
 
     #EV
     #基準日時点のEV
     def today_ev hours
-      ev = @@issue_ev[@@basis_date] / hours
+      ev = @@ev[@@basis_date] / hours
       ev.round(2)
     end
     
     #AC
     #基準日時点のAC
     def today_ac hours
-      ac = @@issue_ac[@@basis_date] / hours
+      ac = @@ac[@@basis_date] / hours
       ac.round(2)
     end
 
@@ -139,7 +135,7 @@ module EvmLogic
 
     def delay
       unless forecast_finish_date.nil?
-        (forecast_finish_date - @@actual_pv.keys.max).to_i
+        (forecast_finish_date - @@pv_actual.keys.max).to_i
       end 
     end
 
@@ -153,10 +149,10 @@ module EvmLogic
     def chart_data
       chart_date = {}
 
-      chart_date['planned_value'] = convert_to_chart(@@actual_pv)
-      chart_date['actual_cost'] = convert_to_chart(@@issue_ac)
-      chart_date['earned_value'] = convert_to_chart(@@issue_ev)
-      chart_date['baseline_value'] = convert_to_chart(@@baseline_pv)
+      chart_date['planned_value'] = convert_to_chart(@@pv_actual)
+      chart_date['actual_cost'] = convert_to_chart(@@ac)
+      chart_date['earned_value'] = convert_to_chart(@@ev)
+      chart_date['baseline_value'] = convert_to_chart(@@pv_baseline)
 
       if @@forecast
         bac_top_line = {chrat_minimum_date => bac(1), chrat_maximum_date => bac(1)}
@@ -165,7 +161,7 @@ module EvmLogic
         chart_date['eac_top_line'] = convert_to_chart(eac_top_line)
         actual_cost_forecast = {@@basis_date => today_ac(1), forecast_finish_date => eac(1)}
         chart_date['actual_cost_forecast'] = convert_to_chart(actual_cost_forecast)
-        earned_value_forecast = {@@basis_date => today_ev(1), forecast_finish_date => @@actual_pv[@@actual_pv.keys.max]}
+        earned_value_forecast = {@@basis_date => today_ev(1), forecast_finish_date => @@pv_actual[@@pv_actual.keys.max]}
         chart_date['earned_value_forecast'] = convert_to_chart(earned_value_forecast)
       end
 
@@ -176,7 +172,7 @@ module EvmLogic
       #チケットからPlanValueを計算
       #
       #
-      def issue_pv issues
+      def calculate_planed_value issues
         temp_pv = {}
         #チケットごとに以下を繰り返す
         issues.each do |issue|
@@ -190,10 +186,10 @@ module EvmLogic
           end
         end
         # Sort and sum value
-        issue_pv = sort_and_sum_evm_hash(temp_pv)
+        calculate_planed_value = sort_and_sum_evm_hash(temp_pv)
       end
 
-      def issue_ev issues
+      def calculate_earned_value issues
         temp_ev = {}
         #チケットごとに以下を繰り返す
         issues.each do |issue|
@@ -220,16 +216,16 @@ module EvmLogic
           end
         end
         # Sort and sum value
-        issue_ev = sort_and_sum_evm_hash(temp_ev)
+        calculate_earned_value = sort_and_sum_evm_hash(temp_ev)
         #今日以降のEVは削除
-        issue_ev.delete_if{|key, value| key > @@basis_date }
+        calculate_earned_value.delete_if{|key, value| key > @@basis_date }
       end
 
-      def issue_ac costs
+      def calculate_actual_cost costs
         temp_ac = {}
         temp_ac = Hash[costs]
         # Sort and sum value
-        issue_ac = sort_and_sum_evm_hash(temp_ac)
+        calculate_actual_cost = sort_and_sum_evm_hash(temp_ac)
       end
 
       #チャート用データの加工
@@ -242,10 +238,9 @@ module EvmLogic
       def sort_and_sum_evm_hash evm_hash 
         temp_hash = {}
         sum_value = 0.0
-        #今日の値がなかったら0をセット
-        unless evm_hash.nil? || evm_hash[@@basis_date].nil? 
-          evm_hash[@@basis_date] = 0.0 if @@basis_date <= evm_hash.keys.max
-        else
+        #実績がない
+        evm_hash[@@basis_date] = 0.0  if evm_hash.nil?
+        if evm_hash[@@basis_date].nil? || @@basis_date <= evm_hash.keys.max
           evm_hash[@@basis_date] = 0.0
         end
         
@@ -264,16 +259,16 @@ module EvmLogic
 
       #
       def chrat_minimum_date
-        [@@actual_pv.keys.min, @@issue_ev.keys.min, @@issue_ac.keys.min].min
+        [@@pv_actual.keys.min, @@ev.keys.min, @@ac.keys.min].min
       end
 
       #
       def chrat_maximum_date
-        [@@actual_pv.keys.max, @@issue_ev.keys.max, @@issue_ac.keys.max, forecast_finish_date].max
+        [@@pv_actual.keys.max, @@ev.keys.max, @@ac.keys.max, forecast_finish_date].max
       end
 
       def forecast_finish_date
-        @@actual_pv.keys.max + @@actual_pv.reject{|key, value| key <= @@basis_date }.size * today_spi(8) 
+        @@pv_actual.keys.max + @@pv_actual.reject{|key, value| key <= @@basis_date }.size * today_spi(8) 
       end
 
   end
