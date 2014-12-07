@@ -3,24 +3,29 @@ module EvmLogic
   class IssueEvm
 
     def initialize baselines, issues, costs, basis_date, forecast, etc_method
-      #基準日
       @@basis_date = basis_date
-      #予測値の表示
       @@forecast = forecast
-      #ETCの計算方法
       @@etc_method = etc_method
-      #チケットのPV(日付:値)
+
+      #PV-ACTUAL
       @@actual_pv = issue_pv issues
       @@actual_pv[@@basis_date] = 0.0 if @@actual_pv.nil?
-      #ベースラインのPV(日付:値)
+      #PV-BASELINE
       @@baseline_pv = issue_pv baselines
       @@baseline_pv[@@basis_date] = 0.0 if @@baseline_pv.nil?
-      #チケットのEV(日付:値)
+      #EV
       @@issue_ev = issue_ev issues
       @@issue_ev[@@basis_date] = 0.0 if @@issue_ev.nil?
-      #チケットのAC(日付:値)
+      #AC
       @@issue_ac = issue_ac costs
       @@issue_ac[@@basis_date] = 0.0 if @@issue_ac.nil?
+
+      #今日が最大日を超えていたら、今日に最大値をセット
+      if @@basis_date > @@actual_pv.keys.max && @@actual_pv[@@actual_pv.keys.max] != @@issue_ev[@@issue_ev.keys.max]
+        @@actual_pv[@@basis_date] = @@actual_pv[@@actual_pv.keys.max]
+        @@issue_ev[@@basis_date] = @@issue_ev[@@issue_ev.keys.max]
+      end
+
     end
 
     #基準日
@@ -185,7 +190,7 @@ module EvmLogic
           end
         end
         # Sort and sum value
-        issue_pv = sort_evm_hash(temp_pv)
+        issue_pv = sort_and_sum_evm_hash(temp_pv)
       end
 
       def issue_ev issues
@@ -215,7 +220,7 @@ module EvmLogic
           end
         end
         # Sort and sum value
-        issue_ev = sort_evm_hash(temp_ev)
+        issue_ev = sort_and_sum_evm_hash(temp_ev)
         #今日以降のEVは削除
         issue_ev.delete_if{|key, value| key > @@basis_date }
       end
@@ -224,7 +229,7 @@ module EvmLogic
         temp_ac = {}
         temp_ac = Hash[costs]
         # Sort and sum value
-        issue_ac = sort_evm_hash(temp_ac)
+        issue_ac = sort_and_sum_evm_hash(temp_ac)
       end
 
       #チャート用データの加工
@@ -234,20 +239,20 @@ module EvmLogic
       end
 
       #日付の若い順からEVを積み上げる
-      def sort_evm_hash evm_hash 
+      def sort_and_sum_evm_hash evm_hash 
         temp_hash = {}
-        sum_value = 0
+        sum_value = 0.0
         #今日の値がなかったら0をセット
-        if evm_hash[@@basis_date].nil?
-          evm_hash[@@basis_date] = 0
+        unless evm_hash.nil? || evm_hash[@@basis_date].nil? 
+          evm_hash[@@basis_date] = 0.0 if @@basis_date <= evm_hash.keys.max
+        else
+          evm_hash[@@basis_date] = 0.0
         end
+        
+        #累計を算出しながら日付順にソート
         evm_hash.sort_by{|key,val| key}.each do |date , value|
           sum_value += value
           temp_hash[date] = sum_value
-        end
-        #今日が最大日を超えていたら、今日に最大値をセット
-        if temp_hash.keys.max < @@basis_date
-          temp_hash[@@basis_date] = temp_hash[temp_hash.keys.max]
         end
         temp_hash
       end
