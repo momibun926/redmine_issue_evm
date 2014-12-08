@@ -81,15 +81,23 @@ module EvmLogic
     #SPI
     #スケジュールパフォーマンス(EV/PV)
     def today_spi hours
-      spi = today_ev(hours) / today_pv(hours)
-      spi.nan? ? 0.0 : spi.round(2)
+      if today_ev(hours) == 0.0 || today_pv(hours) == 0.0
+        spi = 0.0
+      else
+        spi = today_ev(hours) / today_pv(hours)
+      end
+      spi.round(2)
     end
 
     #CPI
     #コストパフォーマンス(EV/AC)
     def today_cpi hours
-      cpi = today_ev(hours) / today_ac(hours)
-      cpi.nan? ? 0.0 : cpi.round(2)
+      if today_ev(hours) == 0.0 || today_ac(hours) == 0.0
+        cpi = 0.0
+      else
+        cpi = today_ev(hours) / today_ac(hours)
+      end
+      cpi.round(2)
     end
 
     #CR
@@ -197,13 +205,13 @@ module EvmLogic
           next unless issue.leaf?
           if issue.closed?
               close_date = issue.closed_on.to_date
-              temp_ev[close_date].nil? ? temp_ev[close_date] = issue.estimated_hours : temp_ev[close_date] += issue.estimated_hours
+              temp_ev[close_date].nil? ? temp_ev[close_date] = issue.estimated_hours : temp_ev[close_date] += issue.estimated_hours.to_f
           else
             #進捗率は入力されていたら出来高計算
             if issue.done_ratio > 0
               if @@basis_date < issue.start_date
                 #開始日前だったら見積もり工数*進捗率を今日日付で計上
-                temp_ev[@@basis_date] = issue.estimated_hours * (issue.done_ratio / 100.0)
+                temp_ev[@@basis_date] = (issue.estimated_hours * (issue.done_ratio / 100.0)).to_f
               else
                 #一日当たりの時間
                 hours_per_day = issue_hours_per_day(issue.estimated_hours ,issue.due_date, issue.start_date) * (issue.done_ratio / 100.0)
@@ -254,7 +262,7 @@ module EvmLogic
     
       #一日当たりの見積もり時間を算出
       def issue_hours_per_day estimated_hours, due_date, start_date
-        estimated_hours / ((due_date + 1) - start_date)
+        (estimated_hours / ((due_date + 1) - start_date)).to_f
       end
 
       #
