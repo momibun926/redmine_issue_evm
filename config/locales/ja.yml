@@ -23,10 +23,11 @@ ja:
   subtitle_evm_graph_main: チャート
   subtitle_evm_graph_performance: パフォーマンス
   subtitle_evm_graph_version: バージョン
+
   # Option
   label_option: 表示オプション
   label_basis: EVM値計算の基準
-  label_actual_basis: 現実のチケットで計測
+  label_actual_basis: 今のチケットで計測。デフォルトはベースライン
   label_graph: チャート表示
   label_forecast: グラフに予測値を表示する
   label_display_version: バージョンのグラフも表示する
@@ -37,11 +38,13 @@ ja:
   label_calc_method3: 悲観的
   label_Display : 説明の表示
   label_display_explanation: EVM値の説明をサイドバーに表示する
+
   # Explanation title
   explanation_basis: 基本
   explanation_difference: 差異
   explanation_performance: パフォーマンス
   explanation_forecast: 予測値
+
   # Explanation
   explanation_bac: 完成時総予算。プロジェクトのチケットの総見積もり工数
   explanation_pv: チケットの見積もり工数。作業に対する予算
@@ -58,13 +61,14 @@ ja:
   explanation_vac: 完了時コスト差異(BAC－EAC)
   explanation_difference_end_date: 完了予想日と計画完了日との差(日数)
   explanation_tcpi: 残作業効率指数((BAC-EV)/(BAC-AC))。残作業を達成するために、どれくらいの生産性が必要か？1以上は生産性を高める必要あり。
+
   # Indicator table header
   indicator_table_header_date: 日付
   indicator_table_header_today: 今日時点の指標
   indicator_table_header_difference: 差異
   indicator_table_header_performance: 効率
   indicator_table_header_forecast: 予測
+
   # Indicator table legend
   explanation_upper_row: 上段の値は時間
   explanation_lower_row: 下段の値は人日
-  field_baseline_estimated_hours: ベースラインの見積もり

@@ -14,25 +14,25 @@ class EvmsController < ApplicationController
 
   def index
     # parameters
-    @actual_basis_is_enabled = params[:actual_basis]
-    @forecast_is_enabled = params[:forecast]
-    @calc_etc_method = params[:calcetc]
-    @display_explanation_is_enabled = params[:display_explanation]
-    @display_version_is_enabled = params[:display_version]
+    @actual_basis = params[:actual_basis]
+    @forecast = params[:forecast]
+    @etc_method = params[:calcetc]
+    @explanation = params[:display_explanation]
+    @version_chart = params[:display_version]
 
     #Project. all versions
     baselines = project_baseline @project, params[:evmbaseline_id]
     issues = project_issues @project
-    actual_cost = project_costs @project
-    @project_evm = IssueEvm.new(baselines, issues, actual_cost, Time.now.to_date, params[:forecast], params[:calcetc], params[:actual_basis])
+    costs = project_costs @project
+    @project_evm = IssueEvm.new(baselines, issues, costs, Time.now.to_date, params[:forecast], params[:calcetc], params[:actual_basis])
 
     #versions
     @version_evm = {}
     unless @project.versions.nil?
       @project.versions.each do |version|
         issues = version_issues @project, version.id
-        actual_cost = version_costs @project, version.id
-        @version_evm[version.id] = IssueEvm.new(nil, issues, actual_cost, Time.now.to_date, nil, nil, true)
+        costs = version_costs @project, version.id
+        @version_evm[version.id] = IssueEvm.new(nil, issues, costs, Time.now.to_date, nil, nil, true)
       end
     end 
 

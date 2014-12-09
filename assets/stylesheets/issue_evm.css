@@ -1,7 +1,7 @@
 /*** evm charts ***/
 #evm-charts-wrapper
 { 
-	margin: auto; 
+  margin: auto; 
 }
 div[class*="evm-chart"] 
 { 
@@ -16,20 +16,18 @@ div[class*="evm-chart"]
   width: auto;
   border-collapse: collapse;
 }
-#evm-option-table tr,
 #evm-option-table th,
 #evm-option-table td
 {
-  padding: 5px;
-  width: 250px;
+  width: 25%;
   text-align: left;
 }
 
 /*** summary evm indicator ***/
 #evm-suummary-wrapper
 { 
-	margin: auto;
-	padding: 0 0 20px 0; 
+  margin: auto;
+  padding: 0 0 20px 0; 
 }
 #evm-indicator-value-table
 {
