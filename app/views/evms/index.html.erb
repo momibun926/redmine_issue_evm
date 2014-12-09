@@ -8,7 +8,7 @@
 <% end %>
 
 <div class="contextual">
-  <%= link_to "ベースラインの設定", {controller:"evmbaselines", action:"index", id: @project.id} ,:class => 'icon icon-edit'%>
+  <%= link_to l(:label_baseline_set), {controller:"evmbaselines", action:"index", id: @project.id} ,:class => 'icon icon-edit'%>
 </div>
 
 <!--Header-->
@@ -23,6 +23,9 @@
       <table id="evm-option-table">
         <tr>
           <th>
+            <%= l(:label_basis) %>
+          </th>
+          <th>
             <%= l(:label_graph) %>
           </th>
           <th>
@@ -33,6 +36,11 @@
           </th>
         </tr>
         <tr>
+          <td>
+            <!-- culculate basis -->
+            <%= check_box_tag 'actual_basis', 'true', @actual_basis_is_enabled  %>
+            <%= label_tag l(:label_actual_basis) %>
+          </td>
           <td>
             <!-- Display forecast line -->
             <%= check_box_tag 'forecast', 'true', @forecast_is_enabled  %>
@@ -51,8 +59,10 @@
         </tr>
         <tr>
           <td>
+          </td>
+          <td>
             <!-- Display Version Graph -->
-            <%= check_box_tag 'display_version' , 'true', @display_version_is_enabled , {:disabled => true} %>
+            <%= check_box_tag 'display_version' , 'true', @display_version_is_enabled %>
             <%= label_tag l(:label_display_version) %>
           </td>
           <td>
@@ -62,6 +72,8 @@
           </td>
         </tr>
         <tr>
+          <td>
+          </td>
           <td>
             <!-- Display performance Graph -->
             <%= check_box_tag 'display_performance' , 'true', @display_performance_is_enabled , {:disabled => true}%>
@@ -85,20 +97,30 @@
 <!--Indicator value-->
 <h3><%= l(:subtitle_evm_summary)%></h3>
 <div id="evm-suummary-wrapper">
-  <%= render :partial => '/evms/evm_measure' %>
+  <%= render :partial => '/evms/measure' %>
 </div>
 
 <!--Charts-->
 <h3><%= l(:subtitle_evm_graph_main) %></h3>
 <div id="evm-charts-wrapper">
   <!-- Main Chart -->
-  <div id='evm-graph-lines' class='evm-chart'></div>
-  <%= render :partial => '/evms/evm_chart_js', :locals => { project_evm: @evm, project_name: @project.name } %>
+  <div id='evm-graph-lines' class='evm-chart'>
+    <%= render :partial => '/evms/project_chart_js', :locals => { project_evm: @project_evm, project_name: @project.name } %>
+  </div>
+  <!-- version Chart -->
+  <% if @display_version_is_enabled %>
+    <% unless @project.versions.nil? %>
+      <% @project.versions.each do |version| %>
+        <div id='evm-graph-lines-version-<%= version.id %>' class='evm-chart-<%= version.id %>'</div>
+        <%= render :partial => '/evms/version_chart_js', :locals => {version_evm: @version_evm[version.id], version: version } %> 
+      <% end %>
+    <% end %>
+  <% end %>
 </div>
 
 <!--Sidebar-->
 <% if @display_explanation_is_enabled %>
   <% content_for :sidebar do %>
-    <%= render :partial => '/evms/evm_explanation' %> 
+    <%= render :partial => '/evms/explanation' %> 
   <% end %>
 <% end %>
