@@ -18,7 +18,6 @@ ja:
 
   # Main form
   title_evm_tab: EVM
-  subtitle_evm_tab: このプロジェクトの進捗をEVMでみる事が出来ます
   subtitle_evm_summary: サマリー
   subtitle_evm_graph_main: チャート
   subtitle_evm_graph_performance: パフォーマンス

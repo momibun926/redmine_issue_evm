@@ -18,7 +18,6 @@ en:
 
   # Main form
   title_evm_tab: EVM
-  subtitle_evm_tab: Earned value management using the ticket of this project.
   subtitle_evm_summary: Summary
   subtitle_evm_graph_main: Charts
   subtitle_evm_graph_performance: Performance Cahrts
