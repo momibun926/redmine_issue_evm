@@ -14,9 +14,10 @@
 
 <!--Header-->
 <h2 id="evm-title"><%=l(:title_evm_tab)%></h2>
+<p id="evm-subtitle"><%=l(:subtitle_evm_tab)%></p>
 
-<!-- Option -->  
 <%= form_tag url_for(action: :index), method: :get, id: 'query_form' do %>
+  <!-- Option -->  
   <fieldset id="filters" class="collapsible collapsed">
     <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
     <div style="display: none;">

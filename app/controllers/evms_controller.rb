@@ -1,5 +1,5 @@
 
-include EvmLogic, ProjectAndVersionValue
+include EvmLogic
 
 
 class EvmsController < ApplicationController
@@ -7,24 +7,25 @@ class EvmsController < ApplicationController
 
   menu_item :issueevm
 
-  model_object Evmbaseline_issues
+  model_object Evmbaseline
 
   # filter
   before_filter :find_project, :authorize
-
 
   def index
     # parameters
     @actual_basis = params[:actual_basis]
     @forecast = params[:forecast]
-    @etc_method = params[:calcetc].nil? ? 'method2' : params[:calcetc]
+    @etc_method = params[:calcetc]
     @explanation = params[:display_explanation]
     @version_chart = params[:display_version]
+
     #Project. all versions
-    baseline_issues = project_baseline_issues @project, params[:evmbaseline_issues_id]
+    baselines = project_baseline @project, params[:evmbaseline_id]
     issues = project_issues @project
     costs = project_costs @project
-    @project_evm = IssueEvm.new(baseline_issues, issues, costs, Time.now.to_date, params[:forecast], params[:calcetc], params[:actual_basis])
+    @project_evm = IssueEvm.new(baselines, issues, costs, Time.now.to_date, params[:forecast], params[:calcetc], params[:actual_basis])
+
     #versions
     @version_evm = {}
     unless @project.versions.nil?
@@ -34,6 +35,7 @@ class EvmsController < ApplicationController
         @version_evm[version.id] = IssueEvm.new(nil, issues, costs, Time.now.to_date, nil, nil, true)
       end
     end 
+
     #future
     @display_performance_is_enabled = params[:display_performance]
 
