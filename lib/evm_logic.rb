@@ -90,6 +90,7 @@ module EvmLogic
     #CPI
     def today_cpi hours
       cpi = today_ev(hours) == 0.0 || today_ac(hours) == 0.0 ? 0.0 : today_ev(hours) / today_ac(hours)
+      cpi.round(2)
     end
 
 
@@ -263,7 +264,15 @@ module EvmLogic
       end
 
       def forecast_finish_date
-        @pv.keys.max + @pv.reject{|key, value| key <= @basis_date }.size * today_spi(8) 
+        if today_spi(8) == 0.0
+          finish_date = @pv.keys.max
+        else
+          planed_end_date = @pv.keys.max
+          rest_days =  @pv.reject{|key, value| key <= @basis_date }.size
+          forecastrest_days = rest_days - (rest_days * today_spi(8))
+          finish_date = planed_end_date + forecastrest_days.round
+        end
+
       end
 
   end
