@@ -1,5 +1,5 @@
 
-include EvmLogic
+include EvmLogic, ProjectAndVersionValue
 
 
 class EvmsController < ApplicationController
@@ -16,9 +16,15 @@ class EvmsController < ApplicationController
     # parameters
     @actual_basis = params[:actual_basis]
     @forecast = params[:forecast]
+<<<<<<< HEAD
     @etc_method = params[:calcetc]
     @explanation = params[:display_explanation]
     @version_chart = params[:display_version]
+=======
+    @calcetc = params[:calcetc].nil? ? 'method2' : params[:calcetc]
+    @display_explanation = params[:display_explanation]
+    @display_version = params[:display_version]
+>>>>>>> 51864348143c5ab5ecdd48f5e3c0494a30694843
 
     #Project. all versions
     baselines = project_baseline @project, params[:evmbaseline_id]
