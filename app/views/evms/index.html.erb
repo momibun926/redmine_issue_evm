@@ -38,22 +38,22 @@
         <tr>
           <td>
             <!-- culculate basis -->
-            <%= check_box_tag 'actual_basis', 'true', @actual_basis_is_enabled  %>
+            <%= check_box_tag 'actual_basis', 'true', @actual_basis  %>
             <%= label_tag l(:label_actual_basis) %>
           </td>
           <td>
             <!-- Display forecast line -->
-            <%= check_box_tag 'forecast', 'true', @forecast_is_enabled  %>
+            <%= check_box_tag 'forecast', 'true', @forecast  %>
             <%= label_tag l(:label_forecast) %>
           </td>
           <td>
             <!-- select calcurate ETC -->
-            <%= radio_button_tag :calcetc, 'method1', @calc_etc_method == 'method1' %>
+            <%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %>
             <%= label_tag l(:label_calc_method1) %>
           </td>
           <td>
             <!-- Display EVM value explanation -->
-            <%= check_box_tag 'display_explanation' , 'true', @display_explanation_is_enabled %>
+            <%= check_box_tag 'display_explanation' , 'true', @display_explanation %>
             <%= label_tag l(:label_display_explanation) %>
           </td>
         </tr>
@@ -62,12 +62,12 @@
           </td>
           <td>
             <!-- Display Version Graph -->
-            <%= check_box_tag 'display_version' , 'true', @display_version_is_enabled %>
+            <%= check_box_tag 'display_version' , 'true', @display_version %>
             <%= label_tag l(:label_display_version) %>
           </td>
           <td>
             <!-- select calcurate ETC -->
-            <%= radio_button_tag :calcetc, 'method2', @calc_etc_method == 'method2' %>
+            <%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %>
             <%= label_tag l(:label_calc_method2) %>
           </td>
         </tr>
@@ -81,7 +81,7 @@
           </td>
           <td>
             <!-- select calcurate ETC -->
-            <%= radio_button_tag :calcetc, 'method3', @calc_etc_method == 'method3' %>
+            <%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %>
             <%= label_tag l(:label_calc_method3) %>
           </td>
         </tr>
@@ -108,7 +108,7 @@
     <%= render :partial => '/evms/project_chart_js', :locals => { project_evm: @project_evm, project_name: @project.name } %>
   </div>
   <!-- version Chart -->
-  <% if @display_version_is_enabled %>
+  <% if @display_version %>
     <% unless @project.versions.nil? %>
       <% @project.versions.each do |version| %>
         <div id='evm-graph-lines-version-<%= version.id %>' class='evm-chart-<%= version.id %>'</div>
@@ -119,7 +119,7 @@
 </div>
 
 <!--Sidebar-->
-<% if @display_explanation_is_enabled %>
+<% if @display_explanation %>
   <% content_for :sidebar do %>
     <%= render :partial => '/evms/explanation' %> 
   <% end %>
