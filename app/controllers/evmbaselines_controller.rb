@@ -24,7 +24,7 @@ class EvmbaselinesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else
-      render :action => 'edit'
+      redirect_to :action => 'edit'
     end
   end
 
@@ -43,7 +43,7 @@ class EvmbaselinesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
     else
-      render :action => 'new'
+      redirect_to :action => 'new'
     end
   end
 
