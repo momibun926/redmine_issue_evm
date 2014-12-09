@@ -16,10 +16,12 @@ div[class*="evm-chart"]
   width: auto;
   border-collapse: collapse;
 }
+#evm-option-table tr,
 #evm-option-table th,
 #evm-option-table td
 {
-  width: 25%;
+  padding: 5px;
+  width: 250px;
   text-align: left;
 }
 
