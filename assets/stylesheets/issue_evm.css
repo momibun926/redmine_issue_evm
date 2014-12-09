@@ -1,7 +1,7 @@
 /*** evm charts ***/
 #evm-charts-wrapper
 { 
-	margin: auto; 
+  margin: auto; 
 }
 div[class*="evm-chart"] 
 { 
@@ -28,8 +28,8 @@ div[class*="evm-chart"]
 /*** summary evm indicator ***/
 #evm-suummary-wrapper
 { 
-	margin: auto;
-	padding: 0 0 20px 0; 
+  margin: auto;
+  padding: 0 0 20px 0; 
 }
 #evm-indicator-value-table
 {
