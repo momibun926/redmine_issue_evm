@@ -54,7 +54,7 @@ en:
   explanation_cv: Positive: Cost Variance Indicates the project is under budget. Negative: Cost Variance Indicates the project is over budget.
   explanation_spi: Above 1 indicates project team is very efficient in utilizing the time allocated to the project. Below 1 indicates project team is less efficient in utilizing the time allocated to the project.
   explanation_cpi: Above 1 indicates efficiency in utilizing the resources allocated to the project is good. Below 1 indicates efficiency in utilizing the resources allocated to the project is not good.
-  explanation_cr: プロジェクトパフォーマンス(1以上であれば良好)
+  explanation_cr: project performance.
   explanation_complete: The percentage of work which was planned to be completed by the Reporting Date.
   explanation_eac: Estimate At Completion (EAC) is the estimated cost of the project at the end of the project.
   explanation_etc: The estimated cost required to complete the remainder of the project. (BAC－EV) / CPI
@@ -72,6 +72,4 @@ en:
   # Indicator table legend
   explanation_upper_row: Upper row is hours.
   explanation_lower_row: Lower row is days.
-
-
 
