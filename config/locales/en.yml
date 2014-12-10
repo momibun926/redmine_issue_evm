@@ -23,7 +23,7 @@ en:
   subtitle_evm_graph_version: Version Charts
   # Option
   label_option: View Option
-  label_basis: Basis of calculation.　Default is baseline.
+  label_basis: Basis of calculation. Default is baseline.
   label_actual_basis: Calculation in the real value
   label_graph: Chart
   label_forecast: Forecast
