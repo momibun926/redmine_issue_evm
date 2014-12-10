@@ -7,13 +7,12 @@
   <%= javascript_include_tag '../../../javascripts/select_list_move', :plugin => 'redmine_issue_evm' %>
 <% end %>
 
+<!-- Basline setting -->  
 <div class="contextual">
   <%= link_to l(:label_baseline_set), {controller:"evmbaselines", action:"index", id: @project.id} ,:class => 'icon icon-edit'%>
 </div>
-
 <!--Header-->
 <h2 id="evm-title"><%=l(:title_evm_tab)%></h2>
-
 <!-- Option -->  
 <%= form_tag url_for(action: :index), method: :get, id: 'query_form' do %>
   <fieldset id="filters" class="collapsible collapsed">
@@ -40,54 +39,57 @@
         <tr>
           <td>
             <p>
-            <%= select_tag 'evmbaseline_id', options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id) %>
+              <!-- basline -->
+              <%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id) %>
             </p>
           </td>
           <td>
             <p>
-            <!-- culculate basis -->
-            <%= check_box_tag 'actual_basis', 'true', @actual_basis  %>
-            <%= label_tag l(:label_actual_basis) %>
+              <!-- culculate basis -->
+              <%= check_box_tag :actual_basis, 'true', @actual_basis  %>
+              <%= label_tag l(:label_actual_basis) %>
             </p>
           </td>
           <td>
             <p>
-            <!-- Display forecast line -->
-            <%= check_box_tag 'forecast', 'true', @forecast  %>
-            <%= label_tag l(:label_forecast) %>
+              <!-- Display forecast line -->
+              <%= check_box_tag :forecast, 'true', @forecast  %>
+              <%= label_tag l(:label_forecast) %>
             </p>
             <p>
-            <!-- Display Version Graph -->
-            <%= check_box_tag 'display_version' , 'true', @display_version %>
-            <%= label_tag l(:label_display_version) %>
+              <!-- Display Version Graph -->
+              <%= check_box_tag :display_version , 'true', @display_version %>
+              <%= label_tag l(:label_display_version) %>
             </p>
             <P>
-            <!-- Display performance Graph -->
-            <%= check_box_tag 'display_performance' , 'true', @display_performance_is_enabled , {:disabled => true}%>
-            <%= label_tag l(:label_display_performance) %>
+              <!-- Display performance Graph -->
+              <%= check_box_tag :display_performance , 'true', @display_performance_is_enabled , {:disabled => true}%>
+              <%= label_tag l(:label_display_performance) %>
             </P>
           </td>
           <td>
             <p>
-            <!-- select calcurate ETC -->
-            <%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %>
-            <%= label_tag l(:label_calc_method1) %>
+              <!-- select calcurate ETC -->
+              <%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %>
+              <%= label_tag l(:label_calc_method1) %>
             </p>
             <p>
-            <!-- select calcurate ETC -->
-            <%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %>
-            <%= label_tag l(:label_calc_method2) %>
+              <!-- select calcurate ETC -->
+              <%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %>
+              <%= label_tag l(:label_calc_method2) %>
             </p>
             <p>
-            <!-- select calcurate ETC -->
-            <%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %>
-            <%= label_tag l(:label_calc_method3) %>
+              <!-- select calcurate ETC -->
+              <%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %>
+              <%= label_tag l(:label_calc_method3) %>
             </p>
           </td>
           <td>
-            <!-- Display EVM value explanation -->
-            <%= check_box_tag 'display_explanation' , 'true', @display_explanation %>
-            <%= label_tag l(:label_display_explanation) %>
+            <p>
+              <!-- Display EVM value explanation -->
+              <%= check_box_tag :display_explanation , 'true', @display_explanation %>
+              <%= label_tag l(:label_display_explanation) %>
+            </p>
           </td>
         </tr>
       </table>
@@ -98,13 +100,11 @@
     <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
   </p>
 <% end %>
-
 <!--Indicator value-->
 <h3><%= l(:subtitle_evm_summary)%></h3>
 <div id="evm-suummary-wrapper">
   <%= render :partial => '/evms/measure' %>
 </div>
-
 <!--Charts-->
 <h3><%= l(:subtitle_evm_graph_main) %></h3>
 <div id="evm-charts-wrapper">
@@ -122,7 +122,6 @@
     <% end %>
   <% end %>
 </div>
-
 <!--Sidebar-->
 <% if @display_explanation %>
   <% content_for :sidebar do %>
