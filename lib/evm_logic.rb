@@ -2,10 +2,11 @@ module EvmLogic
 
   class IssueEvm
 
-    def initialize baselines, issues, costs, basis_date, forecast, etc_method, calc_basis_actual
+    def initialize baselines, issues, costs, basis_date, forecast, etc_method, calc_basis_actual, performance
       @basis_date = basis_date
       @forecast = forecast
       @etc_method = etc_method
+      @performance = performance
 
       #PV-ACTUAL
       @pv_actual = calculate_planed_value issues
@@ -22,7 +23,6 @@ module EvmLogic
         @pv[@basis_date] = @pv[@pv.keys.max]
         @ev[@basis_date] = @ev[@ev.keys.max]
       end
-
     end
 
 
@@ -172,10 +172,36 @@ module EvmLogic
         chart_date['earned_value_forecast'] = convert_to_chart(earned_value_forecast)
       end
 
+      if @performance
+        calc_performance
+        chart_date['spi'] = convert_to_chart(@spi)
+        chart_date['cpi'] = convert_to_chart(@cpi)
+        chart_date['cr'] = convert_to_chart(@cr)
+      end 
+
       chart_date
     end
 
-    private
+
+    def calc_performance
+      @spi = {}
+      @cpi = {}
+      @cr = {}
+
+      new_ev = make_performance_date @ev
+      new_ac = make_performance_date @ac
+      new_pv = make_performance_date @pv
+
+      new_ev.each do |date , value|
+        @spi[date] = (value / new_pv[date]).round(2) unless new_pv[date].nil? 
+        @cpi[date] = (value / new_ac[date]).round(2) unless new_ac[date].nil? 
+        @cr[date] = (@spi[date] * @cpi[date]).round(2)
+      end
+
+    end
+
+
+  private
 
       def calculate_planed_value issues
         temp_pv = {}
@@ -263,6 +289,7 @@ module EvmLogic
         [@pv.keys.max, @ev.keys.max, @ac.keys.max, forecast_finish_date].max
       end
 
+
       def forecast_finish_date
         if today_spi(8) == 0.0
           finish_date = @pv.keys.max
@@ -270,6 +297,38 @@ module EvmLogic
           rest_days =  @pv.reject{|key, value| key <= @basis_date }.size
           finish_date = @basis_date + (rest_days / today_spi(8)).round
         end
+
+      end
+
+
+      def make_performance_date evm_hash
+        temp = {}
+
+        before_date = evm_hash.keys.min
+        before_value = evm_hash[evm_hash.keys.min]
+
+        evm_hash.each do |date , value|
+
+          dif_days = ( date - before_date -1 ).to_i
+          dif_value = ( value - before_value ) / (date - before_date).to_i
+
+          if dif_days > 0
+            sum_value = 0.0
+            for add_days in 1..dif_days do
+              tmpdate = before_date + add_days
+              sum_value += dif_value
+              temp[tmpdate] = before_value + sum_value
+            end
+          end
+
+          before_date = date
+          before_value = value
+
+          temp[date] = value
+
+        end
+
+        return temp
 
       end
 

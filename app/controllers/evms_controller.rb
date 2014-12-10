@@ -27,18 +27,18 @@ class EvmsController < ApplicationController
     baselines = project_baseline @project, @baseline_id
     issues = project_issues @project
     actual_cost = project_costs @project
-    @project_evm = IssueEvm.new(baselines, issues, actual_cost, @basis_date, params[:forecast], params[:calcetc], params[:actual_basis])
+    @project_evm = IssueEvm.new(baselines, issues, actual_cost, @basis_date, params[:forecast], params[:calcetc], params[:actual_basis], params[:display_performance])
     #versions
     @version_evm = {}
     unless @project.versions.nil?
       @project.versions.each do |version|
         issues = version_issues @project, version.id
         actual_cost = version_costs @project, version.id
-        @version_evm[version.id] = IssueEvm.new(nil, issues, actual_cost, @basis_date, nil, nil, true)
+        @version_evm[version.id] = IssueEvm.new(nil, issues, actual_cost, @basis_date, nil, nil, true, params[:display_performance])
       end
     end 
     #future
-    @display_performance_is_enabled = params[:display_performance]
+    @display_performance = params[:display_performance]
 
   end
 

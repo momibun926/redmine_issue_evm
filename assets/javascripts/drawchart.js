@@ -218,7 +218,7 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
       };
       var lg1 = new Highcharts.Chart(chartOptions);
 }
-function drawChartPerformance(dataToChart, placeholder, graphtitle){ 
+function drawPerformanceChart(dataToChart, placeholder, graphtitle){ 
     var data = dataToChart;
     var chartOptions = {
             credits:{

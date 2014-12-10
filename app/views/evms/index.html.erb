@@ -63,7 +63,7 @@
             </p>
             <P>
               <!-- Display performance Graph -->
-              <%= check_box_tag :display_performance , 'true', @display_performance_is_enabled , {:disabled => true}%>
+              <%= check_box_tag :display_performance , 'true', @display_performance %>
               <%= label_tag l(:label_display_performance) %>
             </P>
           </td>
@@ -112,6 +112,12 @@
   <div id='evm-graph-lines' class='evm-chart'>
     <%= render :partial => '/evms/project_chart_js', :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: @project.name } %>
   </div>
+  <!-- Performance Chart -->
+  <% if @display_performance %>
+    <div id='evm-graph-lines-performance' class='evm-chart'>
+      <%= render :partial => '/evms/performance_chart_js', :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: @project.name } %>
+    </div>
+  <% end %>
   <!-- version Chart -->
   <% if @display_version %>
     <% unless @project.versions.nil? %>
