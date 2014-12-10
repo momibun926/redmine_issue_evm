@@ -14,6 +14,8 @@ class EvmsController < ApplicationController
 
   def index
   	@basis_date = Time.now.utc.to_date
+  	@baseline_id = params[:evmbaseline_id].nil? ? nil : params[:evmbaseline_id]
+  	@evmbaseline = Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
     # parameters
     @actual_basis = params[:actual_basis]
     @forecast = params[:forecast]
@@ -22,7 +24,7 @@ class EvmsController < ApplicationController
     @display_version = params[:display_version]
 
     #Project. all versions
-    baselines = project_baseline @project, params[:evmbaseline_id]
+    baselines = project_baseline @project, @baseline_id
     issues = project_issues @project
     actual_cost = project_costs @project
     @project_evm = IssueEvm.new(baselines, issues, actual_cost, @basis_date, params[:forecast], params[:calcetc], params[:actual_basis])

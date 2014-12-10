@@ -14,13 +14,16 @@
 <!--Header-->
 <h2 id="evm-title"><%=l(:title_evm_tab)%></h2>
 
+<!-- Option -->  
 <%= form_tag url_for(action: :index), method: :get, id: 'query_form' do %>
-  <!-- Option -->  
   <fieldset id="filters" class="collapsible collapsed">
     <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
     <div style="display: none;">
       <table id="evm-option-table">
         <tr>
+          <th>
+            <%= l(:label_baseline) %>
+          </th>
           <th>
             <%= l(:label_basis) %>
           </th>
@@ -36,52 +39,55 @@
         </tr>
         <tr>
           <td>
+            <p>
+            <%= select_tag 'evmbaseline_id', options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id) %>
+            </p>
+          </td>
+          <td>
+            <p>
             <!-- culculate basis -->
             <%= check_box_tag 'actual_basis', 'true', @actual_basis  %>
             <%= label_tag l(:label_actual_basis) %>
+            </p>
           </td>
           <td>
+            <p>
             <!-- Display forecast line -->
             <%= check_box_tag 'forecast', 'true', @forecast  %>
             <%= label_tag l(:label_forecast) %>
+            </p>
+            <p>
+            <!-- Display Version Graph -->
+            <%= check_box_tag 'display_version' , 'true', @display_version %>
+            <%= label_tag l(:label_display_version) %>
+            </p>
+            <P>
+            <!-- Display performance Graph -->
+            <%= check_box_tag 'display_performance' , 'true', @display_performance_is_enabled , {:disabled => true}%>
+            <%= label_tag l(:label_display_performance) %>
+            </P>
           </td>
           <td>
+            <p>
             <!-- select calcurate ETC -->
             <%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %>
             <%= label_tag l(:label_calc_method1) %>
+            </p>
+            <p>
+            <!-- select calcurate ETC -->
+            <%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %>
+            <%= label_tag l(:label_calc_method2) %>
+            </p>
+            <p>
+            <!-- select calcurate ETC -->
+            <%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %>
+            <%= label_tag l(:label_calc_method3) %>
+            </p>
           </td>
           <td>
             <!-- Display EVM value explanation -->
             <%= check_box_tag 'display_explanation' , 'true', @display_explanation %>
             <%= label_tag l(:label_display_explanation) %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-          </td>
-          <td>
-            <!-- Display Version Graph -->
-            <%= check_box_tag 'display_version' , 'true', @display_version %>
-            <%= label_tag l(:label_display_version) %>
-          </td>
-          <td>
-            <!-- select calcurate ETC -->
-            <%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %>
-            <%= label_tag l(:label_calc_method2) %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-          </td>
-          <td>
-            <!-- Display performance Graph -->
-            <%= check_box_tag 'display_performance' , 'true', @display_performance_is_enabled , {:disabled => true}%>
-            <%= label_tag l(:label_display_performance) %>
-          </td>
-          <td>
-            <!-- select calcurate ETC -->
-            <%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %>
-            <%= label_tag l(:label_calc_method3) %>
           </td>
         </tr>
       </table>
