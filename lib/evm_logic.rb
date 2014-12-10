@@ -40,7 +40,7 @@ module EvmLogic
 
     #CompleteEV
     def complete_ev hours
-      complete_ev = bac(hours) == 0 ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
+      complete_ev = bac(hours) == 0.0 ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
       complete_ev.round(2)
     end
     
@@ -145,7 +145,7 @@ module EvmLogic
     #TCPI = (BAC - EV) / (BAC - AC)
     def tcpi hours
       tcpi = (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
-      tcpi.nan? ? 0 : tcpi.round(2)
+      tcpi.round(2)
     end
     
 

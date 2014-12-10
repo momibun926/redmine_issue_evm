@@ -1,72 +1,67 @@
 ﻿# English strings go here for Rails i18n
 en:
   # Setting Tab
-  label_baseline: Baseline
-  label_baseline_plural: Baselines
-  label_baseline_version: Baseline Version
-  label_baseline_set: Set Baseline
-
-  label_due_date: Due Date
-  label_created_date: Created Date
-
-  label_current_baseline: Current
-  label_old_baseline: Old
-
-  label_select_baseline: Select Baseline
-
-  title_evm_tab: EVM Indicators
-  subtitle_evm_tab: Here you can see how your project is progressing relative to the plan seted
-  subtitle_evm_summary: Summary
-  subtitle_evm_forecast: Forecast
-
-  label_update_estimated_hours: Assume the spent time as planned hours in closed tasks
+  label_baseline: Baseline Name
+  label_baseline_edit: Edit Baseline
+  label_baseline_create: New Baseline
+  label_baseline_version: Baseline History
+  label_baseline_set: Baseline setting
+  label_baseline_start_date: Start Date
+  label_baseline_due_date: Due Sate
+  label_baseline_bac: BAC
+  label_created_date: Created on
+  label_current_baseline: Latest
+  label_old_baseline: old
+  label_latest_baseline: View EVM
   # Message
-  error_no_baseline: Please set a baseline before proceeding
-  error_no_issues: Please set a issue before proceeding
-
-  warning_log_time_with_no_issue: Actual cost is not accurate. There are log times with no issue associated.
-  warning_log_time_before_start_date: Actual cost is not accurate. There are log times before the project start date.
   # Main form
-  title_evm_tab: EVM Indicators
-  subtitle_evm_summary: EVM　Value
-  subtitle_evm_graph: EVM Charts
-  subtitle_evm_graph_main: Project
-  subtitle_evm_graph_performance: Performance
-  subtitle_evm_graph_version: Version
+  title_evm_tab: EVM
+  subtitle_evm_tab: Earned value management using the ticket of this project.
+  subtitle_evm_summary: Summary
+  subtitle_evm_graph_main: Charts
+  subtitle_evm_graph_performance: Performance Cahrts
+  subtitle_evm_graph_version: Version Charts
   # Option
-  label_option: Option
+  label_option: View Option
+  label_basis: Basis of calculation.　Default is baseline.
+  label_actual_basis: Calculation in the real value
+  label_graph: Chart
   label_forecast: Forecast
-  label_display_version: View version graph
-  label_display_performance: View performance graph
-  label_display_explanation: Display explanation of EVM value on sidebar
-  # Tooltip  
-  explanation_basis: Basic
+  label_display_version: Version
+  label_display_performance: Performasnce
+  label_calculate : ETC calculation method
+  label_calc_method1: Optimistic
+  label_calc_method2: Normal
+  label_calc_method3: Pessimistic
+  label_Display : Explanation
+  label_display_explanation: View explanation of EVM value to sidebar
+  # Explanation title
+  explanation_basis: Basis
   explanation_difference: Difference
   explanation_performance: Performance
   explanation_forecast: Forecast
-
-  explanation_bac: Budget At Completion (BAC) is the total budget allocated to the project.
-  explanation_pv: Planned Value (PV) is the total cost of the work scheduled/planned as of a reporting date.
-  explanation_ev: Earned Value (EV) is the total cost of the work completed/performed as of a reporting date.
-  explanation_ac: Actual Cost (AC) is the total cost taken to complete the work as of a reporting date.
-  explanation_sv: Schedule Variance indicates how much ahead or behind schedule the project is.
-  explanation_cv: Cost Variance (CV) indicates how much over or under budget the project is.
-  explanation_spi: Schedule Performance Indicator is an index showing the efficiency of the time utilized on the project. 
-  explanation_cpi: Cost Performance Indicator is an index showing the efficiency of the utilization of the resources on the project. 
-  explanation_cr: Critical Ratio.This indicator combines both CPI and SPI to represent the project status. This indicator takes into account cost and schedule trade-offs.
-  explanation_complete: Completed Planned
-  explanation_eac: Estimate At Completion (EAC) is the estimated cost of the project at the end of the project.(difference value)
-  explanation_etc: Estimate To Complete (ETC) is the estimated cost required to complete the remainder of the project.
-  explanation_vac: Variance At completion (VAC) is the variance on the total budget at the end of the project.
-  explanation_difference_end_date: Difference planed end date and Estimate To Complete date.
-  explanation_tcpi: The formula mentioned above gives the efficiency at which the project team should be utilized for the remainder of the project.
+  # Explanation
+  explanation_bac: Total budget allocated to the project.
+  explanation_pv: Total cost of the work scheduled/planned as of a reporting date.
+  explanation_ev: Total cost of the work completed/performed as of a reporting date.
+  explanation_ac: Total cost taken to complete the work as of a reporting date.
+  explanation_sv: Positive: Schedule Variance Indicates we are ahead of schedule. Negative: Schedule Variance Indicates we are behind of schedule.
+  explanation_cv: Positive: Cost Variance Indicates the project is under budget. Negative: Cost Variance Indicates the project is over budget.
+  explanation_spi: Above 1 indicates project team is very efficient in utilizing the time allocated to the project. Below 1 indicates project team is less efficient in utilizing the time allocated to the project.
+  explanation_cpi: Above 1 indicates efficiency in utilizing the resources allocated to the project is good. Below 1 indicates efficiency in utilizing the resources allocated to the project is not good.
+  explanation_cr: プロジェクトパフォーマンス(1以上であれば良好)
+  explanation_complete: The percentage of work which was planned to be completed by the Reporting Date.
+  explanation_eac: Estimate At Completion (EAC) is the estimated cost of the project at the end of the project.
+  explanation_etc: The estimated cost required to complete the remainder of the project. (BAC－EV) / CPI
+  explanation_vac: The variance on the total budget at the end of the project. BAC－EAC
+  explanation_difference_end_date: Difference of plan at the end of day and forecast end of day.
+  explanation_tcpi: Showing the efficiency at which the resources on the project should be utilized for the remainder of the project.
   # Indicator table header
-  indicator_table_header_date: DATE
-  indicator_table_header_today: Today's Value
+  indicator_table_header_date: Today
+  indicator_table_header_today: Basis value
   indicator_table_header_difference: Difference
-  indicator_table_header_performance: Performance
+  indicator_table_header_performance: Perfromance
   indicator_table_header_forecast: Forecast
   # Indicator table legend
-  explanation_upper_row: Upper row is hours value.
-  explanation_lower_row: Lower row is days value.(1day=8H)
-  field_baseline_estimated_hours: Baseline estimated time
+  explanation_upper_row: Upper row is hours.
+  explanation_lower_row: Lower row is days.

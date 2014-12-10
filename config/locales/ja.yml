@@ -1,7 +1,7 @@
 ﻿# japanease translation
 ja:
   # Setting Tab
-  label_baseline: ベースライン名
+  label_baseline: ベースライン
   label_baseline_edit: ベースラインの編集
   label_baseline_create: ベースラインの作成
   label_baseline_version: ベースライン履歴
@@ -13,9 +13,7 @@ ja:
   label_current_baseline: 最新
   label_old_baseline: 過去
   label_latest_baseline: 最新のベースラインで表示
-
   # Message
-
   # Main form
   title_evm_tab: EVM
   subtitle_evm_tab: このプロジェクトの進捗をEVMでみる事が出来ます
@@ -44,18 +42,18 @@ ja:
   explanation_forecast: 予測値
   # Explanation
   explanation_bac: 完成時総予算。プロジェクトのチケットの総見積もり工数
-  explanation_pv: チケットの見積もり工数。作業に対する予算
-  explanation_ev: 出来高。チケットが完了となった時に見積もり工数を計上
-  explanation_ac: 実コスト。作業時間の記録から集計
+  explanation_pv: 今日までのチケットの予定工数。
+  explanation_ev: 出来高。チケットが完了となった時に予定工数を計上
+  explanation_ac: 作業時間の記録から集計した作業時間。
   explanation_sv: スケジュール差異。予定していた工数と達成している工数の差(EV-PV)
   explanation_cv: コスト差異。予定していた作業時間と実績時間の差(EV-AC)
   explanation_spi: スケジュール効率指数(EV÷PV) 1以下の場合は遅れ
   explanation_cpi: コスト効率指数(EV÷AC) 1以下の場合はコスト超過
   explanation_cr: プロジェクトパフォーマンス(1以上であれば良好)
   explanation_complete: BACに対する完了率(EV/BAC)
-  explanation_eac: 完成時総コスト見積り(AC＋ETC)
+  explanation_eac: プロジェクト完了時の総コスト見積もり(AC＋ETC)
   explanation_etc: 残作業のコスト見積り((BAC－EV)÷CPI)
-  explanation_vac: 完了時コスト差異(BAC－EAC)
+  explanation_vac: プロジェクト完了時コのスト差異(BAC－EAC) マイナスはコスト超過
   explanation_difference_end_date: 完了予想日と計画完了日との差(日数)
   explanation_tcpi: 残作業効率指数((BAC-EV)/(BAC-AC))。残作業を達成するために、どれくらいの生産性が必要か？1以上は生産性を高める必要あり。
   # Indicator table header
@@ -67,4 +65,3 @@ ja:
   # Indicator table legend
   explanation_upper_row: 上段の値は時間
   explanation_lower_row: 下段の値は人日
-  field_baseline_estimated_hours: ベースラインの見積もり
