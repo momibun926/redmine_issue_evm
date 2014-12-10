@@ -104,14 +104,14 @@
 <div id="evm-charts-wrapper">
   <!-- Main Chart -->
   <div id='evm-graph-lines' class='evm-chart'>
-    <%= render :partial => '/evms/project_chart_js', :locals => { project_evm: @project_evm, project_name: @project.name } %>
+    <%= render :partial => '/evms/project_chart_js', :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: @project.name } %>
   </div>
   <!-- version Chart -->
   <% if @display_version %>
     <% unless @project.versions.nil? %>
       <% @project.versions.each do |version| %>
         <div id='evm-graph-lines-version-<%= version.id %>' class='evm-chart-<%= version.id %>'</div>
-        <%= render :partial => '/evms/version_chart_js', :locals => {version_evm: @version_evm[version.id], version: version } %> 
+        <%= render :partial => '/evms/version_chart_js', :locals => { basis_date: @basis_date, version_evm: @version_evm[version.id], version: version } %> 
       <% end %>
     <% end %>
   <% end %>

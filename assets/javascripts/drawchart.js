@@ -1,3 +1,8 @@
+Highcharts.setOptions({
+    global : {
+        useUTC : false
+    }
+});
 function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){ 
     var data = dataToChart;
     var chartOptions = {

@@ -1,5 +1,5 @@
 <script>
-  var actualWeek = <%= Time.now.to_date.to_time(:utc).to_i  * 1000 %>;
+  var actualWeek = <%= basis_date.to_time(:utc).to_i* 1000 %>;
   var graphTitleMain = <%= raw version.name.to_json %> ;
   var versionChartData = <%= raw version_evm.chart_data.to_json %>;
   var verisonChartHtmlElement = 'evm-graph-lines-version-' + <%= version.id%>;

@@ -40,7 +40,7 @@ module EvmLogic
 
     #CompleteEV
     def complete_ev hours
-      complete_ev = bac(hours) == 0 ? 0.0 : today_ev(hours) / bac(hours)
+      complete_ev = bac(hours) == 0 ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
       complete_ev.round(2)
     end
     
@@ -199,7 +199,7 @@ module EvmLogic
           issues.each do |issue|
             next unless issue.leaf?
             if issue.closed?
-                close_date = issue.closed_on.to_date
+                close_date = issue.closed_on.utc.to_date
                 temp_ev[close_date].nil? ? temp_ev[close_date] = issue.estimated_hours : temp_ev[close_date] += issue.estimated_hours.to_f
             else
               if issue.done_ratio > 0
@@ -238,7 +238,7 @@ module EvmLogic
       def sort_and_sum_evm_hash evm_hash 
         temp_hash = {}
         sum_value = 0.0
-        if evm_hash.nil? || evm_hash[@basis_date].nil? || @basis_date <= evm_hash.keys.max
+        if evm_hash.nil? || evm_hash[@basis_date].nil?
           evm_hash[@basis_date] = 0.0
         end        
         evm_hash.sort_by{|key,val| key}.each do |date , value|
@@ -267,10 +267,8 @@ module EvmLogic
         if today_spi(8) == 0.0
           finish_date = @pv.keys.max
         else
-          planed_end_date = @pv.keys.max
           rest_days =  @pv.reject{|key, value| key <= @basis_date }.size
-          forecastrest_days = rest_days - (rest_days * today_spi(8))
-          finish_date = planed_end_date + forecastrest_days.round
+          finish_date = @basis_date + (rest_days / today_spi(8)).round
         end
 
       end
