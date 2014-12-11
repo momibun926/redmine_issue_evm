@@ -22,4 +22,3 @@ Use git clone
 
     git clone git://github.com/momibun926/redmine_issue_evm {redmine_root}/plugins/redmine_issue_evm
 
-
