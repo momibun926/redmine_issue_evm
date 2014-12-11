@@ -10,7 +10,7 @@ class EvmsController < ApplicationController
   model_object Evmbaseline
 
   # filter
-  before_filter :find_project, :authorize
+  before_filter :find_project, :authorize, :only => :index
 
   def index
   	# Basis date of calculate
@@ -23,22 +23,21 @@ class EvmsController < ApplicationController
     @calcetc = params[:calcetc].nil? ? 'method2' : params[:calcetc]
     @display_explanation = params[:display_explanation]
     @display_version = params[:display_version]
+    @display_performance = params[:display_performance]
     #Project. all versions
     baselines = project_baseline @project, @baseline_id
     issues = project_issues @project
     actual_cost = project_costs @project
-    @project_evm = IssueEvm.new(baselines, issues, actual_cost, @basis_date, params[:forecast], params[:calcetc], params[:actual_basis], params[:display_performance])
+    @project_evm = IssueEvm.new(baselines, issues, actual_cost, @basis_date, @forecast, @calcetc, @actual_basis, @display_performance )
     #versions
     @version_evm = {}
     unless @project.versions.nil?
       @project.versions.each do |version|
         issues = version_issues @project, version.id
         actual_cost = version_costs @project, version.id
-        @version_evm[version.id] = IssueEvm.new(nil, issues, actual_cost, @basis_date, nil, nil, true, params[:display_performance])
+        @version_evm[version.id] = IssueEvm.new(nil, issues, actual_cost, @basis_date, nil, nil, true, nil)
       end
     end 
-    #future
-    @display_performance = params[:display_performance]
 
   end
 

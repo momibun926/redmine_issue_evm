@@ -294,8 +294,9 @@ module EvmLogic
         if today_spi(8) == 0.0
           finish_date = @pv.keys.max
         else
+          #(PVの最終日) - (残日数 - 残日数 / SPI)
           rest_days =  @pv.reject{|key, value| key <= @basis_date }.size
-          finish_date = @basis_date + (rest_days / today_spi(8)).round
+          finish_date = @pv.keys.max - (rest_days - (rest_days / today_spi(8).round ))
         end
 
       end

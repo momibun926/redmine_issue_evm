@@ -9,13 +9,11 @@ Redmine::Plugin.register :redmine_issue_evm do
   url 'https://github.com/momibun926/redmine_issue_evm'
   author_url 'https://github.com/momibun926'
   
-  project_module :issueevm do
-    permission :view_evms, :evms => [:index, :show]
-    permission :manage_evms, { :evmbaselines => [:edit, :destroy, :new, :create, :update, :index, :show]}    
+  project_module :Issuevm do
+    permission :view_evms, :evms => :index , :require => :member
+    permission :manage_evms, { :evmbaselines => [:edit, :destroy, :new, :create, :update, :index] } 
   end
 
-  menu :project_menu, :issueevm, { :controller => 'evms', :action => 'index'}, :caption => 'IssueEVM', :param => :project_id
+  menu :project_menu, :Issuevm, { :controller => :evms, :action => :index}, :caption => 'IssueEVM', :param => :project_id
 
 end
-
-
