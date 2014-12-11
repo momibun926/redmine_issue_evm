@@ -291,7 +291,7 @@ module EvmLogic
 
 
       def forecast_finish_date
-        if today_spi(8) == 0.00
+        if today_spi(8) == 0.0
           finish_date = @pv.keys.max
         else
           rest_days =  @pv.reject{|key, value| key <= @basis_date }.size
