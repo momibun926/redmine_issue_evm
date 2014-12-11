@@ -188,9 +188,9 @@ module EvmLogic
       @cpi = {}
       @cr = {}
 
-      new_ev = make_performance_date @ev
-      new_ac = make_performance_date @ac
-      new_pv = make_performance_date @pv
+      new_ev = complement_evm_hash @ev
+      new_ac = complement_evm_hash @ac
+      new_pv = complement_evm_hash @pv
 
       new_ev.each do |date , value|
         @spi[date] = (value / new_pv[date]).round(2) unless new_pv[date].nil? 
@@ -208,7 +208,7 @@ module EvmLogic
         unless issues.nil?
           issues.each do |issue|
             next unless issue.leaf?
-            hours_per_day = issue_hours_per_day(issue.estimated_hours ,issue.due_date, issue.start_date)
+            hours_per_day = issue_hours_per_day(issue)
             (issue.start_date..issue.due_date).each do |key|
               temp_pv[key].nil? ? temp_pv[key] = hours_per_day : temp_pv[key] += hours_per_day
             end
@@ -232,7 +232,7 @@ module EvmLogic
                 if @basis_date < issue.start_date
                   temp_ev[@basis_date] = (issue.estimated_hours * (issue.done_ratio / 100.0)).to_f
                 else
-                  hours_per_day = issue_hours_per_day(issue.estimated_hours ,issue.due_date, issue.start_date) * (issue.done_ratio / 100.0)
+                  hours_per_day = issue_hours_per_day(issue) * (issue.done_ratio / 100.0)
                   (issue.start_date..issue.due_date).each do |key|
                     temp_ev[key].nil? ? temp_ev[key] = hours_per_day : temp_ev[key] += hours_per_day
                   end 
@@ -275,8 +275,8 @@ module EvmLogic
       end
     
 
-      def issue_hours_per_day estimated_hours, due_date, start_date
-        (estimated_hours / ((due_date + 1) - start_date)).to_f
+      def issue_hours_per_day issue
+        (issue.estimated_hours / (issue.due_date - issue.start_date + 1) ).to_f
       end
 
 
@@ -301,17 +301,14 @@ module EvmLogic
       end
 
 
-      def make_performance_date evm_hash
-        temp = {}
-
+      def complement_evm_hash evm_hash
         before_date = evm_hash.keys.min
         before_value = evm_hash[evm_hash.keys.min]
 
+        temp = {}
         evm_hash.each do |date , value|
-
           dif_days = ( date - before_date -1 ).to_i
           dif_value = ( value - before_value ) / (date - before_date).to_i
-
           if dif_days > 0
             sum_value = 0.0
             for add_days in 1..dif_days do
@@ -320,16 +317,11 @@ module EvmLogic
               temp[tmpdate] = before_value + sum_value
             end
           end
-
           before_date = date
           before_value = value
-
           temp[date] = value
-
         end
-
         return temp
-
       end
 
   end
