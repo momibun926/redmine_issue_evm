@@ -13,11 +13,11 @@ class EvmsController < ApplicationController
   before_filter :find_project, :authorize, :only => :index
 
   def index
-  	# Basis date of calculate
-  	@basis_date = Time.now.utc.to_date
-  	@evmbaseline = Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
+    # Basis date of calculate
+    @basis_date = Time.now.utc.to_date
+    @evmbaseline = Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
     # option parameters
-  	@baseline_id = params[:evmbaseline_id].nil? ? nil : params[:evmbaseline_id]
+    @baseline_id = params[:evmbaseline_id].nil? ? nil : params[:evmbaseline_id]
     @actual_basis = params[:actual_basis]
     @forecast = params[:forecast]
     @calcetc = params[:calcetc].nil? ? 'method2' : params[:calcetc]
