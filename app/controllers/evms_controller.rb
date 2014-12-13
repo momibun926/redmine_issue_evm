@@ -6,10 +6,7 @@ class EvmsController < ApplicationController
   unloadable
 
   menu_item :issueevm
-
   model_object Evmbaseline
-
-  # filter
   before_filter :find_project, :authorize, :only => :index
 
   def index
@@ -30,15 +27,14 @@ class EvmsController < ApplicationController
     actual_cost = project_costs @project
     @project_evm = IssueEvm.new(baselines, issues, actual_cost, @basis_date, @forecast, @calcetc, @actual_basis, @display_performance )
     #versions
-    @version_evm = {}
     unless @project.versions.nil?
+      @version_evm = {}
       @project.versions.each do |version|
         issues = version_issues @project, version.id
         actual_cost = version_costs @project, version.id
         @version_evm[version.id] = IssueEvm.new(nil, issues, actual_cost, @basis_date, nil, nil, true, nil)
       end
     end 
-
   end
 
 private
