@@ -8,11 +8,12 @@ module EvmLogic
       @forecast = forecast
       @etc_method = etc_method
       @performance = performance
-      #PV-ACTUAL
+      #PV-ACTUAL for chart
       @pv_actual = calculate_planed_value issues
-      #PV-BASELINE
+      #PV-BASELINE for chart
       @pv_baseline = calculate_planed_value baselines
-      #PV
+      #To calculate the EVM value
+      #PV 
       @pv = calc_basis_actual ? @pv_actual : @pv_baseline
       #EV
       @ev = calculate_earned_value issues
@@ -144,7 +145,7 @@ module EvmLogic
 
     #TCPI = (BAC - EV) / (BAC - AC)
     def tcpi hours
-      tcpi = (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
+      tcpi = bac(hours) == 0.0 ? 0.0 : (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
       tcpi.round(2)
     end
     
@@ -193,6 +194,7 @@ module EvmLogic
 
     private
 
+
       def calculate_planed_value issues
         temp_pv = {}
         unless issues.nil?
@@ -216,7 +218,7 @@ module EvmLogic
             next unless issue.leaf?
             if issue.closed?
               close_date = issue.closed_on.utc.to_date
-              temp_ev[close_date].nil? ? temp_ev[close_date] = issue.estimated_hours : temp_ev[close_date] += issue.estimated_hours.to_f
+              temp_ev[close_date].nil? ? temp_ev[close_date] = issue.estimated_hours : temp_ev[close_date] += issue.estimated_hours
             elsif issue.done_ratio > 0
               estimated_hours = issue.estimated_hours * issue.done_ratio / 100.0
               start_date = [issue.start_date, @basis_date].min
@@ -261,7 +263,7 @@ module EvmLogic
     
 
       def issue_hours_per_day estimated_hours, start_date, end_date
-        (estimated_hours / (end_date - start_date + 1)).to_f
+        estimated_hours / (end_date - start_date + 1)
       end
 
 
