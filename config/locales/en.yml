@@ -14,6 +14,7 @@ en:
   label_old_baseline: old
   label_latest_baseline: View EVM
   # Message
+  messsage_delete_baseline: Are you sure?
   # Main form
   title_evm_tab: EVM
   subtitle_evm_tab: Earned value management using the ticket of this project.

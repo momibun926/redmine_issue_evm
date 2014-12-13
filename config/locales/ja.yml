@@ -14,6 +14,7 @@ ja:
   label_old_baseline: 過去
   label_latest_baseline: 最新のベースラインで表示
   # Message
+  messsage_delete_baseline: 本当に削除しますか？
   # Main form
   title_evm_tab: EVM
   subtitle_evm_tab: このプロジェクトの進捗をEVMでみる事が出来ます
