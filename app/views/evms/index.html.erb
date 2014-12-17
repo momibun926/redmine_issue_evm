@@ -103,7 +103,7 @@
 <!--Indicator value-->
 <h3><%= l(:subtitle_evm_summary)%></h3>
 <div id="evm-suummary-wrapper">
-  <%= render :partial => '/evms/measure' %>
+  <%= render :partial => '/evms/measure', :locals => { project_evm: @project_evm } %>
 </div>
 <!--Charts-->
 <h3><%= l(:subtitle_evm_graph_main) %></h3>

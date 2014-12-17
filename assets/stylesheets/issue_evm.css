@@ -1,6 +1,6 @@
 /*** evm charts ***/
 #evm-charts-wrapper
-{ 
+{
   margin: auto; 
 }
 div[class*="evm-chart"] 
@@ -9,7 +9,6 @@ div[class*="evm-chart"]
   height: 450px;
   padding: 5px; 
 }
-
 /*** Option ***/
 #evm-option-table
 {
@@ -24,7 +23,6 @@ div[class*="evm-chart"]
   width: 250px;
   text-align: left;
 }
-
 /*** summary evm indicator ***/
 #evm-suummary-wrapper
 { 
@@ -48,7 +46,14 @@ div[class*="evm-chart"]
 {
   background-color: #eee;
 }
-
+#indicator-red
+{
+  background-color: #FF0000;
+}
+#indicator-orange
+{
+  background-color: #FF8C00;
+}
 /*** sidebar ***/
 div[class*="evm-explanation"] 
 {

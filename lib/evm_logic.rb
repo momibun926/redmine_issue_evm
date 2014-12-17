@@ -15,10 +15,13 @@ module EvmLogic
       #To calculate the EVM value
       #PV 
       @pv = calc_basis_actual ? @pv_actual : @pv_baseline
+      @pv_value = @pv[@basis_date ]
       #EV
       @ev = calculate_earned_value issues
+      @ev_value = @ev[@basis_date ]
       #AC
       @ac = calculate_actual_cost costs
+      @ac_value = @ac[@basis_date ]
       #Project is finish?
       if @basis_date > @pv.keys.max && @pv[@pv.keys.max] != @ev[@ev.keys.max]
         @pv[@basis_date] = @pv[@pv.keys.max]
@@ -49,21 +52,21 @@ module EvmLogic
 
     #PV
     def today_pv hours
-      pv = @pv[@basis_date] / hours
+      pv = @pv_value / hours
       pv.round(2)
     end
 
 
     #EV
     def today_ev hours
-      ev = @ev[@basis_date] / hours
+      ev = @ev_value / hours
       ev.round(2)
     end
     
 
     #AC
     def today_ac hours
-      ac = @ac[@basis_date] / hours
+      ac = @ac_value / hours
       ac.round(2)
     end
 
