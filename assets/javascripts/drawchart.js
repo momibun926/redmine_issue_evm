@@ -1,8 +1,3 @@
-Highcharts.setOptions({
-    global : {
-        useUTC : false
-    }
-});
 function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){ 
     var data = dataToChart;
     var chartOptions = {
@@ -33,7 +28,7 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                     width: 2,
                     value: nowdate,
                     label: {
-                        text: 'Project is here',
+                        text: 'Basis date',
                         verticalAlign: 'bottom',
                         textAlign: 'right',
                         y: -10
@@ -123,6 +118,7 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                 }
             ]
       };
+      Highcharts.setOptions({global : {useUTC : true}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
 function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){ 
@@ -155,7 +151,7 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
                     width: 2,
                     value: nowdate,
                     label: {
-                        text: 'Project is here',
+                        text: 'Basis date',
                         verticalAlign: 'bottom',
                         textAlign: 'right',
                         y: -10
@@ -216,6 +212,7 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
                 }
             ]
       };
+      Highcharts.setOptions({global : {useUTC : true}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
 function drawPerformanceChart(dataToChart, placeholder, graphtitle){ 
@@ -306,6 +303,7 @@ function drawPerformanceChart(dataToChart, placeholder, graphtitle){
                 }
             ]
       };
+      Highcharts.setOptions({global : {useUTC : true}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
 
