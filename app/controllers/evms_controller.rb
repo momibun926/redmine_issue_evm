@@ -11,7 +11,8 @@ class EvmsController < ApplicationController
 
   def index
     # Basis date of calculate
-    @basis_date = Time.now.utc.to_date
+    @basis_date = params[:basis_date].nil? ? Time.now.to_date : params[:basis_date].to_date
+    # baseline combo
     @evmbaseline = Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
     # option parameters
     @baseline_id = params[:evmbaseline_id].nil? ? nil : params[:evmbaseline_id]

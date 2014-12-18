@@ -2,7 +2,6 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'issue_evm',               :plugin => 'redmine_issue_evm' %>
   <%= javascript_include_tag 'drawchart',            :plugin => 'redmine_issue_evm' %>
-  <%= javascript_include_tag 'jquery.1.9.1.min.js',  :plugin => 'redmine_issue_evm' %>
   <%= javascript_include_tag 'highcharts.js',        :plugin => 'redmine_issue_evm' %>
   <%= javascript_include_tag '../../../javascripts/select_list_move', :plugin => 'redmine_issue_evm' %>
 <% end %>
@@ -21,6 +20,9 @@
       <table id="evm-option-table">
         <tr>
           <th>
+            <%= l(:label_basis_date) %>
+          </th>
+          <th>
             <%= l(:label_baseline) %>
           </th>
           <th>
@@ -37,6 +39,12 @@
           </th>
         </tr>
         <tr>
+          <td>
+            <p>
+              <!-- Basis date -->
+              <%= text_field_tag('basis_date', @basis_date, :size => 10) %> <%= calendar_for('basis_date') %>
+            </p>
+          </td>
           <td>
             <p>
               <!-- basline -->

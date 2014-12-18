@@ -24,6 +24,7 @@ ja:
   subtitle_evm_graph_version: バージョン
   # Option
   label_option: 表示オプション
+  label_basis_date: 基準日
   label_basis: EVM値計算の基準
   label_actual_basis: 現実のチケットで計測
   label_graph: チャート表示
