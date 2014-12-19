@@ -10,19 +10,6 @@ div[class*="evm-chart"]
   padding: 5px; 
 }
 /*** Option ***/
-#evm-option-table
-{
-  width: auto;
-  border-collapse: collapse;
-}
-#evm-option-table tr,
-#evm-option-table th,
-#evm-option-table td
-{
-  padding: 5px;
-  width: 250px;
-  text-align: left;
-}
 /*** summary evm indicator ***/
 #evm-suummary-wrapper
 { 
