@@ -161,9 +161,9 @@ module EvmLogic
       chart_date['earned_value'] = convert_to_chart(@ev)
       chart_date['baseline_value'] = convert_to_chart(@pv_baseline)
       if @forecast
-        bac_top_line = {chrat_minimum_date => bac(1), chrat_maximum_date => bac(1)}
+        bac_top_line = {chart_minimum_date => bac(1), chart_maximum_date => bac(1)}
         chart_date['bac_top_line'] = convert_to_chart(bac_top_line)
-        eac_top_line = {chrat_minimum_date => eac(1), chrat_maximum_date => eac(1)}
+        eac_top_line = {chart_minimum_date => eac(1), chart_maximum_date => eac(1)}
         chart_date['eac_top_line'] = convert_to_chart(eac_top_line)
         actual_cost_forecast = {@basis_date => today_ac(1), forecast_finish_date => eac(1)}
         chart_date['actual_cost_forecast'] = convert_to_chart(actual_cost_forecast)
@@ -270,12 +270,12 @@ module EvmLogic
       end
 
 
-      def chrat_minimum_date
+      def chart_minimum_date
         [@pv.keys.min, @ev.keys.min, @ac.keys.min].min
       end
 
 
-      def chrat_maximum_date
+      def chart_maximum_date
         [@pv.keys.max, @ev.keys.max, @ac.keys.max, forecast_finish_date].max
       end
 
@@ -295,8 +295,7 @@ module EvmLogic
         before_value = evm_hash[evm_hash.keys.min]
         temp = {}
         evm_hash.each do |date , value|
-          dif_days = ( date - before_date -1 ).to_i
-          dif_value = ( value - before_value ) / (date - before_date).to_i
+          dif_value = ( value - before_value ) / dif_days
           if dif_days > 0
             sum_value = 0.0
             for add_days in 1..dif_days do
