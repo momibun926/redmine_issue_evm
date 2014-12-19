@@ -295,6 +295,7 @@ module EvmLogic
         before_value = evm_hash[evm_hash.keys.min]
         temp = {}
         evm_hash.each do |date , value|
+          dif_days = ( date - before_date -1 ).to_i
           dif_value = ( value - before_value ) / dif_days
           if dif_days > 0
             sum_value = 0.0
