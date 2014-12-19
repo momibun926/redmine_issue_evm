@@ -19,86 +19,28 @@
     <div style="display: none;">
       <table id="evm-option-table">
         <tr>
-          <th>
-            <%= l(:label_basis_date) %>
-          </th>
-          <th>
-            <%= l(:label_baseline) %>
-          </th>
-          <th>
-            <%= l(:label_basis) %>
-          </th>
-          <th>
-            <%= l(:label_graph) %>
-          </th>
-          <th>
-            <%= l(:label_calculate) %>
-          </th>
-          <th>
-            <%= l(:label_Display) %>
-          </th>
+          <th><%= l(:label_basis_date) %></th>
+          <th><%= l(:label_baseline) %></th>
+          <th><%= l(:label_basis) %></th>
+          <th><%= l(:label_graph) %></th>
+          <th><%= l(:label_calculate) %></th>
+          <th><%= l(:label_Display) %></th>
         </tr>
         <tr>
+          <td><%= text_field_tag('basis_date', @basis_date, :size => 10) %><%= calendar_for('basis_date') %>&nbsp;</td>
+          <td><%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id) %>&nbsp;</td>
+          <td><%= check_box_tag :actual_basis, 'true', @actual_basis  %><%= label_tag l(:label_actual_basis) %>&nbsp;</td>
           <td>
-            <p>
-              <!-- Basis date -->
-              <%= text_field_tag('basis_date', @basis_date, :size => 10) %> <%= calendar_for('basis_date') %>
-            </p>
+            <p><%= check_box_tag :forecast, 'true', @forecast  %><%= label_tag l(:label_forecast) %>&nbsp;</p>
+            <p><%= check_box_tag :display_version , 'true', @display_version %><%= label_tag l(:label_display_version) %>&nbsp;</p>
+            <P><%= check_box_tag :display_performance , 'true', @display_performance %><%= label_tag l(:label_display_performance) %>&nbsp;</P>
           </td>
           <td>
-            <p>
-              <!-- basline -->
-              <%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id) %>
-            </p>
+            <p><%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %><%= label_tag l(:label_calc_method1) %>&nbsp;</p>
+            <p><%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %><%= label_tag l(:label_calc_method2) %>&nbsp;</p>
+            <p><%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %><%= label_tag l(:label_calc_method3) %>&nbsp;</p>
           </td>
-          <td>
-            <p>
-              <!-- calculate basis -->
-              <%= check_box_tag :actual_basis, 'true', @actual_basis  %>
-              <%= label_tag l(:label_actual_basis) %>
-            </p>
-          </td>
-          <td>
-            <p>
-              <!-- Display forecast line -->
-              <%= check_box_tag :forecast, 'true', @forecast  %>
-              <%= label_tag l(:label_forecast) %>
-            </p>
-            <p>
-              <!-- Display Version Graph -->
-              <%= check_box_tag :display_version , 'true', @display_version %>
-              <%= label_tag l(:label_display_version) %>
-            </p>
-            <P>
-              <!-- Display performance Graph -->
-              <%= check_box_tag :display_performance , 'true', @display_performance %>
-              <%= label_tag l(:label_display_performance) %>
-            </P>
-          </td>
-          <td>
-            <p>
-              <!-- select calcurate ETC -->
-              <%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %>
-              <%= label_tag l(:label_calc_method1) %>
-            </p>
-            <p>
-              <!-- select calcurate ETC -->
-              <%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %>
-              <%= label_tag l(:label_calc_method2) %>
-            </p>
-            <p>
-              <!-- select calcurate ETC -->
-              <%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %>
-              <%= label_tag l(:label_calc_method3) %>
-            </p>
-          </td>
-          <td>
-            <p>
-              <!-- Display EVM value explanation -->
-              <%= check_box_tag :display_explanation , 'true', @display_explanation %>
-              <%= label_tag l(:label_display_explanation) %>
-            </p>
-          </td>
+          <td><%= check_box_tag :display_explanation , 'true', @display_explanation %><%= label_tag l(:label_display_explanation) %>&nbsp;</td>
         </tr>
       </table>
     </div>
