@@ -35,7 +35,7 @@ class EvmsController < ApplicationController
         actual_cost = version_costs @project, version.id
         @version_evm[version.id] = IssueEvm.new(nil, issues, actual_cost, @basis_date, nil, nil, true, nil)
       end
-    end 
+    end
   end
 
 private

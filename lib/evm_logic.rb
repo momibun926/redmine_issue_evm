@@ -12,21 +12,16 @@ module EvmLogic
       @pv_actual = calculate_planed_value issues
       #PV-BASELINE for chart
       @pv_baseline = calculate_planed_value baselines
-      #To calculate the EVM value
       #PV 
       @pv = calc_basis_actual ? @pv_actual : @pv_baseline
-      @pv_value = @pv[@basis_date ]
       #EV
       @ev = calculate_earned_value issues
-      @ev_value = @ev[@basis_date ]
       #AC
       @ac = calculate_actual_cost costs
-      @ac_value = @ac[@basis_date ]
-      #Project is finish?
-      if @basis_date > @pv.keys.max && @pv[@pv.keys.max] != @ev[@ev.keys.max]
-        @pv[@basis_date] = @pv[@pv.keys.max]
-        @ev[@basis_date] = @ev[@ev.keys.max]
-      end
+      #To calculate the EVM value
+      @pv_value = @pv[basis_date].nil? ? @pv[@pv.keys.max] : @pv[basis_date]
+      @ev_value = @ev[basis_date].nil? ? @ev[@ev.keys.max] : @ev[basis_date]
+      @ac_value = @ac[basis_date].nil? ? @ac[@ac.keys.max] : @ac[basis_date]
     end
 
 
@@ -208,8 +203,7 @@ module EvmLogic
               temp_pv[date].nil? ? temp_pv[date] = hours_per_day : temp_pv[date] += hours_per_day
             end
           end
-        end 
-        # Sort and sum value
+        end
         calculate_planed_value = sort_and_sum_evm_hash(temp_pv)
       end
 
@@ -233,7 +227,6 @@ module EvmLogic
             end
           end
         end
-        # Sort and sum value
         calculate_earned_value = sort_and_sum_evm_hash(temp_ev)
         calculate_earned_value.delete_if{|date, value| date > @basis_date }
       end
@@ -242,7 +235,6 @@ module EvmLogic
       def calculate_actual_cost costs
         temp_ac = {}
         temp_ac = Hash[costs]
-        # Sort and sum value
         calculate_actual_cost = sort_and_sum_evm_hash(temp_ac)
       end
 
@@ -256,7 +248,9 @@ module EvmLogic
       def sort_and_sum_evm_hash evm_hash 
         temp_hash = {}
         sum_value = 0.0
-        evm_hash[@basis_date] = 0.0 if evm_hash.nil? || evm_hash[@basis_date].nil?
+        unless evm_hash.nil?
+          evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil?
+        end
         evm_hash.sort_by{|key,val| key}.each do |date , value|
           sum_value += value
           temp_hash[date] = sum_value
