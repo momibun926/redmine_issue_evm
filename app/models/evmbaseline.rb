@@ -12,7 +12,7 @@ class Evmbaseline < ActiveRecord::Base
   end
 
   def bac
-    evmbaselineIssues.sum(:estimated_hours)
+    evmbaselineIssues.sum(:estimated_hours).round(2)
   end
 
 end
