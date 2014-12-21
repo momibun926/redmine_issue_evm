@@ -80,7 +80,7 @@
         <% @project.versions.each do |version| %>
           <div id='evm-graph-lines-version-<%= version.id %>' class='evm-chart-<%= version.id %>'</div>
           <%= render :partial => '/evms/version_chart_js',
-              :locals => { basis_date: @basis_date, version_evm: @version_evm[version.id], version: version, version_name: version_chart_name } %> 
+              :locals => { basis_date: @basis_date, version_evm: @version_evm[version.id], version: version, version_name: version_chart_name(version) } %> 
         <% end %>
       <% end %>
     <% end %>
