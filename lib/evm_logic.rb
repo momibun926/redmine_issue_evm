@@ -8,7 +8,7 @@ module EvmLogic
       @forecast = forecast
       @etc_method = etc_method
       @performance = performance
-      @project_finish_date = issues.maximum(:due_date)
+      @project_finish_date = issues.maximum(:due_date).nil? ? Time.now.to_date : issues.maximum(:due_date)
       #PV-ACTUAL for chart
       @pv_actual = calculate_planed_value issues
       #PV-BASELINE for chart
@@ -254,9 +254,7 @@ module EvmLogic
       def sort_and_sum_evm_hash evm_hash 
         temp_hash = {}
         sum_value = 0.0
-        unless evm_hash.nil?
-          evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil? && (@basis_date <= @project_finish_date)
-        end
+        evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil? || evm_hash.nil?
         evm_hash.sort_by{|key,val| key}.each do |date , value|
           sum_value += value
           temp_hash[date] = sum_value
