@@ -65,13 +65,13 @@
     <!-- Main Chart -->
     <div id='evm-graph-lines' class='evm-chart'>
       <%= render :partial => '/evms/project_chart_js',
-          :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: @project.name } %>
+          :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: project_chart_name } %>
     </div>
     <!-- Performance Chart -->
     <% if @display_performance %>
       <div id='evm-graph-lines-performance' class='evm-chart'>
         <%= render :partial => '/evms/performance_chart_js',
-            :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: @project.name } %>
+            :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: project_chart_name } %>
       </div>
     <% end %>
     <!-- version Chart -->
@@ -80,7 +80,7 @@
         <% @project.versions.each do |version| %>
           <div id='evm-graph-lines-version-<%= version.id %>' class='evm-chart-<%= version.id %>'</div>
           <%= render :partial => '/evms/version_chart_js',
-              :locals => { basis_date: @basis_date, version_evm: @version_evm[version.id], version: version } %> 
+              :locals => { basis_date: @basis_date, version_evm: @version_evm[version.id], version: version, version_name: version_chart_name } %> 
         <% end %>
       <% end %>
     <% end %>
