@@ -16,7 +16,7 @@ class EvmsController < ApplicationController
     @evmbaseline = Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
     # option parameters
     @baseline_id = params[:evmbaseline_id].nil? ? nil : params[:evmbaseline_id]
-    @actual_basis = params[:actual_basis]
+    @actual_basis = @evmbaseline.nil? ? 'ture' : params[:actual_basis]
     @forecast = params[:forecast]
     @calcetc = params[:calcetc].nil? ? 'method2' : params[:calcetc]
     @display_explanation = params[:display_explanation]
