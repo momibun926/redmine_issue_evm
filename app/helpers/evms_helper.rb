@@ -10,7 +10,7 @@ module EvmsHelper
       value = 'id="indicator-red"'
     end
     value.html_safe
-  end 
+  end
 
 
   def cpi_color
@@ -22,7 +22,7 @@ module EvmsHelper
       value = 'id="indicator-red"'
     end
     value.html_safe
-  end 
+  end
 
 
   def cr_color
@@ -36,6 +36,20 @@ module EvmsHelper
       end
     end
     value.html_safe
+  end
+
+
+  def project_chart_name
+    unless @baseline_id.nil?
+      @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
+    else
+      @project.name
+    end
+  end
+
+
+  def version_chart_name version
+    @project.name + ' - ' + version.name
   end 
 
 
