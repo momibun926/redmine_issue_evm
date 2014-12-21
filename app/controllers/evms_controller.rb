@@ -16,7 +16,7 @@ class EvmsController < ApplicationController
     @evmbaseline = Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
     # option parameters
     @baseline_id = params[:evmbaseline_id].nil? ? nil : params[:evmbaseline_id]
-    @actual_basis = @evmbaseline.nil? ? 'ture' : params[:actual_basis]
+    @actual_basis = @evmbaseline.blank? ? 'ture' : params[:actual_basis]
     @forecast = params[:forecast]
     @calcetc = params[:calcetc].nil? ? 'method2' : params[:calcetc]
     @display_explanation = params[:display_explanation]
@@ -31,11 +31,13 @@ class EvmsController < ApplicationController
     unless @project.versions.nil?
       @version_evm = {}
       @project.versions.each do |version|
-        issues = version_issues @project, version.id
-        actual_cost = version_costs @project, version.id
-        @version_evm[version.id] = IssueEvm.new(nil, issues, actual_cost, @basis_date, nil, nil, true, nil)
+        version_issues = version_issues @project, version.id
+        version_actual_cost = version_costs @project, version.id
+        @version_evm[version.id] = IssueEvm.new(nil, version_issues, version_actual_cost, @basis_date, nil, nil, true, nil)
       end
     end
+    @no_data = issues.blank?
+
   end
 
 private
