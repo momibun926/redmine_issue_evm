@@ -8,6 +8,7 @@ module EvmLogic
       @forecast = forecast
       @etc_method = etc_method
       @performance = performance
+      @project_finish_date = issues.maximum(:due_date)
       #PV-ACTUAL for chart
       @pv_actual = calculate_planed_value issues
       #PV-BASELINE for chart
@@ -150,6 +151,11 @@ module EvmLogic
 
     #Create chart data
     def chart_data
+      if @project_finish_date < @basis_date && complete_ev(8) < 100.0
+        @pv[@basis_date] = @pv[@pv.keys.max]
+        @ev[@basis_date] = @ev[@ev.keys.max]
+        @ac[@basis_date] = @ac[@ac.keys.max]
+      end
       chart_date = {}
       chart_date['planned_value'] = convert_to_chart(@pv_actual)
       chart_date['actual_cost'] = convert_to_chart(@ac)
@@ -249,7 +255,7 @@ module EvmLogic
         temp_hash = {}
         sum_value = 0.0
         unless evm_hash.nil?
-          evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil?
+          evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil? && (@basis_date <= @project_finish_date)
         end
         evm_hash.sort_by{|key,val| key}.each do |date , value|
           sum_value += value
@@ -275,11 +281,18 @@ module EvmLogic
 
 
       def forecast_finish_date
-        if today_spi(8) == 0.0
+        if complete_ev(8) == 100.00
+          finish_date = @ev.keys.max
+        elsif today_spi(8) == 0.0
           finish_date = @pv.keys.max
         else
-          rest_days =  @pv.reject{|key, value| key <= @basis_date }.size
-          finish_date = @pv.keys.max - (rest_days - (rest_days / today_spi(8)).round )
+          if @project_finish_date < @basis_date
+            rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / 8 / today_spi(8)
+            finish_date = @basis_date + rest_days
+          else
+            rest_days =  @pv.reject{|key, value| key <= @basis_date }.size
+            finish_date = @pv.keys.max - (rest_days - (rest_days / today_spi(8)) )
+          end
         end
       end
 
