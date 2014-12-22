@@ -33,7 +33,9 @@ class EvmsController < ApplicationController
       @project.versions.each do |version|
         version_issue = version_issues @project, version.id
         version_actual_cost = version_costs @project, version.id
-        @version_evm[version.id] = IssueEvm.new(nil, version_issue, version_actual_cost, @basis_date, nil, nil, true, nil)
+        unless version_issue.blank?
+          @version_evm[version.id] = IssueEvm.new(nil, version_issue, version_actual_cost, @basis_date, nil, nil, true, nil)
+        end
       end
     end
     @no_data = issues.blank?

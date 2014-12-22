@@ -8,7 +8,7 @@ module EvmLogic
       @forecast = forecast
       @etc_method = etc_method
       @performance = performance
-      @project_finish_date = issues.maximum(:due_date).nil? ? Time.now.to_date : issues.maximum(:due_date)
+      @issue_max_date = issues.maximum(:due_date)
       #PV-ACTUAL for chart
       @pv_actual = calculate_planed_value issues
       #PV-BASELINE for chart
@@ -19,6 +19,14 @@ module EvmLogic
       @ev = calculate_earned_value issues
       #AC
       @ac = calculate_actual_cost costs
+      # Project finished?
+      if @pv[@pv.keys.max] == @ev[@ev.keys.max]
+        @project_is_fibished = true
+        delete_basis_date = [@pv.keys.max, @ev.keys.max, @ac.keys.max].max
+        @pv.delete_if{|date, value| date > delete_basis_date }
+        @ev.delete_if{|date, value| date > delete_basis_date }
+        @ac.delete_if{|date, value| date > delete_basis_date }
+      end
       #To calculate the EVM value
       @pv_value = @pv[basis_date].nil? ? @pv[@pv.keys.max] : @pv[basis_date]
       @ev_value = @ev[basis_date].nil? ? @ev[@ev.keys.max] : @ev[basis_date]
@@ -151,8 +159,7 @@ module EvmLogic
 
     #Create chart data
     def chart_data
-      if @project_finish_date < @basis_date && complete_ev(8) < 100.0
-        @pv[@basis_date] = @pv[@pv.keys.max]
+      if @issue_max_date < @basis_date && complete_ev(8) < 100.0
         @ev[@basis_date] = @ev[@ev.keys.max]
         @ac[@basis_date] = @ac[@ac.keys.max]
       end
@@ -166,9 +173,17 @@ module EvmLogic
         chart_date['bac_top_line'] = convert_to_chart(bac_top_line)
         eac_top_line = {chart_minimum_date => eac(1), chart_maximum_date => eac(1)}
         chart_date['eac_top_line'] = convert_to_chart(eac_top_line)
-        actual_cost_forecast = {@basis_date => today_ac(1), forecast_finish_date => eac(1)}
+        if @project_is_fibished
+          actual_cost_forecast = {forecast_finish_date => eac(1)}
+        else
+          actual_cost_forecast = {@basis_date => today_ac(1), forecast_finish_date => eac(1)}
+        end
         chart_date['actual_cost_forecast'] = convert_to_chart(actual_cost_forecast)
-        earned_value_forecast = {@basis_date => today_ev(1), forecast_finish_date => @pv[@pv.keys.max]}
+        if @project_is_fibished
+          earned_value_forecast = {forecast_finish_date => @pv[@pv.keys.max]}
+        else
+          earned_value_forecast = {@basis_date => today_ev(1), forecast_finish_date => @pv[@pv.keys.max]}
+        end
         chart_date['earned_value_forecast'] = convert_to_chart(earned_value_forecast)
       end
       if @performance
@@ -188,9 +203,11 @@ module EvmLogic
       new_ev = complement_evm_value @ev
       new_ac = complement_evm_value @ac
       new_pv = complement_evm_value @pv
-      new_ev.each do |date , value|
-        @spi[date] = (value / new_pv[date]).round(2) unless new_pv[date].nil? 
-        @cpi[date] = (value / new_ac[date]).round(2) unless new_ac[date].nil? 
+      performance_min_date = [new_ev.keys.min, new_ev.keys.min, new_ev.keys.min].max
+      performance_max_date = [new_ev.keys.max, new_ev.keys.max, new_ev.keys.max].min
+      (performance_min_date..performance_max_date).each do |date|
+        @spi[date] = (new_ev[date] / new_pv[date]).round(2)
+        @cpi[date] = (new_ev[date] / new_ac[date]).round(2) 
         @cr[date] = (@spi[date] * @cpi[date]).round(2)
       end
     end
@@ -254,7 +271,11 @@ module EvmLogic
       def sort_and_sum_evm_hash evm_hash 
         temp_hash = {}
         sum_value = 0.0
-        evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil? || evm_hash.nil?
+        if evm_hash.blank?
+          evm_hash[@basis_date] = 0.0
+        elsif @basis_date <= @issue_max_date 
+          evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil?
+        end
         evm_hash.sort_by{|key,val| key}.each do |date , value|
           sum_value += value
           temp_hash[date] = sum_value
@@ -284,7 +305,7 @@ module EvmLogic
         elsif today_spi(8) == 0.0
           finish_date = @pv.keys.max
         else
-          if @project_finish_date < @basis_date
+          if @issue_max_date < @basis_date
             rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / 8 / today_spi(8)
             finish_date = @basis_date + rest_days
           else
