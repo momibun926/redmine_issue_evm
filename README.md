@@ -46,5 +46,5 @@ History
 ![evm sample screenshot](./doc/screenshot02.png "overview")
 
 New baseline
-![evm sample screenshot](./doc/screenshot02.png "overview")
+![evm sample screenshot](./doc/screenshot03.png "overview")
 
