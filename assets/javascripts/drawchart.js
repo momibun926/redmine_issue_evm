@@ -16,9 +16,9 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
             xAxis:{
                 type: 'datetime',
                 dateTimeLabelFormats:{
-                    day: '%b-%e',
-                    week: '%b-%e',
-                    month: '%b-%y',
+                    day: '%m-%d',
+                    week: '%Y-%m-%d',
+                    month: '%Y-%m-%d',
                     year: '%Y'
                 },
                 minTickInterval: 24 * 3600 * 1000,
