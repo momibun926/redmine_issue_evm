@@ -42,49 +42,49 @@ module EvmLogic
     #BAC
     def bac hours
       bac = @pv[@pv.keys.max] / hours
-      bac.round(2)
+      bac.round(1)
     end
 
 
     #CompleteEV
     def complete_ev hours
       complete_ev = bac(hours) == 0.0 ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
-      complete_ev.round(2)
+      complete_ev.round(1)
     end
     
 
     #PV
     def today_pv hours
       pv = @pv_value / hours
-      pv.round(2)
+      pv.round(1)
     end
 
 
     #EV
     def today_ev hours
       ev = @ev_value / hours
-      ev.round(2)
+      ev.round(1)
     end
     
 
     #AC
     def today_ac hours
       ac = @ac_value / hours
-      ac.round(2)
+      ac.round(1)
     end
 
 
     #SV
     def today_sv hours
       sv = today_ev(hours) - today_pv(hours)
-      sv.round(2)
+      sv.round(1)
     end
 
 
     #CV
     def today_cv hours
       cv = today_ev(hours) - today_ac(hours)
-      cv.round(2)
+      cv.round(1)
     end
 
 
@@ -126,21 +126,21 @@ module EvmLogic
         end
         etc = (bac(hours) - today_ev(hours)) / div_value
       end
-      etc.round(2)
+      etc.round(1)
     end
     
 
     #EAC
     def eac hours
       eac = today_ac(hours) + etc(hours)
-      eac.round(2)
+      eac.round(1)
     end
 
 
     #VAC
     def vac hours
       vac = bac(hours) - eac(hours)
-      vac.round(2)
+      vac.round(1)
     end
 
     #Delay
@@ -152,7 +152,7 @@ module EvmLogic
     #TCPI = (BAC - EV) / (BAC - AC)
     def tcpi hours
       tcpi = bac(hours) == 0.0 ? 0.0 : (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
-      tcpi.round(2)
+      tcpi.round(1)
     end
     
 
@@ -299,7 +299,7 @@ module EvmLogic
 
 
       def forecast_finish_date
-        if complete_ev(8) == 100.00
+        if complete_ev(8) == 100.0
           finish_date = @ev.keys.max
         elsif today_spi(8) == 0.0
           finish_date = @pv.keys.max
