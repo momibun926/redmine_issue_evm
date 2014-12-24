@@ -33,11 +33,11 @@ div[class*="evm-chart"]
 {
   background-color: #eee;
 }
-#indicator-red
+td.indicator-red
 {
   background-color: #FF0000;
 }
-#indicator-orange
+td.indicator-orange
 {
   background-color: #FF8C00;
 }

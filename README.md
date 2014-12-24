@@ -4,16 +4,9 @@ redmine_issue_evm
 Earned value management using the ticket of redmine.
 Calculating the EVM values using start-date, due-date, and estimated hours of the issue.
 
-* PV : Use the estimated-hours, start date, due date.
+* PV : Split each day the estimated-hours.
 * EV : Use the estimated-hours. Added to the closed date of issue.
-* AC : Use time entries.
-
-
-Version
-=================
-
-1.0
-
+* AC : Use timeentries.
 
 Installation
 =================
@@ -28,23 +21,4 @@ Use zip file
 Use git clone
 
     git clone git://github.com/momibun926/redmine_issue_evm {redmine_root}/plugins/redmine_issue_evm
-
-Screen shots
-=================
-
-Overview
-
-![evm sample screenshot](./doc/screenshot01.png "overview")
-
-Performance chart
-
-![evm sample screenshot](./doc/screenshot04.png "overview")
-
-Baseline setting
-
-History
-![evm sample screenshot](./doc/screenshot02.png "overview")
-
-New baseline
-![evm sample screenshot](./doc/screenshot03.png "overview")
 

@@ -25,8 +25,8 @@ en:
   # Option
   label_option: View Option
   label_basis_date: Basis date
-  label_basis: Basis of calculation. Default is baseline.
-  label_actual_basis: Calculation in the real value
+  label_basis: Use baseline
+  label_actual_basis: Not use
   label_graph: Chart
   label_forecast: Forecast
   label_display_version: Version
