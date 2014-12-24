@@ -59,8 +59,8 @@ en:
   explanation_difference_end_date: Difference of plan at the end of day and forecast end of day.
   explanation_tcpi: Showing the efficiency at which the resources on the project should be utilized for the remainder of the project.
   # Indicator table header
-  indicator_table_header_date: Today
-  indicator_table_header_today: Basis value
+  indicator_table_header_date: Basis date
+  indicator_table_header_today: Basis date value
   indicator_table_header_difference: Difference
   indicator_table_header_performance: Perfromance
   indicator_table_header_forecast: Forecast

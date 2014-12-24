@@ -60,7 +60,7 @@ ja:
   explanation_tcpi: 残作業効率指数((BAC-EV)/(BAC-AC))。残作業を達成するために、どれくらいの生産性が必要か？1以上は生産性を高める必要あり。
   # Indicator table header
   indicator_table_header_date: 日付
-  indicator_table_header_today: 今日時点の指標
+  indicator_table_header_today: 基準日の指標
   indicator_table_header_difference: 差異
   indicator_table_header_performance: 効率
   indicator_table_header_forecast: 予測
