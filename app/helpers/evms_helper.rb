@@ -40,8 +40,8 @@ module EvmsHelper
 
 
   def project_chart_name
-    unless @baseline_class.nil?
-      @project.name + ' - ' + @evmbaseline.find(@baseline_class).subject
+    unless @baseline_id.nil?
+      @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
     else
       @project.name
     end
