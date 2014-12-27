@@ -19,17 +19,19 @@ module EvmLogic
       #AC
       @ac = calculate_actual_cost costs
       # Project finished?
-      @project_is_fibished = @pv[@pv.keys.max] == @ev[@ev.keys.max]
-      if @project_is_fibished
+      @project_is_finished = @pv[@pv.keys.max] == @ev[@ev.keys.max]
+      if @project_is_finished
         delete_basis_date = [@pv.keys.max, @ev.keys.max, @ac.keys.max].max
         @pv.delete_if{|date, value| date > delete_basis_date }
         @ev.delete_if{|date, value| date > delete_basis_date }
         @ac.delete_if{|date, value| date > delete_basis_date }
+        #when project is finished, forecast is disable.
+        @forecast = false
       end
       #To calculate the EVM value
-      @pv_value = @pv[basis_date].nil? ? @pv[@pv.keys.max] : @pv[basis_date]
-      @ev_value = @ev[basis_date].nil? ? @ev[@ev.keys.max] : @ev[basis_date]
-      @ac_value = @ac[basis_date].nil? ? @ac[@ac.keys.max] : @ac[basis_date]
+      @pv_value = @pv[basis_date] || @pv[@pv.keys.max]
+      @ev_value = @ev[basis_date] || @ev[@ev.keys.max]
+      @ac_value = @ac[basis_date] || @ac[@ac.keys.max]
     end
 
 
@@ -172,17 +174,9 @@ module EvmLogic
         chart_data['bac_top_line'] = convert_to_chart(bac_top_line)
         eac_top_line = {chart_minimum_date => eac(1), chart_maximum_date => eac(1)}
         chart_data['eac_top_line'] = convert_to_chart(eac_top_line)
-        if @project_is_fibished
-          actual_cost_forecast = {forecast_finish_date => eac(1)}
-        else
-          actual_cost_forecast = {@basis_date => today_ac(1), forecast_finish_date => eac(1)}
-        end
+        actual_cost_forecast = {@basis_date => today_ac(1), forecast_finish_date => eac(1)}
         chart_data['actual_cost_forecast'] = convert_to_chart(actual_cost_forecast)
-        if @project_is_fibished
-          earned_value_forecast = {forecast_finish_date => @pv[@pv.keys.max]}
-        else
-          earned_value_forecast = {@basis_date => today_ev(1), forecast_finish_date => @pv[@pv.keys.max]}
-        end
+        earned_value_forecast = {@basis_date => today_ev(1), forecast_finish_date => @pv[@pv.keys.max]}
         chart_data['earned_value_forecast'] = convert_to_chart(earned_value_forecast)
       end
       chart_data

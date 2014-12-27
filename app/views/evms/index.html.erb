@@ -4,6 +4,11 @@
   <%= javascript_include_tag 'drawchart',            :plugin => 'redmine_issue_evm' %>
   <%= javascript_include_tag 'highcharts.js',        :plugin => 'redmine_issue_evm' %>
   <%= javascript_include_tag '../../../javascripts/select_list_move', :plugin => 'redmine_issue_evm' %>
+  <script>
+    function disableobject( object, ischecked ) {
+      document.getElementById(object).disabled = ischecked;
+    } 
+  </script>
 <% end %>
 
 <!-- Basline setting -->  
@@ -24,24 +29,30 @@
           <tr>
             <th><%= l(:label_basis_date) %></th>
             <th><%= l(:label_baseline) %></th>
-            <th><%= l(:label_basis) %></th>
             <th><%= l(:label_graph) %></th>
             <th><%= l(:label_calculate) %></th>
             <th><%= l(:label_Display) %></th>
           </tr>
           <tr>
             <td><%= text_field_tag('basis_date', @basis_date, :size => 10) %><%= calendar_for('basis_date') %>&nbsp;</td>
-            <td><%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id) %>&nbsp;</td>
-            <td><%= check_box_tag :actual_basis, 'true', @actual_basis  %><%= label_tag l(:label_actual_basis) %>&nbsp;</td>
+            <td><%= check_box_tag :actual_basis, 'true', @actual_basis ,
+                      :onclick => "disableobject('evmbaseline_id', this.checked);"%>
+                <%= label_tag l(:label_actual_basis) %>
+                <%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id), :disabled => @actual_basis %>&nbsp;</td>
             <td>
-              <p><%= check_box_tag :forecast, 'true', @forecast  %><%= label_tag l(:label_forecast) %>&nbsp;</p>
+              <p><%= check_box_tag :forecast, 'true', @forecast  %>
+                 <%= label_tag l(:label_forecast) %>&nbsp;</p>
               <p><%= check_box_tag :display_version , 'true', @display_version %><%= label_tag l(:label_display_version) %>&nbsp;</p>
-              <P><%= check_box_tag :display_performance , 'true', @display_performance %><%= label_tag l(:label_display_performance) %>&nbsp;</P>
+              <P><%= check_box_tag :display_performance , 'true', @display_performance %>
+                 <%= label_tag l(:label_display_performance) %>&nbsp;</P>
             </td>
             <td>
-              <p><%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %><%= label_tag l(:label_calc_method1) %>&nbsp;</p>
-              <p><%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %><%= label_tag l(:label_calc_method2) %>&nbsp;</p>
-              <p><%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %><%= label_tag l(:label_calc_method3) %>&nbsp;</p>
+              <p><%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %>
+                 <%= label_tag l(:label_calc_method1) %>&nbsp;</p>
+              <p><%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %>
+                 <%= label_tag l(:label_calc_method2) %>&nbsp;</p>
+              <p><%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %>
+                 <%= label_tag l(:label_calc_method3) %>&nbsp;</p>
             </td>
             <td><%= check_box_tag :display_explanation , 'true', @display_explanation %><%= label_tag l(:label_display_explanation) %>&nbsp;</td>
           </tr>
@@ -63,13 +74,13 @@
   <h3><%= l(:subtitle_evm_graph_main) %></h3>
   <div id="evm-charts-wrapper">
     <!-- Main Chart -->
-    <div id='evm-graph-lines' class='evm-chart'>
+    <div id="evm-graph-lines" class="evm-chart">
       <%= render :partial => '/evms/project_chart_js',
           :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: project_chart_name } %>
     </div>
     <!-- Performance Chart -->
     <% if @display_performance %>
-      <div id='evm-graph-lines-performance' class='evm-chart'>
+      <div id="evm-graph-lines-performance" class="evm-chart">
         <%= render :partial => '/evms/performance_chart_js',
             :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: project_chart_name } %>
       </div>
@@ -79,7 +90,7 @@
       <% unless @project.versions.nil? %>
         <% @project.versions.each do |version| %>
           <% unless @version_evm[version.id].nil? %>
-            <div id='evm-graph-lines-version-<%= version.id %>' class='evm-chart-<%= version.id %>'</div>
+            <div id="evm-graph-lines-version-<%= version.id %>" class="evm-chart-<%= version.id %>"</div>
             <%= render :partial => '/evms/version_chart_js',
               :locals => { basis_date: @basis_date, version_evm: @version_evm[version.id], version: version, version_name: version_chart_name(version) } %> 
           <% end %>
