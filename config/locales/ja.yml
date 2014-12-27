@@ -17,7 +17,6 @@ ja:
   messsage_delete_baseline: 本当に削除しますか？
   # Main form
   title_evm_tab: EVM
-  subtitle_evm_tab: このプロジェクトの進捗をEVMでみる事が出来ます
   subtitle_evm_summary: サマリー
   subtitle_evm_graph_main: チャート
   subtitle_evm_graph_performance: パフォーマンス
@@ -25,18 +24,18 @@ ja:
   # Option
   label_option: 表示オプション
   label_basis_date: 基準日
-  label_basis: EVM値計算の基準
-  label_actual_basis: 現実のチケットで計測
+  label_basis: ベースラインの使用
+  label_actual_basis: 使用しない
   label_graph: チャート表示
-  label_forecast: グラフに予測値を表示する
-  label_display_version: バージョンのグラフも表示する
-  label_display_performance: パフォーマンス指標のグラフも表示する
+  label_forecast: 予測値の表示
+  label_display_version: バージョンの表示
+  label_display_performance: パフォーマンス指標の表示
   label_calculate : ETCの計算方法
   label_calc_method1: 楽観的
   label_calc_method2: 通常
   label_calc_method3: 悲観的
-  label_Display : 説明の表示
-  label_display_explanation: EVM値の説明をサイドバーに表示する
+  label_Display : EVM値の説明
+  label_display_explanation: サイドバーに表示
   # Explanation title
   explanation_basis: 基本
   explanation_difference: 差異
@@ -59,7 +58,7 @@ ja:
   explanation_difference_end_date: 完了予想日と計画完了日との差(日数)
   explanation_tcpi: 残作業効率指数((BAC-EV)/(BAC-AC))。残作業を達成するために、どれくらいの生産性が必要か？1以上は生産性を高める必要あり。
   # Indicator table header
-  indicator_table_header_date: 日付
+  indicator_table_header_date: 基準日
   indicator_table_header_today: 基準日の指標
   indicator_table_header_difference: 差異
   indicator_table_header_performance: 効率
