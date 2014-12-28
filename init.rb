@@ -14,6 +14,6 @@ Redmine::Plugin.register :redmine_issue_evm do
     permission :manage_evms, { :evmbaselines => [:edit, :destroy, :new, :create, :update, :index] } 
   end
 
-  menu :project_menu, :Issuevm, { :controller => :evms, :action => :index}, :caption => 'IssueEVM', :param => :project_id
+  menu :project_menu, :issuevm, { :controller => :evms, :action => :index}, :caption => 'IssueEVM', :param => :project_id
 
 end

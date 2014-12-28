@@ -5,8 +5,8 @@ include EvmLogic, ProjectAndVersionValue
 class EvmsController < ApplicationController
   unloadable
 
-  menu_item :issueevm
-  before_filter :find_project, :authorize, :only => :index
+  menu_item :issuevm
+  before_filter :find_project, :authorize
 
   def index
     # Basis date of calculate
