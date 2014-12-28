@@ -10,6 +10,15 @@ div[class*="evm-chart"]
   padding: 5px; 
 }
 /*** Option ***/
+.option-col
+{
+  padding: 0px 5px 0px 15px;
+  float: left;
+}
+.option-col p
+{
+  font-weight: bold;
+}
 /*** summary evm indicator ***/
 #evm-suummary-wrapper
 { 

@@ -25,38 +25,32 @@
     <fieldset id="filters" class="collapsible collapsed">
       <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
       <div style="display: none;">
-        <table id="evm-option-table">
-          <tr>
-            <th><%= l(:label_basis_date) %></th>
-            <th><%= l(:label_baseline) %></th>
-            <th><%= l(:label_graph) %></th>
-            <th><%= l(:label_calculate) %></th>
-            <th><%= l(:label_Display) %></th>
-          </tr>
-          <tr>
-            <td><%= text_field_tag('basis_date', @basis_date, :size => 10) %><%= calendar_for('basis_date') %>&nbsp;</td>
-            <td><%= check_box_tag :actual_basis, 'true', @actual_basis ,
-                      :onclick => "disableobject('evmbaseline_id', this.checked);"%>
-                <%= label_tag l(:label_actual_basis) %>
-                <%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id), :disabled => @actual_basis %>&nbsp;</td>
-            <td>
-              <p><%= check_box_tag :forecast, 'true', @forecast  %>
-                 <%= label_tag l(:label_forecast) %>&nbsp;</p>
-              <p><%= check_box_tag :display_version , 'true', @display_version %><%= label_tag l(:label_display_version) %>&nbsp;</p>
-              <P><%= check_box_tag :display_performance , 'true', @display_performance %>
-                 <%= label_tag l(:label_display_performance) %>&nbsp;</P>
-            </td>
-            <td>
-              <p><%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %>
-                 <%= label_tag l(:label_calc_method1) %>&nbsp;</p>
-              <p><%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %>
-                 <%= label_tag l(:label_calc_method2) %>&nbsp;</p>
-              <p><%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %>
-                 <%= label_tag l(:label_calc_method3) %>&nbsp;</p>
-            </td>
-            <td><%= check_box_tag :display_explanation , 'true', @display_explanation %><%= label_tag l(:label_display_explanation) %>&nbsp;</td>
-          </tr>
-        </table>
+        <div class="option-col">
+          <p><%= l(:label_basis_date) %></p>
+          <%= text_field_tag('basis_date', @basis_date, :size => 10) %><%= calendar_for('basis_date') %>
+        </div>
+        <div class="option-col">
+          <p><%= l(:label_basis) %></p>
+          <%= check_box_tag :actual_basis,'true', @actual_basis, :onclick => "disableobject('evmbaseline_id', this.checked);"%>
+          <%= label_tag l(:label_actual_basis) %>
+          <%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id), :disabled => @actual_basis %>
+        </div>
+        <div class="option-col">
+          <p><%= l(:label_graph) %></p>
+          <%= check_box_tag :forecast,'true', @forecast %><%= label_tag l(:label_forecast) %></br>
+          <%= check_box_tag :display_version,'true', @display_version %><%= label_tag l(:label_display_version) %></br>
+          <%= check_box_tag :display_performance,'true', @display_performance %><%= label_tag l(:label_display_performance) %></br>
+        </div>
+        <div class="option-col">
+          <p><%= l(:label_calculate) %></p>
+          <%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %><%= label_tag l(:label_calc_method1) %></br>
+          <%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %><%= label_tag l(:label_calc_method2) %></br>
+          <%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %><%= label_tag l(:label_calc_method3) %></br>
+        </div>
+        <div class="option-col">
+          <p><%= l(:label_Display) %></p>
+          <%= check_box_tag :display_explanation, 'true', @display_explanation %><%= label_tag l(:label_display_explanation) %>
+        </div>
       </div>
     </fieldset>
     <p>

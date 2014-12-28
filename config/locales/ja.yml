@@ -22,7 +22,6 @@ ja:
   subtitle_evm_graph_performance: パフォーマンス
   subtitle_evm_graph_version: バージョン
   # Option
-  label_option: 表示オプション
   label_basis_date: 基準日
   label_basis: ベースラインの使用
   label_actual_basis: 使用しない
