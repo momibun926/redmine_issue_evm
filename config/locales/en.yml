@@ -22,7 +22,6 @@ en:
   subtitle_evm_graph_performance: Performance Cahrts
   subtitle_evm_graph_version: Version Charts
   # Option
-  label_option: View Option
   label_basis_date: Basis date
   label_basis: Use baseline
   label_actual_basis: Not use
