@@ -6,7 +6,6 @@ class EvmsController < ApplicationController
   unloadable
 
   menu_item :issueevm
-  model_object Evmbaseline
   before_filter :find_project, :authorize, :only => :index
 
   def index
