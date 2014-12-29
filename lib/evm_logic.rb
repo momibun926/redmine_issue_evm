@@ -42,77 +42,77 @@ module EvmLogic
 
 
     #BAC
-    def bac hours
+    def bac hours = 1
       bac = @pv[@pv.keys.max] / hours
       bac.round(1)
     end
 
 
     #CompleteEV
-    def complete_ev hours
+    def complete_ev hours = 1
       complete_ev = bac(hours) == 0.0 ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
       complete_ev.round(1)
     end
     
 
     #PV
-    def today_pv hours
+    def today_pv hours = 1
       pv = @pv_value / hours
       pv.round(1)
     end
 
 
     #EV
-    def today_ev hours
+    def today_ev hours = 1
       ev = @ev_value / hours
       ev.round(1)
     end
     
 
     #AC
-    def today_ac hours
+    def today_ac hours = 1
       ac = @ac_value / hours
       ac.round(1)
     end
 
 
     #SV
-    def today_sv hours
+    def today_sv hours = 1
       sv = today_ev(hours) - today_pv(hours)
       sv.round(1)
     end
 
 
     #CV
-    def today_cv hours
+    def today_cv hours = 1
       cv = today_ev(hours) - today_ac(hours)
       cv.round(1)
     end
 
 
     #SPI
-    def today_spi hours
+    def today_spi hours = 1
       spi = today_ev(hours) == 0.0 || today_pv(hours) == 0.0 ? 0.0 : today_ev(hours) / today_pv(hours)
       spi.round(2)
     end
 
 
     #CPI
-    def today_cpi hours
+    def today_cpi hours = 1
       cpi = today_ev(hours) == 0.0 || today_ac(hours) == 0.0 ? 0.0 : today_ev(hours) / today_ac(hours)
       cpi.round(2)
     end
 
 
     #CR
-    def today_cr hours
+    def today_cr hours = 1
       cr = today_spi(hours) * today_cpi(hours)
       cr.round(2)
     end
 
 
     #ETC
-    def etc hours
+    def etc hours = 1
       if today_cpi(hours) == 0.0 || today_cr(hours) == 0.0
         etc = 0.0  
       else
@@ -133,14 +133,14 @@ module EvmLogic
     
 
     #EAC
-    def eac hours
+    def eac hours = 1
       eac = today_ac(hours) + etc(hours)
       eac.round(1)
     end
 
 
     #VAC
-    def vac hours
+    def vac hours = 1
       vac = bac(hours) - eac(hours)
       vac.round(1)
     end
@@ -152,7 +152,7 @@ module EvmLogic
 
 
     #TCPI = (BAC - EV) / (BAC - AC)
-    def tcpi hours
+    def tcpi hours = 1
       tcpi = bac(hours) == 0.0 ? 0.0 : (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
       tcpi.round(1)
     end
@@ -170,13 +170,13 @@ module EvmLogic
       chart_data['earned_value'] = convert_to_chart(@ev)
       chart_data['baseline_value'] = convert_to_chart(@pv_baseline)
       if @forecast
-        bac_top_line = {chart_minimum_date => bac(1), chart_maximum_date => bac(1)}
+        bac_top_line = {chart_minimum_date => bac, chart_maximum_date => bac}
         chart_data['bac_top_line'] = convert_to_chart(bac_top_line)
-        eac_top_line = {chart_minimum_date => eac(1), chart_maximum_date => eac(1)}
+        eac_top_line = {chart_minimum_date => eac, chart_maximum_date => eac}
         chart_data['eac_top_line'] = convert_to_chart(eac_top_line)
-        actual_cost_forecast = {@basis_date => today_ac(1), forecast_finish_date => eac(1)}
+        actual_cost_forecast = {@basis_date => today_ac, forecast_finish_date => eac}
         chart_data['actual_cost_forecast'] = convert_to_chart(actual_cost_forecast)
-        earned_value_forecast = {@basis_date => today_ev(1), forecast_finish_date => @pv[@pv.keys.max]}
+        earned_value_forecast = {@basis_date => today_ev, forecast_finish_date => bac}
         chart_data['earned_value_forecast'] = convert_to_chart(earned_value_forecast)
       end
       chart_data
