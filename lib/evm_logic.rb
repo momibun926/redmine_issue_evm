@@ -19,12 +19,13 @@ module EvmLogic
       #AC
       @ac = calculate_actual_cost costs
       # Project finished?
-      @project_is_finished = @pv[@pv.keys.max] == @ev[@ev.keys.max]
-      if @project_is_finished
+      if @pv[@pv.keys.max] == @ev[@ev.keys.max]
         delete_basis_date = [@pv.keys.max, @ev.keys.max, @ac.keys.max].max
         @pv.delete_if{|date, value| date > delete_basis_date }
         @ev.delete_if{|date, value| date > delete_basis_date }
         @ac.delete_if{|date, value| date > delete_basis_date }
+        @pv_actual.delete_if{|date, value| date > delete_basis_date }
+        @pv_baseline.delete_if{|date, value| date > delete_basis_date }
         #when project is finished, forecast is disable.
         @forecast = false
       end
