@@ -10,7 +10,7 @@ class EvmbaselinesController < ApplicationController
 
 
   def index
-    @evm_baselines = Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
+    @evm_baselines = Evmbaseline.where("project_id = ? ", @project.id).order("created_on DESC")
   end
 
 

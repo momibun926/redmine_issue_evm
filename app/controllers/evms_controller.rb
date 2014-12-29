@@ -75,7 +75,7 @@ private
 
 
   def find_evmbaselines
-    Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
+    Evmbaseline.where("project_id = ? ", @project.id).order("created_on DESC")
   end
 
 
