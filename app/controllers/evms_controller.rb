@@ -1,4 +1,3 @@
-
 include EvmLogic, ProjectAndVersionValue
 
 
@@ -15,7 +14,7 @@ class EvmsController < ApplicationController
     @evmbaseline = find_evmbaselines
     # option parameters
     @baseline_id = default_baseline_id
-    @actual_basis = default_actual_basis
+    @no_use_baseline = default_no_use_baseline
     @calcetc = default_calcetc
     @forecast = params[:forecast]
     @display_explanation = params[:display_explanation]
@@ -25,7 +24,7 @@ class EvmsController < ApplicationController
     baselines = project_baseline @project, @baseline_id
     issues = project_issues @project
     actual_cost = project_costs @project
-    @project_evm = IssueEvm.new( baselines, issues, actual_cost, @basis_date, @forecast, @calcetc, @actual_basis )
+    @project_evm = IssueEvm.new( baselines, issues, actual_cost, @basis_date, @forecast, @calcetc, @no_use_baseline )
     #versions
     unless @project.versions.nil?
       @version_evm = {}
@@ -58,8 +57,8 @@ private
   end
 
 
-  def default_actual_basis
-    @evmbaseline.blank? ? 'ture' : params[:actual_basis]
+  def default_no_use_baseline
+    @evmbaseline.blank? ? 'ture' : params[:no_use_baseline]
   end
 
 

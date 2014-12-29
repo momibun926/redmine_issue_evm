@@ -1,8 +1,13 @@
+include ProjectAndVersionValue
+
+
 class EvmbaselinesController < ApplicationController
   unloadable
 
+
   menu_item :issueevm
   before_filter :find_project, :authorize
+
 
   def index
     @evm_baselines = Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
@@ -35,7 +40,7 @@ class EvmbaselinesController < ApplicationController
     evm_baselines = Evmbaseline.new(params[:evmbaseline])
     evm_baselines.project_id = @project.id
     evm_baselines.state = l(:label_current_baseline)
-    issues = @project.issues.where( "start_date IS NOT NULL AND due_date IS NOT NULL")
+    issues = project_issues @project
     issues.each do |issue|
       next unless issue.leaf?
       baseline_issues = EvmbaselineIssue.new(issue_id: issue.id, start_date: issue.start_date, due_date: issue.due_date, estimated_hours: issue.estimated_hours, leaf: issue.leaf?)

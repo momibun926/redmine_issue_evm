@@ -31,9 +31,9 @@
         </div>
         <div class="option-col">
           <p><%= l(:label_basis) %></p>
-          <%= check_box_tag :actual_basis,'true', @actual_basis, :onclick => "disableobject('evmbaseline_id', this.checked);"%>
-          <%= label_tag l(:label_actual_basis) %>
-          <%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id), :disabled => @actual_basis %>
+          <%= check_box_tag :no_use_baseline,'true', @no_use_baseline, :onclick => "disableobject('evmbaseline_id', this.checked);"%>
+          <%= label_tag l(:label_no_use_baseline) %>
+          <%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id), :disabled => @no_use_baseline %>
         </div>
         <div class="option-col">
           <p><%= l(:label_graph) %></p>

@@ -2,7 +2,7 @@ module EvmLogic
 
   class IssueEvm
 
-    def initialize baselines, issues, costs, basis_date, forecast, etc_method, calc_basis_actual
+    def initialize baselines, issues, costs, basis_date, forecast, etc_method, no_use_baseline
       @basis_date = basis_date
       #option
       @forecast = forecast
@@ -13,7 +13,7 @@ module EvmLogic
       #PV-BASELINE for chart
       @pv_baseline = calculate_planed_value baselines
       #PV 
-      @pv = calc_basis_actual ? @pv_actual : @pv_baseline
+      @pv = no_use_baseline ? @pv_actual : @pv_baseline
       #EV
       @ev = calculate_earned_value issues
       #AC
@@ -145,6 +145,7 @@ module EvmLogic
       vac = bac(hours) - eac(hours)
       vac.round(1)
     end
+
 
     #Delay
     def delay

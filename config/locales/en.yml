@@ -6,6 +6,7 @@ en:
   label_baseline_create: New Baseline
   label_baseline_version: Baseline History
   label_baseline_set: Baseline setting
+  label_include_sub_project: Include sub project
   label_baseline_start_date: Start Date
   label_baseline_due_date: Due Sate
   label_baseline_bac: BAC
@@ -24,7 +25,7 @@ en:
   # Option
   label_basis_date: Basis date
   label_basis: Use baseline
-  label_actual_basis: Not use
+  label_no_use_baseline: Not use
   label_graph: Chart
   label_forecast: Forecast
   label_display_version: Version

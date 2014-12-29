@@ -7,7 +7,7 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
             chart:{
                 renderTo: placeholder,
                 type: 'line',
-                zoomType: 'x'
+                zoomType: 'xy'
             },
             title:{
                 text: graphtitle,
@@ -130,7 +130,7 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
             chart:{
                 renderTo: placeholder,
                 type: 'line',
-                zoomType: 'x'
+                zoomType: 'xy'
             },
             title:{
                 text: graphtitle,
@@ -224,7 +224,7 @@ function drawPerformanceChart(dataToChart, placeholder, graphtitle){
             chart:{
                 renderTo: placeholder,
                 type: 'line',
-                zoomType: 'x'
+                zoomType: 'xy'
             },
             title:{
                 text: graphtitle,

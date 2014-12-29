@@ -6,6 +6,7 @@ ja:
   label_baseline_create: ベースラインの作成
   label_baseline_version: ベースライン履歴
   label_baseline_set: ベースラインを設定
+  label_include_sub_project: サブプロジェクトを含む
   label_baseline_start_date: 開始日
   label_baseline_due_date: 終了日
   label_baseline_bac: BAC
@@ -24,7 +25,7 @@ ja:
   # Option
   label_basis_date: 基準日
   label_basis: ベースラインの使用
-  label_actual_basis: 使用しない
+  label_no_use_baseline: 使用しない
   label_graph: チャート表示
   label_forecast: 予測値の表示
   label_display_version: バージョンの表示
