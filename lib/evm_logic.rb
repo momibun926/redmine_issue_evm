@@ -190,8 +190,8 @@ module EvmLogic
       new_ev = complement_evm_value @ev
       new_ac = complement_evm_value @ac
       new_pv = complement_evm_value @pv
-      performance_min_date = [new_ev.keys.min, new_ev.keys.min, new_ev.keys.min].max
-      performance_max_date = [new_ev.keys.max, new_ev.keys.max, new_ev.keys.max].min
+      performance_min_date = [new_ev.keys.min, new_ac.keys.min, new_pv.keys.min].max
+      performance_max_date = [new_ev.keys.max, new_ac.keys.max, new_pv.keys.max].min
       spi = {}
       cpi = {}
       cr = {}
@@ -316,7 +316,7 @@ module EvmLogic
         before_value = evm_hash[evm_hash.keys.min]
         temp = {}
         evm_hash.each do |date , value|
-          dif_days = ( date - before_date -1 ).to_i
+          dif_days = ( date - before_date - 1 ).to_i
           dif_value = ( value - before_value ) / dif_days
           if dif_days > 0
             sum_value = 0.0
