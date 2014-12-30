@@ -22,8 +22,14 @@ class EvmsController < ApplicationController
     @display_performance = params[:display_performance]
     #Project. all versions
     baselines = project_baseline @project, @baseline_id
-    issues = project_issues @project
-    actual_cost = project_costs @project
+    @include_sub_projets = params[:include_sub_projets]
+    if @include_sub_projets
+      issues = include_sub_project_issues @project
+      actual_cost = include_sub_project_costs @project
+    else
+      issues = project_issues @project
+      actual_cost = project_costs @project
+    end
     @project_evm = IssueEvm.new( baselines, issues, actual_cost, @basis_date, @forecast, @calcetc, @no_use_baseline )
     #versions
     unless @project.versions.nil?

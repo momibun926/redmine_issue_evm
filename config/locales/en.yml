@@ -6,6 +6,7 @@ en:
   label_baseline_create: New Baseline
   label_baseline_version: Baseline History
   label_baseline_set: Baseline setting
+  label_sub_project: Sub project
   label_include_sub_project: Include sub project
   label_baseline_start_date: Start Date
   label_baseline_due_date: Due Sate
@@ -14,6 +15,8 @@ en:
   label_current_baseline: Latest
   label_old_baseline: old
   label_latest_baseline: View EVM
+  label_sub_include: Include
+  label_sub_exclude: Exclude
   # Message
   messsage_delete_baseline: Are you sure?
   # Main form

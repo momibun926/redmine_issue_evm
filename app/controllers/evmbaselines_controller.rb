@@ -40,11 +40,21 @@ class EvmbaselinesController < ApplicationController
     evm_baselines = Evmbaseline.new(params[:evmbaseline])
     evm_baselines.project_id = @project.id
     evm_baselines.state = l(:label_current_baseline)
-    issues = project_issues @project
+    #issues
+    if params[:include_sub_projets]
+      issues = include_sub_project_issues @project
+    else
+      issues = project_issues @project
+    end
     issues.each do |issue|
       next unless issue.leaf?
       baseline_issues = EvmbaselineIssue.new(issue_id: issue.id, start_date: issue.start_date, due_date: issue.due_date, estimated_hours: issue.estimated_hours, leaf: issue.leaf?)
       evm_baselines.evmbaselineIssues << baseline_issues
+    end
+    #subprojects
+    @project.children.each do |sub|
+      baseline_sub_project = EvmbaselineSubProject.new(sub_project_id: sub.id)
+      evm_baselines.evmbaselineSubProjects << baseline_sub_project
     end
     Evmbaseline.where(project_id: @project.id).update_all(state: l(:label_old_baseline))
     if evm_baselines.save
