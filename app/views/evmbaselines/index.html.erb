@@ -26,10 +26,10 @@
             <td class="due_date"><%= baseline.maximum_due_date %></td>
             <td class="bac"><%= baseline.bac %></td>
             <td class="status"><%= baseline.state %></td>
-            <td class="created_on"><%= baseline.created_on %></td>
+            <td class="created_on"><%= baseline.created_on.localtime.strftime("%Y-%m-%d %H:%M:%S") %></td>
             <td class="buttons">
               <%= link_to l(:button_edit), {controller: :evmbaselines, action: 'edit', id: baseline.id}, :class => 'icon icon-edit' %>
-              <%= link_to l(:button_delete), {controller: :evmbaselines, action: 'destroy', id: baseline.id} , :method => :delete , :class => 'icon icon-del' %>
+              <%= link_to l(:button_delete), {controller: :evmbaselines, action: 'destroy', id: baseline.id} , :method => :delete , :class => 'icon icon-del', confirm: l(:messsage_delete_baseline) %>
             </td>
           </tr>
       　　<% end; reset_cycle %>

@@ -5,7 +5,7 @@ class CreateEvmbaselineIssues < ActiveRecord::Migration
       t.integer :issue_id
       t.date :start_date
       t.date :due_date
-      t.integer :estimated_hours
+      t.float :estimated_hours
       t.boolean :leaf
     end
   end

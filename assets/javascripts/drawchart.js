@@ -1,8 +1,3 @@
-Highcharts.setOptions({
-    global : {
-        useUTC : false
-    }
-});
 function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){ 
     var data = dataToChart;
     var chartOptions = {
@@ -12,7 +7,7 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
             chart:{
                 renderTo: placeholder,
                 type: 'line',
-                zoomType: 'x'
+                zoomType: 'xy'
             },
             title:{
                 text: graphtitle,
@@ -21,9 +16,9 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
             xAxis:{
                 type: 'datetime',
                 dateTimeLabelFormats:{
-                    day: '%b-%e',
-                    week: '%b-%e',
-                    month: '%b-%y',
+                    day: '%m-%d',
+                    week: '%Y-%m-%d',
+                    month: '%Y-%m-%d',
                     year: '%Y'
                 },
                 minTickInterval: 24 * 3600 * 1000,
@@ -33,7 +28,7 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                     width: 2,
                     value: nowdate,
                     label: {
-                        text: 'Project is here',
+                        text: 'Basis date',
                         verticalAlign: 'bottom',
                         textAlign: 'right',
                         y: -10
@@ -78,12 +73,12 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
             },
             series:[
                 {
-                    name: 'PV-ACTUAL',
+                    name: 'PV Actual',
                     color: '#0f75bc',
                     data: data.planned_value
                 },
                 {
-                    name: 'PV-BASELINE',
+                    name: 'PV Baseline',
                     color: '#000033',
                     data: data.baseline_value
                 },
@@ -123,6 +118,7 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                 }
             ]
       };
+      Highcharts.setOptions({global : {useUTC : true}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
 function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){ 
@@ -134,7 +130,7 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
             chart:{
                 renderTo: placeholder,
                 type: 'line',
-                zoomType: 'x'
+                zoomType: 'xy'
             },
             title:{
                 text: graphtitle,
@@ -143,9 +139,9 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
             xAxis:{
                 type: 'datetime',
                 dateTimeLabelFormats:{
-                    day: '%b-%e',
-                    week: '%b-%e',
-                    month: '%b-%y',
+                    day: '%m-%d',
+                    week: '%Y-%m-%d',
+                    month: '%Y-%m-%d',
                     year: '%Y'
                 },
                 minTickInterval: 24 * 3600 * 1000,
@@ -155,7 +151,7 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
                     width: 2,
                     value: nowdate,
                     label: {
-                        text: 'Project is here',
+                        text: 'Basis date',
                         verticalAlign: 'bottom',
                         textAlign: 'right',
                         y: -10
@@ -216,9 +212,10 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
                 }
             ]
       };
+      Highcharts.setOptions({global : {useUTC : true}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
-function drawChartPerformance(dataToChart, placeholder, graphtitle){ 
+function drawPerformanceChart(dataToChart, placeholder, graphtitle){ 
     var data = dataToChart;
     var chartOptions = {
             credits:{
@@ -227,7 +224,7 @@ function drawChartPerformance(dataToChart, placeholder, graphtitle){
             chart:{
                 renderTo: placeholder,
                 type: 'line',
-                zoomType: 'x'
+                zoomType: 'xy'
             },
             title:{
                 text: graphtitle,
@@ -236,9 +233,9 @@ function drawChartPerformance(dataToChart, placeholder, graphtitle){
             xAxis:{
                 type: 'datetime',
                 dateTimeLabelFormats:{
-                    day: '%b-%e',
-                    week: '%b-%e',
-                    month: '%b-%y',
+                    day: '%m-%d',
+                    week: '%Y-%m-%d',
+                    month: '%Y-%m-%d',
                     year: '%Y'
                 },
                 minTickInterval: 24 * 3600 * 1000,
@@ -306,6 +303,7 @@ function drawChartPerformance(dataToChart, placeholder, graphtitle){
                 }
             ]
       };
+      Highcharts.setOptions({global : {useUTC : true}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
 

@@ -1,30 +1,24 @@
 /*** evm charts ***/
 #evm-charts-wrapper
-{ 
+{
   margin: auto; 
 }
 div[class*="evm-chart"] 
 { 
   margin: auto;
-  height: 450px;
+  height: 550px;
   padding: 5px; 
 }
-
 /*** Option ***/
-#evm-option-table
+.option-col
 {
-  width: auto;
-  border-collapse: collapse;
+  padding: 0px 5px 0px 15px;
+  float: left;
 }
-#evm-option-table tr,
-#evm-option-table th,
-#evm-option-table td
+.option-col p
 {
-  padding: 5px;
-  width: 250px;
-  text-align: left;
+  font-weight: bold;
 }
-
 /*** summary evm indicator ***/
 #evm-suummary-wrapper
 { 
@@ -48,7 +42,14 @@ div[class*="evm-chart"]
 {
   background-color: #eee;
 }
-
+td.indicator-red
+{
+  background-color: #FF0000;
+}
+td.indicator-orange
+{
+  background-color: #FF8C00;
+}
 /*** sidebar ***/
 div[class*="evm-explanation"] 
 {
