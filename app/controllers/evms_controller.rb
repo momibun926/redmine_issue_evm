@@ -22,7 +22,7 @@ class EvmsController < ApplicationController
     @display_performance = params[:display_performance]
     #Project. all versions
     baselines = project_baseline @project, @baseline_id
-    @include_sub_projets = params[:include_sub_projets]
+    @include_sub_projets = default_include_sub_projets
     if @include_sub_projets
       issues = include_sub_project_issues @project
       actual_cost = include_sub_project_costs @project
@@ -70,6 +70,15 @@ private
 
   def default_calcetc
     params[:calcetc].nil? ? 'method2' : params[:calcetc]
+  end
+
+
+  def default_include_sub_projets
+    if @no_use_baseline
+      default = params[:include_sub_projets]
+    else
+      default = @baseline_id.blank? ? params[:include_sub_projets] : Evmbaseline.find(@baseline_id).include_sub_projects || params[:include_sub_projets]
+    end  
   end
 
 
