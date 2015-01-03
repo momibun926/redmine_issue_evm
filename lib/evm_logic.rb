@@ -280,7 +280,7 @@ module EvmLogic
     
 
       def issue_hours_per_day estimated_hours, start_date, end_date
-        estimated_hours / (end_date - start_date + 1)
+        (estimated_hours || 0.0 ) / (end_date - start_date + 1)
       end
 
 
