@@ -6,6 +6,7 @@ ja:
   label_baseline_create: ベースラインの作成
   label_baseline_version: ベースライン履歴
   label_baseline_set: ベースラインを設定
+  label_sub_project: サブプロジェクト
   label_include_sub_project: サブプロジェクトを含む
   label_baseline_start_date: 開始日
   label_baseline_due_date: 終了日
@@ -14,6 +15,8 @@ ja:
   label_current_baseline: 最新
   label_old_baseline: 過去
   label_latest_baseline: 最新のベースラインで表示
+  label_sub_include: 含む
+  label_sub_exclude: 含まない
   # Message
   messsage_delete_baseline: 本当に削除しますか？
   # Main form
@@ -66,3 +69,7 @@ ja:
   # Indicator table legend
   explanation_upper_row: 上段の値は時間
   explanation_lower_row: 下段の値は人日
+  # Permission
+  project_module_Issuevm: ISSUE-EVM
+  permission_view_evms: EVMプラグインタブの表示
+  permission_manage_evms: ベースラインの設定
