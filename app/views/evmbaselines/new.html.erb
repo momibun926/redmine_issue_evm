@@ -2,5 +2,8 @@
 <%= labelled_form_for @evm_baselines, :url => project_evmbaselines_path do |f| %>
   <p><%= f.text_field :subject, size: 60, required: true %></p>
   <p><%= f.text_field :description, size: 150 %></p>
+  <%= check_box_tag :include_sub_projets,'true', @include_sub_projets %><%= label_tag l(:label_include_sub_project) %>
+  </br>
+  </br>
   <%= submit_tag l(:button_create) %>
 <% end %>

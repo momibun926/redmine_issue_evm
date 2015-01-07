@@ -3,6 +3,7 @@ class Evmbaseline < ActiveRecord::Base
 
 
   has_many :evmbaselineIssues, :dependent => :delete_all
+  has_many :evmbaselineSubProjects, :dependent => :delete_all
   validates :subject, :presence => true
 
 
@@ -18,6 +19,11 @@ class Evmbaseline < ActiveRecord::Base
 
   def bac
     evmbaselineIssues.sum(:estimated_hours).round(1)
+  end
+
+
+  def include_sub_projects
+    evmbaselineSubProjects.count(:sub_project_id) > 0
   end
 
 
