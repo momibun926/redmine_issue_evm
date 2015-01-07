@@ -69,3 +69,7 @@ ja:
   # Indicator table legend
   explanation_upper_row: 上段の値は時間
   explanation_lower_row: 下段の値は人日
+  # Permission
+  project_module_Issuevm: ISSUE-EVM
+  permission_view_evms: EVMプラグインタブの表示
+  permission_manage_evms: ベースラインの設定

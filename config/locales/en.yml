@@ -69,3 +69,8 @@ en:
   # Indicator table legend
   explanation_upper_row: Upper row is hours.
   explanation_lower_row: Lower row is days.
+  # Permission
+  project_module_Issuevm: ISSUE-EVM
+  permission_view_evms: View EVM
+  permission_manage_evms: Setting Baseline
+
