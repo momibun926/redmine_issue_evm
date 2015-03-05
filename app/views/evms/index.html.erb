@@ -59,7 +59,7 @@
     </fieldset>
     <p>
       <!-- Apply button -->
-      <%= link_to_function l(:button_apply), 'submit_query_form("query_form")', :class => 'icon icon-checked' %>
+      <%= link_to "#", {:onclick => "$(this).closest('form').submit()",:class => 'icon icon-checked' } do l(:button_apply) end %>
     </p>
   <% end %>
   <!--Indicator value-->
