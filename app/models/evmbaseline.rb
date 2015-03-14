@@ -1,6 +1,7 @@
 class Evmbaseline < ActiveRecord::Base
   unloadable
 
+  attr_protected :id
 
   has_many :evmbaselineIssues, :dependent => :delete_all
   has_many :evmbaselineSubProjects, :dependent => :delete_all

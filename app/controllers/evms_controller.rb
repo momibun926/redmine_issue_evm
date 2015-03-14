@@ -5,7 +5,7 @@ class EvmsController < ApplicationController
   unloadable
 
   menu_item :issuevm
-  before_filter :find_project, :authorize
+  before_action :find_project, :authorize
 
   def index
     # Basis date of calculate

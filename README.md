@@ -12,12 +12,12 @@ Calculating the EVM values using start-date, due-date, and estimated hours of th
 Version
 =================
 
-2.0
+3.0
 
 
 Environment
 =================
-Bitnami redmine 2.6.0
+Bitnami redmine 3.0.0
 
 
 Installation
