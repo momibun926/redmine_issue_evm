@@ -6,7 +6,7 @@ class EvmbaselinesController < ApplicationController
 
 
   menu_item :issueevm
-  before_filter :find_project, :authorize
+  before_action :find_project, :authorize
 
 
   def index
