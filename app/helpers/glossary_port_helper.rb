@@ -53,9 +53,7 @@ module GlossaryPortHelper
 
         #name = ic.iconv(name)
         name = Redmine::CodesetUtil.to_utf8(name, portinfo.in_encoding)
-        term = Term.find(:first,
-                         :conditions => ["project_id = #{projid} AND name = :name",
-                                         {:name=>name}])
+        term = Term.find_by(project_id: projid, name: name)
         if (term)
           portinfo.upterm_num += 1
         else
