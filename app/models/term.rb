@@ -23,15 +23,15 @@ class Term < ActiveRecord::Base
                   :rubi, :abbr_whole
   
   def author
-    author_id ? User.find_by(author_id) : nil
+    author_id ? User.find_by_id(author_id) : nil
   end
   
   def updater
-    updater_id ? User.find_by(updater_id) : nil
+    updater_id ? User.find_by_id(updater_id) : nil
   end
   
   def project
-    Project.find_by(project_id)
+    Project.find_by_id(project_id)
   end
 
   def datetime
