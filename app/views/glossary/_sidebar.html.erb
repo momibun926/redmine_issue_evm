@@ -11,7 +11,7 @@
   <h3><%= l(:label_term) %></h3>
   <%= link_to(l(:label_term_new), {:controller => 'glossary', :action => 'new', :project_id => @project}, :class => 'icon icon-add') %>
   <br />
-<%   if (Term.find(:first, :conditions => "project_id = #{@project.id}")) %>
+<%   if (Term.find_by(:project_id => @project.id)) %>
   <%= link_to_if_authorized(l(:label_move_all_terms), {:controller => 'glossary', :action => 'move_all', :project_id => @project}, :class => 'icon icon-move') %>
   <br />
 <%   end %>

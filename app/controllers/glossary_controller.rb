@@ -60,14 +60,14 @@ class GlossaryController < ApplicationController
 
   def show
     set_show_params
-    @term_categories = TermCategory.find(:all, :conditions => "project_id = #{@project.id}", :order => "position")
+    @term_categories = TermCategory.where(:project_id => @project.id).order(:position)
     respond_to do |format|
       format.html { render :template => 'glossary/show.html.erb', :layout => !request.xhr? }
     end
   end
 
   def new
-    @term_categories = TermCategory.find(:all, :conditions => "project_id = #{@project.id}", :order => "position")
+    @term_categories = TermCategory.where(:project_id => @project.id).order(:position)
     @term = Term.new(params[:term])
     @term.name = CGI::unescapeHTML(params[:new_term_name])	if params[:new_term_name]
     @term.project_id = @project.id
@@ -94,9 +94,9 @@ class GlossaryController < ApplicationController
   end
 
   def edit
-    @term_categories = TermCategory.find(:all, :conditions => "project_id = #{@project.id}", :order => "position")
+    @term_categories = TermCategory.where(:project_id => @project.id).order(:position)
     
-    if request.post? || request.put?
+    if request.post? || request.put? || request.patch?
       @term.attributes = params[:term]
       @term.updater_id = User.current.id
       if @term.save
@@ -127,7 +127,7 @@ class GlossaryController < ApplicationController
           redirect_to :controller => 'term_categories', :action => 'index', :project_id => @project
         end
         format.js do
-          term_categories = TermCategory.find(:all, :conditions => "project_id = #{@project.id}")
+          term_categories = TermCategory.where(:project_id => @project.id)
           render(:update) {|page| page.replace "term_category_id",
             content_tag('select', '<option></option>' + options_from_collection_for_select(term_categories, 'id', 'name', @category.id), :id => 'term_category_id', :name => 'term[category_id]')
           }
@@ -138,7 +138,7 @@ class GlossaryController < ApplicationController
 
 
   def move_all
-    projs = Project.visible.find(:all)
+    projs = Project.visible.all
     @allowed_projs = projs.find_all {|proj|
       User.current.allowed_to?({:controller =>'glossary', :action => 'index'}, proj) and
         User.current.allowed_to?({:controller =>'glossary', :action => 'move_all'}, proj) and
@@ -146,16 +146,15 @@ class GlossaryController < ApplicationController
     }
     if request.post?
       newproj = Project.find(params[:new_project_id])
-      cats = TermCategory.find(:all, :conditions => "project_id = #{newproj.id}",
-                               :order => "position")
+      cats = TermCategory.where(:project_id => newproj.id).order(:position)
       posbase = (cats.blank?) ? 0 : cats.last.position - 1;
-      cats = TermCategory.find(:all, :conditions => "project_id = #{@project.id}")
+      cats = TermCategory.where(:project_id => @project.id)
       cats.each {|cat|
         cat.project_id = newproj.id
         cat.position += cat.position + posbase
         cat.save
       }
-      Term::update_all("project_id = #{newproj.id}", "project_id = #{@project.id}")
+      Term.where(project_id: @project.id).update_all(project_id: newproj.id)
       flash[:notice] = l(:notice_successful_update)
       redirect_to({:action => 'index', :project_id => newproj})
     end
@@ -228,7 +227,7 @@ class GlossaryController < ApplicationController
   #### sort
   
   def sort_terms(terms, prms)
-    terms.sort! {|a, b|
+    terms.to_a.sort! {|a, b|
       re = nil
       prms.each {|prm|
         re = Term.compare_by_param(prm, a, b)
@@ -259,7 +258,7 @@ class GlossaryController < ApplicationController
     if (catname == "(#{l(:label_not_categorized)})")
       queries << "( category_id IS NULL )"
     else
-      cats = TermCategory.find(:all, :conditions => ["name LIKE :catname",
+      cats = TermCategory.where(["name LIKE :catname",
                                                      {:catname => catname + "%"}])
       ary = []
       ptn = /^#{Regexp.escape(catname)}\//
@@ -348,10 +347,10 @@ class GlossaryController < ApplicationController
                        queries, symbols)
     terms = nil
     if (queries.empty?)
-      terms = Term.find(:all)
+      terms = Term.all
     else
       query_str = join_queries(queries, "AND")
-      terms = Term.find(:all, :conditions => [query_str, symbols])
+      terms = Term.where(query_str, symbols)
     end
     if (terms and params[:latest_days] and !params[:latest_days].empty?)
       limitsec = Time.now.to_i - params[:latest_days].to_i * 60 * 60 * 24
@@ -373,8 +372,7 @@ class GlossaryController < ApplicationController
   end
   
   def find_term
-    @term = Term.find(:first,
-                      :conditions => "project_id = #{@project.id} and id = #{params[:id]}")
+    @term = Term.find_by(project_id: @project.id, id: params[:id])
     render_404 unless @term
   rescue
     render_404

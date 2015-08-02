@@ -14,10 +14,10 @@ de:
     name_en: Englisch
     category: Kategorie
     datatype: "Datentyp im Programmcode"
-    codename: "Abkürzung im Programmcode"
+    codename: "AbkÃ¼rzung im Programmcode"
     description: Beschreibung
     rubi: Ruby
-    abbr_whole: "Ausgeschriebener Begriff (bei Abkürzungen)"
+    abbr_whole: "Ausgeschriebener Begriff (bei AbkÃ¼rzungen)"
   label_updater: Updater
   label_term_plural: Glossare
 
@@ -52,14 +52,14 @@ de:
   label_import_items: Elemente zu Spalten zuordnen
   label_item: Element
   label_column: Spalte
-  message_import_item: Als Projekt und Benutzer für die importierten Begriffe werden die aktuellen Einstellungen verwendet.
+  message_import_item: Als Projekt und Benutzer fÃ¼r die importierten Begriffe werden die aktuellen Einstellungen verwendet.
   label_csv_import_finished: Der CSV-Datenimport wurde erfolgreich beendet
-  error_import_failed: Konnte den CSV-Datenimport nicht ausführen
+  error_import_failed: Konnte den CSV-Datenimport nicht ausfÃ¼hren
   label_create_category_num: Anzahl der neu erstellten Kategorien
   label_create_term_num: Anzahl der neu erstellten Begriffe
   label_update_term_num: Anzahl der aktualisierten Begriffe
   label_file_encoding: Zeichensatz der Datei (File encoding)
-  label_movement_project: Zielprojekt für das Verschieben
+  label_movement_project: Zielprojekt fÃ¼r das Verschieben
   label_move_all_terms: Alle Begriffe verschieben
   
   label_term_category: Begriffskategorie
@@ -69,27 +69,27 @@ de:
 
   text_term_category_destroy_question: Dieser Kategorie sind (@{value}) Begriffe zugeordnet. Was wollen sie tun?
   text_term_category_destroy_assignments: Kategoriezuordnung entfernen
-  text_term_category_reassign_to: Kategoriezuordnung ändern zu
+  text_term_category_reassign_to: Kategoriezuordnung Ã¤ndern zu
 
   label_hide_item: Verstecke folgende Elemente
   label_tag_termlink: Link zu einem Begriff
 
   notice_glossary_style_create_f: Konnte die Stil-Daten des Glossars nicht anlegen
 
-  error_term_macro_arg: Das Makro "term" benötigt entweder ein oder zwei Argumente (den Glossar-Begriff und optional die ID des Projekts)
-  error_termno_macro_arg: Das Makro "termno" benötigt genau ein Argument."
+  error_term_macro_arg: Das Makro "term" benÃ¶tigt entweder ein oder zwei Argumente (den Glossar-Begriff und optional die ID des Projekts)
+  error_termno_macro_arg: Das Makro "termno" benÃ¶tigt genau ein Argument."
   error_term_not_found_id: "\"%s\": Keinen Begriff mit dieser Nummer gefunden."
   error_term_not_found_name: "\"%s\": Keinen Begriff mit diesem Namen gefunden."
   error_term_not_found_name_project: "\"%s\": Keinen Begriff mit diesem Namen im Projekt \"%s\" gefunden."
   error_project_not_found: "\"%s\": Kein Projekt unter diesem Namen gefunden."
-  error_to_number: Ung�ltige Zahl. --- %s
+  error_to_number: Ungültige Zahl. --- %s
 
   error_csv_import_row: " Zeile : %d"
   error_import_no_name: "\"%s\" ist unbekannt."
   error_create_term_category: Konnte eine Begriffskategorie nicht speichern.
   error_create_term: Konnte einen Begriff nicht speichern.
   error_file_none: Dateiname fehlt.
-  error_no_movement_project: Kein Zielprojekt für das Verschieben der Begriffe.
+  error_no_movement_project: Kein Zielprojekt fÃ¼r das Verschieben der Begriffe.
   
   index_ary_en_sep_cnt: 6
   index_ary_en:  [A, B, C, D, E, F, 

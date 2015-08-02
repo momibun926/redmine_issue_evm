@@ -7,9 +7,9 @@ module GlossaryStylesHelper
       end
     else
       if !params[:glossary_style_id].blank?
-        @glossary_style = GlossaryStyle.find(params[:glossary_style_id])
+        @glossary_style = GlossaryStyle.find_by(params[:glossary_style_id])
       else
-        @glossary_style= GlossaryStyle.find(:first, :conditions => "user_id = #{User.current.id}")
+        @glossary_style= GlossaryStyle.find_by(:user_id => User.current.id)
       end
     end
 
@@ -70,7 +70,7 @@ module GlossaryStylesHelper
     when GlossaryStyle::ProjectMine
       ary = User.current.memberships.collect(&:project).compact.uniq
     when GlossaryStyle::ProjectAll
-      ary = Project.visible.find(:all)
+      ary = Project.visible.all
     end
     ary.find_all {|proj|
       User.current.allowed_to?(authcnd, proj)
@@ -98,7 +98,7 @@ module GlossaryStylesHelper
     projs = authorized_projects(projscope, curproj, {:controller => :glossary, :action => :index})
     unless (projs.empty?)
       querystr = projs.collect {|proj| "project_id = #{proj.id}"}.join(" OR ")
-      options += break_categories(TermCategory.find(:all, :conditions => querystr)).sort.uniq
+      options += break_categories(TermCategory.where(querystr)).sort.uniq
     end
     options << "(#{l(:label_not_categorized)})"
   end

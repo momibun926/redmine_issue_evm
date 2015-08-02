@@ -11,7 +11,7 @@ class Term < ActiveRecord::Base
   acts_as_attachable
 
   acts_as_searchable :columns => ["#{table_name}.name", "#{table_name}.description"],
-                        :include => [:project]
+                        :project_key => [:project]
 
   acts_as_event :title => Proc.new {|o| "#{l(:glossary_title)} ##{o.id}: #{o.name}" },
                   :description => Proc.new {|o| "#{o.description}"},
@@ -19,17 +19,19 @@ class Term < ActiveRecord::Base
                   :type => 'terms',
                   :url => Proc.new {|o| {:controller => 'glossary', :action => 'show', :id => o.project, :term_id => o.id} }
 
+  attr_accessible :project, :category_id, :author, :name, :name_en, :datatype, :codename, :description,
+                  :rubi, :abbr_whole
   
   def author
-    author_id ? User.find(:first, :conditions => "users.id = #{author_id}") : nil
+    author_id ? User.find_by_id(author_id) : nil
   end
   
   def updater
-    updater_id ? User.find(:first, :conditions => "users.id = #{updater_id}") : nil
+    updater_id ? User.find_by_id(updater_id) : nil
   end
   
   def project
-    Project.find(:first, :conditions => "projects.id = #{project_id}")
+    Project.find_by_id(project_id)
   end
 
   def datetime
@@ -102,8 +104,7 @@ class Term < ActiveRecord::Base
 
   def self.find_for_macro(tname, proj, all_project = false)
     if proj
-      term = Term.find(:first,
-                       :conditions => "project_id = #{proj.id} and name = '#{tname}'")
+      term = Term.find_by(:project_id => proj.id, :name => tname)
       return term		if term
     end
     return nil unless all_project
