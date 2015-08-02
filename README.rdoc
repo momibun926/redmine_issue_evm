@@ -2,8 +2,8 @@
 
 This is the Redmine(Project manage system) plug-in which adds the feature of the glossary.
 
-Ported to and tested on 2.3.x and 2.4.x Redmine branch.
-Care has been taken to keep compatibility with 1.4.x, but not tested!
+Ported to 3.0.x and 3.1.x.
+It doesn't keep compatibility with 2.x!
 
 == Use Cases
 
@@ -12,7 +12,7 @@ Care has been taken to keep compatibility with 1.4.x, but not tested!
  * Translate table from term to data type (class name)
  * Management of naming examples in a coding
 
-== Installation and Setup (redmine 2.x)
+== Installation and Setup (redmine 3.x)
 
 cf. http://www.redmine.org/wiki/1/Plugins
 
