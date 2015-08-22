@@ -30,10 +30,6 @@
           <%= text_field_tag('basis_date', @basis_date, :size => 10) %><%= calendar_for('basis_date') %>
         </div>
         <div class="option-col">
-          <p><%= l(:label_sub_project) %></p>
-          <%= check_box_tag :include_sub_projets,'true', @include_sub_projets %><%= label_tag l(:label_include_sub_project) %></br>
-        </div>
-        <div class="option-col">
           <p><%= l(:label_basis) %></p>
           <%= check_box_tag :no_use_baseline,'true', @no_use_baseline, :onclick => "disableobject('evmbaseline_id', this.checked);"%>
           <%= label_tag l(:label_no_use_baseline) %>
