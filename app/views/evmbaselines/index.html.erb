@@ -11,7 +11,6 @@
       <thead><tr>
         <th><%= l(:label_baseline) %></th>
         <th><%= l(:field_description) %></th>
-        <th><%= l(:label_sub_project) %></th>
         <th><%= l(:label_baseline_start_date) %></th>
         <th><%= l(:label_baseline_due_date) %></th>
         <th><%= l(:label_baseline_bac) %></th>
@@ -24,7 +23,6 @@
           <tr class="baseline">
             <td class="subject"><%= link_to baseline.subject, {controller:"evms", action:"index", evmbaseline_id: baseline.id} %></td>
             <td class="description"><%= baseline.description %></td>
-            <td class="status"><%= include_sub_project baseline.include_sub_projects %></td>
             <td class="strat_date"><%= baseline.minimum_start_date %></td>
             <td class="due_date"><%= baseline.maximum_due_date %></td>
             <td class="bac"><%= baseline.bac %></td>

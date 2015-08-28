@@ -6,8 +6,6 @@ ja:
   label_baseline_create: ベースラインの作成
   label_baseline_version: ベースライン履歴
   label_baseline_set: ベースラインを設定
-  label_sub_project: サブプロジェクト
-  label_include_sub_project: サブプロジェクトを含む
   label_baseline_start_date: 開始日
   label_baseline_due_date: 終了日
   label_baseline_bac: BAC
@@ -15,8 +13,6 @@ ja:
   label_current_baseline: 最新
   label_old_baseline: 過去
   label_latest_baseline: 最新のベースラインで表示
-  label_sub_include: 含む
-  label_sub_exclude: 含まない
   # Message
   messsage_delete_baseline: 本当に削除しますか？
   # Main form
@@ -27,7 +23,7 @@ ja:
   subtitle_evm_graph_version: バージョン
   # Option
   label_basis_date: 基準日
-  label_basis: ベースラインの使用
+  label_basis: ベースラインを使用してEVM値を計算
   label_no_use_baseline: 使用しない
   label_graph: チャート表示
   label_forecast: 予測値の表示
