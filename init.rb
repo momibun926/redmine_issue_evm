@@ -2,6 +2,8 @@ require 'redmine'
 require 'cgi'
 require 'glossary_asset_tag_helper_patch'
 require 'term_link_helper'
+require 'csv'
+FCSV = CSV
 
 ActionView::Base.class_eval do
   include ActionView::Helpers::TermLinkHelper
