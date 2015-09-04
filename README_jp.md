@@ -24,7 +24,7 @@
 親チケットは計算対象外です。子チケットのPV,EVを計算しています。
 
 * PV : 開始日、期日、予定工数を利用して、PVを計算します。日毎の工数を計算しています。
-* EV : チケットをCLOSした日に、予定工数をEVとして計算しています。
+* EV : チケットをCLOSEした日に、予定工数をEVとして計算しています。
 * AC : PVの計算に使われているチケットの作業時間を使って、計算しています。
 
 ### 計算例
@@ -82,10 +82,10 @@ redmine3.0以上でないと動作しません。
 ![evm sample screenshot](./doc/screenshot01.png "overview")
 
 ### パフォーマンスチャート
-![evm sample screenshot](./doc/screenshot04.png "overview")
+![evm sample screenshot](./doc/screenshot04.png "performanc chart")
 
 ### ベースラインの履歴
-![evm sample screenshot](./doc/screenshot02.png "overview")
+![evm sample screenshot](./doc/screenshot02.png "History of baseline")
 
 ### ベースラインの作成
-![evm sample screenshot](./doc/screenshot03.png "overview")
+![evm sample screenshot](./doc/screenshot03.png "create new baseline")
