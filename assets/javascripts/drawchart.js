@@ -1,4 +1,4 @@
-function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){ 
+function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
     var data = dataToChart;
     var chartOptions = {
             credits:{
@@ -34,7 +34,7 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                         y: -10
                     }
                 }]
-            },          
+            },
             yAxis:{
                 min: 0,
                 minorGridLineWidth: 0,
@@ -48,7 +48,7 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                 }]
             },
             tooltip:{
-                valueDecimals: 2, 
+                valueDecimals: 2,
                 crosshairs: true,
                 shared: true
             },
@@ -83,45 +83,45 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                     data: data.baseline_value
                 },
                 {
-                    name: 'AC', 
+                    name: 'AC',
                     color: '#fcb040',
                     data: data.actual_cost
                 },
                 {
-                    name: 'EV', 
+                    name: 'EV',
                     color: '#8cc63f',
                     data: data.earned_value
                 },
                 {
-                    name: 'BAC', 
+                    name: 'BAC',
                     dashStyle: 'dash',
                     lineWidth: 1,
                     data: data.bac_top_line
                 },
                 {
-                    name: 'EAC', 
+                    name: 'EAC',
                     dashStyle: 'dash',
                     lineWidth: 1,
                     data: data.eac_top_line
                 },
                 {
                     name: 'AC Forecast',
-                    color: '#fcb040', 
+                    color: '#fcb040',
                     dashStyle: 'dot',
                     data: data.actual_cost_forecast
                 },
                 {
-                    name: 'EV Forecast', 
+                    name: 'EV Forecast',
                     color: '#8cc63f',
                     dashStyle: 'dot',
                     data: data.earned_value_forecast
                 }
             ]
       };
-      Highcharts.setOptions({global : {useUTC : true}});
+      Highcharts.setOptions({global : {useUTC : false}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
-function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){ 
+function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
     var data = dataToChart;
     var chartOptions = {
             credits:{
@@ -157,7 +157,7 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
                         y: -10
                     }
                 }]
-            },          
+            },
             yAxis:{
                 min: 0,
                 minorGridLineWidth: 0,
@@ -171,7 +171,7 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
                 }]
             },
             tooltip:{
-                valueDecimals: 2, 
+                valueDecimals: 2,
                 crosshairs: true,
                 shared: true
             },
@@ -201,21 +201,21 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
                     data: data.planned_value
                 },
                 {
-                    name: 'AC', 
+                    name: 'AC',
                     color: '#fcb040',
                     data: data.actual_cost
                 },
                 {
-                    name: 'EV', 
+                    name: 'EV',
                     color: '#8cc63f',
                     data: data.earned_value
                 }
             ]
       };
-      Highcharts.setOptions({global : {useUTC : true}});
+      Highcharts.setOptions({global : {useUTC : false}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
-function drawPerformanceChart(dataToChart, placeholder, graphtitle){ 
+function drawPerformanceChart(dataToChart, placeholder, graphtitle){
     var data = dataToChart;
     var chartOptions = {
             credits:{
@@ -240,7 +240,7 @@ function drawPerformanceChart(dataToChart, placeholder, graphtitle){
                 },
                 minTickInterval: 24 * 3600 * 1000,
                 tickmarkPlacement: 'on'
-            },          
+            },
             yAxis:{
                 min: 0,
                 minorGridLineWidth: 0,
@@ -252,7 +252,7 @@ function drawPerformanceChart(dataToChart, placeholder, graphtitle){
                     width: 1,
                     color: '#808080'
                 }],
-                plotBands: [{ 
+                plotBands: [{
                     from: 0.9,
                     to: 1.1,
                     color: 'rgba(68, 170, 213, 0.1)',
@@ -262,7 +262,7 @@ function drawPerformanceChart(dataToChart, placeholder, graphtitle){
                 }]
             },
             tooltip:{
-                valueDecimals: 2, 
+                valueDecimals: 2,
                 crosshairs: true,
                 shared: true
             },
@@ -292,18 +292,17 @@ function drawPerformanceChart(dataToChart, placeholder, graphtitle){
                     data: data.spi
                 },
                 {
-                    name: 'CPI', 
+                    name: 'CPI',
                     color: '#fcb040',
                     data: data.cpi
                 },
                 {
-                    name: 'CR', 
+                    name: 'CR',
                     color: '#0f75bc',
                     data: data.cr
                 }
             ]
       };
-      Highcharts.setOptions({global : {useUTC : true}});
+      Highcharts.setOptions({global : {useUTC : false}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
-

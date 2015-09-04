@@ -12,7 +12,7 @@ module EvmLogic
       @pv_actual = calculate_planed_value issues
       #PV-BASELINE for chart
       @pv_baseline = calculate_planed_value baselines
-      #PV 
+      #PV
       @pv = no_use_baseline ? @pv_actual : @pv_baseline
       #EV
       @ev = calculate_earned_value issues
@@ -54,7 +54,7 @@ module EvmLogic
       complete_ev = bac(hours) == 0.0 ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
       complete_ev.round(1)
     end
-    
+
 
     #PV
     def today_pv hours = 1
@@ -68,7 +68,7 @@ module EvmLogic
       ev = @ev_value / hours
       ev.round(1)
     end
-    
+
 
     #AC
     def today_ac hours = 1
@@ -115,7 +115,7 @@ module EvmLogic
     #ETC
     def etc hours = 1
       if today_cpi(hours) == 0.0 || today_cr(hours) == 0.0
-        etc = 0.0  
+        etc = 0.0
       else
         case @etc_method
         when 'method1' then
@@ -131,7 +131,7 @@ module EvmLogic
       end
       etc.round(1)
     end
-    
+
 
     #EAC
     def eac hours = 1
@@ -158,7 +158,7 @@ module EvmLogic
       tcpi = bac(hours) == 0.0 ? 0.0 : (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
       tcpi.round(1)
     end
-    
+
 
     #Create chart data
     def chart_data
@@ -197,7 +197,7 @@ module EvmLogic
       cr = {}
       (performance_min_date..performance_max_date).each do |date|
         spi[date] = (new_ev[date] / new_pv[date]).round(2)
-        cpi[date] = (new_ev[date] / new_ac[date]).round(2) 
+        cpi[date] = (new_ev[date] / new_ac[date]).round(2)
         cr[date] = (spi[date] * cpi[date]).round(2)
       end
       chart_data['spi'] = convert_to_chart(spi)
@@ -231,7 +231,7 @@ module EvmLogic
           issues.each do |issue|
             next unless issue.leaf?
             if issue.closed?
-              close_date = issue.closed_on.utc.to_date
+              close_date = issue.closed_on.to_time.to_date
               temp_ev[close_date].nil? ? temp_ev[close_date] = issue.estimated_hours.to_f : temp_ev[close_date] += issue.estimated_hours.to_f
             elsif issue.done_ratio > 0
               estimated_hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
@@ -240,7 +240,7 @@ module EvmLogic
               hours_per_day = issue_hours_per_day(estimated_hours, start_date, end_date)
               (start_date..end_date).each do |date|
                 temp_ev[date].nil? ? temp_ev[date] = hours_per_day : temp_ev[date] += hours_per_day
-              end 
+              end
             end
           end
         end
@@ -257,27 +257,27 @@ module EvmLogic
       end
 
 
-      def convert_to_chart hash_with_data 
-        hash_converted = Hash[hash_with_data.map{ |k, v| [k.to_time(:utc).to_i * 1000, v] }]
+      def convert_to_chart hash_with_data
+        hash_converted = Hash[hash_with_data.map{ |k, v| [k.to_time.to_i * 1000, v] }]
         hash_converted.to_a
       end
 
 
-      def sort_and_sum_evm_hash evm_hash 
+      def sort_and_sum_evm_hash evm_hash
         temp_hash = {}
         sum_value = 0.0
         if evm_hash.blank?
           evm_hash[@basis_date] = 0.0
-        elsif @basis_date <= @issue_max_date 
+        elsif @basis_date <= @issue_max_date
           evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil?
         end
         evm_hash.sort_by{|key,val| key}.each do |date , value|
           sum_value += value
           temp_hash[date] = sum_value
-        end        
+        end
         temp_hash
       end
-    
+
 
       def issue_hours_per_day estimated_hours, start_date, end_date
         (estimated_hours || 0.0 ) / (end_date - start_date + 1)

@@ -1,5 +1,5 @@
 <script>
-  var actualWeek = <%= basis_date.to_time(:utc).to_i* 1000 %>;
+  var actualWeek = <%= basis_date.to_time.to_i* 1000 %>;
   var graphTitleMain = <%= raw project_name.to_json %> ;
   var performanceChartData = <%= raw project_evm.performance_chart_data.to_json %>;
   var performanceChartHtmlElement = 'evm-graph-lines-performance';
