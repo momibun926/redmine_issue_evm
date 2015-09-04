@@ -1,58 +1,53 @@
 /*** evm charts ***/
-#evm-charts-wrapper
-{
-  margin: auto; 
+
+#evm-charts-wrapper {
+  margin: auto;
 }
-div[class*="evm-chart"] 
-{ 
+div[class*="evm-chart"] {
   margin: auto;
   height: 550px;
-  padding: 5px; 
+  padding: 5px;
 }
+
 /*** Option ***/
-.option-col
-{
+
+.option-col {
   padding: 0px 5px 0px 15px;
   float: left;
 }
-.option-col p
-{
+.option-col p {
   font-weight: bold;
 }
+
 /*** summary evm indicator ***/
-#evm-suummary-wrapper
-{ 
+
+#evm-suummary-wrapper {
   margin: auto;
-  padding: 0 0 20px 0; 
+  padding: 0 0 20px 0;
 }
-#evm-indicator-value-table
-{
+#evm-indicator-value-table {
   width: auto;
   border-collapse: collapse;
 }
-#evm-indicator-value-table th,
-#evm-indicator-value-table td
-{
+#evm-indicator-value-table th, #evm-indicator-value-table td {
   width: 60px;
   padding: 2px;
   text-align: center;
-  border: 1px solid #bbb; 
+  border: 1px solid #bbb;
 }
-#evm-indicator-value-table th
-{
+#evm-indicator-value-table th {
   background-color: #eee;
 }
-td.indicator-red
-{
+td.indicator-red {
   background-color: #FF0000;
 }
-td.indicator-orange
-{
+td.indicator-orange {
   background-color: #FF8C00;
 }
+
 /*** sidebar ***/
-div[class*="evm-explanation"] 
-{
+
+div[class*="evm-explanation"] {
   width: auto;
   padding-left: 20px;
   padding-bottom: 20px;
