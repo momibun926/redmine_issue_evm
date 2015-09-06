@@ -14,7 +14,8 @@ Redmine::Plugin.register :redmine_glossary do
   name 'Redmine Glossary Plugin'
   author 'M. Yoshida'
   description "This is a Redmine plugin to create a glossary which is is a list of terms in a project"
-  version '0.9.1'
+  version '0.9.2'
+  requires_redmine :version_or_higher => '3.0.0'
   author_url 'http://yohshiy.blog.fc2.com/'
   url 'http://www.r-labs.org/projects/rp-glossary/wiki/GlossaryEn'
 
