@@ -66,6 +66,9 @@ ja:
   explanation_upper_row: 上段の値は時間
   explanation_lower_row: 下段の値は人日
   # Permission
-  project_module_Issuevm: ISSUE-EVM
+  project_module_Issuevm: EVM
   permission_view_evms: EVMプラグインタブの表示
   permission_manage_evms: ベースラインの設定
+  # Tab Display
+  tab_display_name: EVM
+  

@@ -66,7 +66,9 @@ en:
   explanation_upper_row: Upper row is hours.
   explanation_lower_row: Lower row is days.
   # Permission
-  project_module_Issuevm: ISSUE-EVM
+  project_module_Issuevm: EVM
   permission_view_evms: View EVM
   permission_manage_evms: Setting Baseline
-
+  # Tab Display
+  tab_display_name: EVM
+  
