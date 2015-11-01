@@ -19,7 +19,7 @@ class Term < ActiveRecord::Base
                   :type => 'terms',
                   :url => Proc.new {|o| {:controller => 'glossary', :action => 'show', :id => o.project, :term_id => o.id} }
 
-  attr_accessible :project, :category_id, :author, :name, :name_en, :datatype, :codename, :description,
+  attr_accessible :project_id, :category_id, :author, :name, :name_en, :datatype, :codename, :description,
                   :rubi, :abbr_whole
   
   def author

@@ -43,7 +43,7 @@ module GlossaryPortHelper
       #ic = Iconv.new('UTF-8', portinfo.in_encoding)
 
       raise l(:error_file_none)	if (!portinfo.import_file)
-      FCSV::parse(portinfo.import_file) { |row|
+      FCSV::parse(portinfo.import_file.read) { |row|
         line_count += 1
         next	if (portinfo.is_first_comment and line_count == 1)
         next	if (row.empty?)
@@ -65,19 +65,21 @@ module GlossaryPortHelper
           prm = portinfo.col_param(col)
           next	unless prm
           #val = ic.iconv(row[col].to_s)
-          name = Redmine::CodesetUtil.to_utf8(row[col].to_s, portinfo.in_encoding)
+          val = Redmine::CodesetUtil.to_utf8(row[col].to_s, portinfo.in_encoding)
           case prm
           when 'name'
           when 'category'
-            cat = TermCategory.find_by_name(val)
-            unless (cat)
-              cat = TermCategory.new(:name => val)
-              unless (cat.save)
-                raise l(:error_create_term_category)
+            unless val.empty? then
+              cat = TermCategory.find_by_name(val)
+              unless (cat)
+                cat = TermCategory.new(:name => val, :project_id => projid)
+                unless (cat.save)
+                  raise l(:error_create_term_category)
+                end
+                portinfo.cat_num += 1
               end
-              portinfo.cat_num += 1
+              term['category_id'] = cat.id
             end
-            term['category_id'] = cat.id
           else
             term[prm] = val
           end
