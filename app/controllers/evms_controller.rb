@@ -24,9 +24,11 @@ class EvmsController < ApplicationController
     baselines = project_baseline @project, @baseline_id
     issues = project_issues @project
     actual_cost = project_costs @project
-
+    #incomplete issues
+    @incomplete_issues = incomplete_project_issues @project, @basis_date
+    #EVM of project
     @project_evm = IssueEvm.new( baselines, issues, actual_cost, @basis_date, @forecast, @calcetc, @no_use_baseline )
-    #versions
+    #EVM of versions
     unless @project.versions.nil?
       @version_evm = {}
       @project.versions.each do |version|
