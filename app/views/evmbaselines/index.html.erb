@@ -1,23 +1,23 @@
 <div class="contextual">
   <%= link_to l(:label_baseline_create), {controller:"evmbaselines", action:"new", id: @project.id}, :class => 'icon icon-add' %>
 </div>
-
 <h2><%= l(:label_baseline_version) %></h2>
-
 <% if @evm_baselines.blank? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
     <table class="list versions">
-      <thead><tr>
-        <th><%= l(:label_baseline) %></th>
-        <th><%= l(:field_description) %></th>
-        <th><%= l(:label_baseline_start_date) %></th>
-        <th><%= l(:label_baseline_due_date) %></th>
-        <th><%= l(:label_baseline_bac) %></th>
-        <th><%= l(:field_status) %></th>
-        <th><%= l(:label_created_date) %></th>
-        <th></th>
-      </tr></thead>
+      <thead>
+        <tr>
+          <th><%= l(:label_baseline) %></th>
+          <th><%= l(:field_description) %></th>
+          <th><%= l(:label_baseline_start_date) %></th>
+          <th><%= l(:label_baseline_due_date) %></th>
+          <th><%= l(:label_baseline_bac) %></th>
+          <th><%= l(:field_status) %></th>
+          <th><%= l(:label_created_date) %></th>
+          <th></th>
+        </tr>
+      </thead>
       <tbody>
       　　<% @evm_baselines.each do |baseline| %>
           <tr class="baseline">
@@ -37,8 +37,6 @@
       </tbody>
     </table>
 <% end %>
-
 <div>
   <%= link_to l(:label_latest_baseline), {controller:"evms", action:"index"}, :class => 'icon icon-move' %>
 </div>
-

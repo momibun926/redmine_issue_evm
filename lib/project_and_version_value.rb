@@ -12,12 +12,10 @@ module ProjectAndVersionValue
     baselines
   end
 
-
   def project_issues proj
     issues = Issue.cross_project_scope(proj, "descendants").
               where( "start_date IS NOT NULL AND due_date IS NOT NULL")
   end
-
 
   def project_costs proj
     costs = Issue.cross_project_scope(proj, "descendants").
@@ -27,12 +25,10 @@ module ProjectAndVersionValue
               group("spent_on").collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
 
-
   def version_issues proj, version_id
     issues = Issue.cross_project_scope(proj, "descendants").
               where( "start_date IS NOT NULL AND due_date IS NOT NULL AND fixed_version_id = ? ", version_id)
   end
-
 
   def version_costs proj, version_id
     costs = Issue.cross_project_scope(proj, "descendants").
@@ -42,11 +38,9 @@ module ProjectAndVersionValue
               group("spent_on").collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
 
-
   def incomplete_project_issues proj, basis_date
     issues = Issue.cross_project_scope(proj, "descendants").
               where( "start_date IS NOT NULL AND start_date <= ? AND due_date IS NOT NULL AND (closed_on IS NULL OR closed_on > ?)", basis_date, basis_date)
   end
-
 
 end

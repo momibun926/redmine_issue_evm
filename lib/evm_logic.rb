@@ -35,12 +35,10 @@ module EvmLogic
       @ac_value = @ac[basis_date] || @ac[@ac.keys.max]
     end
 
-
     #Basis date
     def basis_date
       @basis_date
     end
-
 
     #BAC
     def bac hours = 1
@@ -48,13 +46,11 @@ module EvmLogic
       bac.round(1)
     end
 
-
     #CompleteEV
     def complete_ev hours = 1
       complete_ev = bac(hours) == 0.0 ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
       complete_ev.round(1)
     end
-
 
     #PV
     def today_pv hours = 1
@@ -62,13 +58,11 @@ module EvmLogic
       pv.round(1)
     end
 
-
     #EV
     def today_ev hours = 1
       ev = @ev_value / hours
       ev.round(1)
     end
-
 
     #AC
     def today_ac hours = 1
@@ -76,13 +70,11 @@ module EvmLogic
       ac.round(1)
     end
 
-
     #SV
     def today_sv hours = 1
       sv = today_ev(hours) - today_pv(hours)
       sv.round(1)
     end
-
 
     #CV
     def today_cv hours = 1
@@ -90,13 +82,11 @@ module EvmLogic
       cv.round(1)
     end
 
-
     #SPI
     def today_spi hours = 1
       spi = today_ev(hours) == 0.0 || today_pv(hours) == 0.0 ? 0.0 : today_ev(hours) / today_pv(hours)
       spi.round(2)
     end
-
 
     #CPI
     def today_cpi hours = 1
@@ -104,13 +94,11 @@ module EvmLogic
       cpi.round(2)
     end
 
-
     #CR
     def today_cr hours = 1
       cr = today_spi(hours) * today_cpi(hours)
       cr.round(2)
     end
-
 
     #ETC
     def etc hours = 1
@@ -132,13 +120,11 @@ module EvmLogic
       etc.round(1)
     end
 
-
     #EAC
     def eac hours = 1
       eac = today_ac(hours) + etc(hours)
       eac.round(1)
     end
-
 
     #VAC
     def vac hours = 1
@@ -146,19 +132,16 @@ module EvmLogic
       vac.round(1)
     end
 
-
     #Delay
     def delay
       (forecast_finish_date - @pv.keys.max).to_i
     end
-
 
     #TCPI = (BAC - EV) / (BAC - AC)
     def tcpi hours = 1
       tcpi = bac(hours) == 0.0 ? 0.0 : (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
       tcpi.round(1)
     end
-
 
     #Create chart data
     def chart_data
@@ -184,7 +167,6 @@ module EvmLogic
       chart_data
     end
 
-
     def performance_chart_data
       chart_data = {}
       new_ev = complement_evm_value @ev
@@ -206,9 +188,7 @@ module EvmLogic
       chart_data
     end
 
-
     private
-
 
       def calculate_planed_value issues
         temp_pv = {}
@@ -223,7 +203,6 @@ module EvmLogic
         end
         calculate_planed_value = sort_and_sum_evm_hash(temp_pv)
       end
-
 
       def calculate_earned_value issues
         temp_ev = {}
@@ -248,7 +227,6 @@ module EvmLogic
         calculate_earned_value.delete_if{|date, value| date > @basis_date }
       end
 
-
       def calculate_actual_cost costs
         temp_ac = {}
         temp_ac = Hash[costs]
@@ -256,12 +234,10 @@ module EvmLogic
         calculate_actual_cost.delete_if{|date, value| date > @basis_date }
       end
 
-
       def convert_to_chart hash_with_data
         hash_converted = Hash[hash_with_data.map{ |k, v| [k.to_time.to_i * 1000, v] }]
         hash_converted.to_a
       end
-
 
       def sort_and_sum_evm_hash evm_hash
         temp_hash = {}
@@ -278,21 +254,17 @@ module EvmLogic
         temp_hash
       end
 
-
       def issue_hours_per_day estimated_hours, start_date, end_date
         (estimated_hours || 0.0 ) / (end_date - start_date + 1)
       end
-
 
       def chart_minimum_date
         [@pv.keys.min, @ev.keys.min, @ac.keys.min].min
       end
 
-
       def chart_maximum_date
         [@pv.keys.max, @ev.keys.max, @ac.keys.max, forecast_finish_date].max
       end
-
 
       def forecast_finish_date
         if complete_ev(8) == 100.0
@@ -309,7 +281,6 @@ module EvmLogic
           end
         end
       end
-
 
       def complement_evm_value evm_hash
         before_date = evm_hash.keys.min

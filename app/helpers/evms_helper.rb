@@ -1,6 +1,5 @@
 module EvmsHelper
 
-
   def spi_color
     value = ""
     case @project_evm.today_spi(8)
@@ -12,7 +11,6 @@ module EvmsHelper
     value.html_safe
   end
 
-
   def cpi_color
     value = ""
     case @project_evm.today_cpi(8)
@@ -23,7 +21,6 @@ module EvmsHelper
     end
     value.html_safe
   end
-
 
   def cr_color
     value = ""
@@ -38,7 +35,6 @@ module EvmsHelper
     value.html_safe
   end
 
-
   def project_chart_name
     unless @baseline_id.nil?
       @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
@@ -47,10 +43,8 @@ module EvmsHelper
     end
   end
 
-
   def version_chart_name version
     @project.name + ' - ' + version.name
-  end 
-
+  end
 
 end

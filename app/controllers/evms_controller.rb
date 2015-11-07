@@ -1,6 +1,5 @@
 include EvmLogic, ProjectAndVersionValue
 
-
 class EvmsController < ApplicationController
   unloadable
 
@@ -42,14 +41,11 @@ class EvmsController < ApplicationController
     @no_data = issues.blank?
   end
 
-
 private
-
 
   def default_basis_date
     params[:basis_date].nil? ? Time.now.to_date : params[:basis_date].to_date
   end
-
 
   def default_baseline_id
     if params[:evmbaseline_id].nil?
@@ -59,16 +55,13 @@ private
     end
   end
 
-
   def default_no_use_baseline
     @evmbaseline.blank? ? 'ture' : params[:no_use_baseline]
   end
 
-
   def default_calcetc
     params[:calcetc].nil? ? 'method2' : params[:calcetc]
   end
-
 
   def find_project
     @project = Project.find(params[:project_id])
@@ -76,10 +69,8 @@ private
     render_404
   end
 
-
   def find_evmbaselines
     Evmbaseline.where("project_id = ? ", @project.id).order("created_on DESC")
   end
-
 
 end

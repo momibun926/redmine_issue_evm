@@ -1,28 +1,22 @@
 include ProjectAndVersionValue
 
-
 class EvmbaselinesController < ApplicationController
   unloadable
 
-
   menu_item :issueevm
   before_action :find_project, :authorize
-
 
   def index
     @evm_baselines = Evmbaseline.where("project_id = ? ", @project.id).order("created_on DESC")
   end
 
-
   def new
     @evm_baselines = Evmbaseline.new
   end
 
-
   def edit
     @evm_baselines = Evmbaseline.find(params[:id])
   end
-
 
   def update
     evm_baselines = Evmbaseline.find(params[:id])
@@ -34,7 +28,6 @@ class EvmbaselinesController < ApplicationController
       redirect_to :action => 'edit'
     end
   end
-
 
   def create
     evm_baselines = Evmbaseline.new(params[:evmbaseline])
@@ -58,7 +51,6 @@ class EvmbaselinesController < ApplicationController
     end
   end
 
-
   def destroy
     evm_baselines = Evmbaseline.find(params[:id])
     evm_baselines.destroy
@@ -71,5 +63,5 @@ private
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
-  end  
+  end
 end
