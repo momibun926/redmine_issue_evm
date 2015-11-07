@@ -73,38 +73,42 @@
           :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: project_chart_name } %>
     </div>
     <!-- Incomplete issue list -->
-    <h3><%= l(:subtitle_evm_incomplete_issues)%></h3>
-    <table class="list issue">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th><%=l(:field_project)%></th>
-          <th><%=l(:field_subject)%></th>
-          <th><%=l(:field_status)%></th>
-          <th><%=l(:field_priority)%></th>
-          <th><%=l(:field_assigned_to)%></th>
-          <th><%=l(:field_due_date)%></th>
-          <th><%=l(:field_estimated_hours)%></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% unless @incomplete_issues.nil? %>
-          <% @incomplete_issues.each do |issue| %>
-            <% next unless issue.leaf? %>
-            <tr id="issue-<%= issue.id %>" class="<%= cycle('odd', 'even') %> <%= issue.css_classes %>">
-              <td><%=link_to(issue.id, issue_path(issue))%></td>
-              <td><%=issue.project%></td>
-              <td><%=issue.subject%></td>
-              <td><%=issue.status%></td>
-              <td><%=issue.priority%></td>
-              <td><%=issue.assigned_to%></td>
-              <td><%=issue.due_date%></td>
-              <td><%=issue.estimated_hours%></td>
+    <fieldset id="issuelist" class="collapsible collapsed">
+      <legend onclick="toggleFieldset(this);"><%= l(:subtitle_evm_incomplete_issues) %></legend>
+      <div style="display: none;">
+        <table class="list issue" with=70%>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th><%=l(:field_project)%></th>
+              <th><%=l(:field_subject)%></th>
+              <th><%=l(:field_status)%></th>
+              <th><%=l(:field_priority)%></th>
+              <th><%=l(:field_assigned_to)%></th>
+              <th><%=l(:field_due_date)%></th>
+              <th><%=l(:field_estimated_hours)%></th>
             </tr>
-          <% end %>
-        <% end %>
-      </tbody>
-    </table>
+          </thead>
+          <tbody>
+            <% unless @incomplete_issues.nil? %>
+              <% @incomplete_issues.each do |issue| %>
+                <% next unless issue.leaf? %>
+                <tr id="issue-<%= issue.id %>" class="<%= cycle('odd', 'even') %> <%= issue.css_classes %>">
+                  <td><%=link_to(issue.id, issue_path(issue))%></td>
+                  <td><%=issue.project%></td>
+                  <td><%=issue.subject%></td>
+                  <td><%=issue.status%></td>
+                  <td><%=issue.priority%></td>
+                  <td><%=issue.assigned_to%></td>
+                  <td><%=issue.due_date%></td>
+                  <td><%=issue.estimated_hours%></td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
     <br>
     <br>
     <!-- Performance Chart -->
@@ -117,8 +121,8 @@
     <% end %>
     <!-- version Chart -->
     <% if @display_version %>
-      <h3><%= l(:subtitle_evm_graph_version) %></h3>
-      <% unless @project.versions.nil? %>
+      <% unless @project.versions.blank? %>
+        <h3><%= l(:subtitle_evm_graph_version) %></h3>
         <% @project.versions.each do |version| %>
           <% unless @version_evm[version.id].nil? %>
             <div id="evm-graph-lines-version-<%= version.id %>" class="evm-chart-<%= version.id %>"</div>
