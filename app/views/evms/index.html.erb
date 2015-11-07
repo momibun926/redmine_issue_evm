@@ -88,22 +88,22 @@
         </tr>
       </thead>
       <tbody>
-      <% unless @incomplete_issues.nil? %>
-        <% @incomplete_issues.each do |issue| %>
-          <% next unless issue.leaf? %>
-          <tr id="issue-<%= issue.id %>" class="<%= cycle('odd', 'even') %> <%= issue.css_classes %>">
-            <td><%=link_to(issue.id, issue_path(issue))%></td>
-            <td><%=issue.project%></td>
-            <td><%=issue.subject%></td>
-            <td><%=issue.status%></td>
-            <td><%=issue.priority%></td>
-            <td><%=issue.assigned_to%></td>
-            <td><%=issue.due_date%></td>
-            <td><%=issue.estimated_hours%></td>
-          </tr>
+        <% unless @incomplete_issues.nil? %>
+          <% @incomplete_issues.each do |issue| %>
+            <% next unless issue.leaf? %>
+            <tr id="issue-<%= issue.id %>" class="<%= cycle('odd', 'even') %> <%= issue.css_classes %>">
+              <td><%=link_to(issue.id, issue_path(issue))%></td>
+              <td><%=issue.project%></td>
+              <td><%=issue.subject%></td>
+              <td><%=issue.status%></td>
+              <td><%=issue.priority%></td>
+              <td><%=issue.assigned_to%></td>
+              <td><%=issue.due_date%></td>
+              <td><%=issue.estimated_hours%></td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
-      <% end %>
     </table>
     <!-- Performance Chart -->
     <% if @display_performance %>
