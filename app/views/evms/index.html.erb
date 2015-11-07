@@ -10,7 +10,6 @@
     }
   </script>
 <% end %>
-
 <!-- Basline setting -->
 <div class="contextual">
   <%= link_to l(:label_baseline_set), {controller:"evmbaselines", action:"index", id: @project.id} ,:class => 'icon icon-edit'%>
@@ -76,7 +75,7 @@
     <fieldset id="issuelist" class="collapsible collapsed">
       <legend onclick="toggleFieldset(this);"><%= l(:subtitle_evm_incomplete_issues) %></legend>
       <div style="display: none;">
-        <table class="list issue" with=70%>
+        <table class="list issue">
           <thead>
             <tr>
               <th>#</th>
