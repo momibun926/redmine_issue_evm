@@ -1,4 +1,4 @@
-#redmine_issue_evm
+#redmine issue evm
 Earned value management using the ticket of redmine.
 Calculating the EVM values using start-date, due-date, and estimated hours of the issue.
 
@@ -34,9 +34,9 @@ Entered work time of Ticket#1. 8/1->10hrs, 8/2->6hrs, 8/3->7hrs.
 Acumulate AC
 
 Ticket#1 is closed on 8/3.
-* PV -> 8/1:10時間 8/2:10時間 8/3:10時間
-* EV -> 8/3:30時間
-* AC -> 8/1:10時間 8/2:6時間 8/3:7時間
+* PV -> 8/1:10hrs 8/2:10hrs 8/3:10hrs
+* EV -> 8/3:30hrs
+* AC -> 8/1:10hrs 8/2:6hrs 8/3:7hrs
 
 | EVM | 8/1 | 8/2 | 8/3 |
 | --- | --- | --- | --- |
