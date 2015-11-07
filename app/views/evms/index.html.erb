@@ -105,8 +105,11 @@
         <% end %>
       </tbody>
     </table>
+    <br>
+    <br>
     <!-- Performance Chart -->
     <% if @display_performance %>
+      <h3><%= l(:subtitle_evm_graph_performance) %></h3>
       <div id="evm-graph-lines-performance" class="evm-chart">
         <%= render :partial => '/evms/performance_chart_js',
             :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: project_chart_name } %>
@@ -114,6 +117,7 @@
     <% end %>
     <!-- version Chart -->
     <% if @display_version %>
+      <h3><%= l(:subtitle_evm_graph_version) %></h3>
       <% unless @project.versions.nil? %>
         <% @project.versions.each do |version| %>
           <% unless @version_evm[version.id].nil? %>
