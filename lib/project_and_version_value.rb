@@ -32,8 +32,8 @@ module ProjectAndVersionValue
 
   def version_costs proj, version_id
     costs = Issue.cross_project_scope(proj, "descendants").
-              where( "fixed_version_id = ? ", version_id).
               select("MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours").
+              where( "start_date IS NOT NULL AND due_date IS NOT NULL AND fixed_version_id = ? ", version_id).
               joins(:time_entries).
               group("spent_on").collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
