@@ -24,32 +24,10 @@
     <fieldset id="filters" class="collapsible collapsed">
       <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
       <div style="display: none;">
-        <div class="option-col">
-          <p><%= l(:label_basis_date) %></p>
-          <%= text_field_tag('basis_date', @basis_date, :size => 10) %><%= calendar_for('basis_date') %>
-        </div>
-        <div class="option-col">
-          <p><%= l(:label_basis) %></p>
-          <%= check_box_tag :no_use_baseline,'true', @no_use_baseline, :onclick => "disableobject('evmbaseline_id', this.checked);"%>
-          <%= label_tag l(:label_no_use_baseline) %>
-          <%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id), :disabled => @no_use_baseline %>
-        </div>
-        <div class="option-col">
-          <p><%= l(:label_graph) %></p>
-          <%= check_box_tag :forecast,'true', @forecast %><%= label_tag l(:label_forecast) %></br>
-          <%= check_box_tag :display_version,'true', @display_version %><%= label_tag l(:label_display_version) %></br>
-          <%= check_box_tag :display_performance,'true', @display_performance %><%= label_tag l(:label_display_performance) %></br>
-        </div>
-        <div class="option-col">
-          <p><%= l(:label_calculate) %></p>
-          <%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %><%= label_tag l(:label_calc_method1) %></br>
-          <%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %><%= label_tag l(:label_calc_method2) %></br>
-          <%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %><%= label_tag l(:label_calc_method3) %></br>
-        </div>
-        <div class="option-col">
-          <p><%= l(:label_Display) %></p>
-          <%= check_box_tag :display_explanation, 'true', @display_explanation %><%= label_tag l(:label_display_explanation) %>
-        </div>
+        <%= render :partial => '/evms/view_option',
+            :locals => { basis_date: @basis_date, no_use_baseline: @no_use_baseline, evmbaseline: @evmbaseline,
+                          baseline_id: @baseline_id, forecast: @forecast, display_version: @display_version,
+                          display_performance: @display_performance, calcetc: @calcetc, display_explanation: @display_explanation  } %>
       </div>
     </fieldset>
     <p>
