@@ -19,7 +19,7 @@ en:
   title_evm_tab: EVM
   subtitle_evm_summary: Summary
   subtitle_evm_graph_main: Charts
-  subtitle_evm_incomplete_issues: Incomplete Issues  
+  subtitle_evm_incomplete_issues: Incomplete Issues
   subtitle_evm_graph_performance: Performance Cahrts
   subtitle_evm_graph_version: Version Charts
   # Option
@@ -72,3 +72,5 @@ en:
   permission_manage_evms: Setting Baseline
   # Tab Display
   tab_display_name: EVM
+  # incomplete_issue
+  incomplete_issue_parent_id: Parent#

@@ -194,7 +194,6 @@ module EvmLogic
         temp_pv = {}
         unless issues.nil?
           issues.each do |issue|
-            next unless issue.leaf?
             hours_per_day = issue_hours_per_day(issue.estimated_hours.to_f, issue.start_date, issue.due_date)
             (issue.start_date..issue.due_date).each do |date|
               temp_pv[date].nil? ? temp_pv[date] = hours_per_day : temp_pv[date] += hours_per_day
@@ -208,7 +207,6 @@ module EvmLogic
         temp_ev = {}
         unless issues.nil?
           issues.each do |issue|
-            next unless issue.leaf?
             if issue.closed?
               close_date = issue.closed_on.to_time.to_date
               temp_ev[close_date].nil? ? temp_ev[close_date] = issue.estimated_hours.to_f : temp_ev[close_date] += issue.estimated_hours.to_f

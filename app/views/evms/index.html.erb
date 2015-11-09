@@ -24,32 +24,16 @@
     <fieldset id="filters" class="collapsible collapsed">
       <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
       <div style="display: none;">
-        <div class="option-col">
-          <p><%= l(:label_basis_date) %></p>
-          <%= text_field_tag('basis_date', @basis_date, :size => 10) %><%= calendar_for('basis_date') %>
-        </div>
-        <div class="option-col">
-          <p><%= l(:label_basis) %></p>
-          <%= check_box_tag :no_use_baseline,'true', @no_use_baseline, :onclick => "disableobject('evmbaseline_id', this.checked);"%>
-          <%= label_tag l(:label_no_use_baseline) %>
-          <%= select_tag :evmbaseline_id, options_from_collection_for_select(@evmbaseline, :id, :subject, @baseline_id), :disabled => @no_use_baseline %>
-        </div>
-        <div class="option-col">
-          <p><%= l(:label_graph) %></p>
-          <%= check_box_tag :forecast,'true', @forecast %><%= label_tag l(:label_forecast) %></br>
-          <%= check_box_tag :display_version,'true', @display_version %><%= label_tag l(:label_display_version) %></br>
-          <%= check_box_tag :display_performance,'true', @display_performance %><%= label_tag l(:label_display_performance) %></br>
-        </div>
-        <div class="option-col">
-          <p><%= l(:label_calculate) %></p>
-          <%= radio_button_tag :calcetc, 'method1', @calcetc == 'method1' %><%= label_tag l(:label_calc_method1) %></br>
-          <%= radio_button_tag :calcetc, 'method2', @calcetc == 'method2' %><%= label_tag l(:label_calc_method2) %></br>
-          <%= radio_button_tag :calcetc, 'method3', @calcetc == 'method3' %><%= label_tag l(:label_calc_method3) %></br>
-        </div>
-        <div class="option-col">
-          <p><%= l(:label_Display) %></p>
-          <%= check_box_tag :display_explanation, 'true', @display_explanation %><%= label_tag l(:label_display_explanation) %>
-        </div>
+        <%= render :partial => '/evms/view_option',
+            :locals => { basis_date: @basis_date,
+                         no_use_baseline: @no_use_baseline,
+                         evmbaseline: @evmbaseline,
+                         baseline_id: @baseline_id,
+                         forecast: @forecast,
+                         display_version: @display_version,
+                         display_performance: @display_performance,
+                         calcetc: @calcetc,
+                         display_explanation: @display_explanation  } %>
       </div>
     </fieldset>
     <p>
@@ -69,45 +53,16 @@
     <!-- Main Chart -->
     <div id="evm-graph-lines" class="evm-chart">
       <%= render :partial => '/evms/project_chart_js',
-          :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: project_chart_name } %>
+          :locals => { basis_date: @basis_date,
+                       project_evm: @project_evm,
+                       project_name: project_chart_name } %>
     </div>
     <!-- Incomplete issue list -->
     <fieldset id="issuelist" class="collapsible collapsed">
       <legend onclick="toggleFieldset(this);"><%= l(:subtitle_evm_incomplete_issues) %></legend>
       <div style="display: none;">
-        <table class="list issue">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th><%=l(:field_project)%></th>
-              <th><%=l(:field_subject)%></th>
-              <th><%=l(:field_status)%></th>
-              <th><%=l(:field_priority)%></th>
-              <th><%=l(:field_assigned_to)%></th>
-              <th><%=l(:field_start_date)%></th>
-              <th><%=l(:field_due_date)%></th>
-              <th><%=l(:field_estimated_hours)%></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% unless @incomplete_issues.nil? %>
-              <% @incomplete_issues.each do |issue| %>
-                <% next unless issue.leaf? %>
-                <tr id="issue-<%= issue.id %>" class="<%= cycle('odd', 'even') %> <%= issue.css_classes %>">
-                  <td><%=link_to(issue.id, issue_path(issue))%></td>
-                  <td><%=issue.project%></td>
-                  <td><%=issue.subject%></td>
-                  <td><%=issue.status%></td>
-                  <td><%=issue.priority%></td>
-                  <td><%=issue.assigned_to%></td>
-                  <td><%=issue.start_date%></td>
-                  <td><%=issue.due_date%></td>
-                  <td><%=issue.estimated_hours%></td>
-                </tr>
-              <% end %>
-            <% end %>
-          </tbody>
-        </table>
+        <%= render :partial => '/evms/incomplete_issue_list',
+            :locals => { incomplete_issues: @incomplete_issues } %>
       </div>
     </fieldset>
     <br>
@@ -117,7 +72,9 @@
       <h3><%= l(:subtitle_evm_graph_performance) %></h3>
       <div id="evm-graph-lines-performance" class="evm-chart">
         <%= render :partial => '/evms/performance_chart_js',
-            :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: project_chart_name } %>
+            :locals => { basis_date: @basis_date,
+                         project_evm: @project_evm,
+                         project_name: project_chart_name } %>
       </div>
     <% end %>
     <!-- version Chart -->
@@ -128,7 +85,10 @@
           <% unless @version_evm[version.id].nil? %>
             <div id="evm-graph-lines-version-<%= version.id %>" class="evm-chart-<%= version.id %>"</div>
             <%= render :partial => '/evms/version_chart_js',
-              :locals => { basis_date: @basis_date, version_evm: @version_evm[version.id], version: version, version_name: version_chart_name(version) } %>
+              :locals => { basis_date: @basis_date,
+                           version_evm: @version_evm[version.id],
+                           version: version,
+                           version_name: version_chart_name(version) } %>
           <% end %>
         <% end %>
       <% end %>
