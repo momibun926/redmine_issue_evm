@@ -92,7 +92,6 @@
           <tbody>
             <% unless @incomplete_issues.nil? %>
               <% @incomplete_issues.each do |issue| %>
-                <% next unless issue.leaf? %>
                 <tr id="issue-<%= issue.id %>" class="<%= cycle('odd', 'even') %> <%= issue.css_classes %>">
                   <td><%=link_to(issue.id, issue_path(issue))%></td>
                   <td><%=issue.project%></td>
