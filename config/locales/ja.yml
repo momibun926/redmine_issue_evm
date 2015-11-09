@@ -19,7 +19,7 @@ ja:
   title_evm_tab: EVM
   subtitle_evm_summary: サマリー
   subtitle_evm_graph_main: チャート
-  subtitle_evm_incomplete_issues: 未完了のチケット 
+  subtitle_evm_incomplete_issues: 未完了のチケット
   subtitle_evm_graph_performance: パフォーマンス
   subtitle_evm_graph_version: バージョン
   # Option
@@ -72,3 +72,5 @@ ja:
   permission_manage_evms: ベースラインの設定
   # Tab Display
   tab_display_name: EVM
+  # incomplete_issue
+  incomplete_issue_parent_id: 親チケット#
