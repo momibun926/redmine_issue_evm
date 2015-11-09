@@ -25,9 +25,15 @@
       <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
       <div style="display: none;">
         <%= render :partial => '/evms/view_option',
-            :locals => { basis_date: @basis_date, no_use_baseline: @no_use_baseline, evmbaseline: @evmbaseline,
-                          baseline_id: @baseline_id, forecast: @forecast, display_version: @display_version,
-                          display_performance: @display_performance, calcetc: @calcetc, display_explanation: @display_explanation  } %>
+            :locals => { basis_date: @basis_date,
+                         no_use_baseline: @no_use_baseline,
+                         evmbaseline: @evmbaseline,
+                         baseline_id: @baseline_id,
+                         forecast: @forecast,
+                         display_version: @display_version,
+                         display_performance: @display_performance,
+                         calcetc: @calcetc,
+                         display_explanation: @display_explanation  } %>
       </div>
     </fieldset>
     <p>
@@ -47,7 +53,9 @@
     <!-- Main Chart -->
     <div id="evm-graph-lines" class="evm-chart">
       <%= render :partial => '/evms/project_chart_js',
-          :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: project_chart_name } %>
+          :locals => { basis_date: @basis_date,
+                       project_evm: @project_evm,
+                       project_name: project_chart_name } %>
     </div>
     <!-- Incomplete issue list -->
     <fieldset id="issuelist" class="collapsible collapsed">
@@ -64,7 +72,9 @@
       <h3><%= l(:subtitle_evm_graph_performance) %></h3>
       <div id="evm-graph-lines-performance" class="evm-chart">
         <%= render :partial => '/evms/performance_chart_js',
-            :locals => { basis_date: @basis_date, project_evm: @project_evm, project_name: project_chart_name } %>
+            :locals => { basis_date: @basis_date,
+                         project_evm: @project_evm,
+                         project_name: project_chart_name } %>
       </div>
     <% end %>
     <!-- version Chart -->
@@ -75,7 +85,10 @@
           <% unless @version_evm[version.id].nil? %>
             <div id="evm-graph-lines-version-<%= version.id %>" class="evm-chart-<%= version.id %>"</div>
             <%= render :partial => '/evms/version_chart_js',
-              :locals => { basis_date: @basis_date, version_evm: @version_evm[version.id], version: version, version_name: version_chart_name(version) } %>
+              :locals => { basis_date: @basis_date,
+                           version_evm: @version_evm[version.id],
+                           version: version,
+                           version_name: version_chart_name(version) } %>
           <% end %>
         <% end %>
       <% end %>
