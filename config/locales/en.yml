@@ -16,7 +16,7 @@ en:
   # Message
   messsage_delete_baseline: Are you sure?
   # Main form
-  title_evm_tab: EVM
+  title_evm_tab: Project tracking with EVM
   subtitle_evm_summary: Summary
   subtitle_evm_graph_main: Charts
   subtitle_evm_incomplete_issues: Incomplete Issues
