@@ -1,8 +1,5 @@
 /*** evm charts ***/
 
-#evm-charts-wrapper {
-  margin: auto;
-}
 div[class*="evm-chart"] {
   margin: auto;
   height: 550px;
@@ -21,22 +18,18 @@ div[class*="evm-chart"] {
 
 /*** summary evm indicator ***/
 
-#evm-suummary-wrapper {
-  margin: auto;
-  padding: 0 0 20px 0;
-}
 #evm-indicator-value-table {
   width: auto;
   border-collapse: collapse;
 }
-#evm-indicator-value-table th, #evm-indicator-value-table td {
+#evm-indicator-value-table th {
+  background-color: #eee;
+}
+#evm-indicator-value-table td, th {
+  border: 1px solid #bbb;
   width: 60px;
   padding: 2px;
   text-align: center;
-  border: 1px solid #bbb;
-}
-#evm-indicator-value-table th {
-  background-color: #eee;
 }
 td.indicator-red {
   background-color: #FF0000;
