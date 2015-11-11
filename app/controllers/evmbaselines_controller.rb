@@ -36,7 +36,6 @@ class EvmbaselinesController < ApplicationController
     #issues
     issues = project_issues @project
     issues.each do |issue|
-      next unless issue.leaf?
       baseline_issues = EvmbaselineIssue.new(issue_id: issue.id, start_date: issue.start_date, due_date: issue.due_date, estimated_hours: issue.estimated_hours, leaf: issue.leaf?)
       evm_baselines.evmbaselineIssues << baseline_issues
     end
