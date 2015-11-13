@@ -28,14 +28,13 @@ class EvmsController < ApplicationController
     #EVM of project
     @project_evm = IssueEvm.new( baselines, issues, actual_cost, @basis_date, @forecast, @calcetc, @no_use_baseline )
     #EVM of versions
-    unless @project.versions.nil?
-      @version_evm = {}
-      @project.versions.each do |version|
-        version_issue = version_issues @project, version.id
-        version_actual_cost = version_costs @project, version.id
-        unless version_issue.blank?
-          @version_evm[version.id] = IssueEvm.new( nil, version_issue, version_actual_cost, @basis_date, nil, nil, true )
-        end
+    @version_evm = {}
+    project_version_ids = project_varsion_id_pair @project
+    unless project_version_ids.nil?
+      project_version_ids.each do |proj_id, ver_id|
+        version_issue = version_issues proj_id, ver_id
+        version_actual_cost = version_costs proj_id, ver_id
+        @version_evm[ver_id] = IssueEvm.new( nil, version_issue, version_actual_cost, @basis_date, nil, nil, true )
       end
     end
     @no_data = issues.blank?

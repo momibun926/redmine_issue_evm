@@ -43,8 +43,10 @@ module EvmsHelper
     end
   end
 
-  def version_chart_name version
-    @project.name + ' - ' + version.name
+  def version_chart_name ver_id
+    ver = Version.find(ver_id)
+    pro = Project.find(ver.project_id)
+    pro.name + ' - ' + ver.name
   end
 
 end

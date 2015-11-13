@@ -47,7 +47,7 @@
       :locals => { project_evm: @project_evm } %>
   <!-- Main Chart -->
   <h3><%= l(:subtitle_evm_graph_main) %></h3>
-  <div id="evm-graph-lines" class="evm-chart">
+  <div id="evm-graph-lines">
     <%= render :partial => '/evms/project_chart_js',
         :locals => { basis_date: @basis_date,
                      project_evm: @project_evm,
@@ -64,7 +64,7 @@
   <!-- Performance Chart -->
   <% if @display_performance %>
     <h3><%= l(:subtitle_evm_graph_performance) %></h3>
-    <div id="evm-graph-lines-performance" class="evm-chart">
+    <div id="evm-graph-lines-performance">
       <%= render :partial => '/evms/performance_chart_js',
           :locals => { basis_date: @basis_date,
                        project_evm: @project_evm,
@@ -73,17 +73,16 @@
   <% end %>
   <!-- version Chart -->
   <% if @display_version %>
-    <% unless @project.versions.nil? %>
+    <% unless @version_evm.nil? %>
       <h3><%= l(:subtitle_evm_graph_version) %></h3>
-      <% @project.versions.each do |version| %>
-        <% unless @version_evm[version.id].nil? %>
-          <div id="evm-graph-lines-version-<%= version.id %>" class="evm-chart"</div>
+      <% @version_evm.each do |ver_id, ver_evm| %>
+          <div id="evm-graph-lines-version-<%= ver_id %>">
           <%= render :partial => '/evms/version_chart_js',
             :locals => { basis_date: @basis_date,
-                         version_evm: @version_evm[version.id],
-                         version: version,
-                         version_name: version_chart_name(version) } %>
-        <% end %>
+                         version_evm: ver_evm,
+                         version: ver_id,
+                         version_name: version_chart_name(ver_id) } %>
+        </div>
       <% end %>
     <% end %>
   <% end %>
