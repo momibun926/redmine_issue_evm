@@ -16,7 +16,7 @@ ja:
   # Message
   messsage_delete_baseline: 本当に削除しますか？
   # Main form
-  title_evm_tab: Track project with EVM
+  title_evm_tab: Track with EVM
   subtitle_evm_summary: サマリー
   subtitle_evm_graph_main: チャート
   subtitle_evm_incomplete_issues: 未完了のチケット
