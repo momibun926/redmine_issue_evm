@@ -298,7 +298,7 @@ function drawPerformanceChart(dataToChart, placeholder, graphtitle){
                 },
                 {
                     name: 'CR',
-                    color: '#0f75bc',
+                    color: '#a80909',
                     data: data.cr
                 }
             ]
