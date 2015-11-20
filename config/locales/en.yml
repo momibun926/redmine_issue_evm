@@ -13,6 +13,7 @@ en:
   label_current_baseline: Latest
   label_old_baseline: old
   label_latest_baseline: View EVM
+  label_basis_hours_of_day: Basis hours of day
   # Message
   messsage_delete_baseline: Are you sure?
   # Main form

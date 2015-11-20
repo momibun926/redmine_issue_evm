@@ -13,6 +13,7 @@ ja:
   label_current_baseline: 最新
   label_old_baseline: 過去
   label_latest_baseline: 最新のベースラインで表示
+  label_basis_hours_of_day: 一日の基準時間
   # Message
   messsage_delete_baseline: 本当に削除しますか？
   # Main form

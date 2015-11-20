@@ -1,7 +1,8 @@
 <p>
   <table>
-  <tr><td> Working hours of day </td><td>
-  <%= text_field_tag('settings[working_hours_of_day]', @settings['working_hours_of_day'])%>
-  </td></tr>
+    <tr>
+      <td><%=l(:label_basis_hours_of_day)%></td>
+      <td><%= text_field_tag('settings[working_hours_of_day]', @settings['working_hours_of_day'])%></td>
+    </tr>
   </table>
 </p>

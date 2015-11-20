@@ -2,7 +2,7 @@ module EvmsHelper
 
   def spi_color
     value = ""
-    case @project_evm.today_spi(8)
+    case @project_evm.today_spi
     when (0.81..0.99) then
       value = 'class="indicator-orange"'
     when (0.01..0.8) then
@@ -13,7 +13,7 @@ module EvmsHelper
 
   def cpi_color
     value = ""
-    case @project_evm.today_cpi(8)
+    case @project_evm.today_cpi
     when (0.91..0.99) then
       value = 'class="indicator-orange"'
     when (0.01..0.90) then
@@ -24,8 +24,8 @@ module EvmsHelper
 
   def cr_color
     value = ""
-    if @project_evm.today_sv(8) < 0.0
-      case @project_evm.today_cr(8)
+    if @project_evm.today_sv < 0.0
+      case @project_evm.today_cr
       when (1.01..100) then
         value = 'class="indicator-orange"'
       when (0.01..0.99) then
