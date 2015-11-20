@@ -16,4 +16,8 @@ Redmine::Plugin.register :redmine_issue_evm do
 
   menu :project_menu, :issuevm, { :controller => :evms, :action => :index}, :caption => :tab_display_name, :param => :project_id
 
+  settings :default => {
+    'working_hours_of_day' => '8.0'
+  }, :partial => 'settings/issue_evm_settings'
+
 end
