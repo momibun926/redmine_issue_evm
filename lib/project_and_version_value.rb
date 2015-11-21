@@ -50,9 +50,4 @@ module ProjectAndVersionValue
               where( "start_date IS NOT NULL AND due_date IS NOT NULL AND fixed_version_id IS NOT NULL" ).uniq.pluck(:project_id, :fixed_version_id)
   end
 
-  def default_issues proj
-    issues = Issue.cross_project_scope(proj, "descendants").
-              where( "start_date IS NOT NULL AND due_date IS NOT NULL")
-  end
-
 end
