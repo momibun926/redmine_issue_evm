@@ -3,7 +3,7 @@ include ProjectAndVersionValue
 class EvmbaselinesController < ApplicationController
   unloadable
 
-  menu_item :issueevm
+  menu_item :issuevm
   before_action :find_project, :authorize
 
   def index
