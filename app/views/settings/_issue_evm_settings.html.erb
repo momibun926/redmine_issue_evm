@@ -1,0 +1,20 @@
+<p>
+  <table>
+    <tr>
+      <td><%=l(:label_basis_hours_of_day)%></td>
+      <td><%= text_field_tag('settings[working_hours_of_day]', @settings['working_hours_of_day'],{:size => 3, placeholder: 7.5})%></td>
+    </tr>
+    <tr>
+      <td><%=l(:label_limit_spi)%></td>
+      <td><%= text_field_tag('settings[limit_spi]', @settings['limit_spi'],{:size => 3, placeholder: 0.90})%></td>
+    </tr>
+    <tr>
+      <td><%=l(:label_limit_cpi)%></td>
+      <td><%= text_field_tag('settings[limit_cpi]', @settings['limit_cpi'],{:size => 3, placeholder: 0.90})%></td>
+    </tr>
+    <tr>
+      <td><%=l(:label_limit_cr)%></td>
+      <td><%= text_field_tag('settings[limit_cr]', @settings['limit_cr'],{:size => 3, placeholder: 0.80})%></td>
+    </tr>
+  </table>
+</p>

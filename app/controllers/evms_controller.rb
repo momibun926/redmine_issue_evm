@@ -7,6 +7,11 @@ class EvmsController < ApplicationController
   before_action :find_project, :authorize
 
   def index
+    #plugin setting
+    @working_hours_of_day = default_setting "working_hours_of_day", 7.5
+    @limit_spi = default_setting "limit_spi", 0.9
+    @limit_cpi = default_setting "limit_cpi", 0.9
+    @limit_cr = default_setting "limit_cr", 0.8 
     # Basis date of calculate
     @basis_date = default_basis_date
     # baseline combo
@@ -26,7 +31,7 @@ class EvmsController < ApplicationController
     #incomplete issues
     @incomplete_issues = incomplete_project_issues @project, @basis_date
     #EVM of project
-    @project_evm = IssueEvm.new( baselines, issues, actual_cost, @basis_date, @forecast, @calcetc, @no_use_baseline )
+    @project_evm = IssueEvm.new( baselines,issues,actual_cost,@basis_date,@forecast,@calcetc,@no_use_baseline,@working_hours_of_day )
     #EVM of versions
     @version_evm = {}
     project_version_ids = project_varsion_id_pair @project
@@ -34,7 +39,7 @@ class EvmsController < ApplicationController
       project_version_ids.each do |proj_id, ver_id|
         version_issue = version_issues proj_id, ver_id
         version_actual_cost = version_costs proj_id, ver_id
-        @version_evm[ver_id] = IssueEvm.new( nil, version_issue, version_actual_cost, @basis_date, nil, nil, true )
+        @version_evm[ver_id] = IssueEvm.new( nil,version_issue,version_actual_cost,@basis_date,nil,nil,true,@working_hours_of_day )
       end
     end
     @no_data = issues.blank?
@@ -60,6 +65,10 @@ private
 
   def default_calcetc
     params[:calcetc].nil? ? 'method2' : params[:calcetc]
+  end
+
+  def default_setting setting_name, defaultvalue
+    value = Setting.plugin_redmine_issue_evm[setting_name].blank? ? defaultvalue : Setting.plugin_redmine_issue_evm[setting_name].to_f
   end
 
   def find_project

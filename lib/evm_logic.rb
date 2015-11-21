@@ -2,7 +2,10 @@ module EvmLogic
 
   class IssueEvm
 
-    def initialize baselines, issues, costs, basis_date, forecast, etc_method, no_use_baseline
+    def initialize baselines, issues, costs, basis_date, forecast, etc_method, no_use_baseline, working_hours_of_day
+      #basis hours per day
+      @basis_hours_per_day = working_hours_of_day
+      #Basis date
       @basis_date = basis_date
       #option
       @forecast = forecast
@@ -134,7 +137,7 @@ module EvmLogic
 
     #Delay
     def delay
-      (forecast_finish_date - @pv.keys.max).to_i
+      (forecast_finish_date(@basis_hours_per_day) - @pv.keys.max).to_i
     end
 
     #TCPI = (BAC - EV) / (BAC - AC)
@@ -159,9 +162,9 @@ module EvmLogic
         chart_data['bac_top_line'] = convert_to_chart(bac_top_line)
         eac_top_line = {chart_minimum_date => eac, chart_maximum_date => eac}
         chart_data['eac_top_line'] = convert_to_chart(eac_top_line)
-        actual_cost_forecast = {@basis_date => today_ac, forecast_finish_date => eac}
+        actual_cost_forecast = {@basis_date => today_ac, forecast_finish_date(@basis_hours_per_day) => eac}
         chart_data['actual_cost_forecast'] = convert_to_chart(actual_cost_forecast)
-        earned_value_forecast = {@basis_date => today_ev, forecast_finish_date => bac}
+        earned_value_forecast = {@basis_date => today_ev, forecast_finish_date(@basis_hours_per_day) => bac}
         chart_data['earned_value_forecast'] = convert_to_chart(earned_value_forecast)
       end
       chart_data
@@ -261,21 +264,21 @@ module EvmLogic
       end
 
       def chart_maximum_date
-        [@pv.keys.max, @ev.keys.max, @ac.keys.max, forecast_finish_date].max
+        [@pv.keys.max, @ev.keys.max, @ac.keys.max, forecast_finish_date(@basis_hours_per_day)].max
       end
 
-      def forecast_finish_date
-        if complete_ev(8) == 100.0
+      def forecast_finish_date basis_hours
+        if complete_ev(basis_hours) == 100.0
           finish_date = @ev.keys.max
-        elsif today_spi(8) == 0.0
+        elsif today_spi(basis_hours) == 0.0
           finish_date = @pv.keys.max
         else
           if @issue_max_date < @basis_date
-            rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / 8 / today_spi(8)
+            rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi(basis_hours) / basis_hours 
             finish_date = @basis_date + rest_days
           else
             rest_days =  @pv.reject{|key, value| key <= @basis_date }.size
-            finish_date = @pv.keys.max - (rest_days - (rest_days / today_spi(8)) )
+            finish_date = @pv.keys.max - (rest_days - (rest_days / today_spi(basis_hours)) )
           end
         end
       end
