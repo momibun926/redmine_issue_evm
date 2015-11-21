@@ -14,6 +14,9 @@ en:
   label_old_baseline: old
   label_latest_baseline: View EVM
   label_basis_hours_of_day: Basis hours of day
+  label_limit_spi: SPI subthreshold. must be under 0.99
+  label_limit_cpi: CPI subthreshold. must be under 0.99
+  label_limit_cr: CR subthreshold. must be under 0.99
   # Message
   messsage_delete_baseline: Are you sure?
   # Main form

@@ -14,6 +14,9 @@ ja:
   label_old_baseline: 過去
   label_latest_baseline: 最新のベースラインで表示
   label_basis_hours_of_day: 一日の基準時間
+  label_limit_spi: SPIの閾値 0.99未満で設定してください。
+  label_limit_cpi: CPIの閾値 0.99未満で設定してください。
+  label_limit_cr: CRの閾値 0.99未満で設定してください。
   # Message
   messsage_delete_baseline: 本当に削除しますか？
   # Main form
