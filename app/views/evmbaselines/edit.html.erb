@@ -1,6 +1,11 @@
 <h2><%= l(:label_baseline_edit) %></h2>
+<%= wikitoolbar_for 'evmbaseline_description' %>
 <%= labelled_form_for @evm_baselines, :url => {:action => 'update',method: :get} do |f| %>
-  <p><%= f.text_field :subject, size: 60, required: true %></p>
-  <p><%= f.text_field :description, size: 150 %></p>
+  <p><%= f.text_field :subject, :size => 60, :required => true %></p>
+  <div class="wiki">
+    <p><%= f.text_area :description, class: 'wiki-edit' ,:rows => 10 %></p>
+  </div>
+  <%= wikitoolbar_for 'evmbaseline_description' %>
+  </br>
   <%= submit_tag l(:button_edit) %>
 <% end %>
