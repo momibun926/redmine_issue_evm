@@ -1,4 +1,9 @@
 <h2><%= l(:label_baseline_create) %></h2>
+<p>
+  <%= l(:label_baseline_bac) %>:<%= @bac.round(1) %>
+  <%= l(:label_baseline_start_date) %>:<%= @start_date %>
+  <%= l(:label_baseline_due_date) %>:<%= @due_date %>
+</p>
 <%= labelled_form_for @evm_baselines, :url => project_evmbaselines_path do |f| %>
   <p><%= f.text_field :subject, :size => 60, :required => true %></p>
   <div class="wiki">

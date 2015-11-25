@@ -12,6 +12,13 @@ class EvmbaselinesController < ApplicationController
 
   def new
     @evm_baselines = Evmbaseline.new
+    issues = project_issues @project
+    @start_date = issues.minimum(:start_date)
+    @due_date = issues.maximum(:due_date)
+    @bac = 0.0
+    issues.each do |issue|
+      @bac = @bac + issue.estimated_hours.to_f
+    end
   end
 
   def edit
