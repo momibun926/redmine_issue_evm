@@ -55,8 +55,17 @@ class EvmbaselinesController < ApplicationController
   end
 
   def destroy
+    #destroy
     evm_baselines = Evmbaseline.find(params[:id])
     evm_baselines.destroy
+    #update status
+    Evmbaseline.where(project_id: @project.id).update_all(state: l(:label_old_baseline))
+    evm_baselines = Evmbaseline.order("created_on desc").limit(1).first
+    if evm_baselines.present? then
+      evm_baselines.state = l(:label_current_baseline)
+      evm_baselines.save
+    end
+    #Message
     flash[:notice] = l(:notice_successful_delete)
     redirect_to :action => 'index'
   end
