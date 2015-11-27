@@ -1,11 +1,20 @@
 <h2><%= l(:label_baseline_edit) %></h2>
-<%= wikitoolbar_for 'evmbaseline_description' %>
-<%= labelled_form_for @evm_baselines, :url => {:action => 'update',method: :get} do |f| %>
-  <p><%= f.text_field :subject, :size => 60, :required => true %></p>
-  <div class="wiki">
-    <p><%= f.text_area :description, class: 'wiki-edit' ,:rows => 10 %></p>
+<fieldset>
+  <legend><%= l(:label_baseline) %></legend>
+  <p>
+    <%= l(:label_baseline_bac) %>:<%= @evm_baselines.bac %>
+    <%= l(:label_baseline_start_date) %>:<%= @evm_baselines.minimum_start_date %>
+    <%= l(:label_baseline_due_date) %>:<%= @evm_baselines.maximum_due_date %>
+  </p>
+  <div class="box">
+    <%= labelled_form_for @evm_baselines, :url => {:action => 'update',method: :get} do |f| %>
+      <p><%= f.text_field :subject, :size => 60, :required => true %></p>
+      <div class="wiki">
+        <p><%= f.text_area :description, class: 'wiki-edit' ,:rows => 10 %></p>
+      </div>
+      <%= wikitoolbar_for 'evmbaseline_description' %>
+      </br>
+      <%= submit_tag l(:button_edit) %>
+    <% end %>
   </div>
-  <%= wikitoolbar_for 'evmbaseline_description' %>
-  </br>
-  <%= submit_tag l(:button_edit) %>
-<% end %>
+</fieldset>
