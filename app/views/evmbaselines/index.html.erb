@@ -22,7 +22,7 @@
       　　<% @evm_baselines.each do |baseline| %>
           <tr class="baseline">
             <td class="subject"><%= link_to baseline.subject, {controller:"evms", action:"index", evmbaseline_id: baseline.id} %></td>
-            <td class="description"><%= baseline.description %></td>
+            <td class="description"><%= textilizable truncate_lines(baseline.description,:length => 50) %></td>
             <td class="strat_date"><%= baseline.minimum_start_date %></td>
             <td class="due_date"><%= baseline.maximum_due_date %></td>
             <td class="bac"><%= baseline.bac %></td>

@@ -3,7 +3,7 @@ include ProjectAndVersionValue
 class EvmbaselinesController < ApplicationController
   unloadable
 
-  menu_item :issueevm
+  menu_item :issuevm
   before_action :find_project, :authorize
 
   def index
@@ -12,6 +12,10 @@ class EvmbaselinesController < ApplicationController
 
   def new
     @evm_baselines = Evmbaseline.new
+    issues = project_issues @project
+    @start_date = issues.minimum(:start_date)
+    @due_date = issues.maximum(:due_date)
+    @bac = issues.sum(:estimated_hours).to_f
   end
 
   def edit
@@ -51,8 +55,17 @@ class EvmbaselinesController < ApplicationController
   end
 
   def destroy
+    #destroy
     evm_baselines = Evmbaseline.find(params[:id])
     evm_baselines.destroy
+    #update status
+    Evmbaseline.where(project_id: @project.id).update_all(state: l(:label_old_baseline))
+    evm_baselines = Evmbaseline.order("created_on desc").limit(1).first
+    if evm_baselines.present? then
+      evm_baselines.state = l(:label_current_baseline)
+      evm_baselines.save
+    end
+    #Message
     flash[:notice] = l(:notice_successful_delete)
     redirect_to :action => 'index'
   end
