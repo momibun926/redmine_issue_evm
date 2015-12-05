@@ -1,8 +1,8 @@
 require 'redmine'
 
-#Redmine::Activity.register :evmbaseline
-
 Redmine::Plugin.register :redmine_issue_evm do
+
+  #activity_provider :evmbaselines ,:class_name => 'Evmbaseline', :default => true
 
   name 'Redmine Issue Evm plugin'
   author 'Hajime Nakagama'
@@ -13,8 +13,8 @@ Redmine::Plugin.register :redmine_issue_evm do
 
   project_module :Issuevm do
     permission :view_evms, :evms => :index , :require => :member
-    permission :manage_evmbaseline, { :evmbaselines => [:edit, :destroy, :new, :create, :update, :index] }
-    permission :view_evmbaseline, { :evmbaselines => [:index] }
+    permission :manage_evmbaselines, { :evmbaselines => [:edit, :destroy, :new, :create, :update, :index] }
+    permission :view_evmbaselines, { :evmbaselines => [:index] }
   end
 
   menu :project_menu, :issuevm, { :controller => :evms, :action => :index}, :caption => :tab_display_name, :param => :project_id
@@ -24,6 +24,5 @@ Redmine::Plugin.register :redmine_issue_evm do
                         'limit_cpi' => '0.9',
                         'limit_cr' => '0.8'},
                        :partial => 'settings/issue_evm_settings'
-
 
 end

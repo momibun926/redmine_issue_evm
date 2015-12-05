@@ -29,6 +29,7 @@ class Evmbaseline < ActiveRecord::Base
 
   #acts_as_activity_provider :scope => preload(:projects),
   #                          :author_key => :author_id,
-  #                          :timestamp => :created_on
+  #                          :timestamp => :created_on,
+  #                          :type => :evmbaselines
 
 end
