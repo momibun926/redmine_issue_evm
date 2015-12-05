@@ -40,6 +40,7 @@ ja:
   label_calc_method3: 悲観的
   label_Display : EVM値の説明
   label_display_explanation: サイドバーに表示
+  label_evmbaseline_plural: ベースライン
   # Explanation title
   explanation_basis: 基本
   explanation_difference: 差異

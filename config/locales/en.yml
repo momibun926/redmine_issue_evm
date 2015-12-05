@@ -40,6 +40,7 @@ en:
   label_calc_method3: Pessimistic
   label_Display : Explanation
   label_display_explanation: View explanation of EVM value to sidebar
+  label_evmbaseline_plural: Baseline
   # Explanation title
   explanation_basis: Basis
   explanation_difference: Difference

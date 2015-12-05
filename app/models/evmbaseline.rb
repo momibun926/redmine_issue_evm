@@ -21,15 +21,14 @@ class Evmbaseline < ActiveRecord::Base
     evmbaselineIssues.sum(:estimated_hours).round(1)
   end
 
-  #acts_as_event :title => 'test',
-  #              :description => :subject,
-  #              :datetime => :created_on,
-  #              :type => Proc.new { |o| 'evmBaseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
-  #              :url => Proc.new { |o| {:controller => 'EvmbaselinesController', :action => 'index', :id => o.id, :project_id => o.project_id} }
+  acts_as_event :title => 'test',
+                :description => :subject,
+                :datetime => :created_on,
+                :type => Proc.new { |o| 'evmBaseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
+                :url => Proc.new { |o| {:controller => 'EvmbaselinesController', :action => 'index', :id => o.id, :project_id => o.project} }
 
-  #acts_as_activity_provider :scope => preload(:projects),
-  #                          :author_key => :author_id,
-  #                          :timestamp => :created_on,
-  #                          :type => :evmbaselines
-
+  acts_as_activity_provider :scope => preload(:projects),
+                            :type => 'evmbaselines',
+                            :author_key => :author_id,
+                            :timestamp => :created_on
 end
