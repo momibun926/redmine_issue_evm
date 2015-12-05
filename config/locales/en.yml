@@ -73,7 +73,8 @@ en:
   # Permission
   project_module_Issuevm: EVM
   permission_view_evms: View EVM
-  permission_manage_evms: Setting Baseline
+  permission_manage_evmbaseline: Edit Baseline
+  permission_view_evmbaseline: View Baseline
   # Tab Display
   tab_display_name: EVM
   # incomplete_issue
