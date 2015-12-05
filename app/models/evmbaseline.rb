@@ -3,6 +3,7 @@ class Evmbaseline < ActiveRecord::Base
 
   attr_protected :id
   has_many :evmbaselineIssues, :dependent => :delete_all
+  belongs_to :author, :class_name => 'User'
   validates :subject, :presence => true
 
   def minimum_start_date
