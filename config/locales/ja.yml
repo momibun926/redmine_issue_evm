@@ -40,7 +40,7 @@ ja:
   label_calc_method3: 悲観的
   label_Display : EVM値の説明
   label_display_explanation: サイドバーに表示
-  label_evmbaseline_plural: ベースライン
+  label_evm_baseline_plural: ベースライン
   # Explanation title
   explanation_basis: 基本
   explanation_difference: 差異
@@ -75,7 +75,7 @@ ja:
   project_module_Issuevm: EVM
   permission_view_evms: EVMプラグインタブの表示
   permission_manage_evmbaselines: ベースラインの設定
-  permission_view_evmbaselines: ベースラインの一覧表示
+  permission_view_evm_baselines: ベースラインの一覧表示
   # Tab Display
   tab_display_name: EVM
   # incomplete_issue

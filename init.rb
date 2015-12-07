@@ -12,7 +12,7 @@ Redmine::Plugin.register :redmine_issue_evm do
   project_module :Issuevm do
     permission :view_evms, :evms => :index , :require => :member
     permission :manage_evmbaselines, { :evmbaselines => [:edit, :destroy, :new, :create, :update, :index, :show, :history] }
-    permission :view_evmbaselines, { :evmbaselines => [:index, :show, :history]}
+    permission :view_evm_baseline, { :evmbaselines => [:history, :show]}
   end
 
   menu :project_menu, :issuevm, { :controller => :evms, :action => :index}, :caption => :tab_display_name, :param => :project_id
@@ -23,6 +23,6 @@ Redmine::Plugin.register :redmine_issue_evm do
                         'limit_cr' => '0.8'},
                         :partial => 'settings/issue_evm_settings'
 
-  activity_provider :evmbaselines, :class_name => 'Evmbaseline', :default => false
+  activity_provider 'evm_baseline', :class_name => 'Evmbaseline', :default => false
 
 end

@@ -40,7 +40,7 @@ en:
   label_calc_method3: Pessimistic
   label_Display : Explanation
   label_display_explanation: View explanation of EVM value to sidebar
-  label_evmbaseline_plural: Baseline
+  label_evm_baseline_plural: Baseline
   # Explanation title
   explanation_basis: Basis
   explanation_difference: Difference
@@ -75,7 +75,7 @@ en:
   project_module_Issuevm: EVM
   permission_view_evms: View EVM
   permission_manage_evmbaselines: Edit Baseline
-  permission_view_evmbaselines: View Baseline
+  permission_view_evm_baselines: View Baseline
   # Tab Display
   tab_display_name: EVM
   # incomplete_issue

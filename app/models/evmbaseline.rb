@@ -24,11 +24,11 @@ class Evmbaseline < ActiveRecord::Base
   acts_as_event :title => 'test',
                 :description => :subject,
                 :datetime => :created_on,
-                :type => Proc.new { |o| 'evmBaseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
+                :type => Proc.new { |o| 'EvmBaseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
                 :url => Proc.new { |o| {:controller => 'EvmbaselinesController', :action => 'index', :id => o.id, :project_id => o.project} }
 
   acts_as_activity_provider :scope => preload(:projects),
-                            :type => 'evmbaselines',
+                            :type => 'evm_baseline',
                             :author_key => :author_id,
                             :timestamp => :created_on
 end
