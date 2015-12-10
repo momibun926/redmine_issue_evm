@@ -1,20 +1,29 @@
 <h2><%= l(:label_baseline_create) %></h2>
-<fieldset>
-  <legend><%= l(:label_baseline) %></legend>
-  <p>
-    <%= l(:label_baseline_bac) %>:<%= @bac.round(1) %>
-    <%= l(:label_baseline_start_date) %>:<%= @start_date %>
-    <%= l(:label_baseline_due_date) %>:<%= @due_date %>
-  </p>
-  <div class="box">
-    <%= labelled_form_for @evm_baselines, :url => project_evmbaselines_path do |f| %>
-      <p><%= f.text_field :subject, :size => 60, :required => true %></p>
-      <div class="wiki">
-        <p><%= f.text_area :description, class: 'wiki-edit' ,:rows => 10 %></p>
-      </div>
-      <%= wikitoolbar_for 'evmbaseline_description' %>
-      </br>
-      <%= submit_tag l(:button_create) %>
-    <% end %>
+<%= form_for @evm_baselines, :url => project_evmbaselines_path do |f| %>
+  <div class="box tabular">
+    <p>
+      <%= f.label :subject %>
+      <%= f.text_field :subject, :size => 60, :required => true %>
+    </p>
+    <p>
+      <%= label :bac ,l(:label_baseline_bac) %>
+      <%= @bac.round(1) %>
+    </p>
+    <p>
+      <%= label :start_date ,l(:label_baseline_start_date) %>
+      <%= @start_date %>
+    </p>
+    <p>
+      <%= label :due_date ,l(:label_baseline_due_date) %>
+      <%= @due_date %>
+    </p>
+    <p>
+      <%= f.label :description %>
+      <span>
+        <%= f.text_area :description, class: 'wiki-edit',:rows => 10 %>
+      </span>
+    </p>
+    <%= wikitoolbar_for 'evmbaseline_description' %>
   </div>
-</fieldset>
+  <%= submit_tag l(:button_create) %>
+<% end %>
