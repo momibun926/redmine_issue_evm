@@ -21,8 +21,8 @@ class Evmbaseline < ActiveRecord::Base
     evmbaselineIssues.sum(:estimated_hours).round(1)
   end
 
-  acts_as_event :title => Proc.new { |o| 'EvmBaseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
-                :description => :subject,
+  acts_as_event :title => Proc.new { |o| l(:title_evm_tab) + ':' + o.subject },
+                :description => l(:label_ativity_message_new),
                 :datetime => :created_on,
                 :type => Proc.new { |o| 'EvmBaseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
                 :url => Proc.new { |o| {:controller => 'evmbaselines', :action => 'index', :project_id => o.project} }
@@ -31,4 +31,5 @@ class Evmbaseline < ActiveRecord::Base
                             :permission => :view_evm_baselines,
                             :type => 'evmbaseline',
                             :author_key => :author_id
+
 end
