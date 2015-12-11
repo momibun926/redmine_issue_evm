@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
   resources :projects do
-    resources :evms,:evmbaselines
+    resources :evms, :evmbaselines
   end
 end
