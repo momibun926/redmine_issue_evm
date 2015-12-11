@@ -40,6 +40,9 @@ module EvmLogic
     attr_reader :basis_date
 
     # BAC
+    # Total hours of issues.
+    # @param [hours] hours per day
+    # @return [Numeric] BAC
     def bac(hours = 1)
       bac = @pv[@pv.keys.max] / hours
       bac.round(1)
@@ -199,7 +202,7 @@ module EvmLogic
           end
         end
       end
-      calculate_planed_value = sort_and_sum_evm_hash(temp_pv)
+      sort_and_sum_evm_hash(temp_pv)
     end
 
     def calculate_earned_value(issues)
@@ -225,7 +228,6 @@ module EvmLogic
     end
 
     def calculate_actual_cost(costs)
-      temp_ac = {}
       temp_ac = Hash[costs]
       calculate_actual_cost = sort_and_sum_evm_hash(temp_ac)
       calculate_actual_cost.delete_if { |date, _value| date > @basis_date }
@@ -265,16 +267,16 @@ module EvmLogic
 
     def forecast_finish_date(basis_hours)
       if complete_ev(basis_hours) == 100.0
-        finish_date = @ev.keys.max
+        @ev.keys.max
       elsif today_spi(basis_hours) == 0.0
-        finish_date = @pv.keys.max
+        @pv.keys.max
       else
         if @issue_max_date < @basis_date
           rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi(basis_hours) / basis_hours
-          finish_date = @basis_date + rest_days
+          @basis_date + rest_days
         else
           rest_days = @pv.reject { |key, _value| key <= @basis_date }.size
-          finish_date = @pv.keys.max - (rest_days - (rest_days / today_spi(basis_hours)))
+          @pv.keys.max - (rest_days - (rest_days / today_spi(basis_hours)))
         end
       end
     end
