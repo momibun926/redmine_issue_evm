@@ -1,110 +1,106 @@
 module EvmLogic
-
   class IssueEvm
-
-    def initialize baselines, issues, costs, basis_date, forecast, etc_method, no_use_baseline, working_hours_of_day
-      #basis hours per day
+    def initialize(baselines, issues, costs, basis_date, forecast, etc_method, no_use_baseline, working_hours_of_day)
+      # basis hours per day
       @basis_hours_per_day = working_hours_of_day
-      #Basis date
+      # Basis date
       @basis_date = basis_date
-      #option
+      # option
       @forecast = forecast
       @etc_method = etc_method
       @issue_max_date = issues.maximum(:due_date)
-      #PV-ACTUAL for chart
+      # PV-ACTUAL for chart
       @pv_actual = calculate_planed_value issues
-      #PV-BASELINE for chart
+      # PV-BASELINE for chart
       @pv_baseline = calculate_planed_value baselines
-      #PV
+      # PV
       @pv = no_use_baseline ? @pv_actual : @pv_baseline
-      #EV
+      # EV
       @ev = calculate_earned_value issues
-      #AC
+      # AC
       @ac = calculate_actual_cost costs
       # Project finished?
       if @pv[@pv.keys.max] == @ev[@ev.keys.max]
         delete_basis_date = [@pv.keys.max, @ev.keys.max, @ac.keys.max].max
-        @pv.delete_if{|date, value| date > delete_basis_date }
-        @ev.delete_if{|date, value| date > delete_basis_date }
-        @ac.delete_if{|date, value| date > delete_basis_date }
-        @pv_actual.delete_if{|date, value| date > delete_basis_date }
-        @pv_baseline.delete_if{|date, value| date > delete_basis_date }
-        #when project is finished, forecast is disable.
+        @pv.delete_if { |date, _value| date > delete_basis_date }
+        @ev.delete_if { |date, _value| date > delete_basis_date }
+        @ac.delete_if { |date, _value| date > delete_basis_date }
+        @pv_actual.delete_if { |date, _value| date > delete_basis_date }
+        @pv_baseline.delete_if { |date, _value| date > delete_basis_date }
+        # when project is finished, forecast is disable.
         @forecast = false
       end
-      #To calculate the EVM value
+      # To calculate the EVM value
       @pv_value = @pv[basis_date] || @pv[@pv.keys.max]
       @ev_value = @ev[basis_date] || @ev[@ev.keys.max]
       @ac_value = @ac[basis_date] || @ac[@ac.keys.max]
     end
 
-    #Basis date
-    def basis_date
-      @basis_date
-    end
+    # Basis date
+    attr_reader :basis_date
 
-    #BAC
-    def bac hours = 1
+    # BAC
+    def bac(hours = 1)
       bac = @pv[@pv.keys.max] / hours
       bac.round(1)
     end
 
-    #CompleteEV
-    def complete_ev hours = 1
+    # CompleteEV
+    def complete_ev(hours = 1)
       complete_ev = bac(hours) == 0.0 ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
       complete_ev.round(1)
     end
 
-    #PV
-    def today_pv hours = 1
+    # PV
+    def today_pv(hours = 1)
       pv = @pv_value / hours
       pv.round(1)
     end
 
-    #EV
-    def today_ev hours = 1
+    # EV
+    def today_ev(hours = 1)
       ev = @ev_value / hours
       ev.round(1)
     end
 
-    #AC
-    def today_ac hours = 1
+    # AC
+    def today_ac(hours = 1)
       ac = @ac_value / hours
       ac.round(1)
     end
 
-    #SV
-    def today_sv hours = 1
+    # SV
+    def today_sv(hours = 1)
       sv = today_ev(hours) - today_pv(hours)
       sv.round(1)
     end
 
-    #CV
-    def today_cv hours = 1
+    # CV
+    def today_cv(hours = 1)
       cv = today_ev(hours) - today_ac(hours)
       cv.round(1)
     end
 
-    #SPI
-    def today_spi hours = 1
+    # SPI
+    def today_spi(hours = 1)
       spi = today_ev(hours) == 0.0 || today_pv(hours) == 0.0 ? 0.0 : today_ev(hours) / today_pv(hours)
       spi.round(2)
     end
 
-    #CPI
-    def today_cpi hours = 1
+    # CPI
+    def today_cpi(hours = 1)
       cpi = today_ev(hours) == 0.0 || today_ac(hours) == 0.0 ? 0.0 : today_ev(hours) / today_ac(hours)
       cpi.round(2)
     end
 
-    #CR
-    def today_cr hours = 1
+    # CR
+    def today_cr(hours = 1)
       cr = today_spi(hours) * today_cpi(hours)
       cr.round(2)
     end
 
-    #ETC
-    def etc hours = 1
+    # ETC
+    def etc(hours = 1)
       if today_cpi(hours) == 0.0 || today_cr(hours) == 0.0
         etc = 0.0
       else
@@ -123,30 +119,30 @@ module EvmLogic
       etc.round(1)
     end
 
-    #EAC
-    def eac hours = 1
+    # EAC
+    def eac(hours = 1)
       eac = today_ac(hours) + etc(hours)
       eac.round(1)
     end
 
-    #VAC
-    def vac hours = 1
+    # VAC
+    def vac(hours = 1)
       vac = bac(hours) - eac(hours)
       vac.round(1)
     end
 
-    #Delay
+    # Delay
     def delay
       (forecast_finish_date(@basis_hours_per_day) - @pv.keys.max).to_i
     end
 
-    #TCPI = (BAC - EV) / (BAC - AC)
-    def tcpi hours = 1
+    # TCPI = (BAC - EV) / (BAC - AC)
+    def tcpi(hours = 1)
       tcpi = bac(hours) == 0.0 ? 0.0 : (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
       tcpi.round(1)
     end
 
-    #Create chart data
+    # Create chart data
     def chart_data
       chart_data = {}
       if @issue_max_date < @basis_date && complete_ev(8) < 100.0
@@ -158,13 +154,13 @@ module EvmLogic
       chart_data['earned_value'] = convert_to_chart(@ev)
       chart_data['baseline_value'] = convert_to_chart(@pv_baseline)
       if @forecast
-        bac_top_line = {chart_minimum_date => bac, chart_maximum_date => bac}
+        bac_top_line = { chart_minimum_date => bac, chart_maximum_date => bac }
         chart_data['bac_top_line'] = convert_to_chart(bac_top_line)
-        eac_top_line = {chart_minimum_date => eac, chart_maximum_date => eac}
+        eac_top_line = { chart_minimum_date => eac, chart_maximum_date => eac }
         chart_data['eac_top_line'] = convert_to_chart(eac_top_line)
-        actual_cost_forecast = {@basis_date => today_ac, forecast_finish_date(@basis_hours_per_day) => eac}
+        actual_cost_forecast = { @basis_date => today_ac, forecast_finish_date(@basis_hours_per_day) => eac }
         chart_data['actual_cost_forecast'] = convert_to_chart(actual_cost_forecast)
-        earned_value_forecast = {@basis_date => today_ev, forecast_finish_date(@basis_hours_per_day) => bac}
+        earned_value_forecast = { @basis_date => today_ev, forecast_finish_date(@basis_hours_per_day) => bac }
         chart_data['earned_value_forecast'] = convert_to_chart(earned_value_forecast)
       end
       chart_data
@@ -193,118 +189,116 @@ module EvmLogic
 
     private
 
-      def calculate_planed_value issues
-        temp_pv = {}
-        unless issues.nil?
-          issues.each do |issue|
-            hours_per_day = issue_hours_per_day(issue.estimated_hours.to_f, issue.start_date, issue.due_date)
-            (issue.start_date..issue.due_date).each do |date|
-              temp_pv[date].nil? ? temp_pv[date] = hours_per_day : temp_pv[date] += hours_per_day
+    def calculate_planed_value(issues)
+      temp_pv = {}
+      unless issues.nil?
+        issues.each do |issue|
+          hours_per_day = issue_hours_per_day(issue.estimated_hours.to_f, issue.start_date, issue.due_date)
+          (issue.start_date..issue.due_date).each do |date|
+            temp_pv[date].nil? ? temp_pv[date] = hours_per_day : temp_pv[date] += hours_per_day
+          end
+        end
+      end
+      calculate_planed_value = sort_and_sum_evm_hash(temp_pv)
+    end
+
+    def calculate_earned_value(issues)
+      temp_ev = {}
+      unless issues.nil?
+        issues.each do |issue|
+          if issue.closed?
+            close_date = issue.closed_on.to_time.to_date
+            temp_ev[close_date].nil? ? temp_ev[close_date] = issue.estimated_hours.to_f : temp_ev[close_date] += issue.estimated_hours.to_f
+          elsif issue.done_ratio > 0
+            estimated_hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
+            start_date = [issue.start_date, @basis_date].min
+            end_date = [issue.due_date, @basis_date].max
+            hours_per_day = issue_hours_per_day(estimated_hours, start_date, end_date)
+            (start_date..end_date).each do |date|
+              temp_ev[date].nil? ? temp_ev[date] = hours_per_day : temp_ev[date] += hours_per_day
             end
           end
         end
-        calculate_planed_value = sort_and_sum_evm_hash(temp_pv)
       end
+      calculate_earned_value = sort_and_sum_evm_hash(temp_ev)
+      calculate_earned_value.delete_if { |date, _value| date > @basis_date }
+    end
 
-      def calculate_earned_value issues
-        temp_ev = {}
-        unless issues.nil?
-          issues.each do |issue|
-            if issue.closed?
-              close_date = issue.closed_on.to_time.to_date
-              temp_ev[close_date].nil? ? temp_ev[close_date] = issue.estimated_hours.to_f : temp_ev[close_date] += issue.estimated_hours.to_f
-            elsif issue.done_ratio > 0
-              estimated_hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
-              start_date = [issue.start_date, @basis_date].min
-              end_date = [issue.due_date, @basis_date].max
-              hours_per_day = issue_hours_per_day(estimated_hours, start_date, end_date)
-              (start_date..end_date).each do |date|
-                temp_ev[date].nil? ? temp_ev[date] = hours_per_day : temp_ev[date] += hours_per_day
-              end
-            end
-          end
-        end
-        calculate_earned_value = sort_and_sum_evm_hash(temp_ev)
-        calculate_earned_value.delete_if{|date, value| date > @basis_date }
+    def calculate_actual_cost(costs)
+      temp_ac = {}
+      temp_ac = Hash[costs]
+      calculate_actual_cost = sort_and_sum_evm_hash(temp_ac)
+      calculate_actual_cost.delete_if { |date, _value| date > @basis_date }
+    end
+
+    def convert_to_chart(hash_with_data)
+      hash_converted = Hash[hash_with_data.map { |k, v| [k.to_time.to_i * 1000, v] }]
+      hash_converted.to_a
+    end
+
+    def sort_and_sum_evm_hash(evm_hash)
+      temp_hash = {}
+      sum_value = 0.0
+      if evm_hash.blank?
+        evm_hash[@basis_date] = 0.0
+      elsif @basis_date <= @issue_max_date
+        evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil?
       end
-
-      def calculate_actual_cost costs
-        temp_ac = {}
-        temp_ac = Hash[costs]
-        calculate_actual_cost = sort_and_sum_evm_hash(temp_ac)
-        calculate_actual_cost.delete_if{|date, value| date > @basis_date }
+      evm_hash.sort_by { |key, _val| key }.each do |date, value|
+        sum_value += value
+        temp_hash[date] = sum_value
       end
+      temp_hash
+    end
 
-      def convert_to_chart hash_with_data
-        hash_converted = Hash[hash_with_data.map{ |k, v| [k.to_time.to_i * 1000, v] }]
-        hash_converted.to_a
-      end
+    def issue_hours_per_day(estimated_hours, start_date, end_date)
+      (estimated_hours || 0.0) / (end_date - start_date + 1)
+    end
 
-      def sort_and_sum_evm_hash evm_hash
-        temp_hash = {}
-        sum_value = 0.0
-        if evm_hash.blank?
-          evm_hash[@basis_date] = 0.0
-        elsif @basis_date <= @issue_max_date
-          evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil?
-        end
-        evm_hash.sort_by{|key,val| key}.each do |date , value|
-          sum_value += value
-          temp_hash[date] = sum_value
-        end
-        temp_hash
-      end
+    def chart_minimum_date
+      [@pv.keys.min, @ev.keys.min, @ac.keys.min].min
+    end
 
-      def issue_hours_per_day estimated_hours, start_date, end_date
-        (estimated_hours || 0.0 ) / (end_date - start_date + 1)
-      end
+    def chart_maximum_date
+      [@pv.keys.max, @ev.keys.max, @ac.keys.max, forecast_finish_date(@basis_hours_per_day)].max
+    end
 
-      def chart_minimum_date
-        [@pv.keys.min, @ev.keys.min, @ac.keys.min].min
-      end
-
-      def chart_maximum_date
-        [@pv.keys.max, @ev.keys.max, @ac.keys.max, forecast_finish_date(@basis_hours_per_day)].max
-      end
-
-      def forecast_finish_date basis_hours
-        if complete_ev(basis_hours) == 100.0
-          finish_date = @ev.keys.max
-        elsif today_spi(basis_hours) == 0.0
-          finish_date = @pv.keys.max
+    def forecast_finish_date(basis_hours)
+      if complete_ev(basis_hours) == 100.0
+        finish_date = @ev.keys.max
+      elsif today_spi(basis_hours) == 0.0
+        finish_date = @pv.keys.max
+      else
+        if @issue_max_date < @basis_date
+          rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi(basis_hours) / basis_hours
+          finish_date = @basis_date + rest_days
         else
-          if @issue_max_date < @basis_date
-            rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi(basis_hours) / basis_hours 
-            finish_date = @basis_date + rest_days
-          else
-            rest_days =  @pv.reject{|key, value| key <= @basis_date }.size
-            finish_date = @pv.keys.max - (rest_days - (rest_days / today_spi(basis_hours)) )
-          end
+          rest_days = @pv.reject { |key, _value| key <= @basis_date }.size
+          finish_date = @pv.keys.max - (rest_days - (rest_days / today_spi(basis_hours)))
         end
       end
+    end
 
-      def complement_evm_value evm_hash
-        before_date = evm_hash.keys.min
-        before_value = evm_hash[evm_hash.keys.min]
-        temp = {}
-        evm_hash.each do |date , value|
-          dif_days = ( date - before_date - 1 ).to_i
-          dif_value = ( value - before_value ) / dif_days
-          if dif_days > 0
-            sum_value = 0.0
-            for add_days in 1..dif_days do
-              tmpdate = before_date + add_days
-              sum_value += dif_value
-              temp[tmpdate] = before_value + sum_value
-            end
+    def complement_evm_value(evm_hash)
+      before_date = evm_hash.keys.min
+      before_value = evm_hash[evm_hash.keys.min]
+      temp = {}
+      evm_hash.each do |date, value|
+        dif_days = (date - before_date - 1).to_i
+        dif_value = (value - before_value) / dif_days
+        if dif_days > 0
+          sum_value = 0.0
+          for add_days in 1..dif_days do
+            tmpdate = before_date + add_days
+            sum_value += dif_value
+            temp[tmpdate] = before_value + sum_value
           end
-          before_date = date
-          before_value = value
-          temp[date] = value
         end
-        temp
+        before_date = date
+        before_value = value
+        temp[date] = value
       end
-
+      temp
+    end
   end
-
 end

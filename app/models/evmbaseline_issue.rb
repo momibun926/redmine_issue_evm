@@ -3,5 +3,4 @@ class EvmbaselineIssue < ActiveRecord::Base
 
   attr_protected :id
   belongs_to :evmbaseline
-
 end

@@ -1,7 +1,6 @@
 module EvmsHelper
-
   def spi_color
-    value = ""
+    value = ''
     case @project_evm.today_spi
     when (@limit_spi + 0.01..0.99) then
       value = 'class="indicator-orange"'
@@ -12,7 +11,7 @@ module EvmsHelper
   end
 
   def cpi_color
-    value = ""
+    value = ''
     case @project_evm.today_cpi
     when (@limit_cpi + 0.01..0.99) then
       value = 'class="indicator-orange"'
@@ -23,7 +22,7 @@ module EvmsHelper
   end
 
   def cr_color
-    value = ""
+    value = ''
     if @project_evm.today_sv < 0.0
       case @project_evm.today_cr
       when (@limit_cr + 0.01..0.99) then
@@ -43,14 +42,13 @@ module EvmsHelper
     end
   end
 
-  def version_chart_name ver_id
+  def version_chart_name(ver_id)
     ver = Version.find(ver_id)
     pro = Project.find(ver.project_id)
     pro.name + ' - ' + ver.name
   end
 
-  def local_date baseline_datetime
-    baseline_datetime.localtime.strftime("%Y-%m-%d %H:%M:%S") if baseline_datetime.present
+  def local_date(baseline_datetime)
+    baseline_datetime.localtime.strftime('%Y-%m-%d %H:%M:%S') if baseline_datetime.present
   end
-
 end
