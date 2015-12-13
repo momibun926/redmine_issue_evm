@@ -45,11 +45,11 @@ Ticket#1 is closed on 8/3.
 | AC  | 10  | 16  | 23  |
 
 # Version
-3.4
+3.5.1
 
 
 # Environment
-Bitnami redmine 3.1.0
+Bitnami redmine 3.2.0
 
 
 # Installation
