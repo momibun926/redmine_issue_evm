@@ -42,6 +42,7 @@ ja:
   label_display_explanation: サイドバーに表示
   label_evmbaseline_plural: ベースライン
   label_ativity_message_new: ベースラインが作成されました
+  label_evm_print: 印刷
   # Explanation title
   explanation_basis: 基本
   explanation_difference: 差異

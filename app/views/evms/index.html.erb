@@ -1,20 +1,27 @@
 <% html_title('Project tracking with EVM') %>
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'issue_evm',               :plugin => 'redmine_issue_evm' %>
-  <%= javascript_include_tag 'drawchart',            :plugin => 'redmine_issue_evm' %>
-  <%= javascript_include_tag 'highcharts.js',        :plugin => 'redmine_issue_evm' %>
-  <%= javascript_include_tag '../../../javascripts/select_list_move', :plugin => 'redmine_issue_evm' %>
+  <%= stylesheet_link_tag 'issue_evm',         :plugin => 'redmine_issue_evm' %>
+  <%= javascript_include_tag 'drawchart',      :plugin => 'redmine_issue_evm' %>
+  <%= javascript_include_tag 'highcharts.js',  :plugin => 'redmine_issue_evm' %>
+  <%= javascript_include_tag 'jPrintArea.js',  :plugin => 'redmine_issue_evm' %>
   <script>
     function disableobject( object, ischecked ) {
       document.getElementById(object).disabled = ischecked;
     }
+    $(function(){
+      $('#btn_print').click(function(){
+        $.jPrintArea("#printarea");
+      });
+    });
   </script>
 <% end %>
 <!-- Basline setting -->
 <div class="contextual">
-  <%= link_to l(:label_baseline_set), {controller:"evmbaselines", action:"index", id: @project.id} ,:class => 'icon icon-edit'%>
+  <%= link_to l(:label_baseline_set), {controller: "evmbaselines", action: "index", id: @project.id} ,:class => 'icon icon-edit'%>
+  <%= link_to "#", {id: "btn_print", class: 'icon icon-print' } do l(:label_evm_print) end %>
 </div>
 <!--Header-->
+<div id="printarea">
 <h2><%= l(:title_evm_tab)%></h2>
 <% if @no_data %>
   <p class="nodata"><%= l(:label_no_data) %></p>
@@ -94,3 +101,4 @@
     <%= render :partial => '/evms/explanation' %>
   <% end %>
 <% end %>
+</div>

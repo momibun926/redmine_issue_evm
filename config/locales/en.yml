@@ -42,6 +42,7 @@ en:
   label_display_explanation: View explanation of EVM value to sidebar
   label_evmbaseline_plural: Baseline
   label_ativity_message_new: Baseline is created.
+  label_evm_print: Print
   # Explanation title
   explanation_basis: Basis
   explanation_difference: Difference
