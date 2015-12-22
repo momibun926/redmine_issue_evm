@@ -1,12 +1,12 @@
 <div class="option-col">
   <p><%= l(:label_basis_date) %></p>
-  <%= text_field_tag('basis_date', basis_date, :size => 10) %><%= calendar_for('basis_date') %>
+  <%= text_field_tag('basis_date', basis_date, size: 10) %><%= calendar_for('basis_date') %>
 </div>
 <div class="option-col">
   <p><%= l(:label_basis) %></p>
-  <%= check_box_tag :no_use_baseline,'true', no_use_baseline, :onclick => "disableobject('evmbaseline_id', this.checked);"%>
+  <%= check_box_tag :no_use_baseline,'true', no_use_baseline, onclick: "disableobject('evmbaseline_id', this.checked);"%>
   <%= label_tag l(:label_no_use_baseline) %>
-  <%= select_tag :evmbaseline_id, options_from_collection_for_select(evmbaseline, :id, :subject, baseline_id), :disabled => no_use_baseline %>
+  <%= select_tag :evmbaseline_id, options_from_collection_for_select(evmbaseline, :id, :subject, baseline_id), disabled: no_use_baseline %>
 </div>
 <div class="option-col">
   <p><%= l(:label_graph) %></p>

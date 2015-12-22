@@ -1,5 +1,5 @@
 <div class="contextual">
-  <%= link_to l(:label_baseline_create), {controller:"evmbaselines", action:"new", id: @project.id}, :class => 'icon icon-add' %>
+  <%= link_to l(:label_baseline_create), {controller: :evmbaselines, action: 'new', id: @project.id}, class: 'icon icon-add' %>
 </div>
 <h2><%= l(:label_baseline_version) %></h2>
 <% if @evm_baselines.blank? %>
@@ -23,8 +23,8 @@
       <tbody>
       　　<% @evm_baselines.each do |baseline| %>
           <tr class="baseline">
-            <td class="subject"><%= link_to baseline.subject, {controller:"evms", action:"index", evmbaseline_id: baseline.id} %></td>
-            <td class="description"><%= textilizable truncate_lines(baseline.description,:length => 50) %></td>
+            <td class="subject"><%= link_to baseline.subject, {controller: 'evms', action: 'index', evmbaseline_id: baseline.id} %></td>
+            <td class="description"><%= textilizable truncate_lines(baseline.description, length: 50) %></td>
             <td class="strat_date"><%= baseline.minimum_start_date %></td>
             <td class="due_date"><%= baseline.maximum_due_date %></td>
             <td class="bac"><%= baseline.bac %></td>
@@ -33,8 +33,8 @@
             <td class="created_on"><%= local_date(baseline.created_on) %></td>
             <td class="updated_on"><%= local_date(baseline.updated_on) %></td>
             <td class="buttons">
-              <%= link_to l(:button_edit), {controller: :evmbaselines, action: 'edit', id: baseline.id}, :class => 'icon icon-edit' %>
-              <%= link_to l(:button_delete), {controller: :evmbaselines, action: 'destroy', id: baseline.id} , :method => :delete , :class => 'icon icon-del', confirm: l(:messsage_delete_baseline) %>
+              <%= link_to l(:button_edit), {controller: :evmbaselines, action: 'edit', id: baseline.id}, class: 'icon icon-edit' %>
+              <%= link_to l(:button_delete), {controller: :evmbaselines, action: 'destroy', id: baseline.id} , method: :delete , class: 'icon icon-del', data: {confirm: l(:messsage_delete_baseline)} %>
             </td>
           </tr>
       　　<% end; reset_cycle %>
@@ -42,5 +42,5 @@
     </table>
 <% end %>
 <div>
-  <%= link_to l(:label_latest_baseline), {controller:"evms", action:"index"}, :class => 'icon icon-move' %>
+  <%= link_to l(:label_latest_baseline), {controller: 'evms', action: 'index'}, class: 'icon icon-move' %>
 </div>

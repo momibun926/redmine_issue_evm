@@ -39,6 +39,7 @@ class EvmbaselinesController < ApplicationController
     evm_baselines.project_id = @project.id
     evm_baselines.state = l(:label_current_baseline)
     evm_baselines.author_id = User.current.id
+    evm_baselines.updated_on = Time.now
     # issues
     issues = project_issues @project
     issues.each do |issue|

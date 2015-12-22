@@ -1,9 +1,9 @@
 <h2><%= l(:label_baseline_edit) %></h2>
-  <%= form_for @evm_baselines, :url => {:action => 'update', method: :get} do |f| %>
+  <%= form_for @evm_baselines, url: {action: 'update', method: :get} do |f| %>
     <div class="box tabular">
       <p>
         <%= f.label :subject %>
-        <%= f.text_field :subject, :size => 60, :required => true %>
+        <%= f.text_field :subject, size: 60, required: true %>
       </p>
       <p>
         <%= label :bac ,l(:label_baseline_bac) %>
@@ -20,7 +20,7 @@
       <p>
         <%= f.label :description %>
         <span>
-          <%= f.text_area :description, class: 'wiki-edit',:rows => 10 %>
+          <%= f.text_area :description, class: 'wiki-edit', rows: 10 %>
         </span>
       </p>
       <%= wikitoolbar_for 'evmbaseline_description' %>

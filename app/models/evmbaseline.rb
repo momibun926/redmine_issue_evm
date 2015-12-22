@@ -21,9 +21,9 @@ class Evmbaseline < ActiveRecord::Base
     evmbaselineIssues.sum(:estimated_hours).round(1)
   end
 
-  acts_as_event title: proc { |o| l(:title_evm_tab) + ':' + o.subject },
-                description: l(:label_ativity_message_new),
-                datetime: :created_on,
+  acts_as_event title: proc { |o| l(:title_evm_tab) + ' : ' + o.subject },
+                description: proc { |o| (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new)) } ,
+                datetime: :updated_on,
                 type: proc { |o| 'EvmBaseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
                 url: proc { |o| { controller: 'evmbaselines', action: 'index', project_id: o.project } }
 
