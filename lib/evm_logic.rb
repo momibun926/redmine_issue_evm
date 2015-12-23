@@ -39,8 +39,9 @@ module EvmLogic
     # Basis date
     attr_reader :basis_date
 
-    # BAC
+    # Badget at completion.
     # Total hours of issues.
+    #
     # @param [hours] hours per day
     # @return [Numeric] BAC
     def bac(hours = 1)
@@ -54,19 +55,31 @@ module EvmLogic
       complete_ev.round(1)
     end
 
-    # PV
+    # Planed value
+    # The work scheduled to be completed by a specified date.
+    #
+    # @param [hours] hours per day
+    # @return [Numeric] PV on basis date
     def today_pv(hours = 1)
       pv = @pv_value / hours
       pv.round(1)
     end
 
-    # EV
+    # Earned value
+    # The work actually completed by the specified date;.
+    #
+    # @param [hours] hours per day
+    # @return [Numeric] EV on basis date
     def today_ev(hours = 1)
       ev = @ev_value / hours
       ev.round(1)
     end
 
-    # AC
+    # Actual cost
+    # The costs actually incurred for the work completed by the specified date.
+    #
+    # @param [hours] hours per day
+    # @return [Numeric] AC on basis date
     def today_ac(hours = 1)
       ac = @ac_value / hours
       ac.round(1)

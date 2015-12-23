@@ -68,23 +68,21 @@ Based on these data, EVM and chart are created.
 # Chart
 3 types of charts can be displayed.
 
-### MAIN CHART
+#### MAIN CHART
 Show PV,EV,AC with baseline.Display unclosed issues according to the baseline.
 
-### PERFORMANCE CHART
+#### PERFORMANCE CHART
 Show SPI,CPI,CR of the days involved with PV,EV,AC
 
-### VERSION CHART
+#### VERSION CHART
 Show PV,EV,AC of every version in the issue
 
 # Baseline
-
 If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
 PV is based on your baseline. In addition, you can set calculation without baseline by options.
 
 # Compatibility
 Redmine 3.1 and above
-
 
 # Installation
 case of zip file.
@@ -104,16 +102,15 @@ Case of git clone.
     rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 
 # Screen shots
-### Overview
+#### Overview
 ![evm sample screenshot](./doc/screenshot01.png "overview")
 
-### Baseline setting
+#### Baseline setting
 History
-![evm sample screenshot](./doc/screenshot02.png "overview")
+![evm sample screenshot](./doc/screenshot02.png "History")
 
 New baseline
-![evm sample screenshot](./doc/screenshot03.png "overview")
-
+![evm sample screenshot](./doc/screenshot03.png "New baseline")
 
 # Contributing
 1. Fork it
@@ -122,5 +119,5 @@ New baseline
 4. Push to the branch (git push origin my-new-feature)
 5. Create new Pull Request
 
-### Translators
+#### Translators
 Wen Wen Shen.
