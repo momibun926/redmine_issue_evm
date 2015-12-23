@@ -103,14 +103,17 @@ Case of git clone.
 
 # Screen shots
 #### Overview
-![evm sample screenshot](./doc/screenshot01.png "overview")
+![evm sample screenshot](./images/screenshot01.png "overview")
 
 #### Baseline setting
 History
-![evm sample screenshot](./doc/screenshot02.png "History")
+![evm sample screenshot](./images/screenshot02.png "History")
 
 New baseline
-![evm sample screenshot](./doc/screenshot03.png "New baseline")
+![evm sample screenshot](./images/screenshot03.png "New baseline")
+
+#### Plugin Setting
+![evm sample screenshot](./images/screenshot04.png "plugin　setting")
 
 # Contributing
 1. Fork it

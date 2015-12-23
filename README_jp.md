@@ -100,14 +100,14 @@ redmine3.1以上
 5. Redmineを再起動します
 
 # 画面サンプル
-### 全体
-![evm sample screenshot](./doc/screenshot01.png "overview")
+#### 全体
+![evm sample screenshot](./images/screenshot01.png "overview")
 
-### ベースラインの作成
-![evm sample screenshot](./doc/screenshot03.png "create new baseline")
+#### ベースラインの作成
+![evm sample screenshot](./images/screenshot03.png "create new baseline")
 
-### ベースラインの履歴
-![evm sample screenshot](./doc/screenshot02.png "History of baseline")
+#### ベースラインの履歴
+![evm sample screenshot](./images/screenshot02.png "History of baseline")
 
-### プラグインの設定
-![evm sample screenshot](./doc/screenshot04.png "plugin setting")
+#### プラグイン全体の設定
+![evm sample screenshot](./images/screenshot04.png "plugin　setting")
