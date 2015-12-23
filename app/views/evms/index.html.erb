@@ -1,5 +1,6 @@
 <% html_title('Project tracking with EVM') %>
 <% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'print',             plugin: 'redmine_issue_evm' , media: 'print' %>
   <%= stylesheet_link_tag 'issue_evm',         plugin: 'redmine_issue_evm' %>
   <%= javascript_include_tag 'drawchart',      plugin: 'redmine_issue_evm' %>
   <%= javascript_include_tag 'highcharts.js',  plugin: 'redmine_issue_evm' %>
@@ -20,57 +21,58 @@
   <%= link_to l(:label_baseline_set), {controller: "evmbaselines", action: "index", id: @project.id} , class: 'icon icon-edit'%>
   <%= link_to "#", {id: "btn_print", class: 'icon icon-print' } do l(:label_evm_print) end %>
 </div>
-<!--Header-->
+<!--for print area-->
 <div id="printarea">
-<h2><%= l(:title_evm_tab)%></h2>
-<% if @no_data %>
-  <p class="nodata"><%= l(:label_no_data) %></p>
-<% else %>
-  <!-- Option -->
-  <%= form_tag url_for(action: :index), method: :get, id: 'query_form' do %>
-    <fieldset id="filters" class="collapsible collapsed">
-      <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
-      <div style="display: none;">
-        <%= render partial: '/evms/view_option',
-            locals: { basis_date: @basis_date,
-                      no_use_baseline: @no_use_baseline,
-                      evmbaseline: @evmbaseline,
-                      baseline_id: @baseline_id,
-                      forecast: @forecast,
-                      display_version: @display_version,
-                      display_performance: @display_performance,
-                      calcetc: @calcetc,
-                      display_explanation: @display_explanation  } %>
-      </div>
-    </fieldset>
-    <p>
-      <!-- Apply button -->
-      <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: 'icon icon-checked' } do l(:button_apply) end %>
-    </p>
-  <% end %>
-  <!--Indicator value-->
-  <h3><%= l(:subtitle_evm_summary)%></h3>
-  <%= render partial: '/evms/measure',
-      locals: { project_evm: @project_evm,
-                working_hours_of_day: @working_hours_of_day } %>
-  <!-- Main Chart -->
-  <h3><%= l(:subtitle_evm_graph_main) %></h3>
-  <div id="evm-graph-lines">
-    <%= render partial: '/evms/project_chart_js',
-        locals: { basis_date: @basis_date,
-                  project_evm: @project_evm,
-                  project_name: project_chart_name } %>
-  </div>
-  <!-- Incomplete issue list -->
-  <fieldset id="issuelist" class="collapsible collapsed">
-    <legend onclick="toggleFieldset(this);"><%= l(:subtitle_evm_incomplete_issues) %></legend>
-    <div style="display: none;">
-      <%= render partial: '/evms/incomplete_issue_list',
-          locals: { incomplete_issues: @incomplete_issues } %>
+  <!--Header-->
+  <h2><%= l(:title_evm_tab)%></h2>
+  <% if @no_data %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+    <!-- Option -->
+    <div id="noprintarea">
+      <%= form_tag url_for(action: :index), method: :get, id: 'query_form' do %>
+        <fieldset id="filters" class="collapsible collapsed">
+          <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+          <div style="display: none;">
+            <%= render partial: '/evms/view_option',
+                locals: { basis_date: @basis_date,
+                          no_use_baseline: @no_use_baseline,
+                          evmbaseline: @evmbaseline,
+                          baseline_id: @baseline_id,
+                          forecast: @forecast,
+                          display_version: @display_version,
+                          display_performance: @display_performance,
+                          calcetc: @calcetc,
+                          display_explanation: @display_explanation  } %>
+          </div>
+        </fieldset>
+        <p>
+          <!-- Apply button -->
+          <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: 'icon icon-checked' } do l(:button_apply) end %>
+        </p>
     </div>
-  </fieldset>
-  <br>
-  <br>
+    <% end %>
+    <!--Indicator value-->
+    <h3><%= l(:subtitle_evm_summary)%></h3>
+    <%= render partial: '/evms/measure',
+        locals: { project_evm: @project_evm,
+                  working_hours_of_day: @working_hours_of_day } %>
+    <!-- Main Chart -->
+    <h3><%= l(:subtitle_evm_graph_main) %></h3>
+    <div id="evm-graph-lines">
+      <%= render partial: '/evms/project_chart_js',
+          locals: { basis_date: @basis_date,
+                    project_evm: @project_evm,
+                    project_name: project_chart_name } %>
+    </div>
+    <!-- Incomplete issue list -->
+    <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
+    <%= render partial: '/evms/incomplete_issue_list',
+        locals: { incomplete_issues: @incomplete_issues } %>
+    <br>
+    <br>
+  <!--end of print area-->
+  </div>
   <!-- Performance Chart -->
   <% if @display_performance %>
     <h3><%= l(:subtitle_evm_graph_performance) %></h3>
@@ -103,4 +105,3 @@
     <%= render partial: '/evms/explanation' %>
   <% end %>
 <% end %>
-</div>
