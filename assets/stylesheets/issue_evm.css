@@ -37,3 +37,7 @@ div[class*="evm-explanation"] {
   padding-left: 20px;
   padding-bottom: 20px;
 }
+
+@page {
+  size: A4
+}

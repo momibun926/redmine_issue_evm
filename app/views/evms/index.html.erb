@@ -16,11 +16,18 @@
     });
   </script>
 <% end %>
-<!-- Basline setting -->
+<!-- contextual (Basline setting) -->
 <div class="contextual">
   <%= link_to l(:label_baseline_set), {controller: "evmbaselines", action: "index", id: @project.id} , class: 'icon icon-edit'%>
   <%= link_to "#", {id: "btn_print", class: 'icon icon-print' } do l(:label_evm_print) end %>
 </div>
+<!--Sidebar-->
+<% if @display_explanation %>
+  <% content_for :sidebar do %>
+    <%= render partial: '/evms/explanation' %>
+  <% end %>
+<% end %>
+
 <!--for print area-->
 <div id="printarea">
   <!--Header-->
@@ -50,8 +57,9 @@
           <!-- Apply button -->
           <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: 'icon icon-checked' } do l(:button_apply) end %>
         </p>
+      <% end %>
+    <!--end of no print area-->
     </div>
-    <% end %>
     <!--Indicator value-->
     <h3><%= l(:subtitle_evm_summary)%></h3>
     <%= render partial: '/evms/measure',
@@ -71,37 +79,33 @@
         locals: { incomplete_issues: @incomplete_issues } %>
     <br>
     <br>
-  <!--end of print area-->
-  </div>
-  <!-- Performance Chart -->
-  <% if @display_performance %>
-    <h3><%= l(:subtitle_evm_graph_performance) %></h3>
-    <div id="evm-graph-lines-performance">
-      <%= render partial: '/evms/performance_chart_js',
-          locals: { basis_date: @basis_date,
-                    project_evm: @project_evm,
-                    project_name: project_chart_name } %>
-    </div>
-  <% end %>
-  <!-- version Chart -->
-  <% if @display_version %>
-    <% unless @version_evm.nil? %>
-      <h3><%= l(:subtitle_evm_graph_version) %></h3>
-      <% @version_evm.each do |ver_id, ver_evm| %>
-          <div id="evm-graph-lines-version-<%= ver_id %>">
-          <%= render partial: '/evms/version_chart_js',
-            locals: { basis_date: @basis_date,
-                      version_evm: ver_evm,
-                      version: ver_id,
-                      version_name: version_chart_name(ver_id) } %>
+    <div id="noprintarea">
+      <!-- Performance Chart -->
+      <% if @display_performance %>
+        <h3><%= l(:subtitle_evm_graph_performance) %></h3>
+        <div id="evm-graph-lines-performance">
+          <%= render partial: '/evms/performance_chart_js',
+              locals: { basis_date: @basis_date,
+                        project_evm: @project_evm,
+                        project_name: project_chart_name } %>
         </div>
       <% end %>
-    <% end %>
+      <!-- version Chart -->
+      <% if @display_version %>
+        <% unless @version_evm.nil? %>
+          <h3><%= l(:subtitle_evm_graph_version) %></h3>
+          <% @version_evm.each do |ver_id, ver_evm| %>
+              <div id="evm-graph-lines-version-<%= ver_id %>">
+              <%= render partial: '/evms/version_chart_js',
+                locals: { basis_date: @basis_date,
+                          version_evm: ver_evm,
+                          version: ver_id,
+                          version_name: version_chart_name(ver_id) } %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
   <% end %>
-<% end %>
-<!--Sidebar-->
-<% if @display_explanation %>
-  <% content_for :sidebar do %>
-    <%= render partial: '/evms/explanation' %>
-  <% end %>
-<% end %>
+<!--end of print area-->
+</div>
