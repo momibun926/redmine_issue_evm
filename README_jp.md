@@ -94,7 +94,7 @@ redmine3.1以上
 
 ## 導入
 1. ZIPファイルをダウンロードします
-2. {redmine_root}/plugins/へ移動して、redmine_issue_evmフォルダを作成してください
+2. [redmine_root]/plugins/へ移動して、redmine_issue_evmフォルダを作成してください
 3. 2.で作成したフォルダにZIPファイルを解凍します
 4. 次のコマンドを入力して、マイグレーションしてください。rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
 5. Redmineを再起動します

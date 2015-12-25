@@ -1,5 +1,15 @@
 module EvmLogic
   class IssueEvm
+    # Constractor
+    #
+    # @param [baselines] baselines selected baseline.
+    # @param [issues] issues
+    # @param [costs] costs spent time.
+    # @param [date] basis_date basis date.
+    # @param [bool] forecast forecast of option.
+    # @param [string] etc_method etc method of option.
+    # @param [bool] no_use_baseline no use baseline of option.
+    # @param [Numeric] working_hours_of_day hours per day.
     def initialize(baselines, issues, costs, basis_date, forecast, etc_method, no_use_baseline, working_hours_of_day)
       # basis hours per day
       @basis_hours_per_day = working_hours_of_day
@@ -42,7 +52,7 @@ module EvmLogic
     # Badget at completion.
     # Total hours of issues.
     #
-    # @param [hours] hours per day
+    # @param [Numeric] hours hours per day
     # @return [Numeric] BAC
     def bac(hours = 1)
       bac = @pv[@pv.keys.max] / hours
@@ -50,6 +60,9 @@ module EvmLogic
     end
 
     # CompleteEV
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] EV / BAC
     def complete_ev(hours = 1)
       complete_ev = bac(hours) == 0.0 ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
       complete_ev.round(1)
@@ -58,7 +71,7 @@ module EvmLogic
     # Planed value
     # The work scheduled to be completed by a specified date.
     #
-    # @param [hours] hours per day
+    # @param [Numeric] hours hours per day
     # @return [Numeric] PV on basis date
     def today_pv(hours = 1)
       pv = @pv_value / hours
@@ -68,7 +81,7 @@ module EvmLogic
     # Earned value
     # The work actually completed by the specified date;.
     #
-    # @param [hours] hours per day
+    # @param [Numeric] hours hours per day
     # @return [Numeric] EV on basis date
     def today_ev(hours = 1)
       ev = @ev_value / hours
@@ -78,32 +91,51 @@ module EvmLogic
     # Actual cost
     # The costs actually incurred for the work completed by the specified date.
     #
-    # @param [hours] hours per day
+    # @param [Numeric] hours hours per day
     # @return [Numeric] AC on basis date
     def today_ac(hours = 1)
       ac = @ac_value / hours
       ac.round(1)
     end
 
-    # SV
+    # Scedule variance
+    # How much ahead or behind the schedule a project is running.
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] EV - PV on basis date
     def today_sv(hours = 1)
       sv = today_ev(hours) - today_pv(hours)
       sv.round(1)
     end
 
-    # CV
+    # Cost variance
+    # Cost Variance (CV) is a very important factor to measure project performance.
+    # CV indicates how much over - or under-budget the project is.
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] EV - AC on basis date
     def today_cv(hours = 1)
       cv = today_ev(hours) - today_ac(hours)
       cv.round(1)
     end
 
-    # SPI
+    # Schedule Performance Indicator
+    # Schedule Performance Indicator (SPI) is an index showing
+    # the efficiency of the time utilized on the project.
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] EV / PV on basis date
     def today_spi(hours = 1)
       spi = today_ev(hours) == 0.0 || today_pv(hours) == 0.0 ? 0.0 : today_ev(hours) / today_pv(hours)
       spi.round(2)
     end
 
-    # CPI
+    # Cost Performance Indicator
+    # ost Performance Indicator (CPI) is an index showing
+    # the efficiency of the utilization of the resources on the project.
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] EV / AC on basis date
     def today_cpi(hours = 1)
       cpi = today_ev(hours) == 0.0 || today_ac(hours) == 0.0 ? 0.0 : today_ev(hours) / today_ac(hours)
       cpi.round(2)
@@ -115,7 +147,12 @@ module EvmLogic
       cr.round(2)
     end
 
-    # ETC
+    # Estimate to Complete
+    # Estimate to Complete (ETC) is the estimated cost required
+    # to complete the remainder of the project.
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] (BAC - EV) / CPI
     def etc(hours = 1)
       if today_cpi(hours) == 0.0 || today_cr(hours) == 0.0
         etc = 0.0
@@ -135,13 +172,23 @@ module EvmLogic
       etc.round(1)
     end
 
-    # EAC
+    # Estimate at Completion
+    # Estimate at Completion (EAC) is the estimated cost of the project
+    # at the end of the project.
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] BAC - EAC
     def eac(hours = 1)
       eac = today_ac(hours) + etc(hours)
       eac.round(1)
     end
 
-    # VAC
+    # Variance at Completion
+    # Variance at completion (VAC) is the variance
+    # on the total budget at the end of the project.
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] BAC - EAC
     def vac(hours = 1)
       vac = bac(hours) - eac(hours)
       vac.round(1)
@@ -152,13 +199,21 @@ module EvmLogic
       (forecast_finish_date(@basis_hours_per_day) - @pv.keys.max).to_i
     end
 
-    # TCPI = (BAC - EV) / (BAC - AC)
+    # To Complete Cost Performance Indicator
+    # To Complete Cost Performance Indicator (TCPI) is an index showing
+    # the efficiency at which the resources on the project should be utilized
+    # for the remainder of the project.
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] (BAC - EV) / (BAC - AC)
     def tcpi(hours = 1)
       tcpi = bac(hours) == 0.0 ? 0.0 : (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
       tcpi.round(1)
     end
 
-    # Create chart data
+    # Create data for display chart.
+    #
+    # @return [hash] chart data
     def chart_data
       chart_data = {}
       if @issue_max_date < @basis_date && complete_ev(8) < 100.0
@@ -182,6 +237,7 @@ module EvmLogic
       chart_data
     end
 
+    # Create data for display performance chart.
     def performance_chart_data
       chart_data = {}
       new_ev = complement_evm_value @ev
@@ -205,6 +261,10 @@ module EvmLogic
 
     private
 
+    # Calculate PV.
+    #
+    # @param [issues] issues target issues of EVM
+    # @return [hash] EVM hash. Key:Date, Value:PV of each days
     def calculate_planed_value(issues)
       temp_pv = {}
       unless issues.nil?
@@ -218,6 +278,11 @@ module EvmLogic
       sort_and_sum_evm_hash(temp_pv)
     end
 
+    # Calculate EV.
+    # Only closed issues.
+    #
+    # @param [issues] issues target issues of EVM
+    # @return [hash] EVM hash. Key:Date, Value:EV of each days
     def calculate_earned_value(issues)
       temp_ev = {}
       unless issues.nil?
@@ -240,17 +305,31 @@ module EvmLogic
       calculate_earned_value.delete_if { |date, _value| date > @basis_date }
     end
 
+    # Calculate AC.
+    # Spent time of target issues.
+    #
+    # @param [issues] costs target issues of EVM
+    # @return [hash] EVM hash. Key:Date, Value:AC of each days
     def calculate_actual_cost(costs)
       temp_ac = Hash[costs]
       calculate_actual_cost = sort_and_sum_evm_hash(temp_ac)
       calculate_actual_cost.delete_if { |date, _value| date > @basis_date }
     end
 
+    # Convert to chart. xAxis of Chart is time.
+    #
+    # @param [hash] hash_with_data target issues of EVM
+    # @return [array] EVM hash. Key:time, Value:EVM value
     def convert_to_chart(hash_with_data)
       hash_converted = Hash[hash_with_data.map { |k, v| [k.to_time.to_i * 1000, v] }]
       hash_converted.to_a
     end
 
+    # Sort key value. key value is DATE.
+    # Assending date.
+    #
+    # @param [hash] evm_hash target issues of EVM
+    # @return [hash] Sorted EVM hash. Key:time, Value:EVM value
     def sort_and_sum_evm_hash(evm_hash)
       temp_hash = {}
       sum_value = 0.0
@@ -266,18 +345,34 @@ module EvmLogic
       temp_hash
     end
 
+    # Estimated time per day.
+    #
+    # @param [Numeric] estimated_hours estimated hours
+    # @param [date] start_date start date of issue
+    # @param [date] end_date end date of issue
+    # @return [numeric] estimated hours per day
     def issue_hours_per_day(estimated_hours, start_date, end_date)
       (estimated_hours || 0.0) / (end_date - start_date + 1)
     end
 
+    # Minimam date of chart.
+    #
+    # @return [date] Most minimum date of PV,EV,AC
     def chart_minimum_date
       [@pv.keys.min, @ev.keys.min, @ac.keys.min].min
     end
 
+    # Maximum date of chart.
+    #
+    # @return [date] Most maximum date of PV,EV,AC,End date of forecast
     def chart_maximum_date
       [@pv.keys.max, @ev.keys.max, @ac.keys.max, forecast_finish_date(@basis_hours_per_day)].max
     end
 
+    # End of project day.(forecast)
+    #
+    # @param [date] basis_hours hours of per day is plugin setting
+    # @return [date] End of project date
     def forecast_finish_date(basis_hours)
       if complete_ev(basis_hours) == 100.0
         @ev.keys.max
@@ -294,6 +389,10 @@ module EvmLogic
       end
     end
 
+    # EVM value of Each date.
+    #
+    # @param [hash] evm_hash EVM hash
+    # @return [hash] EVM value of All date
     def complement_evm_value(evm_hash)
       before_date = evm_hash.keys.min
       before_value = evm_hash[evm_hash.keys.min]

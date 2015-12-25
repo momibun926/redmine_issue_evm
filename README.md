@@ -1,17 +1,14 @@
 # Earned Value Management (EVM) Calculation Plugin
 This plugin can calculate EVM for schedule control and show its result on the chart by start date, due date, estimated time of your project.
 
-# Current Version
-3.5.2
-
-## Main features
+#### Main features
 *	Calculate EVM
 *	Chart with EVM (PV,EV,AC)
 *	Forecast project end date
 *	Set the baseline
 *	Display unfinished issues
 
-## Additional options
+#### Additional options
 *	Explanation of EVM
 *	Chart with Project Performance (SPI,CPI,CR)
 *	Calculate EVM of multiple issues
@@ -29,7 +26,7 @@ If you input these into your project, it can help you to calculate both a single
 PV: Dividing estimated time by the days (from start date to due date) to get daily workload
 EV: After issues are closed, you can get EV.
 
-### Example
+#### Example
 (1) Create an issue with:
 
 *	start date:  2015/08/01
@@ -84,19 +81,28 @@ PV is based on your baseline. In addition, you can set calculation without basel
 # Compatibility
 Redmine 3.1 and above
 
+# Current Version
+3.5.2
+
 # Installation
+#### Getting plugin source
 case of zip file.
 
 1. Download zip-file
-2. Create a folder named redmine_issue_evm under {redmine_root}/plugins/
+2. Create a folder named redmine_issue_evm under [redmine_root]/plugins/
 3. Extract zip file in redmine_issue_evm
-4. Input the below command to migration
-rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
-5. restart redmine
 
 Case of git clone.
 
-    git clone git://github.com/momibun926/redmine_issue_evm {redmine_root}/plugins/redmine_issue_evm
+    git clone git://github.com/momibun926/redmine_issue_evm [redmine_root]/plugins/redmine_issue_evm
+
+#### Migration and restart
+
+1. Input the below command to migration
+
+    rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
+
+2. restart redmine
 
 # UnInstall
     rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
