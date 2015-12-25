@@ -93,19 +93,21 @@ case of zip file.
 3. Extract zip file in redmine_issue_evm
 
 Case of git clone.
-
-    git clone git://github.com/momibun926/redmine_issue_evm [redmine_root]/plugins/redmine_issue_evm
-
+```
+git clone git://github.com/momibun926/redmine_issue_evm [redmine_root]/plugins/redmine_issue_evm
+```
 #### Migration and restart
 
 1. Input the below command to migration
-
-    rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
-
+```
+rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
+```
 2. restart redmine
 
 # UnInstall
-    rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
+```
+rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
+```
 
 # Screen shots
 #### Overview
