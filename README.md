@@ -88,9 +88,9 @@ Redmine 3.1 and above
 #### Getting plugin source
 case of zip file.
 
-1. Download zip-file
-2. Create a folder named redmine_issue_evm under [redmine_root]/plugins/
-3. Extract zip file in redmine_issue_evm
+* Download zip-file
+* Create a folder named redmine_issue_evm under [redmine_root]/plugins/
+* Extract zip file in redmine_issue_evm
 
 Case of git clone.
 ```
@@ -98,11 +98,11 @@ git clone git://github.com/momibun926/redmine_issue_evm [redmine_root]/plugins/r
 ```
 #### Migration and restart
 
-1. Input the below command to migration
+* Input the below command to migration
 ```
 rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
 ```
-2. restart redmine
+* restart redmine
 
 # UnInstall
 ```
