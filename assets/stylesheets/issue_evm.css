@@ -38,6 +38,14 @@ div[class*="evm-explanation"] {
   padding-bottom: 20px;
 }
 
+/*** icon image ***/
+
+.icon-print {
+  background-image: url('../images/icon-print.png');
+}
+
+/*** print ***/
+
 @page {
   size: A4
 }
