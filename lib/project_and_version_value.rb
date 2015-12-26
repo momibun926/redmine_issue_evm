@@ -4,7 +4,7 @@ module ProjectAndVersionValue
   #
   # @param [numeric] project_id project id
   # @param [numeric] bbaseline_id baseline id
-  # @return [ActiveRecord] evmbaselines
+  # @return [EvmBaseline] evmbaselines
   def project_baseline(project_id, baseline_id)
     baselines = {}
     if Evmbaseline.exists?(project_id: project_id)
@@ -21,7 +21,7 @@ module ProjectAndVersionValue
   # Include descendants project.require inputted start date and due date.
   #
   # @param [Object] proj project
-  # @return [issues] issue object
+  # @return [Issue] issue object
   def project_issues(proj)
     Issue.cross_project_scope(proj, 'descendants')
       .where('start_date IS NOT NULL AND due_date IS NOT NULL')
@@ -31,7 +31,7 @@ module ProjectAndVersionValue
   # Include descendants project.require inputted start date and due date.
   #
   # @param [Object] proj project
-  # @return [ActiveRecord] Two column,spent_on,sum of hours
+  # @return [Array] Two column,spent_on,sum of hours
   def project_costs(proj)
     Issue.cross_project_scope(proj, 'descendants')
       .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
@@ -45,7 +45,7 @@ module ProjectAndVersionValue
   #
   # @param [Numeric] proj_id project id
   # @param [Numeric] version_id fixed_version_id of project
-  # @return [issues] issue object
+  # @return [Issue] issue object
   def version_issues(proj_id, version_id)
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, 'descendants')
@@ -57,7 +57,7 @@ module ProjectAndVersionValue
   #
   # @param [Numeric] proj_id project id
   # @param [Numeric] version_id fixed_version_id of project
-  # @return [ActiveRecord] Two column,spent_on,sum of hours
+  # @return [Issue] Two column,spent_on,sum of hours
   def version_costs(proj_id, version_id)
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, 'descendants')
@@ -71,7 +71,7 @@ module ProjectAndVersionValue
   #
   # @param [Numeric] proj_id project id
   # @param [date] basis_date basis date
-  # @return [issues] issue object
+  # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
     Issue.cross_project_scope(proj, 'descendants')
       .where('start_date IS NOT NULL AND start_date <= ? AND due_date IS NOT NULL AND (closed_on IS NULL OR closed_on > ?)', basis_date, basis_date.to_time.end_of_day)

@@ -2,12 +2,12 @@ module EvmLogic
   class IssueEvm
     # Constractor
     #
-    # @param [baselines] baselines selected baseline.
-    # @param [issues] issues
-    # @param [costs] costs spent time.
+    # @param [evmbaseline] baselines selected baseline.
+    # @param [issue] issues
+    # @param [hash] costs spent time.
     # @param [date] basis_date basis date.
     # @param [bool] forecast forecast of option.
-    # @param [string] etc_method etc method of option.
+    # @param [String] etc_method etc method of option.
     # @param [bool] no_use_baseline no use baseline of option.
     # @param [Numeric] working_hours_of_day hours per day.
     def initialize(baselines, issues, costs, basis_date, forecast, etc_method, no_use_baseline, working_hours_of_day)
@@ -263,7 +263,7 @@ module EvmLogic
 
     # Calculate PV.
     #
-    # @param [issues] issues target issues of EVM
+    # @param [issue] issues target issues of EVM
     # @return [hash] EVM hash. Key:Date, Value:PV of each days
     def calculate_planed_value(issues)
       temp_pv = {}
@@ -281,7 +281,7 @@ module EvmLogic
     # Calculate EV.
     # Only closed issues.
     #
-    # @param [issues] issues target issues of EVM
+    # @param [issue] issues target issues of EVM
     # @return [hash] EVM hash. Key:Date, Value:EV of each days
     def calculate_earned_value(issues)
       temp_ev = {}
@@ -308,7 +308,7 @@ module EvmLogic
     # Calculate AC.
     # Spent time of target issues.
     #
-    # @param [issues] costs target issues of EVM
+    # @param [issue] costs target issues of EVM
     # @return [hash] EVM hash. Key:Date, Value:AC of each days
     def calculate_actual_cost(costs)
       temp_ac = Hash[costs]
