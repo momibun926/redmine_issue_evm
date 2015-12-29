@@ -3,7 +3,7 @@ module ProjectAndVersionValue
   # When baseline_id is nil,latest baseline of project.
   #
   # @param [numeric] project_id project id
-  # @param [numeric] bbaseline_id baseline id
+  # @param [numeric] baseline_id baseline id
   # @return [EvmBaseline] evmbaselines
   def project_baseline(project_id, baseline_id)
     baselines = {}
@@ -69,7 +69,7 @@ module ProjectAndVersionValue
 
   # Get imcomplete issuees on basis date.
   #
-  # @param [Numeric] proj_id project id
+  # @param [Numeric] proj project id
   # @param [date] basis_date basis date
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
@@ -79,7 +79,7 @@ module ProjectAndVersionValue
 
   # Get pair of project id and fixed version id.
   #
-  # @param [Object] proj project
+  # @param [project] proj project object
   # @return [Array] project_id, fixed_version_id
   def project_varsion_id_pair(proj)
     Issue.cross_project_scope(proj, 'descendants')
