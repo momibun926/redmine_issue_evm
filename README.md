@@ -82,7 +82,7 @@ PV is based on your baseline. In addition, you can set calculation without basel
 Redmine 3.1 and above
 
 # Current Version
-3.5.2
+3.5.3
 
 # Installation
 #### Getting plugin source

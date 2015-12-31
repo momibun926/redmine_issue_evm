@@ -59,6 +59,7 @@ class EvmsController < ApplicationController
       end
     end
     @no_data = issues.blank?
+    @no_data_incomplete_issues = @incomplete_issues.blank?
   end
 
   private

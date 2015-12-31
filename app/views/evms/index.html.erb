@@ -75,8 +75,12 @@
     </div>
     <!-- Incomplete issue list -->
     <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
-    <%= render partial: '/evms/incomplete_issue_list',
-        locals: { incomplete_issues: @incomplete_issues } %>
+    <% if @no_data_incomplete_issues %>
+      <p class="nodata"><%= l(:label_no_data) %></p>
+    <% else %>
+      <%= render partial: '/evms/incomplete_issue_list',
+          locals: { incomplete_issues: @incomplete_issues } %>
+    <% end %>
     <br>
     <br>
     <div id="noprintarea">
