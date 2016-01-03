@@ -259,6 +259,33 @@ module EvmLogic
       chart_data
     end
 
+    # Create data for csv export.
+    #
+    # @return [hash] csv data
+    def to_csv
+      CSV.generate do |csv|
+        # date range
+        csv_min_date = [@ev.keys.min, @ac.keys.min, @pv.keys.min].min
+        csv_max_date = [@ev.keys.max, @ac.keys.max, @pv.keys.max].max
+        evm_date_range = (csv_min_date..csv_max_date).to_a
+        # title
+        csv << ["DATE",evm_date_range].flatten!
+        # set evm values each date
+        pv_csv_hash = {}
+        ev_csv_hash = {}
+        ac_csv_hash = {}
+        evm_date_range.each do |csv_date|
+          pv_csv_hash[csv_date] = @pv[csv_date].nil? ? nil : @pv[csv_date].round(2)
+          ev_csv_hash[csv_date] = @ev[csv_date].nil? ? nil : @ev[csv_date].round(2)
+          ac_csv_hash[csv_date] = @ac[csv_date].nil? ? nil : @ac[csv_date].round(2)
+        end
+        # evm values
+        csv << ["PV",pv_csv_hash.values.to_a].flatten!
+        csv << ["EV",ev_csv_hash.values.to_a].flatten!
+        csv << ["AC",ac_csv_hash.values.to_a].flatten!
+      end
+    end
+
     private
 
     # Calculate PV.
