@@ -27,7 +27,6 @@
     <%= render partial: '/evms/explanation' %>
   <% end %>
 <% end %>
-
 <!--for print area-->
 <div id="printarea">
   <!--Header-->
@@ -73,6 +72,10 @@
                     project_evm: @project_evm,
                     project_name: project_chart_name } %>
     </div>
+    <!-- Exports -->
+    <% other_formats_links do |f| %>
+      <%= f.link_to 'CSV', :url => params %>
+    <% end %>
     <!-- Incomplete issue list -->
     <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
     <% if @no_data_incomplete_issues %>

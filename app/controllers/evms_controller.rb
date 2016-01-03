@@ -60,6 +60,15 @@ class EvmsController < ApplicationController
     end
     @no_data = issues.blank?
     @no_data_incomplete_issues = @incomplete_issues.blank?
+    # export
+    respond_to do |format|
+      format.html
+      format.csv {
+        send_data(@project_evm.to_csv,
+                  :type => 'text/csv; header=present',
+                  :filename => 'evm_' + @project.name + '_' +Time.now.to_date.to_s + '.csv')
+      }
+    end
   end
 
   private
