@@ -30,7 +30,7 @@ module EvmLogic
       # AC
       @ac = calculate_actual_cost costs
       # Project finished?
-      if @pv[@pv.keys.max] == @ev[@ev.keys.max]
+      if (@pv_actual[@pv_actual.keys.max] == @ev[@ev.keys.max]) || (@pv_baseline[@pv_baseline.keys.max] == @ev[@ev.keys.max])
         delete_basis_date = [@pv.keys.max, @ev.keys.max, @ac.keys.max].max
         @pv.delete_if { |date, _value| date > delete_basis_date }
         @ev.delete_if { |date, _value| date > delete_basis_date }
@@ -216,7 +216,7 @@ module EvmLogic
     # @return [hash] chart data
     def chart_data
       chart_data = {}
-      if @issue_max_date < @basis_date && complete_ev(8) < 100.0
+      if @issue_max_date < @basis_date && complete_ev < 100.0
         @ev[@basis_date] = @ev[@ev.keys.max]
         @ac[@basis_date] = @ac[@ac.keys.max]
       end
