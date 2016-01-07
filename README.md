@@ -1,5 +1,12 @@
 # Earned Value Management (EVM) Calculation Plugin
-This plugin can calculate EVM for schedule control and show its result on the chart by start date, due date, estimated time, spent time of your project.
+This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
+
+When calculating EVM, the following figures will be used 
+* start date
+* due date
+* estimated time (If you set it as 0, you will not get PV)
+* spent time
+
 
 #### Main features
 *	Calculate EVM
