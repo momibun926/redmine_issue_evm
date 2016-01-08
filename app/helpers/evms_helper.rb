@@ -1,4 +1,8 @@
 module EvmsHelper
+
+  # SPI color of CSS.
+  #
+  # @return [String] SPI color
   def spi_color
     value = ''
     case @project_evm.today_spi
@@ -10,6 +14,9 @@ module EvmsHelper
     value.html_safe
   end
 
+  # CPI color of CSS.
+  #
+  # @return [String] CPI color
   def cpi_color
     value = ''
     case @project_evm.today_cpi
@@ -21,6 +28,9 @@ module EvmsHelper
     value.html_safe
   end
 
+  # CR color of CSS.
+  #
+  # @return [String] CR color
   def cr_color
     value = ''
     if @project_evm.today_sv < 0.0
@@ -34,6 +44,9 @@ module EvmsHelper
     value.html_safe
   end
 
+  # Get project name
+  #
+  # @return [String] project name, baseline subject
   def project_chart_name
     unless @baseline_id.nil?
       @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
@@ -42,12 +55,20 @@ module EvmsHelper
     end
   end
 
+  # Get project name
+  #
+  # @param [numeric] ver_id fixed version id
+  # @return [String] project name, baseline subject
   def version_chart_name(ver_id)
     ver = Version.find(ver_id)
     pro = Project.find(ver.project_id)
     pro.name + ' - ' + ver.name
   end
 
+  # Get local date time
+  #
+  # @param [datetime] baseline_datetime updated or created datetime
+  # @return [String] formatted date
   def local_date(baseline_datetime)
     baseline_datetime.localtime.strftime('%Y-%m-%d %H:%M:%S') if baseline_datetime.present
   end

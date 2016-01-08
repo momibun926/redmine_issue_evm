@@ -63,11 +63,11 @@ class EvmsController < ApplicationController
     # export
     respond_to do |format|
       format.html
-      format.csv {
+      format.csv do
         send_data(@project_evm.to_csv,
-                  :type => 'text/csv; header=present',
-                  :filename => 'evm_' + @project.name + '_' +Time.now.to_date.to_s + '.csv')
-      }
+                  type: 'text/csv; header=present',
+                  filename: 'evm_' + @project.name + '_' + Time.now.to_date.to_s + '.csv')
+      end
     end
   end
 

@@ -1,4 +1,6 @@
+# Calculation EVM module
 module EvmLogic
+
   class IssueEvm
     # Constractor
     #
@@ -131,7 +133,7 @@ module EvmLogic
     end
 
     # Cost Performance Indicator
-    # ost Performance Indicator (CPI) is an index showing
+    # Cost Performance Indicator (CPI) is an index showing
     # the efficiency of the utilization of the resources on the project.
     #
     # @param [Numeric] hours hours per day
@@ -141,7 +143,10 @@ module EvmLogic
       cpi.round(2)
     end
 
-    # CR
+    # Critical ratio
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] SPI * CPI
     def today_cr(hours = 1)
       cr = today_spi(hours) * today_cpi(hours)
       cr.round(2)
@@ -194,7 +199,9 @@ module EvmLogic
       vac.round(1)
     end
 
-    # Delay
+    # forecast date (Delay)
+    #
+    # @return [numeric] delay days
     def delay
       (forecast_finish_date(@basis_hours_per_day) - @pv.keys.max).to_i
     end
@@ -238,6 +245,8 @@ module EvmLogic
     end
 
     # Create data for display performance chart.
+    #
+    # @return [hash] data for performance chart
     def performance_chart_data
       chart_data = {}
       new_ev = complement_evm_value @ev
@@ -269,7 +278,7 @@ module EvmLogic
         csv_max_date = [@ev.keys.max, @ac.keys.max, @pv.keys.max].max
         evm_date_range = (csv_min_date..csv_max_date).to_a
         # title
-        csv << ["DATE",evm_date_range].flatten!
+        csv << ['DATE', evm_date_range].flatten!
         # set evm values each date
         pv_csv_hash = {}
         ev_csv_hash = {}
@@ -280,9 +289,9 @@ module EvmLogic
           ac_csv_hash[csv_date] = @ac[csv_date].nil? ? nil : @ac[csv_date].round(2)
         end
         # evm values
-        csv << ["PV",pv_csv_hash.values.to_a].flatten!
-        csv << ["EV",ev_csv_hash.values.to_a].flatten!
-        csv << ["AC",ac_csv_hash.values.to_a].flatten!
+        csv << ['PV', pv_csv_hash.values.to_a].flatten!
+        csv << ['EV', ev_csv_hash.values.to_a].flatten!
+        csv << ['AC', ac_csv_hash.values.to_a].flatten!
       end
     end
 
