@@ -3,7 +3,7 @@ class Evmbaseline < ActiveRecord::Base
   unloadable
 
   # Relations
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
   belongs_to :project
   has_many :evmbaselineIssues, dependent: :delete_all
 
@@ -39,14 +39,14 @@ class Evmbaseline < ActiveRecord::Base
                      permission: :view_evm_baselines,
                      date_column: :updated_on
 
-  acts_as_event title: proc { |o| l(:title_evm_tab) + ' : ' + o.subject },
+  acts_as_event title: proc { |o| l(:title_evm_tab) + " : " + o.subject },
                 description: proc { |o| (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new)) },
                 datetime: :updated_on,
-                type: proc { |o| 'EvmBaseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
-                url: proc { |o| { controller: 'evmbaselines', action: :show, project_id: o.project, id: o.id } }
+                type: proc { |o| "EvmBaseine-" + (o.created_on < o.updated_on ? "edit" : "new") },
+                url: proc { |o| { controller: "evmbaselines", action: :show, project_id: o.project, id: o.id } }
 
   acts_as_activity_provider scope: joins(:project),
                             permission: :view_evm_baselines,
-                            type: 'evmbaseline',
+                            type: "evmbaseline",
                             author_key: :author_id
 end

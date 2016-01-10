@@ -20,10 +20,10 @@
     <p>
       <%= f.label :description %>
       <span>
-        <%= f.text_area :description, class: 'wiki-edit', rows: 10 %>
+        <%= f.text_area :description, class: "wiki-edit", rows: 10 %>
       </span>
     </p>
-    <%= wikitoolbar_for 'evmbaseline_description' %>
+    <%= wikitoolbar_for "evmbaseline_description" %>
   </div>
   <%= submit_tag l(:button_create) %>
 <% end %>

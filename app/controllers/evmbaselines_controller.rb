@@ -9,8 +9,8 @@ class EvmbaselinesController < ApplicationController
 
   # display baseline list
   def index
-    @evm_baselines = Evmbaseline.where('project_id = ? ', @project.id)
-                     .order('created_on DESC')
+    @evm_baselines = Evmbaseline.where("project_id = ? ", @project.id)
+                     .order("created_on DESC")
   end
 
   # New
@@ -82,7 +82,7 @@ class EvmbaselinesController < ApplicationController
     # update status
     Evmbaseline.where(project_id: @project.id)
       .update_all(state: l(:label_old_baseline))
-    evm_baselines = Evmbaseline.order('created_on desc').limit(1).first
+    evm_baselines = Evmbaseline.order("created_on desc").limit(1).first
     if evm_baselines.present?
       evm_baselines.state = l(:label_current_baseline)
       evm_baselines.save
