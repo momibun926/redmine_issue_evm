@@ -1,16 +1,20 @@
 require 'redmine'
 
+Rails.configuration.to_prepare do
+  Redmine::Activity.register 'evmbaseline'
+  Redmine::Search.available_search_types << 'evmbaseline'
+end
+
 Redmine::Plugin.register :redmine_issue_evm do
   name 'Redmine Issue Evm plugin'
   author 'Hajime Nakagama'
   description 'This is a plugin for Redmine. Earned value management using the ticket of redmine.'
-  version '3.5.4'
+  version '3.5.5'
   url 'https://github.com/momibun926/redmine_issue_evm'
   author_url 'https://github.com/momibun926'
 
   project_module :Issuevm do
-    permission :view_evms,
-               evms: :index, require: :member
+    permission :view_evms, evms: :index, require: :member
     permission :manage_evmbaselines,
                evmbaselines: [:edit,
                               :destroy,
@@ -36,6 +40,4 @@ Redmine::Plugin.register :redmine_issue_evm do
                       'limit_cpi' => '0.9',
                       'limit_cr' => '0.8' },
            partial: 'settings/issue_evm_settings'
-
-  activity_provider :evmbaseline, class_name: 'Evmbaseline', default: false
 end

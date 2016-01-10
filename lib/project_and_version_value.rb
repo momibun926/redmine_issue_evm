@@ -1,3 +1,4 @@
+# Get data of Calculation EVM
 module ProjectAndVersionValue
   # Baselines.
   # When baseline_id is nil,latest baseline of project.
@@ -37,7 +38,7 @@ module ProjectAndVersionValue
       .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
       .where('start_date IS NOT NULL AND due_date IS NOT NULL')
       .joins(:time_entries)
-      .group('spent_on').collect { |issue| [issue.spent_on, issue.sum_hours] }
+      .group(:spent_on).collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
 
   # Get issues of version.
@@ -64,7 +65,7 @@ module ProjectAndVersionValue
       .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
       .where('start_date IS NOT NULL AND due_date IS NOT NULL AND fixed_version_id = ? ', version_id)
       .joins(:time_entries)
-      .group('spent_on').collect { |issue| [issue.spent_on, issue.sum_hours] }
+      .group(:spent_on).collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
 
   # Get imcomplete issuees on basis date.
@@ -74,7 +75,7 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
     Issue.cross_project_scope(proj, 'descendants')
-      .where('start_date IS NOT NULL AND start_date <= ? AND due_date IS NOT NULL AND (closed_on IS NULL OR closed_on > ?)', basis_date, basis_date.to_time.end_of_day)
+      .where('start_date IS NOT NULL AND start_date <= ? AND due_date IS NOT NULL AND (closed_on IS NULL OR closed_on > ?)', basis_date, basis_date.end_of_day)
   end
 
   # Get pair of project id and fixed version id.

@@ -1,4 +1,6 @@
+# Calculation EVM module
 module EvmLogic
+  # Calculation EVM class
   class IssueEvm
     # Constractor
     #
@@ -131,7 +133,7 @@ module EvmLogic
     end
 
     # Cost Performance Indicator
-    # ost Performance Indicator (CPI) is an index showing
+    # Cost Performance Indicator (CPI) is an index showing
     # the efficiency of the utilization of the resources on the project.
     #
     # @param [Numeric] hours hours per day
@@ -141,7 +143,10 @@ module EvmLogic
       cpi.round(2)
     end
 
-    # CR
+    # Critical ratio
+    #
+    # @param [Numeric] hours hours per day
+    # @return [Numeric] SPI * CPI
     def today_cr(hours = 1)
       cr = today_spi(hours) * today_cpi(hours)
       cr.round(2)
@@ -194,7 +199,9 @@ module EvmLogic
       vac.round(1)
     end
 
-    # Delay
+    # forecast date (Delay)
+    #
+    # @return [numeric] delay days
     def delay
       (forecast_finish_date(@basis_hours_per_day) - @pv.keys.max).to_i
     end
@@ -220,24 +227,26 @@ module EvmLogic
         @ev[@basis_date] = @ev[@ev.keys.max]
         @ac[@basis_date] = @ac[@ac.keys.max]
       end
-      chart_data['planned_value'] = convert_to_chart(@pv_actual)
-      chart_data['actual_cost'] = convert_to_chart(@ac)
-      chart_data['earned_value'] = convert_to_chart(@ev)
-      chart_data['baseline_value'] = convert_to_chart(@pv_baseline)
+      chart_data[:planned_value] = convert_to_chart(@pv_actual)
+      chart_data[:actual_cost] = convert_to_chart(@ac)
+      chart_data[:earned_value] = convert_to_chart(@ev)
+      chart_data[:baseline_value] = convert_to_chart(@pv_baseline)
       if @forecast
         bac_top_line = { chart_minimum_date => bac, chart_maximum_date => bac }
-        chart_data['bac_top_line'] = convert_to_chart(bac_top_line)
+        chart_data[:bac_top_line] = convert_to_chart(bac_top_line)
         eac_top_line = { chart_minimum_date => eac, chart_maximum_date => eac }
-        chart_data['eac_top_line'] = convert_to_chart(eac_top_line)
+        chart_data[:eac_top_line] = convert_to_chart(eac_top_line)
         actual_cost_forecast = { @basis_date => today_ac, forecast_finish_date(@basis_hours_per_day) => eac }
-        chart_data['actual_cost_forecast'] = convert_to_chart(actual_cost_forecast)
+        chart_data[:actual_cost_forecast] = convert_to_chart(actual_cost_forecast)
         earned_value_forecast = { @basis_date => today_ev, forecast_finish_date(@basis_hours_per_day) => bac }
-        chart_data['earned_value_forecast'] = convert_to_chart(earned_value_forecast)
+        chart_data[:earned_value_forecast] = convert_to_chart(earned_value_forecast)
       end
       chart_data
     end
 
     # Create data for display performance chart.
+    #
+    # @return [hash] data for performance chart
     def performance_chart_data
       chart_data = {}
       new_ev = complement_evm_value @ev
@@ -253,9 +262,9 @@ module EvmLogic
         cpi[date] = (new_ev[date] / new_ac[date]).round(2)
         cr[date] = (spi[date] * cpi[date]).round(2)
       end
-      chart_data['spi'] = convert_to_chart(spi)
-      chart_data['cpi'] = convert_to_chart(cpi)
-      chart_data['cr'] = convert_to_chart(cr)
+      chart_data[:spi] = convert_to_chart(spi)
+      chart_data[:cpi] = convert_to_chart(cpi)
+      chart_data[:cr] = convert_to_chart(cr)
       chart_data
     end
 
@@ -269,7 +278,7 @@ module EvmLogic
         csv_max_date = [@ev.keys.max, @ac.keys.max, @pv.keys.max].max
         evm_date_range = (csv_min_date..csv_max_date).to_a
         # title
-        csv << ["DATE",evm_date_range].flatten!
+        csv << [:DATE, evm_date_range].flatten!
         # set evm values each date
         pv_csv_hash = {}
         ev_csv_hash = {}
@@ -280,9 +289,9 @@ module EvmLogic
           ac_csv_hash[csv_date] = @ac[csv_date].nil? ? nil : @ac[csv_date].round(2)
         end
         # evm values
-        csv << ["PV",pv_csv_hash.values.to_a].flatten!
-        csv << ["EV",ev_csv_hash.values.to_a].flatten!
-        csv << ["AC",ac_csv_hash.values.to_a].flatten!
+        csv << [:PV, pv_csv_hash.values.to_a].flatten!
+        csv << [:EV, ev_csv_hash.values.to_a].flatten!
+        csv << [:AC, ac_csv_hash.values.to_a].flatten!
       end
     end
 
@@ -348,7 +357,7 @@ module EvmLogic
     # @param [hash] hash_with_data target issues of EVM
     # @return [array] EVM hash. Key:time, Value:EVM value
     def convert_to_chart(hash_with_data)
-      hash_converted = Hash[hash_with_data.map { |k, v| [k.to_time.to_i * 1000, v] }]
+      hash_converted = Hash[hash_with_data.map { |k, v| [k.to_time(:local).to_i * 1000, v] }]
       hash_converted.to_a
     end
 
@@ -429,7 +438,7 @@ module EvmLogic
         dif_value = (value - before_value) / dif_days
         if dif_days > 0
           sum_value = 0.0
-          for add_days in 1..dif_days do
+          (1..dif_days).each do |add_days|
             tmpdate = before_date + add_days
             sum_value += dif_value
             temp[tmpdate] = before_value + sum_value

@@ -1,6 +1,10 @@
+# baseline issue model
 class EvmbaselineIssue < ActiveRecord::Base
   unloadable
 
-  attr_protected :id
+  # Relations
   belongs_to :evmbaseline
+
+  # attribute
+  attr_protected :id
 end
