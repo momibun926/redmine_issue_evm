@@ -4,7 +4,7 @@ module EvmsHelper
   #
   # @return [String] SPI color
   def spi_color
-    value = ""
+    value = ''
     case @project_evm.today_spi
     when (@limit_spi + 0.01..0.99) then
       value = 'class="indicator-orange"'
@@ -18,7 +18,7 @@ module EvmsHelper
   #
   # @return [String] CPI color
   def cpi_color
-    value = ""
+    value = ''
     case @project_evm.today_cpi
     when (@limit_cpi + 0.01..0.99) then
       value = 'class="indicator-orange"'
@@ -32,7 +32,7 @@ module EvmsHelper
   #
   # @return [String] CR color
   def cr_color
-    value = ""
+    value = ''
     if @project_evm.today_sv < 0.0
       case @project_evm.today_cr
       when (@limit_cr + 0.01..0.99) then
@@ -48,7 +48,7 @@ module EvmsHelper
   #
   # @return [String] project name, baseline subject
   def project_chart_name
-    @baseline_id.nil? ? @project.name : @project.name + " - " + @evmbaseline.find(@baseline_id).subject
+    @baseline_id.nil? ? @project.name : @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
   end
 
   # Get project name
@@ -58,7 +58,7 @@ module EvmsHelper
   def version_chart_name(ver_id)
     ver = Version.find(ver_id)
     pro = Project.find(ver.project_id)
-    pro.name + " - " + ver.name
+    pro.name + ' - ' + ver.name
   end
 
   # Get local date time
@@ -66,6 +66,6 @@ module EvmsHelper
   # @param [datetime] baseline_datetime updated or created datetime
   # @return [String] formatted date
   def local_date(baseline_datetime)
-    baseline_datetime.localtime.strftime("%Y-%m-%d %H:%M:%S") if baseline_datetime.present
+    baseline_datetime.localtime.strftime('%Y-%m-%d %H:%M:%S') if baseline_datetime.present
   end
 end
