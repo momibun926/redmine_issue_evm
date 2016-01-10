@@ -1,3 +1,4 @@
+# baseline issue model
 class EvmbaselineIssue < ActiveRecord::Base
   unloadable
 

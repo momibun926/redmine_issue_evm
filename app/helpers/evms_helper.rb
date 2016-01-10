@@ -1,5 +1,5 @@
+# evms helper
 module EvmsHelper
-
   # SPI color of CSS.
   #
   # @return [String] SPI color
@@ -48,11 +48,7 @@ module EvmsHelper
   #
   # @return [String] project name, baseline subject
   def project_chart_name
-    unless @baseline_id.nil?
-      @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
-    else
-      @project.name
-    end
+    @baseline_id.nil? ? @project.name : @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
   end
 
   # Get project name

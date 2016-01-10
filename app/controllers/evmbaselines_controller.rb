@@ -1,16 +1,19 @@
 include ProjectAndVersionValue
 
+# baseline controller
 class EvmbaselinesController < ApplicationController
   unloadable
 
   menu_item :issuevm
   before_action :find_project, :authorize
 
+  # display baseline list
   def index
     @evm_baselines = Evmbaseline.where('project_id = ? ', @project.id)
                      .order('created_on DESC')
   end
 
+  # New
   def new
     @evm_baselines = Evmbaseline.new
     issues = project_issues @project
@@ -19,27 +22,35 @@ class EvmbaselinesController < ApplicationController
     @bac = issues.sum(:estimated_hours).to_f
   end
 
+  # View of Baseline
+  def show
+    @evm_baselines = Evmbaseline.find(params[:id])
+  end
+
+  # Edit view of Baseline
   def edit
     @evm_baselines = Evmbaseline.find(params[:id])
   end
 
+  # Update baselie
   def update
     evm_baselines = Evmbaseline.find(params[:id])
     evm_baselines.update_attributes(params[:evmbaseline])
     if evm_baselines.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to action: 'index'
+      redirect_to action: :index
     else
-      redirect_to action: 'edit'
+      redirect_to action: :edit
     end
   end
 
+  # Create baseline
   def create
     evm_baselines = Evmbaseline.new(params[:evmbaseline])
     evm_baselines.project_id = @project.id
     evm_baselines.state = l(:label_current_baseline)
     evm_baselines.author_id = User.current.id
-    evm_baselines.updated_on = Time.now
+    evm_baselines.updated_on = Time.now.utc
     # issues
     issues = project_issues @project
     issues.each do |issue|
@@ -57,12 +68,13 @@ class EvmbaselinesController < ApplicationController
     # Save
     if evm_baselines.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to action: 'index'
+      redirect_to action: :index
     else
-      redirect_to action: 'new'
+      redirect_to action: :new
     end
   end
 
+  # Delete baseline
   def destroy
     # destroy
     evm_baselines = Evmbaseline.find(params[:id])
@@ -77,11 +89,12 @@ class EvmbaselinesController < ApplicationController
     end
     # Message
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to action: 'index'
+    redirect_to action: :index
   end
 
   private
 
+  # find project object
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound

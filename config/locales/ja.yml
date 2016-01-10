@@ -2,6 +2,7 @@
 ja:
   # Setting Tab
   label_baseline: ベースライン
+  label_baseline_show: ベースラインの照会
   label_baseline_edit: ベースラインの編集
   label_baseline_create: ベースラインの作成
   label_baseline_version: ベースライン履歴

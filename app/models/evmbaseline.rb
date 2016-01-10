@@ -1,3 +1,4 @@
+# baseline model
 class Evmbaseline < ActiveRecord::Base
   unloadable
 
@@ -35,13 +36,14 @@ class Evmbaseline < ActiveRecord::Base
 
   acts_as_searchable columns: ["#{table_name}.subject", "#{table_name}.description"],
                      scope: joins(:project),
+                     permission: :view_evm_baselines,
                      date_column: :updated_on
 
   acts_as_event title: proc { |o| l(:title_evm_tab) + ' : ' + o.subject },
                 description: proc { |o| (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new)) },
                 datetime: :updated_on,
                 type: proc { |o| 'EvmBaseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
-                url: proc { |o| { controller: 'evmbaselines', action: 'index', project_id: o.project } }
+                url: proc { |o| { controller: 'evmbaselines', action: :show, project_id: o.project, id: o.id } }
 
   acts_as_activity_provider scope: joins(:project),
                             permission: :view_evm_baselines,

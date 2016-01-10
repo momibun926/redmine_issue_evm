@@ -1,6 +1,6 @@
 # Calculation EVM module
 module EvmLogic
-
+  # Calculation EVM class
   class IssueEvm
     # Constractor
     #
@@ -357,7 +357,7 @@ module EvmLogic
     # @param [hash] hash_with_data target issues of EVM
     # @return [array] EVM hash. Key:time, Value:EVM value
     def convert_to_chart(hash_with_data)
-      hash_converted = Hash[hash_with_data.map { |k, v| [k.to_time.to_i * 1000, v] }]
+      hash_converted = Hash[hash_with_data.map { |k, v| [k.to_time(:local).to_i * 1000, v] }]
       hash_converted.to_a
     end
 
@@ -438,7 +438,7 @@ module EvmLogic
         dif_value = (value - before_value) / dif_days
         if dif_days > 0
           sum_value = 0.0
-          for add_days in 1..dif_days do
+          (1..dif_days).each do |add_days|
             tmpdate = before_date + add_days
             sum_value += dif_value
             temp[tmpdate] = before_value + sum_value

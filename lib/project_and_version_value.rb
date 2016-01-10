@@ -75,7 +75,7 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
     Issue.cross_project_scope(proj, 'descendants')
-      .where('start_date IS NOT NULL AND start_date <= ? AND due_date IS NOT NULL AND (closed_on IS NULL OR closed_on > ?)', basis_date, basis_date.to_time.end_of_day)
+      .where('start_date IS NOT NULL AND start_date <= ? AND due_date IS NOT NULL AND (closed_on IS NULL OR closed_on > ?)', basis_date, basis_date.end_of_day)
   end
 
   # Get pair of project id and fixed version id.

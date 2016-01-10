@@ -1,11 +1,16 @@
 include EvmLogic, ProjectAndVersionValue
 
+# evm controller
 class EvmsController < ApplicationController
   unloadable
 
+  # menu
   menu_item :issuevm
+
+  # Before action
   before_action :find_project, :authorize
 
+  # View of EVM
   def index
     # plugin setting
     @working_hours_of_day = default_setting 'working_hours_of_day', 7.5
@@ -79,9 +84,9 @@ class EvmsController < ApplicationController
 
   def default_baseline_id
     if params[:evmbaseline_id].nil?
-      id = @evmbaseline.blank? ? nil : @evmbaseline.first.id
+      @evmbaseline.blank? ? nil : @evmbaseline.first.id
     else
-      id = params[:evmbaseline_id]
+      params[:evmbaseline_id]
     end
   end
 
@@ -94,7 +99,7 @@ class EvmsController < ApplicationController
   end
 
   def default_setting(setting_name, defaultvalue)
-    value = Setting.plugin_redmine_issue_evm[setting_name].blank? ? defaultvalue : Setting.plugin_redmine_issue_evm[setting_name].to_f
+    Setting.plugin_redmine_issue_evm[setting_name].blank? ? defaultvalue : Setting.plugin_redmine_issue_evm[setting_name].to_f
   end
 
   def find_project
