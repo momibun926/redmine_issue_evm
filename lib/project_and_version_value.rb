@@ -38,7 +38,7 @@ module ProjectAndVersionValue
       .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
       .where('start_date IS NOT NULL AND due_date IS NOT NULL')
       .joins(:time_entries)
-      .group('spent_on').collect { |issue| [issue.spent_on, issue.sum_hours] }
+      .group(:spent_on).collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
 
   # Get issues of version.
@@ -65,7 +65,7 @@ module ProjectAndVersionValue
       .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
       .where('start_date IS NOT NULL AND due_date IS NOT NULL AND fixed_version_id = ? ', version_id)
       .joins(:time_entries)
-      .group('spent_on').collect { |issue| [issue.spent_on, issue.sum_hours] }
+      .group(:spent_on).collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
 
   # Get imcomplete issuees on basis date.
