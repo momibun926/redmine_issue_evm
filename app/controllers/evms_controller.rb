@@ -13,10 +13,10 @@ class EvmsController < ApplicationController
   # View of EVM
   def index
     # plugin setting
-    @working_hours_of_day = default_setting 'working_hours_of_day', 7.5
-    @limit_spi = default_setting 'limit_spi', 0.9
-    @limit_cpi = default_setting 'limit_cpi', 0.9
-    @limit_cr = default_setting 'limit_cr', 0.8
+    @working_hours_of_day = default_setting "working_hours_of_day", 7.5
+    @limit_spi = default_setting "limit_spi", 0.9
+    @limit_cpi = default_setting "limit_cpi", 0.9
+    @limit_cr = default_setting "limit_cr", 0.8
     # Basis date of calculate
     @basis_date = default_basis_date
     # baseline combo
@@ -70,8 +70,8 @@ class EvmsController < ApplicationController
       format.html
       format.csv do
         send_data(@project_evm.to_csv,
-                  type: 'text/csv; header=present',
-                  filename: 'evm_' + @project.name + '_' + Time.now.to_date.to_s + '.csv')
+                  type: "text/csv; header=present",
+                  filename: "evm_" + @project.name + "_" + Time.now.to_date.to_s + ".csv")
       end
     end
   end
@@ -91,11 +91,11 @@ class EvmsController < ApplicationController
   end
 
   def default_no_use_baseline
-    @evmbaseline.blank? ? 'ture' : params[:no_use_baseline]
+    @evmbaseline.blank? ? "ture" : params[:no_use_baseline]
   end
 
   def default_calcetc
-    params[:calcetc].nil? ? 'method2' : params[:calcetc]
+    params[:calcetc].nil? ? "method2" : params[:calcetc]
   end
 
   def default_setting(setting_name, defaultvalue)
@@ -109,6 +109,6 @@ class EvmsController < ApplicationController
   end
 
   def find_evmbaselines
-    Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
+    Evmbaseline.where("project_id = ? ", @project.id).order("created_on DESC")
   end
 end

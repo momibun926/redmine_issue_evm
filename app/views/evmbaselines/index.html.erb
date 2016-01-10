@@ -1,5 +1,5 @@
 <div class="contextual">
-  <%= link_to l(:label_baseline_create), {controller: :evmbaselines, action: :new, id: @project.id}, class: 'icon icon-add' %>
+  <%= link_to l(:label_baseline_create), {controller: :evmbaselines, action: :new, id: @project.id}, class: "icon icon-add" %>
 </div>
 <h2><%= l(:label_baseline_version) %></h2>
 <% if @evm_baselines.blank? %>
@@ -33,9 +33,9 @@
             <td class="created_on"><%= local_date(baseline.created_on) %></td>
             <td class="updated_on"><%= local_date(baseline.updated_on) %></td>
             <td class="buttons">
-              <%= link_to l(:button_show), {controller: :evmbaselines, action: :show, id: baseline.id}, class: 'icon icon-move' %>
-              <%= link_to l(:button_edit), {controller: :evmbaselines, action: :edit, id: baseline.id}, class: 'icon icon-edit' %>
-              <%= link_to l(:button_delete), {controller: :evmbaselines, action: :destroy, id: baseline.id} , class: 'icon icon-del', method: :delete, data: {confirm: l(:messsage_delete_baseline)} %>
+              <%= link_to l(:button_show), {controller: :evmbaselines, action: :show, id: baseline.id}, class: "icon icon-move" %>
+              <%= link_to l(:button_edit), {controller: :evmbaselines, action: :edit, id: baseline.id}, class: "icon icon-edit" %>
+              <%= link_to l(:button_delete), {controller: :evmbaselines, action: :destroy, id: baseline.id} , class: "icon icon-del", method: :delete, data: {confirm: l(:messsage_delete_baseline)} %>
             </td>
           </tr>
       　　<% end; reset_cycle %>
@@ -43,5 +43,5 @@
     </table>
 <% end %>
 <div>
-  <%= link_to l(:label_latest_baseline), {controller: :evms, action: :index}, class: 'icon icon-move' %>
+  <%= link_to l(:label_latest_baseline), {controller: :evms, action: :index}, class: "icon icon-move" %>
 </div>
