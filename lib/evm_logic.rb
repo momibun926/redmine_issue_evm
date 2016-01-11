@@ -7,26 +7,30 @@ module EvmLogic
     # @param [evmbaseline] baselines selected baseline.
     # @param [issue] issues
     # @param [hash] costs spent time.
-    # @param [date] basis_date basis date.
-    # @param [bool] forecast forecast of option.
-    # @param [String] etc_method etc method of option.
-    # @param [bool] no_use_baseline no use baseline of option.
-    # @param [Numeric] working_hours_of_day hours per day.
-    def initialize(baselines, issues, costs, basis_date, forecast, etc_method, no_use_baseline, working_hours_of_day)
-      # basis hours per day
-      @basis_hours_per_day = working_hours_of_day
-      # Basis date
-      @basis_date = basis_date
-      # option
-      @forecast = forecast
-      @etc_method = etc_method
+    # @param [hash] options calculationEVM options.
+    # @option options [date] basis_date basis date.
+    # @option options [bool] forecast forecast of option.
+    # @option options [String] etc_method etc method of option.
+    # @option options [bool] no_use_baseline no use baseline of option.
+    # @option options [Numeric] working_hours_of_day hours per day.
+    def initialize(baselines, issues, costs, options = {})
+      # calculationEVM options
+      options.assert_valid_keys(:working_hours_of_day,
+                                :basis_date,
+                                :forecast,
+                                :etc_method,
+                                :no_use_baseline)
+      @basis_hours_per_day = options[:working_hours_of_day]
+      @basis_date = options[:basis_date]
+      @forecast = options[:forecast]
+      @etc_method = options[:etc_method]
       @issue_max_date = issues.maximum(:due_date)
       # PV-ACTUAL for chart
       @pv_actual = calculate_planed_value issues
       # PV-BASELINE for chart
       @pv_baseline = calculate_planed_value baselines
       # PV
-      @pv = no_use_baseline ? @pv_actual : @pv_baseline
+      @pv = options[:no_use_baseline] ? @pv_actual : @pv_baseline
       # EV
       @ev = calculate_earned_value issues
       # AC
@@ -43,9 +47,9 @@ module EvmLogic
         @forecast = false
       end
       # To calculate the EVM value
-      @pv_value = @pv[basis_date] || @pv[@pv.keys.max]
-      @ev_value = @ev[basis_date] || @ev[@ev.keys.max]
-      @ac_value = @ac[basis_date] || @ac[@ac.keys.max]
+      @pv_value = @pv[@basis_date] || @pv[@pv.keys.max]
+      @ev_value = @ev[@basis_date] || @ev[@ev.keys.max]
+      @ac_value = @ac[@basis_date] || @ac[@ac.keys.max]
     end
 
     # Basis date
@@ -278,7 +282,7 @@ module EvmLogic
         csv_max_date = [@ev.keys.max, @ac.keys.max, @pv.keys.max].max
         evm_date_range = (csv_min_date..csv_max_date).to_a
         # title
-        csv << [:DATE, evm_date_range].flatten!
+        csv << ["DATE", evm_date_range].flatten!
         # set evm values each date
         pv_csv_hash = {}
         ev_csv_hash = {}
@@ -289,9 +293,9 @@ module EvmLogic
           ac_csv_hash[csv_date] = @ac[csv_date].nil? ? nil : @ac[csv_date].round(2)
         end
         # evm values
-        csv << [:PV, pv_csv_hash.values.to_a].flatten!
-        csv << [:EV, ev_csv_hash.values.to_a].flatten!
-        csv << [:AC, ac_csv_hash.values.to_a].flatten!
+        csv << ["PV", pv_csv_hash.values.to_a].flatten!
+        csv << ["EV", ev_csv_hash.values.to_a].flatten!
+        csv << ["AC", ac_csv_hash.values.to_a].flatten!
       end
     end
 

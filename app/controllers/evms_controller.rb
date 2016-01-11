@@ -39,11 +39,11 @@ class EvmsController < ApplicationController
     @project_evm = IssueEvm.new(baselines,
                                 issues,
                                 actual_cost,
-                                @basis_date,
-                                @forecast,
-                                @calcetc,
-                                @no_use_baseline,
-                                @working_hours_of_day
+                                basis_date: @basis_date,
+                                forecast: @forecast,
+                                etc_method: @calcetc,
+                                no_use_baseline: @no_use_baseline,
+                                working_hours_of_day: @working_hours_of_day
                                )
     # EVM of versions
     @version_evm = {}
@@ -55,11 +55,11 @@ class EvmsController < ApplicationController
         @version_evm[ver_id] = IssueEvm.new(nil,
                                             version_issue,
                                             version_actual_cost,
-                                            @basis_date,
-                                            nil,
-                                            nil,
-                                            true,
-                                            @working_hours_of_day
+                                            basis_date: @basis_date,
+                                            forecast: nil,
+                                            etc_method: nil,
+                                            no_use_baseline: true,
+                                            working_hours_of_day: @working_hours_of_day
                                            )
       end
     end
@@ -71,7 +71,7 @@ class EvmsController < ApplicationController
       format.csv do
         send_data(@project_evm.to_csv,
                   type: 'text/csv; header=present',
-                  filename: 'evm_' + @project.name + '_' + Time.now.to_date.to_s + '.csv')
+                  filename: 'evm.csv')
       end
     end
   end
@@ -79,7 +79,7 @@ class EvmsController < ApplicationController
   private
 
   def default_basis_date
-    params[:basis_date].nil? ? Time.now.to_date : params[:basis_date].to_date
+    params[:basis_date].nil? ? Date.current : params[:basis_date].to_date
   end
 
   def default_baseline_id
