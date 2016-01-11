@@ -7,26 +7,30 @@ module EvmLogic
     # @param [evmbaseline] baselines selected baseline.
     # @param [issue] issues
     # @param [hash] costs spent time.
-    # @param [date] basis_date basis date.
-    # @param [bool] forecast forecast of option.
-    # @param [String] etc_method etc method of option.
-    # @param [bool] no_use_baseline no use baseline of option.
-    # @param [Numeric] working_hours_of_day hours per day.
-    def initialize(baselines, issues, costs, basis_date, forecast, etc_method, no_use_baseline, working_hours_of_day)
-      # basis hours per day
-      @basis_hours_per_day = working_hours_of_day
-      # Basis date
-      @basis_date = basis_date
-      # option
-      @forecast = forecast
-      @etc_method = etc_method
+    # @param [hash] options calculationEVM options.
+    # @option options [date] basis_date basis date.
+    # @option options [bool] forecast forecast of option.
+    # @option options [String] etc_method etc method of option.
+    # @option options [bool] no_use_baseline no use baseline of option.
+    # @option options [Numeric] working_hours_of_day hours per day.
+    def initialize(baselines, issues, costs, options = {})
+      # calculationEVM options
+      options.assert_valid_keys(:working_hours_of_day,
+                                :basis_date,
+                                :forecast,
+                                :etc_method,
+                                :no_use_baseline)
+      @basis_hours_per_day = options[:working_hours_of_day]
+      @basis_date = options[:basis_date]
+      @forecast = options[:forecast]
+      @etc_method = options[:etc_method]
       @issue_max_date = issues.maximum(:due_date)
       # PV-ACTUAL for chart
       @pv_actual = calculate_planed_value issues
       # PV-BASELINE for chart
       @pv_baseline = calculate_planed_value baselines
       # PV
-      @pv = no_use_baseline ? @pv_actual : @pv_baseline
+      @pv = options[:no_use_baseline] ? @pv_actual : @pv_baseline
       # EV
       @ev = calculate_earned_value issues
       # AC
@@ -43,9 +47,9 @@ module EvmLogic
         @forecast = false
       end
       # To calculate the EVM value
-      @pv_value = @pv[basis_date] || @pv[@pv.keys.max]
-      @ev_value = @ev[basis_date] || @ev[@ev.keys.max]
-      @ac_value = @ac[basis_date] || @ac[@ac.keys.max]
+      @pv_value = @pv[@basis_date] || @pv[@pv.keys.max]
+      @ev_value = @ev[@basis_date] || @ev[@ev.keys.max]
+      @ac_value = @ac[@basis_date] || @ac[@ac.keys.max]
     end
 
     # Basis date
@@ -232,13 +236,17 @@ module EvmLogic
       chart_data[:earned_value] = convert_to_chart(@ev)
       chart_data[:baseline_value] = convert_to_chart(@pv_baseline)
       if @forecast
-        bac_top_line = { chart_minimum_date => bac, chart_maximum_date => bac }
+        bac_top_line = { chart_minimum_date => bac,
+                         chart_maximum_date => bac }
         chart_data[:bac_top_line] = convert_to_chart(bac_top_line)
-        eac_top_line = { chart_minimum_date => eac, chart_maximum_date => eac }
+        eac_top_line = { chart_minimum_date => eac,
+                         chart_maximum_date => eac }
         chart_data[:eac_top_line] = convert_to_chart(eac_top_line)
-        actual_cost_forecast = { @basis_date => today_ac, forecast_finish_date(@basis_hours_per_day) => eac }
+        actual_cost_forecast = { @basis_date => today_ac,
+                                 forecast_finish_date(@basis_hours_per_day) => eac }
         chart_data[:actual_cost_forecast] = convert_to_chart(actual_cost_forecast)
-        earned_value_forecast = { @basis_date => today_ev, forecast_finish_date(@basis_hours_per_day) => bac }
+        earned_value_forecast = { @basis_date => today_ev,
+                                  forecast_finish_date(@basis_hours_per_day) => bac }
         chart_data[:earned_value_forecast] = convert_to_chart(earned_value_forecast)
       end
       chart_data
@@ -272,13 +280,13 @@ module EvmLogic
     #
     # @return [hash] csv data
     def to_csv
-      CSV.generate do |csv|
+      Redmine::Export::CSV.generate do |csv|
         # date range
         csv_min_date = [@ev.keys.min, @ac.keys.min, @pv.keys.min].min
         csv_max_date = [@ev.keys.max, @ac.keys.max, @pv.keys.max].max
         evm_date_range = (csv_min_date..csv_max_date).to_a
         # title
-        csv << [:DATE, evm_date_range].flatten!
+        csv << ['DATE', evm_date_range].flatten!
         # set evm values each date
         pv_csv_hash = {}
         ev_csv_hash = {}
@@ -289,9 +297,9 @@ module EvmLogic
           ac_csv_hash[csv_date] = @ac[csv_date].nil? ? nil : @ac[csv_date].round(2)
         end
         # evm values
-        csv << [:PV, pv_csv_hash.values.to_a].flatten!
-        csv << [:EV, ev_csv_hash.values.to_a].flatten!
-        csv << [:AC, ac_csv_hash.values.to_a].flatten!
+        csv << ['PV', pv_csv_hash.values.to_a].flatten!
+        csv << ['EV', ev_csv_hash.values.to_a].flatten!
+        csv << ['AC', ac_csv_hash.values.to_a].flatten!
       end
     end
 
@@ -305,13 +313,15 @@ module EvmLogic
       temp_pv = {}
       unless issues.nil?
         issues.each do |issue|
-          hours_per_day = issue_hours_per_day(issue.estimated_hours.to_f, issue.start_date, issue.due_date)
+          hours_per_day = issue_hours_per_day issue.estimated_hours.to_f,
+                                              issue.start_date,
+                                              issue.due_date
           (issue.start_date..issue.due_date).each do |date|
             temp_pv[date].nil? ? temp_pv[date] = hours_per_day : temp_pv[date] += hours_per_day
           end
         end
       end
-      sort_and_sum_evm_hash(temp_pv)
+      sort_and_sum_evm_hash temp_pv
     end
 
     # Calculate EV.
@@ -330,14 +340,16 @@ module EvmLogic
             estimated_hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
             start_date = [issue.start_date, @basis_date].min
             end_date = [issue.due_date, @basis_date].max
-            hours_per_day = issue_hours_per_day(estimated_hours, start_date, end_date)
+            hours_per_day = issue_hours_per_day estimated_hours,
+                                                start_date,
+                                                end_date
             (start_date..end_date).each do |date|
               temp_ev[date].nil? ? temp_ev[date] = hours_per_day : temp_ev[date] += hours_per_day
             end
           end
         end
       end
-      calculate_earned_value = sort_and_sum_evm_hash(temp_ev)
+      calculate_earned_value = sort_and_sum_evm_hash temp_ev
       calculate_earned_value.delete_if { |date, _value| date > @basis_date }
     end
 
@@ -347,8 +359,7 @@ module EvmLogic
     # @param [issue] costs target issues of EVM
     # @return [hash] EVM hash. Key:Date, Value:AC of each days
     def calculate_actual_cost(costs)
-      temp_ac = Hash[costs]
-      calculate_actual_cost = sort_and_sum_evm_hash(temp_ac)
+      calculate_actual_cost = sort_and_sum_evm_hash Hash[costs]
       calculate_actual_cost.delete_if { |date, _value| date > @basis_date }
     end
 

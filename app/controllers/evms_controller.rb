@@ -36,31 +36,31 @@ class EvmsController < ApplicationController
     # incomplete issues
     @incomplete_issues = incomplete_project_issues @project, @basis_date
     # EVM of project
-    @project_evm = IssueEvm.new(baselines,
+    @project_evm = IssueEvm.new baselines,
                                 issues,
                                 actual_cost,
-                                @basis_date,
-                                @forecast,
-                                @calcetc,
-                                @no_use_baseline,
-                                @working_hours_of_day
-                               )
+                                basis_date: @basis_date,
+                                forecast: @forecast,
+                                etc_method: @calcetc,
+                                no_use_baseline: @no_use_baseline,
+                                working_hours_of_day: @working_hours_of_day
     # EVM of versions
     @version_evm = {}
     project_version_ids = project_varsion_id_pair @project
     unless project_version_ids.nil?
       project_version_ids.each do |proj_id, ver_id|
-        version_issue = version_issues proj_id, ver_id
-        version_actual_cost = version_costs proj_id, ver_id
-        @version_evm[ver_id] = IssueEvm.new(nil,
+        version_issue = version_issues proj_id,
+                                       ver_id
+        version_actual_cost = version_costs proj_id,
+                                            ver_id
+        @version_evm[ver_id] = IssueEvm.new nil,
                                             version_issue,
                                             version_actual_cost,
-                                            @basis_date,
-                                            nil,
-                                            nil,
-                                            true,
-                                            @working_hours_of_day
-                                           )
+                                            basis_date: @basis_date,
+                                            forecast: nil,
+                                            etc_method: nil,
+                                            no_use_baseline: true,
+                                            working_hours_of_day: @working_hours_of_day
       end
     end
     @no_data = issues.blank?
@@ -69,9 +69,9 @@ class EvmsController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        send_data(@project_evm.to_csv,
+        send_data @project_evm.to_csv,
                   type: 'text/csv; header=present',
-                  filename: 'evm_' + @project.name + '_' + Time.now.to_date.to_s + '.csv')
+                  filename: "evm_#{@project.name}_#{Date.current}.csv"
       end
     end
   end
@@ -79,7 +79,7 @@ class EvmsController < ApplicationController
   private
 
   def default_basis_date
-    params[:basis_date].nil? ? Time.now.to_date : params[:basis_date].to_date
+    params[:basis_date].nil? ? Date.current : params[:basis_date].to_date
   end
 
   def default_baseline_id

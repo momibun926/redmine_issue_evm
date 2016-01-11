@@ -1,5 +1,7 @@
 # Get data of Calculation EVM
 module ProjectAndVersionValue
+  # calculation common condition of issue's select
+  SQL_COM = 'start_date IS NOT NULL AND due_date IS NOT NULL'
   # Baselines.
   # When baseline_id is nil,latest baseline of project.
   #
@@ -25,7 +27,7 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def project_issues(proj)
     Issue.cross_project_scope(proj, 'descendants')
-      .where('start_date IS NOT NULL AND due_date IS NOT NULL')
+      .where("#{SQL_COM}")
   end
 
   # Get spent time of project.
@@ -36,7 +38,7 @@ module ProjectAndVersionValue
   def project_costs(proj)
     Issue.cross_project_scope(proj, 'descendants')
       .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
-      .where('start_date IS NOT NULL AND due_date IS NOT NULL')
+      .where("#{SQL_COM}")
       .joins(:time_entries)
       .group(:spent_on).collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
@@ -50,7 +52,7 @@ module ProjectAndVersionValue
   def version_issues(proj_id, version_id)
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, 'descendants')
-      .where('start_date IS NOT NULL AND due_date IS NOT NULL AND fixed_version_id = ? ', version_id)
+      .where("#{SQL_COM} AND fixed_version_id = ? ", version_id)
   end
 
   # Get spent time of version.
@@ -63,7 +65,7 @@ module ProjectAndVersionValue
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, 'descendants')
       .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
-      .where('start_date IS NOT NULL AND due_date IS NOT NULL AND fixed_version_id = ? ', version_id)
+      .where("#{SQL_COM} AND fixed_version_id = ? ", version_id)
       .joins(:time_entries)
       .group(:spent_on).collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
@@ -84,7 +86,7 @@ module ProjectAndVersionValue
   # @return [Array] project_id, fixed_version_id
   def project_varsion_id_pair(proj)
     Issue.cross_project_scope(proj, 'descendants')
-      .where('start_date IS NOT NULL AND due_date IS NOT NULL AND fixed_version_id IS NOT NULL')
+      .where("#{SQL_COM} AND fixed_version_id IS NOT NULL")
       .joins(:fixed_version).order('effective_date ASC')
       .uniq.pluck(:project_id, :fixed_version_id)
   end
