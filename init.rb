@@ -8,8 +8,8 @@ end
 Redmine::Plugin.register :redmine_issue_evm do
   name 'Redmine Issue Evm plugin'
   author 'Hajime Nakagama'
-  description 'This is a plugin for Redmine. Earned value management using the ticket of redmine.'
-  version '3.5.5'
+  description 'Earned value management calculation plugin.'
+  version '3.5.6'
   url 'https://github.com/momibun926/redmine_issue_evm'
   author_url 'https://github.com/momibun926'
 
@@ -23,13 +23,11 @@ Redmine::Plugin.register :redmine_issue_evm do
                               :update,
                               :index,
                               :show,
-                              :history
-                             ]
+                              :history]
     permission :view_evm_baselines,
                evmbaselines: [:index,
                               :history,
-                              :show
-                             ]
+                              :show]
   end
 
   menu :project_menu, :issuevm, { controller: :evms, action: :index },

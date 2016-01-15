@@ -48,7 +48,11 @@ module EvmsHelper
   #
   # @return [String] project name, baseline subject
   def project_chart_name
-    @baseline_id.nil? ? @project.name : @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
+    if @baseline_id.nil?
+      @project.name
+    else
+      @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
+    end
   end
 
   # Get project name
@@ -63,9 +67,9 @@ module EvmsHelper
 
   # Get local date time
   #
-  # @param [datetime] baseline_datetime updated or created datetime
+  # @param [datetime] bldatetime updated or created datetime
   # @return [String] formatted date
-  def local_date(baseline_datetime)
-    baseline_datetime.localtime.strftime('%Y-%m-%d %H:%M:%S') if baseline_datetime.present
+  def local_date(bldatetime)
+    bldatetime.localtime.strftime('%Y-%m-%d %H:%M:%S') if bldatetime.present?
   end
 end

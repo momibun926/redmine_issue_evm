@@ -12,12 +12,12 @@ module ProjectAndVersionValue
     baselines = {}
     if Evmbaseline.exists?(project_id: project_id)
       if baseline_id.nil?
-        baselines = Evmbaseline.where('project_id = ? ', project_id).order('created_on DESC').first.evmbaselineIssues
+        baselines = Evmbaseline.where('project_id = ? ', project_id).order('created_on DESC')
       else
-        baselines = Evmbaseline.where('id = ? ', baseline_id).first.evmbaselineIssues
+        baselines = Evmbaseline.where('id = ? ', baseline_id)
       end
+      baselines.first.evmbaselineIssues
     end
-    baselines
   end
 
   # Get Issues of project.
@@ -40,7 +40,8 @@ module ProjectAndVersionValue
       .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
       .where("#{SQL_COM}")
       .joins(:time_entries)
-      .group(:spent_on).collect { |issue| [issue.spent_on, issue.sum_hours] }
+      .group(:spent_on)
+      .collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
 
   # Get issues of version.
@@ -67,7 +68,8 @@ module ProjectAndVersionValue
       .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
       .where("#{SQL_COM} AND fixed_version_id = ? ", version_id)
       .joins(:time_entries)
-      .group(:spent_on).collect { |issue| [issue.spent_on, issue.sum_hours] }
+      .group(:spent_on)
+      .collect { |issue| [issue.spent_on, issue.sum_hours] }
   end
 
   # Get imcomplete issuees on basis date.
@@ -77,17 +79,20 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
     Issue.cross_project_scope(proj, 'descendants')
-      .where('start_date IS NOT NULL AND start_date <= ? AND due_date IS NOT NULL AND (closed_on IS NULL OR closed_on > ?)', basis_date, basis_date.end_of_day)
+      .where("#{SQL_COM} AND start_date <= ? AND (closed_on IS NULL OR closed_on > ?)", basis_date, basis_date.end_of_day)
   end
 
   # Get pair of project id and fixed version id.
+  # sort by minimum due date of each version.
   #
   # @param [project] proj project object
   # @return [Array] project_id, fixed_version_id
   def project_varsion_id_pair(proj)
     Issue.cross_project_scope(proj, 'descendants')
+      .select('project_id, fixed_version_id, MIN(due_date) as due_date')
       .where("#{SQL_COM} AND fixed_version_id IS NOT NULL")
-      .joins(:fixed_version).order('effective_date ASC')
-      .uniq.pluck(:project_id, :fixed_version_id)
+      .group(:project_id, :fixed_version_id)
+      .order('MIN(due_date)')
+      .collect { |issue| [issue.project_id, issue.fixed_version_id] }
   end
 end
