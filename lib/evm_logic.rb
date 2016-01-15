@@ -36,8 +36,11 @@ module EvmLogic
       # AC
       @ac = calculate_actual_cost costs
       # Project finished?
+      pv_max_date, ev_max_date, ac_max_date =
+        @pv.keys.max, @ev.keys.max, @ac.keys.max
+
       if (@pv_actual[@pv_actual.keys.max] == @ev[@ev.keys.max]) || (@pv_baseline[@pv_baseline.keys.max] == @ev[@ev.keys.max])
-        delete_basis_date = [@pv.keys.max, @ev.keys.max, @ac.keys.max].max
+        delete_basis_date = [pv_max_date, ev_max_date, ac_max_date].max
         @pv.delete_if { |date, _value| date > delete_basis_date }
         @ev.delete_if { |date, _value| date > delete_basis_date }
         @ac.delete_if { |date, _value| date > delete_basis_date }
@@ -47,9 +50,9 @@ module EvmLogic
         @forecast = false
       end
       # To calculate the EVM value
-      @pv_value = @pv[@basis_date] || @pv[@pv.keys.max]
-      @ev_value = @ev[@basis_date] || @ev[@ev.keys.max]
-      @ac_value = @ac[@basis_date] || @ac[@ac.keys.max]
+      @pv_value = @pv[@basis_date] || @pv[pv_max_date]
+      @ev_value = @ev[@basis_date] || @ev[ev_max_date]
+      @ac_value = @ac[@basis_date] || @ac[ac_max_date]
     end
 
     # Basis date
@@ -70,7 +73,8 @@ module EvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] EV / BAC
     def complete_ev(hours = 1)
-      complete_ev = bac(hours) == 0.0 ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
+      complete_ev = bac(hours) == 0.0 ?
+                    0.0 : (today_ev(hours) / bac(hours)) * 100.0
       complete_ev.round(1)
     end
 
@@ -132,7 +136,8 @@ module EvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] EV / PV on basis date
     def today_spi(hours = 1)
-      spi = today_ev(hours) == 0.0 || today_pv(hours) == 0.0 ? 0.0 : today_ev(hours) / today_pv(hours)
+      spi = today_ev(hours) == 0.0 || today_pv(hours) == 0.0 ?
+            0.0 : today_ev(hours) / today_pv(hours)
       spi.round(2)
     end
 
@@ -143,7 +148,8 @@ module EvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] EV / AC on basis date
     def today_cpi(hours = 1)
-      cpi = today_ev(hours) == 0.0 || today_ac(hours) == 0.0 ? 0.0 : today_ev(hours) / today_ac(hours)
+      cpi = today_ev(hours) == 0.0 || today_ac(hours) == 0.0 ?
+            0.0 : today_ev(hours) / today_ac(hours)
       cpi.round(2)
     end
 
@@ -218,7 +224,8 @@ module EvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] (BAC - EV) / (BAC - AC)
     def tcpi(hours = 1)
-      tcpi = bac(hours) == 0.0 ? 0.0 : (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
+      tcpi = bac(hours) == 0.0 ?
+             0.0 : (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
       tcpi.round(1)
     end
 
