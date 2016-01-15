@@ -12,9 +12,7 @@ module ProjectAndVersionValue
     baselines = {}
     if Evmbaseline.exists?(project_id: project_id)
       if baseline_id.nil?
-        baselines = Evmbaseline
-                      .where('project_id = ? ', project_id)
-                      .order('created_on DESC')
+        baselines = Evmbaseline.where('project_id = ? ', project_id).order('created_on DESC')
       else
         baselines = Evmbaseline.where('id = ? ', baseline_id)
       end

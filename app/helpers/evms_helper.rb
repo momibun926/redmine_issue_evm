@@ -48,8 +48,11 @@ module EvmsHelper
   #
   # @return [String] project name, baseline subject
   def project_chart_name
-    @baseline_id.nil? ?
-      @project.name : @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
+    if @baseline_id.nil?
+      @project.name
+    else
+      @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
+    end
   end
 
   # Get project name

@@ -99,8 +99,7 @@ class EvmsController < ApplicationController
   end
 
   def default_setting(setting_name, defaultvalue)
-    Setting.plugin_redmine_issue_evm[setting_name].blank? ?
-      defaultvalue : Setting.plugin_redmine_issue_evm[setting_name].to_f
+    Setting.plugin_redmine_issue_evm[setting_name].blank? ? defaultvalue : Setting.plugin_redmine_issue_evm[setting_name].to_f
   end
 
   def find_project
