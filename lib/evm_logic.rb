@@ -404,12 +404,10 @@ module EvmLogic
     # @return [hash] Sorted EVM hash. Key:time, Value:EVM value
     def sort_and_sum_evm_hash(evm_hash)
       temp_hash = {}
-      sum_value = 0.0
-      if evm_hash.blank?
-        evm_hash[@basis_date] = 0.0
-      elsif @basis_date <= @issue_max_date
-        evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil?
+      if evm_hash.blank? || @basis_date <= @issue_max_date
+        evm_hash[@basis_date] ||= 0.0
       end
+      sum_value = 0.0
       evm_hash.sort_by { |key, _val| key }.each do |date, value|
         sum_value += value
         temp_hash[date] = sum_value
