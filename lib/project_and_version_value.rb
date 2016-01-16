@@ -10,14 +10,13 @@ module ProjectAndVersionValue
   # @return [EvmBaseline] evmbaselines
   def project_baseline(project_id, baseline_id)
     baselines = {}
-    if Evmbaseline.exists?(project_id: project_id)
-      if baseline_id.nil?
-        baselines = Evmbaseline.where('project_id = ? ', project_id).order('created_on DESC')
-      else
-        baselines = Evmbaseline.where('id = ? ', baseline_id)
-      end
-      baselines.first.evmbaselineIssues
+    return unless Evmbaseline.exists?(project_id: project_id)
+    if baseline_id.nil?
+      baselines = Evmbaseline.where('project_id = ? ', project_id).order('created_on DESC')
+    else
+      baselines = Evmbaseline.where('id = ? ', baseline_id)
     end
+    baselines.first.evmbaselineIssues
   end
 
   # Get Issues of project.

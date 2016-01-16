@@ -10,12 +10,14 @@ This plugin provides the function of calculating evm of projects . EVM can help 
 *	Display unfinished issues
 
 #### Additional options
-*	Explanation of EVM
-*	Chart with Project Performance (SPI,CPI,CR)
-*	Calculate EVM of multiple issues
-*	Change the baseline date of EVM
+* Explanation of EVM
+* Chart with Project Performance (SPI,CPI,CR)
+* Select past baseline
+* Change the calculating basic date
+* Change the level of the forecast
 
-# How to calculate EVM
+
+## How to calculate EVM
 The below are used for EVM.
 
 * start date
@@ -63,29 +65,29 @@ PV: Dividing estimated time: 24hours by 3 days (from start date to due date)
 
 Based on these data, EVM and chart are created.
 
-# Chart
+## Chart
 3 types of charts can be displayed.
 
-#### MAIN CHART
+#### Main chart
 Show PV,EV,AC with baseline.Display unclosed issues according to the baseline.
 
-#### PERFORMANCE CHART
+#### Performance chart
 Show SPI,CPI,CR of the days involved with PV,EV,AC
 
-#### VERSION CHART
+#### Version chart
 Show PV,EV,AC of every version in the issue
 
-# Baseline
+## Baseline
 If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
 PV is based on your baseline. In addition, you can set calculation without baseline by options.
 
-# Compatibility
+## Compatibility
 Redmine 3.1 and above
 
-# Current Version
+## Current Version
 3.5.6
 
-# Installation
+## Installation
 #### Getting plugin source
 case of zip file.
 
@@ -105,7 +107,7 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
 ```
 * restart redmine
 
-# UnInstall
+## UnInstall
 ```
 rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ```
