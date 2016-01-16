@@ -381,7 +381,7 @@ module EvmLogic
     # Calculate AC.
     # Spent time of target issues.
     #
-    # @param [issue] costs target issues of EVM
+    # @param [array] costs target issues of EVM. spent_on and sum of spent_time.
     # @return [hash] EVM hash. Key:Date, Value:AC of each days
     def calculate_actual_cost(costs)
       calculate_actual_cost = sort_and_sum_evm_hash Hash[costs]
@@ -470,7 +470,7 @@ module EvmLogic
     # @return [hash] EVM value of All date
     def complement_evm_value(evm_hash)
       before_date = evm_hash.keys.min
-      before_value = evm_hash[evm_hash.keys.min]
+      before_value = evm_hash[before_date]
       temp = {}
       evm_hash.each do |date, value|
         dif_days = (date - before_date - 1).to_i
