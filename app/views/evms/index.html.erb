@@ -63,7 +63,7 @@
     <h3><%= l(:subtitle_evm_summary)%></h3>
     <%= render partial: "/evms/measure",
         locals: { project_evm: @project_evm,
-                  working_hours_of_day: @working_hours_of_day } %>
+                  working_hours: @working_hours } %>
     <!-- Main Chart -->
     <h3><%= l(:subtitle_evm_graph_main) %></h3>
     <div id="evm-graph-lines">

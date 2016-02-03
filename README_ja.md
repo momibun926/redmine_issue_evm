@@ -1,5 +1,7 @@
 # redmine issue evm
 
+[![Rate at redmine.org](http://img.shields.io/badge/rate%20at-redmine.org-blue.svg?style=flat)](http://www.redmine.org/plugins/redmine_issue_evm)
+
 チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。
 
 ## バージョン
@@ -9,7 +11,7 @@
 * EVM値の計算
 * EVM(PV,EV,AC)のチャート表示
 * プロジェクト完了予測
-* ベースラインの設定
+* ベースラインの設定、履歴管理
 * 未完了のチケットを表示
 
 ## オプション

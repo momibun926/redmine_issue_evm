@@ -12,15 +12,15 @@ module EvmLogic
     # @option options [bool] forecast forecast of option.
     # @option options [String] etc_method etc method of option.
     # @option options [bool] no_use_baseline no use baseline of option.
-    # @option options [Numeric] working_hours_of_day hours per day.
+    # @option options [Numeric] working_hours hours per day.
     def initialize(baselines, issues, costs, options = {})
       # calculationEVM options
-      options.assert_valid_keys(:working_hours_of_day,
+      options.assert_valid_keys(:working_hours,
                                 :basis_date,
                                 :forecast,
                                 :etc_method,
                                 :no_use_baseline)
-      @basis_hours_per_day = options[:working_hours_of_day]
+      @basis_hours = options[:working_hours]
       @basis_date = options[:basis_date]
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
@@ -35,17 +35,16 @@ module EvmLogic
       @ev = calculate_earned_value issues
       # AC
       @ac = calculate_actual_cost costs
+      # max date of evm
+      pv_max_date = @pv.keys.max
+      ev_max_date = @ev.keys.max
+      ac_max_date = @ac.keys.max
       # Project finished?
-      pv_max_date, ev_max_date, ac_max_date =
-        @pv.keys.max, @ev.keys.max, @ac.keys.max
-
       if (@pv_actual[@pv_actual.keys.max] == @ev[@ev.keys.max]) || (@pv_baseline[@pv_baseline.keys.max] == @ev[@ev.keys.max])
         delete_basis_date = [pv_max_date, ev_max_date, ac_max_date].max
-        @pv.delete_if { |date, _value| date > delete_basis_date }
-        @ev.delete_if { |date, _value| date > delete_basis_date }
-        @ac.delete_if { |date, _value| date > delete_basis_date }
-        @pv_actual.delete_if { |date, _value| date > delete_basis_date }
-        @pv_baseline.delete_if { |date, _value| date > delete_basis_date }
+        [@pv, @ev, @ac, @pv_actual, @pv_baseline].each do |evm_hash|
+          evm_hash.delete_if { |date, _value| date > delete_basis_date }
+        end
         # when project is finished, forecast is disable.
         @forecast = false
       end
@@ -222,7 +221,7 @@ module EvmLogic
     #
     # @return [numeric] delay days
     def delay
-      (forecast_finish_date(@basis_hours_per_day) - @pv.keys.max).to_i
+      (forecast_finish_date(@basis_hours) - @pv.keys.max).to_i
     end
 
     # To Complete Cost Performance Indicator
@@ -262,10 +261,10 @@ module EvmLogic
                          chart_maximum_date => eac }
         chart_data[:eac_top_line] = convert_to_chart(eac_top_line)
         actual_cost_forecast = { @basis_date => today_ac,
-                                 forecast_finish_date(@basis_hours_per_day) => eac }
+                                 forecast_finish_date(@basis_hours) => eac }
         chart_data[:actual_cost_forecast] = convert_to_chart(actual_cost_forecast)
         earned_value_forecast = { @basis_date => today_ev,
-                                  forecast_finish_date(@basis_hours_per_day) => bac }
+                                  forecast_finish_date(@basis_hours) => bac }
         chart_data[:earned_value_forecast] = convert_to_chart(earned_value_forecast)
       end
       chart_data
@@ -279,8 +278,12 @@ module EvmLogic
       new_ev = complement_evm_value @ev
       new_ac = complement_evm_value @ac
       new_pv = complement_evm_value @pv
-      performance_min_date = [new_ev.keys.min, new_ac.keys.min, new_pv.keys.min].max
-      performance_max_date = [new_ev.keys.max, new_ac.keys.max, new_pv.keys.max].min
+      performance_min_date = [new_ev.keys.min,
+                              new_ac.keys.min,
+                              new_pv.keys.min].max
+      performance_max_date = [new_ev.keys.max,
+                              new_ac.keys.max,
+                              new_pv.keys.max].min
       spi = {}
       cpi = {}
       cr = {}
@@ -336,7 +339,8 @@ module EvmLogic
                                               issue.start_date,
                                               issue.due_date
           (issue.start_date..issue.due_date).each do |date|
-            temp_pv[date].nil? ? temp_pv[date] = hours_per_day : temp_pv[date] += hours_per_day
+            temp_pv[date] += hours_per_day unless temp_pv[date].nil?
+            temp_pv[date] ||= hours_per_day
           end
         end
       end
@@ -349,33 +353,35 @@ module EvmLogic
     # @param [issue] issues target issues of EVM
     # @return [hash] EVM hash. Key:Date, Value:EV of each days
     def calculate_earned_value(issues)
-      temp_ev = {}
+      ev = {}
       unless issues.nil?
         issues.each do |issue|
           if issue.closed?
-            close_date = issue.closed_on.to_time.to_date
-            temp_ev[close_date].nil? ? temp_ev[close_date] = issue.estimated_hours.to_f : temp_ev[close_date] += issue.estimated_hours.to_f
+            dt = issue.closed_on.to_time.to_date
+            ev[dt] += issue.estimated_hours.to_f unless ev[dt].nil?
+            ev[dt] ||= issue.estimated_hours.to_f
           elsif issue.done_ratio > 0
-            estimated_hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
+            hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
             start_date = [issue.start_date, @basis_date].min
             end_date = [issue.due_date, @basis_date].max
-            hours_per_day = issue_hours_per_day estimated_hours,
+            hours_per_day = issue_hours_per_day hours,
                                                 start_date,
                                                 end_date
             (start_date..end_date).each do |date|
-              temp_ev[date].nil? ? temp_ev[date] = hours_per_day : temp_ev[date] += hours_per_day
+              ev[date] += hours_per_day unless ev[date].nil?
+              ev[date] ||= hours_per_day
             end
           end
         end
       end
-      calculate_earned_value = sort_and_sum_evm_hash temp_ev
+      calculate_earned_value = sort_and_sum_evm_hash ev
       calculate_earned_value.delete_if { |date, _value| date > @basis_date }
     end
 
     # Calculate AC.
     # Spent time of target issues.
     #
-    # @param [issue] costs target issues of EVM
+    # @param [array] costs target issues of EVM. spent_on and sum of spent_time.
     # @return [hash] EVM hash. Key:Date, Value:AC of each days
     def calculate_actual_cost(costs)
       calculate_actual_cost = sort_and_sum_evm_hash Hash[costs]
@@ -384,11 +390,11 @@ module EvmLogic
 
     # Convert to chart. xAxis of Chart is time.
     #
-    # @param [hash] hash_with_data target issues of EVM
+    # @param [hash] data target issues of EVM
     # @return [array] EVM hash. Key:time, Value:EVM value
-    def convert_to_chart(hash_with_data)
-      hash_converted = Hash[hash_with_data.map { |k, v| [k.to_time(:local).to_i * 1000, v] }]
-      hash_converted.to_a
+    def convert_to_chart(data)
+      converted = Hash[data.map { |k, v| [k.to_time(:local).to_i * 1000, v] }]
+      converted.to_a
     end
 
     # Sort key value. key value is DATE.
@@ -398,12 +404,10 @@ module EvmLogic
     # @return [hash] Sorted EVM hash. Key:time, Value:EVM value
     def sort_and_sum_evm_hash(evm_hash)
       temp_hash = {}
-      sum_value = 0.0
-      if evm_hash.blank?
-        evm_hash[@basis_date] = 0.0
-      elsif @basis_date <= @issue_max_date
-        evm_hash[@basis_date] = 0.0 if evm_hash[@basis_date].nil?
+      if evm_hash.blank? || @basis_date <= @issue_max_date
+        evm_hash[@basis_date] ||= 0.0
       end
+      sum_value = 0.0
       evm_hash.sort_by { |key, _val| key }.each do |date, value|
         sum_value += value
         temp_hash[date] = sum_value
@@ -432,7 +436,10 @@ module EvmLogic
     #
     # @return [date] Most maximum date of PV,EV,AC,End date of forecast
     def chart_maximum_date
-      [@pv.keys.max, @ev.keys.max, @ac.keys.max, forecast_finish_date(@basis_hours_per_day)].max
+      [@pv.keys.max,
+       @ev.keys.max,
+       @ac.keys.max,
+       forecast_finish_date(@basis_hours)].max
     end
 
     # End of project day.(forecast)
@@ -449,7 +456,7 @@ module EvmLogic
           rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi(basis_hours) / basis_hours
           @basis_date + rest_days
         else
-          rest_days = @pv.reject { |key, _value| key <= @basis_date }.size
+          rest_days = @pv.count { |key, _value| key > @basis_date }
           @pv.keys.max - (rest_days - (rest_days / today_spi(basis_hours)))
         end
       end
@@ -461,7 +468,7 @@ module EvmLogic
     # @return [hash] EVM value of All date
     def complement_evm_value(evm_hash)
       before_date = evm_hash.keys.min
-      before_value = evm_hash[evm_hash.keys.min]
+      before_value = evm_hash[before_date]
       temp = {}
       evm_hash.each do |date, value|
         dif_days = (date - before_date - 1).to_i

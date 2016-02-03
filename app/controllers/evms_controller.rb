@@ -13,7 +13,7 @@ class EvmsController < ApplicationController
   # View of EVM
   def index
     # plugin setting
-    @working_hours_of_day = default_setting 'working_hours_of_day', 7.5
+    @working_hours = default_setting 'working_hours_of_day', 7.5
     @limit_spi = default_setting 'limit_spi', 0.9
     @limit_cpi = default_setting 'limit_cpi', 0.9
     @limit_cr = default_setting 'limit_cr', 0.8
@@ -43,7 +43,7 @@ class EvmsController < ApplicationController
                                 forecast: @forecast,
                                 etc_method: @calcetc,
                                 no_use_baseline: @no_use_baseline,
-                                working_hours_of_day: @working_hours_of_day
+                                working_hours: @working_hours
     # EVM of versions
     @version_evm = {}
     project_version_ids = project_varsion_id_pair @project
@@ -60,7 +60,7 @@ class EvmsController < ApplicationController
                                             forecast: nil,
                                             etc_method: nil,
                                             no_use_baseline: true,
-                                            working_hours_of_day: @working_hours_of_day
+                                            working_hours: @working_hours
       end
     end
     @no_data = issues.blank?
