@@ -88,7 +88,7 @@ PV is based on your baseline. In addition, you can set calculation without basel
 Redmine 3.1 and above
 
 ## Current Version
-3.5.6
+3.5.7
 
 ## Installation
 #### Getting plugin source
@@ -137,4 +137,4 @@ New baseline
 5. Create new Pull Request
 
 #### Translators
-Wen Wen Shen.
+Wen Wen, Shen.
