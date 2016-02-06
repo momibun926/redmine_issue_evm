@@ -36,11 +36,11 @@ module ProjectAndVersionValue
   # @return [Array] Two column,spent_on,sum of hours
   def project_costs(proj)
     Issue.cross_project_scope(proj, 'descendants')
-      .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
+      .select('spent_on, SUM(hours) AS sum_hours')
       .where("#{SQL_COM}")
       .joins(:time_entries)
       .group(:spent_on)
-      .collect { |issue| [issue.spent_on, issue.sum_hours] }
+      .collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
   end
 
   # Get issues of version.
@@ -64,11 +64,11 @@ module ProjectAndVersionValue
   def version_costs(proj_id, version_id)
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, 'descendants')
-      .select('MAX(spent_on) AS spent_on, SUM(hours) AS sum_hours')
+      .select('spent_on, SUM(hours) AS sum_hours')
       .where("#{SQL_COM} AND fixed_version_id = ? ", version_id)
       .joins(:time_entries)
       .group(:spent_on)
-      .collect { |issue| [issue.spent_on, issue.sum_hours] }
+      .collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
   end
 
   # Get imcomplete issuees on basis date.
