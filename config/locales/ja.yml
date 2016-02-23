@@ -35,6 +35,7 @@ ja:
   label_forecast: 予測値の表示
   label_display_version: バージョンの表示
   label_display_performance: パフォーマンス指標の表示
+  label_display_incomplete: 未完了チケットの表示
   label_calculate : ETCの計算方法
   label_calc_method1: 楽観的
   label_calc_method2: 通常

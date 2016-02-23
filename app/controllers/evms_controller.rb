@@ -29,6 +29,7 @@ class EvmsController < ApplicationController
     @display_explanation = params[:display_explanation]
     @display_version = params[:display_version]
     @display_performance = params[:display_performance]
+    @display_incomplete = params[:display_incomplete]
     # Project. all versions
     baselines = project_baseline @project, @baseline_id
     issues = project_issues @project
