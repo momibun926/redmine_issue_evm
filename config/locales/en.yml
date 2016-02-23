@@ -35,6 +35,7 @@ en:
   label_forecast: Forecast
   label_display_version: Version
   label_display_performance: Performance
+  label_display_incomplete: Incomplete Issues
   label_calculate : ETC calculation method
   label_calc_method1: Optimistic
   label_calc_method2: Normal

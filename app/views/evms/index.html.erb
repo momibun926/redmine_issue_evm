@@ -48,6 +48,7 @@
                           forecast: @forecast,
                           display_version: @display_version,
                           display_performance: @display_performance,
+                          display_incomplete: @display_incomplete,
                           calcetc: @calcetc,
                           display_explanation: @display_explanation  } %>
           </div>
@@ -72,19 +73,11 @@
                     project_evm: @project_evm,
                     project_name: project_chart_name } %>
     </div>
+    <br>
     <!-- Exports -->
     <% other_formats_links do |f| %>
       <%= f.link_to 'CSV', :url => params %>
     <% end %>
-    <!-- Incomplete issue list -->
-    <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
-    <% if @no_data_incomplete_issues %>
-      <p class="nodata"><%= l(:label_no_data) %></p>
-    <% else %>
-      <%= render partial: "/evms/incomplete_issue_list",
-          locals: { incomplete_issues: @incomplete_issues } %>
-    <% end %>
-    <br>
     <br>
     <div id="noprintarea">
       <!-- Performance Chart -->
@@ -113,6 +106,18 @@
         <% end %>
       <% end %>
     </div>
+  <% end %>
+  <br />
+  <% if @display_incomplete %>
+    <br />
+    <!-- Incomplete issue list -->
+    <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
+    <% if @no_data_incomplete_issues %>
+      <p class="nodata"><%= l(:label_no_data) %></p>
+    <% else %>
+      <%= render partial: "/evms/incomplete_issue_list",
+          locals: { incomplete_issues: @incomplete_issues } %>
+    <% end %>
   <% end %>
 <!--end of print area-->
 </div>
