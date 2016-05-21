@@ -85,7 +85,7 @@ If you set baseline, you can know easily how project divergence is and whether n
 PV is based on your baseline. In addition, you can set calculation without baseline by options.
 
 ## Compatibility
-Redmine 3.1 and above
+Redmine 3.2.2 and above
 
 ## Current Version
 3.5.7
