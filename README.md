@@ -85,10 +85,17 @@ If you set baseline, you can know easily how project divergence is and whether n
 PV is based on your baseline. In addition, you can set calculation without baseline by options.
 
 ## Compatibility
-Redmine 3.2.2 and above
+Redmine 3.3.0 and above
+
+my Environment:
+  Redmine version                3.3.0.stable
+  Ruby version                   2.1.8-p440 (2015-12-16) [i386-mingw32]
+  Rails version                  4.2.6
+  Environment                    production
+  Database adapter               Mysql2
 
 ## Current Version
-3.5.7
+3.5.8
 
 ## Installation
 #### Getting plugin source
