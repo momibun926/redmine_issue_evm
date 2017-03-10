@@ -34,11 +34,6 @@ class Evmbaseline < ActiveRecord::Base
     evmbaselineIssues.sum(:estimated_hours).round(1)
   end
 
-  acts_as_searchable columns: ["#{table_name}.subject", "#{table_name}.description"],
-                     scope: joins(:project),
-                     permission: :view_evm_baselines,
-                     date_column: :updated_on
-
   acts_as_event title: proc { |o| l(:title_evm_tab) + ' : ' + o.subject },
                 description: proc { |o| (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new)) },
                 datetime: :updated_on,
@@ -49,4 +44,14 @@ class Evmbaseline < ActiveRecord::Base
                             permission: :view_evm_baselines,
                             type: 'evmbaseline',
                             author_key: :author_id
+
+  acts_as_searchable columns: ["#{table_name}.subject", "#{table_name}.description"],
+                     scope: joins(:project),
+                     permission: :view_evm_baselines,
+                     date_column: :updated_on
+
+  scope :visible, lambda {|*args|
+    joins(:project).
+    where(Project.allowed_to_condition(args.shift || User.current, :view_evm_baselines, *args))}
+
 end
