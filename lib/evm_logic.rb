@@ -363,7 +363,7 @@ module EvmLogic
           elsif issue.done_ratio > 0
             hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
             start_date = [issue.start_date, @basis_date].min
-            end_date = [issue.due_date, @basis_date].max
+            end_date = [issue.due_date, @basis_date].min
             hours_per_day = issue_hours_per_day hours,
                                                 start_date,
                                                 end_date
