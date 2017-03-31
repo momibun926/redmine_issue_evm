@@ -5,7 +5,7 @@
 チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。
 
 ## バージョン
-3.6
+3.6.1
 
 ## 主な機能
 * EVM値の計算
@@ -100,7 +100,7 @@ My Environment:
   Rails version                  4.2.7.1
   Environment                    production
   Database adapter               Mysql2
-  
+
 ## 導入
 1. ZIPファイルをダウンロードします
 2. [redmine_root]/plugins/へ移動して、redmine_issue_evmフォルダを作成してください
