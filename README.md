@@ -5,7 +5,7 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-3.6.1
+3.6.2
 
 #### Main features
 *	Calculate EVM
