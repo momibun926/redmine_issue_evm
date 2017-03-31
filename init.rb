@@ -38,4 +38,9 @@ Redmine::Plugin.register :redmine_issue_evm do
                       limit_cpi: '0.9',
                       limit_cr: '0.8' },
            partial: 'settings/issue_evm_settings'
+
+  class RedmineIssueEvmHookListener < Redmine::Hook::ViewListener
+    render_on :view_layouts_base_html_head, :inline => "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
+  end
+
 end
