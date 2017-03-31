@@ -49,3 +49,8 @@ div[class*="evm-explanation"] {
 @page {
   size: A4
 }
+
+/*** for activity page ***/
+
+dt.baseline-add { background-image: url(../images/baseline-add.png); }
+dt.baseline-edit { background-image: url(../images/baseline-edit.png); }

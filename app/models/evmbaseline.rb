@@ -34,10 +34,11 @@ class Evmbaseline < ActiveRecord::Base
     evmbaselineIssues.sum(:estimated_hours).round(1)
   end
 
+  # for activity page.
   acts_as_event title: proc { |o| l(:title_evm_tab) + ' : ' + o.subject },
                 description: proc { |o| (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new)) },
                 datetime: :updated_on,
-                type: proc { |o| 'EVM Baseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
+                type: proc { |o| 'evmbaseline-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
                 url: proc { |o| { controller: 'evmbaselines', action: :show, project_id: o.project, id: o.id } }
 
   acts_as_activity_provider scope: joins(:project),
@@ -45,6 +46,7 @@ class Evmbaseline < ActiveRecord::Base
                             type: 'evmbaseline',
                             author_key: :author_id
 
+  # for search.
   acts_as_searchable columns: ["#{table_name}.subject", "#{table_name}.description"],
                      :preload => [ :project ],
                      date_column: :updated_on
