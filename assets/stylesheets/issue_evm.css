@@ -52,5 +52,9 @@ div[class*="evm-explanation"] {
 
 /*** for activity page ***/
 
-dt.evmbaseline-new { background-image: url(../images/baseline-add.png); }
-dt.evmbaseline-edit { background-image: url(../images/baseline-edit.png); }
+dt.evmbaseline-new {
+  background-image: url('../images/baseline-add.png');
+}
+dt.evmbaseline-edit {
+  background-image: url('../images/baseline-edit.png');
+}
