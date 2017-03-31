@@ -5,7 +5,7 @@
 チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。
 
 ## バージョン
-3.5.8
+3.6
 
 ## 主な機能
 * EVM値の計算
@@ -94,13 +94,13 @@ PV,EV,ACが計算されている日だけ、SPI,CPI,CRを計算して表示し�
 ## 動作環境
 Redmine 3.3.0 以上
 
-my Environment:
-  Redmine version                3.3.0.stable
-  Ruby version                   2.1.8-p440 (2015-12-16) [i386-mingw32]
-  Rails version                  4.2.6
+My Environment:
+  Redmine version                3.3.2.stable
+  Ruby version                   2.1.9-p490 (2016-03-30) [i386-mingw32]
+  Rails version                  4.2.7.1
   Environment                    production
   Database adapter               Mysql2
-
+  
 ## 導入
 1. ZIPファイルをダウンロードします
 2. [redmine_root]/plugins/へ移動して、redmine_issue_evmフォルダを作成してください

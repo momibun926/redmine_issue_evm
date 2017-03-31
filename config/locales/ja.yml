@@ -80,7 +80,7 @@ ja:
   project_module_Issuevm: EVM
   permission_view_evms: EVMプラグインタブの表示
   permission_manage_evmbaselines: ベースラインの設定
-  permission_view_evm_baselines: ベースラインの一覧表示
+  permission_view_evmbaselines: ベースラインの一覧表示
   # Tab Display
   tab_display_name: EVM
   # incomplete_issue

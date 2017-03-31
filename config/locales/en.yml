@@ -80,7 +80,7 @@ en:
   project_module_Issuevm: EVM
   permission_view_evms: View EVM
   permission_manage_evmbaselines: Edit Baseline
-  permission_view_evm_baselines: View Baseline
+  permission_view_evmbaselines: View Baseline
   # Tab Display
   tab_display_name: EVM
   # incomplete_issue

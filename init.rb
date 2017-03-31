@@ -2,14 +2,14 @@ require 'redmine'
 
 Rails.configuration.to_prepare do
   Redmine::Activity.register 'evmbaseline'
-  Redmine::Search.available_search_types << 'evmbaseline'
+  Redmine::Search.available_search_types << 'evmbaselines'
 end
 
 Redmine::Plugin.register :redmine_issue_evm do
   name 'Redmine Issue Evm plugin'
   author 'Hajime Nakagama'
   description 'Earned value management calculation plugin.'
-  version '3.5.8'
+  version '3.6'
   url 'https://github.com/momibun926/redmine_issue_evm'
   author_url 'https://github.com/momibun926'
 
@@ -24,7 +24,7 @@ Redmine::Plugin.register :redmine_issue_evm do
                               :index,
                               :show,
                               :history]
-    permission :view_evm_baselines,
+    permission :view_evmbaselines,
                evmbaselines: [:index,
                               :history,
                               :show]

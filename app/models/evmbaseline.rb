@@ -37,7 +37,7 @@ class Evmbaseline < ActiveRecord::Base
   acts_as_event title: proc { |o| l(:title_evm_tab) + ' : ' + o.subject },
                 description: proc { |o| (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new)) },
                 datetime: :updated_on,
-                type: proc { |o| 'EvmBaseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
+                type: proc { |o| 'EVM Baseine-' + (o.created_on < o.updated_on ? 'edit' : 'new') },
                 url: proc { |o| { controller: 'evmbaselines', action: :show, project_id: o.project, id: o.id } }
 
   acts_as_activity_provider scope: joins(:project),
@@ -46,8 +46,7 @@ class Evmbaseline < ActiveRecord::Base
                             author_key: :author_id
 
   acts_as_searchable columns: ["#{table_name}.subject", "#{table_name}.description"],
-                     scope: joins(:project),
-                     permission: :view_evm_baselines,
+                     :preload => [ :project ],
                      date_column: :updated_on
 
   scope :visible, lambda {|*args|

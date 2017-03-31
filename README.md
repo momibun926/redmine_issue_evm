@@ -4,6 +4,8 @@
 
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
+## Current Version
+3.6
 
 #### Main features
 *	Calculate EVM
@@ -85,17 +87,14 @@ If you set baseline, you can know easily how project divergence is and whether n
 PV is based on your baseline. In addition, you can set calculation without baseline by options.
 
 ## Compatibility
-Redmine 3.3.0 and above
+Redmine 3.3.2 and above
 
-my Environment:
-  Redmine version                3.3.0.stable
-  Ruby version                   2.1.8-p440 (2015-12-16) [i386-mingw32]
-  Rails version                  4.2.6
+My Environment:
+  Redmine version                3.3.2.stable
+  Ruby version                   2.1.9-p490 (2016-03-30) [i386-mingw32]
+  Rails version                  4.2.7.1
   Environment                    production
   Database adapter               Mysql2
-
-## Current Version
-3.5.8
 
 ## Installation
 #### Getting plugin source
