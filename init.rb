@@ -9,7 +9,7 @@ Redmine::Plugin.register :redmine_issue_evm do
   name 'Redmine Issue Evm plugin'
   author 'Hajime Nakagama'
   description 'Earned value management calculation plugin.'
-  version '3.6'
+  version '3.6.2'
   url 'https://github.com/momibun926/redmine_issue_evm'
   author_url 'https://github.com/momibun926'
 

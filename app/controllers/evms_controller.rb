@@ -80,7 +80,7 @@ class EvmsController < ApplicationController
   private
 
   def default_basis_date
-    params[:basis_date].nil? ? Date.current : params[:basis_date].to_date
+    params[:basis_date].nil? ? Date.today : params[:basis_date].to_date
   end
 
   def default_baseline_id
