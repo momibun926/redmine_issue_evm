@@ -25,7 +25,6 @@ module EvmLogic
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
       @issue_max_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
-      Rails.logger.debug(@issue_max_date)
       # PV-ACTUAL for chart
       @pv_actual = calculate_planed_value issues
       # PV-BASELINE for chart
@@ -337,7 +336,6 @@ module EvmLogic
       unless issues.nil?
         issues.each do |issue|
           issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
-          Rails.logger.debug(issue.due_date)
           hours_per_day = issue_hours_per_day issue.estimated_hours.to_f,
                                               issue.start_date,
                                               issue.due_date
