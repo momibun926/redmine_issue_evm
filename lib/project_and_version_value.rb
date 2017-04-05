@@ -1,7 +1,7 @@
 # Get data of Calculation EVM
 module ProjectAndVersionValue
   # calculation common condition of issue's select
-  SQL_COM = 'start_date IS NOT NULL AND due_date IS NOT NULL'
+  SQL_COM = 'start_date IS NOT NULL AND ( due_date IS NOT NULL or fixed_version_id IS NOT NULL )'
   # Baselines.
   # When baseline_id is nil,latest baseline of project.
   #
@@ -26,6 +26,7 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def project_issues(proj)
     Issue.cross_project_scope(proj, 'descendants')
+      .includes(:fixed_version).references(:fixed_version)
       .where("#{SQL_COM}")
   end
 
@@ -52,6 +53,7 @@ module ProjectAndVersionValue
   def version_issues(proj_id, version_id)
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, 'descendants')
+      .includes(:fixed_version).references(:fixed_version)    
       .where("#{SQL_COM} AND fixed_version_id = ? ", version_id)
   end
 
