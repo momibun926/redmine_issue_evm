@@ -3,7 +3,7 @@
 module ProjectAndVersionValue
   # calculation common condition of issue's select
   SQL_COM = '(start_date IS NOT NULL AND due_date IS NOT NULL) OR (start_date IS NOT NULL AND due_date IS NULL AND fixed_version_id IS NOT NULL)'
-  SQL_COM_FILTER = 'due_date IS NOT NULL OR effective_date IS NOT NULL'
+  SQL_COM_FILTER = '(due_date IS NOT NULL OR effective_date IS NOT NULL)'
 
   # Get Issues of Baseline.(start date, due date, estimated hours)
   # When baseline_id is nil,latest baseline of project.
@@ -30,7 +30,8 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def project_issues(proj)
     Issue.cross_project_scope(proj, 'descendants')
-      .includes(:fixed_version).where("#{SQL_COM_FILTER}").references(:fixed_version)
+      .includes(:fixed_version).where("#{SQL_COM_FILTER}")
+      .references(:fixed_version)
       .where("#{SQL_COM}")
   end
 
@@ -58,7 +59,8 @@ module ProjectAndVersionValue
   def version_issues(proj_id, version_id)
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, 'descendants')
-      .includes(:fixed_version).where("#{SQL_COM_FILTER}").references(:fixed_version)
+      .includes(:fixed_version).where("#{SQL_COM_FILTER}")
+      .references(:fixed_version)
       .where(fixed_version_id: version_id)
   end
 
@@ -100,7 +102,8 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
     Issue.cross_project_scope(proj, 'descendants')
-      .includes(:fixed_version).where("#{SQL_COM_FILTER}").references(:fixed_version)
-      .where("#{SQL_COM} AND start_date <= ? AND (closed_on IS NULL OR closed_on > ?)", basis_date, basis_date.end_of_day)
+      .includes(:fixed_version).where("#{SQL_COM_FILTER} AND start_date <= ? AND (closed_on IS NULL OR closed_on > ?)", basis_date, basis_date.end_of_day)
+      .references(:fixed_version)
+      .where("#{SQL_COM}", basis_date)
   end
 end
