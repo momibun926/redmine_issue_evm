@@ -24,7 +24,9 @@ module EvmLogic
       @basis_date = options[:basis_date]
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
-      @issue_max_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
+      @issue_max_date = issues.maximum(:due_date)
+      @issue_max_date ||= baselines.maximum(:due_date) unless baselines.nil?
+      @issue_max_date ||= issues.maximum(:effective_date)
       # PV-ACTUAL for chart
       @pv_actual = calculate_planed_value issues
       # PV-BASELINE for chart
