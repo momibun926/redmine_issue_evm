@@ -20,7 +20,7 @@ class EvmbaselinesController < ApplicationController
     @evm_baselines = Evmbaseline.new
     issues = project_issues @project
     @start_date = issues.minimum(:start_date)
-    @due_date = issues.maximum(:due_date)
+    @due_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
     @bac = issues.sum(:estimated_hours).to_f
   end
 
