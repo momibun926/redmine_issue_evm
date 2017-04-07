@@ -1,4 +1,5 @@
 # Get data of Calculation EVM
+#
 module ProjectAndVersionValue
   # calculation common condition of issue's select
   SQL_COM = 'start_date IS NOT NULL AND ( due_date IS NOT NULL or fixed_version_id IS NOT NULL )'
@@ -22,6 +23,7 @@ module ProjectAndVersionValue
   # Get Issues of project.
   # Include descendants project.require inputted start date and due date.
   #
+  # @note If the due date has not been entered, we will use the due date of the version
   # @param [Object] proj project
   # @return [Issue] issue object
   def project_issues(proj)
@@ -47,6 +49,7 @@ module ProjectAndVersionValue
   # Get issues of version.
   # Include descendants project.require inputted start date and due date.
   #
+  # @note If the due date has not been entered, we will use the due date of the version
   # @param [Numeric] proj_id project id
   # @param [Numeric] version_id fixed_version_id of project
   # @return [Issue] issue object
@@ -75,6 +78,7 @@ module ProjectAndVersionValue
 
   # Get imcomplete issuees on basis date.
   #
+  # @note If the due date has not been entered, we will use the due date of the version
   # @param [Numeric] proj project id
   # @param [date] basis_date basis date
   # @return [Issue] issue object
