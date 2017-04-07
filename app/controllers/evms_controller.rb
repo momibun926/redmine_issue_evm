@@ -11,6 +11,7 @@ class EvmsController < ApplicationController
   before_action :find_project, :authorize
 
   # View of EVM
+  #
   def index
     # plugin setting
     @working_hours = default_setting 'working_hours_of_day', 7.5
@@ -79,10 +80,12 @@ class EvmsController < ApplicationController
 
   private
 
+  # default basis date
   def default_basis_date
     params[:basis_date].nil? ? Date.today : params[:basis_date].to_date
   end
 
+  # default baseline. latest baseline
   def default_baseline_id
     if params[:evmbaseline_id].nil?
       @evmbaseline.blank? ? nil : @evmbaseline.first.id
@@ -91,10 +94,14 @@ class EvmsController < ApplicationController
     end
   end
 
+  # view option.
+  # use baseline
   def default_no_use_baseline
     @evmbaseline.blank? ? 'ture' : params[:no_use_baseline]
   end
 
+  # view option.
+  # Method of calculation
   def default_calcetc
     params[:calcetc].nil? ? 'method2' : params[:calcetc]
   end

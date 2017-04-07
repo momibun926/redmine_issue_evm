@@ -24,7 +24,7 @@ module EvmLogic
       @basis_date = options[:basis_date]
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
-      @issue_max_date = issues.maximum(:due_date)
+      @issue_max_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
       # PV-ACTUAL for chart
       @pv_actual = calculate_planed_value issues
       # PV-BASELINE for chart
@@ -335,6 +335,7 @@ module EvmLogic
       temp_pv = {}
       unless issues.nil?
         issues.each do |issue|
+          issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
           hours_per_day = issue_hours_per_day issue.estimated_hours.to_f,
                                               issue.start_date,
                                               issue.due_date
@@ -363,6 +364,7 @@ module EvmLogic
           elsif issue.done_ratio > 0
             hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
             start_date = [issue.start_date, @basis_date].min
+            issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
             end_date = [issue.due_date, @basis_date].max
             hours_per_day = issue_hours_per_day hours,
                                                 start_date,

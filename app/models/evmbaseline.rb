@@ -52,7 +52,7 @@ class Evmbaseline < ActiveRecord::Base
   acts_as_searchable columns: ["#{table_name}.subject", "#{table_name}.description"],
                      :preload => [ :project ],
                      date_column: :updated_on
-
+  # scope
   scope :visible, lambda {|*args|
     joins(:project).
     where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args))}

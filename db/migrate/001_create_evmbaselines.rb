@@ -1,4 +1,7 @@
+# Stored baseline
+#
 class CreateEvmbaselines < ActiveRecord::Migration
+  # 1st create
   def change
     create_table :evmbaselines do |t|
       t.integer :project_id

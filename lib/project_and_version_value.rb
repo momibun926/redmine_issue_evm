@@ -1,7 +1,8 @@
 # Get data of Calculation EVM
+#
 module ProjectAndVersionValue
   # calculation common condition of issue's select
-  SQL_COM = 'start_date IS NOT NULL AND due_date IS NOT NULL'
+  SQL_COM = 'start_date IS NOT NULL AND ( due_date IS NOT NULL or fixed_version_id IS NOT NULL )'
   # Baselines.
   # When baseline_id is nil,latest baseline of project.
   #
@@ -22,10 +23,12 @@ module ProjectAndVersionValue
   # Get Issues of project.
   # Include descendants project.require inputted start date and due date.
   #
+  # @note If the due date has not been entered, we will use the due date of the version
   # @param [Object] proj project
   # @return [Issue] issue object
   def project_issues(proj)
     Issue.cross_project_scope(proj, 'descendants')
+      .includes(:fixed_version).where("fixed_version_id IS NULL or effective_date IS NOT NULL").references(:fixed_version)
       .where("#{SQL_COM}")
   end
 
@@ -46,12 +49,14 @@ module ProjectAndVersionValue
   # Get issues of version.
   # Include descendants project.require inputted start date and due date.
   #
+  # @note If the due date has not been entered, we will use the due date of the version
   # @param [Numeric] proj_id project id
   # @param [Numeric] version_id fixed_version_id of project
   # @return [Issue] issue object
   def version_issues(proj_id, version_id)
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, 'descendants')
+      .includes(:fixed_version).where("fixed_version_id IS NULL or effective_date IS NOT NULL").references(:fixed_version)
       .where("#{SQL_COM} AND fixed_version_id = ? ", version_id)
   end
 
@@ -73,11 +78,13 @@ module ProjectAndVersionValue
 
   # Get imcomplete issuees on basis date.
   #
+  # @note If the due date has not been entered, we will use the due date of the version
   # @param [Numeric] proj project id
   # @param [date] basis_date basis date
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
     Issue.cross_project_scope(proj, 'descendants')
+      .includes(:fixed_version).where("fixed_version_id IS NULL or effective_date IS NOT NULL").references(:fixed_version)
       .where("#{SQL_COM} AND start_date <= ? AND (closed_on IS NULL OR closed_on > ?)", basis_date, basis_date.end_of_day)
   end
 
