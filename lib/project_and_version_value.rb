@@ -26,7 +26,7 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def project_issues(proj)
     Issue.cross_project_scope(proj, 'descendants')
-      .includes(:fixed_version).references(:fixed_version)
+      .includes(:fixed_version).where("fixed_version_id IS NULL or effective_date IS NOT NULL").references(:fixed_version)
       .where("#{SQL_COM}")
   end
 
@@ -53,7 +53,7 @@ module ProjectAndVersionValue
   def version_issues(proj_id, version_id)
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, 'descendants')
-      .includes(:fixed_version).references(:fixed_version)    
+      .includes(:fixed_version).where("fixed_version_id IS NULL or effective_date IS NOT NULL").references(:fixed_version)
       .where("#{SQL_COM} AND fixed_version_id = ? ", version_id)
   end
 
@@ -80,6 +80,7 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
     Issue.cross_project_scope(proj, 'descendants')
+      .includes(:fixed_version).where("fixed_version_id IS NULL or effective_date IS NOT NULL").references(:fixed_version)
       .where("#{SQL_COM} AND start_date <= ? AND (closed_on IS NULL OR closed_on > ?)", basis_date, basis_date.end_of_day)
   end
 

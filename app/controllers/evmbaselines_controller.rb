@@ -54,6 +54,7 @@ class EvmbaselinesController < ApplicationController
     # issues
     issues = project_issues @project
     issues.each do |issue|
+      issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
       baseline_issues = EvmbaselineIssue.new(issue_id: issue.id,
                                              start_date: issue.start_date,
                                              due_date: issue.due_date,
