@@ -72,6 +72,9 @@ Based on these data, EVM and chart are created.
 
 ## Chart
 3 types of charts can be displayed.
+Charts are displayed using HigthChart. See below for license.
+It is a license that can not be used for commercial purposes.
+https://creativecommons.org/licenses/by-nc/3.0/
 
 #### Main chart
 Show PV,EV,AC with baseline.Display unclosed issues according to the baseline.
