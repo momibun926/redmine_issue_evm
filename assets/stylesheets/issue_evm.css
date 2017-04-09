@@ -7,7 +7,9 @@
 .option-col p {
   font-weight: bold;
 }
-
+.option-apply {
+  clear:both;
+}
 /*** summary evm indicator ***/
 
 #evm-indicator-value-table {

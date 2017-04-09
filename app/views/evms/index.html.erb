@@ -53,12 +53,12 @@
                           display_incomplete: @display_incomplete,
                           calcetc: @calcetc,
                           display_explanation: @display_explanation  } %>
+          <div class="option-apply">
+            <!-- Apply button -->
+            <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
+          </div>
           </div>
         </fieldset>
-        <p>
-          <!-- Apply button -->
-          <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
-        </p>
       <% end %>
     <!--end of no print area-->
     </div>
