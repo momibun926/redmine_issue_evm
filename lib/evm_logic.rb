@@ -359,10 +359,12 @@ module EvmLogic
       ev = {}
       unless issues.nil?
         issues.each do |issue|
+          # closed issue
           if issue.closed?
             dt = issue.closed_on.to_time.to_date
             ev[dt] += issue.estimated_hours.to_f unless ev[dt].nil?
             ev[dt] ||= issue.estimated_hours.to_f
+          # progress issue
           elsif issue.done_ratio > 0
             hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
             start_date = [issue.start_date, @basis_date].min
@@ -433,7 +435,9 @@ module EvmLogic
     #
     # @return [date] Most minimum date of PV,EV,AC
     def chart_minimum_date
-      [@pv.keys.min, @ev.keys.min, @ac.keys.min].min
+      [@pv.keys.min,
+       @ev.keys.min,
+       @ac.keys.min].min
     end
 
     # Maximum date of chart.
@@ -466,7 +470,7 @@ module EvmLogic
       end
     end
 
-    # EVM value of Each date.
+    # EVM value of Each date. for performance chart.
     #
     # @param [hash] evm_hash EVM hash
     # @return [hash] EVM value of All date
