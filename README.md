@@ -32,9 +32,9 @@ PV is based on your baseline. In addition, you can set calculation without basel
 The below are used for EVM.
 
 * start date
-*	due date　(If empty, effective of version)
-*	estimated time (If you set it as 0, you will not get PV, CV)
-*	spent time
+* due date　(If empty, effective of version)
+* estimated time (If you set it as 0, you will not get PV, CV)
+* spent time
 
 If you input these into your project, it can help you to calculate both a single issue’s EVM and whole project’s one.
 PV: Dividing estimated time by the days (from start date to due date(or effective date of version )) to get daily workload
@@ -43,9 +43,9 @@ EV: After issues are closed, you can get EV.
 #### Example
 (1) Create an issue with:
 
-*	start date:  2015/08/01
-*	due date:  2015/08/03
-*	estimated time: 24 hours
+* start date:  2015/08/01
+* due date:  2015/08/03
+* estimated time: 24 hours
 
 At that time, only PV is calculated. As you have not closed the issue yet, EV equals 0.
 PV: Dividing estimated time: 24hours by 3 days (from start date to due date)
