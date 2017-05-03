@@ -7,28 +7,38 @@ This plugin provides the function of calculating evm of projects . EVM can help 
 ## Current Version
 3.7.2
 
-#### Main features
-*	Calculate EVM
-*	Chart with EVM (PV,EV,AC)
-*	Forecast project end date
-*	Set the baseline
-*	Display unfinished issues
+## Compatibility
+Redmine 3.3.0 and above
+
+## Main features
+* Calculate EVM
+* Chart with EVM (PV,EV,AC)
+* Set the baseline　and show history
+
+#### Baseline
+If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
+PV is based on your baseline. In addition, you can set calculation without baseline by options.
 
 #### Additional options
 * Explanation of EVM
 * Chart with Project Performance (SPI,CPI,CR)
+* Chart with each version
 * Select past baseline
 * Change the calculating basic date
 * Change the level of the forecast
+* Show unfinished issues
 
+#### Page print
+If you are using the latest browser, please use the printing function of the browser.
+Printing is possible with Summary,Main-chart,Incomplete Issues.
 
 ## How to calculate EVM
 The below are used for EVM.
 
 * start date
-*	due date　(If empty, effective of version)
-*	estimated time (If you set it as 0, you will not get PV, CV)
-*	spent time
+* due date　(If empty, effective of version)
+* estimated time (If you set it as 0, you will not get PV, CV)
+* spent time
 
 If you input these into your project, it can help you to calculate both a single issue’s EVM and whole project’s one.
 PV: Dividing estimated time by the days (from start date to due date(or effective date of version )) to get daily workload
@@ -37,9 +47,9 @@ EV: After issues are closed, you can get EV.
 #### Example
 (1) Create an issue with:
 
-*	start date:  2015/08/01
-*	due date:  2015/08/03
-*	estimated time: 24 hours
+* start date:  2015/08/01
+* due date:  2015/08/03
+* estimated time: 24 hours
 
 At that time, only PV is calculated. As you have not closed the issue yet, EV equals 0.
 PV: Dividing estimated time: 24hours by 3 days (from start date to due date)
@@ -84,20 +94,6 @@ Show SPI,CPI,CR of the days involved with PV,EV,AC
 
 #### Version chart
 Show PV,EV,AC of every version in the issue
-
-## Baseline
-If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
-PV is based on your baseline. In addition, you can set calculation without baseline by options.
-
-## Compatibility
-Redmine 3.3.2 and above
-
-My Environment:
-  Redmine version                3.3.2.stable
-  Ruby version                   2.1.9-p490 (2016-03-30) [i386-mingw32]
-  Rails version                  4.2.7.1
-  Environment                    production
-  Database adapter               Mysql2
 
 ## Installation
 #### Getting plugin source
@@ -144,6 +140,13 @@ New baseline
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
 5. Create new Pull Request
+
+# My Environment
+* Redmine version                3.3.2.stable
+* Ruby version                   2.1.9-p490 (2016-03-30) [i386-mingw32]
+* Rails version                  4.2.7.1
+* Environment                    production
+* Database adapter               Mysql2
 
 #### Translators
 Wen Wen, Shen.

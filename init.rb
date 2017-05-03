@@ -1,10 +1,12 @@
 require 'redmine'
 
+#for search and activity page
 Rails.configuration.to_prepare do
   Redmine::Activity.register 'evmbaseline'
   Redmine::Search.available_search_types << 'evmbaselines'
 end
 
+# module define
 Redmine::Plugin.register :redmine_issue_evm do
   name 'Redmine Issue Evm plugin'
   author 'Hajime Nakagama'
@@ -13,8 +15,8 @@ Redmine::Plugin.register :redmine_issue_evm do
   url 'https://github.com/momibun926/redmine_issue_evm'
   author_url 'https://github.com/momibun926'
 
-    # module
-    project_module :Issuevm do
+  # module
+  project_module :Issuevm do
     permission :view_evms, evms: :index, require: :member
     permission :manage_evmbaselines,
                evmbaselines: [:edit,

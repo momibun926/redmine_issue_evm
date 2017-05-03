@@ -13,6 +13,7 @@
 /*** summary evm indicator ***/
 
 #evm-indicator-value-table {
+  border: 1px solid #bbb;
   width: auto;
   border-collapse: collapse;
 }
@@ -20,7 +21,6 @@
   background-color: #eee;
 }
 #evm-indicator-value-table td, th {
-  border: 1px solid #bbb;
   width: 60px;
   padding: 2px;
   text-align: center;

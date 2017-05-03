@@ -28,9 +28,11 @@ module EvmLogic
       @issue_max_date ||= baselines.maximum(:due_date) unless baselines.nil?
       @issue_max_date ||= issues.maximum(:effective_date)
       # PV-ACTUAL for chart
-      @pv_actual = calculate_planed_value issues
+      @pv_actual_daily = calculate_planed_value issues
+      @pv_actual = sort_and_sum_evm_hash @pv_actual_daily
       # PV-BASELINE for chart
-      @pv_baseline = calculate_planed_value baselines
+      @pv_baseline_daily = calculate_planed_value baselines
+      @pv_baseline = sort_and_sum_evm_hash @pv_actual_daily
       # PV
       @pv = options[:no_use_baseline] ? @pv_actual : @pv_baseline
       # EV
@@ -255,6 +257,7 @@ module EvmLogic
       chart_data[:actual_cost] = convert_to_chart(@ac)
       chart_data[:earned_value] = convert_to_chart(@ev)
       chart_data[:baseline_value] = convert_to_chart(@pv_baseline)
+      chart_data[:planned_value_daily] = convert_to_chart(@pv_actual_daily)
       if @forecast
         bac_top_line = { chart_minimum_date => bac,
                          chart_maximum_date => bac }
@@ -347,7 +350,7 @@ module EvmLogic
           end
         end
       end
-      sort_and_sum_evm_hash temp_pv
+      temp_pv
     end
 
     # Calculate EV.
@@ -455,18 +458,17 @@ module EvmLogic
     # @param [date] basis_hours hours of per day is plugin setting
     # @return [date] End of project date
     def forecast_finish_date(basis_hours)
-      if complete_ev(basis_hours) == 100.0
+      # already finished project
+      if complete_ev == 100.0
         @ev.keys.max
-      elsif today_spi(basis_hours) == 0.0
-        @pv.keys.max
+      #After completion schedule date
+      elsif @pv.keys.max < @basis_date
+        rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi / basis_hours
+        @basis_date + rest_days
+      #Before completion schedule date
       else
-        if @issue_max_date < @basis_date
-          rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi(basis_hours) / basis_hours
-          @basis_date + rest_days
-        else
-          rest_days = @pv.count { |key, _value| key > @basis_date }
-          @pv.keys.max - (rest_days - (rest_days / today_spi(basis_hours)))
-        end
+        rest_days = (today_pv- today_ev) / today_spi / basis_hours
+        @pv.keys.max + rest_days
       end
     end
 

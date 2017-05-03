@@ -6,7 +6,6 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
             },
             chart:{
                 renderTo: placeholder,
-                type: 'line',
                 zoomType: 'xy'
             },
             title:{
@@ -36,16 +35,9 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                 }]
             },
             yAxis:{
-                min: 0,
-                minorGridLineWidth: 0,
-                minorTickInterval: 'auto',
-                minorTickLength: 10,
-                minorTickWidth: 1,
-                plotLines:[{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
+                title: {
+                    text: 'Hours'
+                }
             },
             tooltip:{
                 valueDecimals: 2,
@@ -63,6 +55,10 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                     marker: {
                         enabled: false
                     }
+                },
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
                 }
             },
             legend:{
@@ -74,47 +70,61 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
             series:[
                 {
                     name: 'PV Actual',
+                    type: 'line',
                     color: '#0f75bc',
                     data: data.planned_value
                 },
                 {
                     name: 'PV Baseline',
+                    type: 'line',
                     color: '#000033',
                     data: data.baseline_value
                 },
                 {
                     name: 'AC',
+                    type: 'line',
                     color: '#fcb040',
                     data: data.actual_cost
                 },
                 {
                     name: 'EV',
+                    type: 'line',
                     color: '#8cc63f',
                     data: data.earned_value
                 },
                 {
                     name: 'BAC',
+                    type: 'line',
                     dashStyle: 'dash',
                     lineWidth: 1,
                     data: data.bac_top_line
                 },
                 {
                     name: 'EAC',
+                    type: 'line',
                     dashStyle: 'dash',
                     lineWidth: 1,
                     data: data.eac_top_line
                 },
                 {
                     name: 'AC Forecast',
+                    type: 'line',
                     color: '#fcb040',
                     dashStyle: 'dot',
                     data: data.actual_cost_forecast
                 },
                 {
                     name: 'EV Forecast',
+                    type: 'line',
                     color: '#8cc63f',
                     dashStyle: 'dot',
                     data: data.earned_value_forecast
+                },
+                {
+                    name: 'PV Daily',
+                    type: 'column',
+                    color: '#0f75bc',
+                    data: data.planned_value_daily
                 }
             ]
       };

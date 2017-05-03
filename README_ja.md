@@ -1,26 +1,35 @@
-# redmine issue evm
+# Earned Value Management (EVM) Calculation Plugin
 
 [![Rate at redmine.org](http://img.shields.io/badge/rate%20at-redmine.org-blue.svg?style=flat)](http://www.redmine.org/plugins/redmine_issue_evm)
 
-チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。
-期日が入力されず、ヴァージョンの期日がある場合は、期日としてヴァージョンの期日を利用します。
+チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。期日が入力されず、ヴァージョンの期日がある場合は、期日としてヴァージョンの期日を利用します。
 
 ## バージョン
 3.7.2
 
+## 動作環境
+Redmine 3.3.0 以上
+
 ## 主な機能
 * EVM値の計算
 * EVM(PV,EV,AC)のチャート表示
-* プロジェクト完了予測
 * ベースラインの設定、履歴管理
-* 未完了のチケットを表示
 
-## オプション
+#### ベースライン
+このプラグインでは、プロジェクトのある時点でのPVを記憶する機能となっています。
+ベースラインを設定しておくことで、プロジェクトのある時点を基準に、タスクが増加(チケットが増加)していくと、チャートに乖離していく様子が表示され、どれくらい乖離しているかが認識しやすくなります。つまり、予定作業を超えた作業が増えている状態が可視化されます。ベースラインが設定されている場合は、ベースラインをもとにPVが計算されますので、注意してください。ただし、オプションの設定で、ベースラインを利用しないでEVM値を計算することもできます。この場合はベースライン設定後に変更・登録されたチケットも含めてEVM値が計算されます。（プロジェクトの実情に合わせて計算されることになります）
+
+#### オプション
+* EVM値の説明を表示
 * EVM値を計算する基準日の変更
 * パフォーマンス(SPI,CPI,CR)のチャート表示
+* ヴァージョンごとのEVMチャート表示
 * プロジェクト完了予測
 * ベースラインもしくは、すべてのチケットをもとにしたEVMの計算
-* EVM値の説明
+* 基準日を元に未完了であるチケットを表示します
+
+#### 印刷
+最新のブラウザをお使いの場合には、ブラウザの印刷機能をお使いください。印刷可能なのは、サマリー、チャート(メイン)、未完了チケットのみです。
 
 ## EVM値の計算
 各チケット毎に以下の情報を使ってEVM値を計算して集計しています。EVMを表示するプロジェクト(子孫プロジェクト含む)内の、以下のすべての項目に入力があるチケットが計算対象です。
@@ -88,29 +97,30 @@ PV,EV,ACが計算されている日だけ、SPI,CPI,CRを計算して表示し�
 バージョンが設定されているチケットがある場合、バージョンごとにPV,EV,ACを累積値で時系列に表示します。
 子孫プロジェクトがある場合、子孫プロジェクトのバージョンも表示します。
 
-## 未完了チケットの表示
-基準日を元に未完了であるチケットを表示します。
+## インストール
+#### ソースの取得
+ZIPファイルの場合
 
-## ベースライン
-このプラグインでは、プロジェクトのある時点でのPVを記憶する機能となっています。
-ベースラインを設定しておくことで、プロジェクトのある時点を基準に、タスクが増加(チケットが増加)していくと、チャートに乖離していく様子が表示され、どれくらい乖離しているかが認識しやすくなります。つまり、予定作業を超えた作業が増えている状態が可視化されます。ベースラインが設定されている場合は、ベースラインをもとにPVが計算されますので、注意してください。ただし、オプションの設定で、ベースラインを利用しないでEVM値を計算することもできます。この場合はベースライン設定後に変更・登録されたチケットも含めてEVM値が計算されます。（プロジェクトの実情に合わせて計算されることになります）
+* ZIPファイルをダウンロードします
+* [redmine_root]/plugins/へ移動して、redmine_issue_evmフォルダを作成してください
+* 成したフォルダにZIPファイルを解凍します
 
-## 動作環境
-Redmine 3.3.0 以上
+クローンでソースを取得
+```
+git clone git://github.com/momibun926/redmine_issue_evm [redmine_root]/plugins/redmine_issue_evm
 
-My Environment:
-  Redmine version                3.3.2.stable
-  Ruby version                   2.1.9-p490 (2016-03-30) [i386-mingw32]
-  Rails version                  4.2.7.1
-  Environment                    production
-  Database adapter               Mysql2
+```
+#### マイグレーション,Redmine再起動
+* 次のコマンドを打ってマイグレーションします
+```
+rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
+```
+* Redmineを再起動します
 
-## 導入
-1. ZIPファイルをダウンロードします
-2. [redmine_root]/plugins/へ移動して、redmine_issue_evmフォルダを作成してください
-3. 2.で作成したフォルダにZIPファイルを解凍します
-4. 次のコマンドを入力して、マイグレーションしてください。rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
-5. Redmineを再起動します
+## アンインストール
+```
+rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
+```
 
 # 画面サンプル
 #### 全体
@@ -124,3 +134,10 @@ My Environment:
 
 #### プラグイン全体の設定
 ![evm sample screenshot](./images/screenshot04.png "plugin　setting")
+
+# 開発環境
+* Redmine version                3.3.2.stable
+* Ruby version                   2.1.9-p490 (2016-03-30) [i386-mingw32]
+* Rails version                  4.2.7.1
+* Environment                    production
+* Database adapter               Mysql2
