@@ -32,7 +32,7 @@ module EvmLogic
       @pv_actual = sort_and_sum_evm_hash @pv_actual_daily
       # PV-BASELINE for chart
       @pv_baseline_daily = calculate_planed_value baselines
-      @pv_baseline = sort_and_sum_evm_hash @pv_actual_daily
+      @pv_baseline = sort_and_sum_evm_hash @pv_baseline_daily
       # PV
       @pv = options[:no_use_baseline] ? @pv_actual : @pv_baseline
       # EV
@@ -413,7 +413,7 @@ module EvmLogic
     # @return [hash] Sorted EVM hash. Key:time, Value:EVM value
     def sort_and_sum_evm_hash(evm_hash)
       temp_hash = {}
-      if evm_hash.blank? || @basis_date <= @issue_max_date
+      if evm_hash.blank?
         evm_hash[@basis_date] ||= 0.0
       end
       sum_value = 0.0
@@ -461,14 +461,17 @@ module EvmLogic
       # already finished project
       if complete_ev == 100.0
         @ev.keys.max
+      #not worked yet
+      elsif today_ev == 0.0
+        @pv.keys.max
       #After completion schedule date
       elsif @pv.keys.max < @basis_date
         rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi / basis_hours
-        @basis_date + rest_days
+        @basis_date + rest_days.round(0)
       #Before completion schedule date
       else
         rest_days = (today_pv- today_ev) / today_spi / basis_hours
-        @pv.keys.max + rest_days
+        @pv.keys.max + rest_days.round(0)
       end
     end
 
