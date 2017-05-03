@@ -458,18 +458,17 @@ module EvmLogic
     # @param [date] basis_hours hours of per day is plugin setting
     # @return [date] End of project date
     def forecast_finish_date(basis_hours)
+      # already finished project
       if complete_ev == 100.0
         @ev.keys.max
-      elsif today_spi == 0.0
-        @pv.keys.max
+      #After completion schedule date
+      elsif @pv.keys.max < @basis_date
+        rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi / basis_hours
+        @basis_date + rest_days
+      #Before completion schedule date
       else
-        if @pv.keys.max < @basis_date
-          rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi / basis_hours
-          @basis_date + rest_days
-        else
-          rest_days = (today_pv- today_ev) / today_spi / basis_hours
-          @pv.keys.max + rest_days
-        end
+        rest_days = (today_pv- today_ev) / today_spi / basis_hours
+        @pv.keys.max + rest_days
       end
     end
 
