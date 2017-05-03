@@ -13,8 +13,8 @@ Redmine::Plugin.register :redmine_issue_evm do
   url 'https://github.com/momibun926/redmine_issue_evm'
   author_url 'https://github.com/momibun926'
 
-    # module
-    project_module :Issuevm do
+  # module
+  project_module :Issuevm do
     permission :view_evms, evms: :index, require: :member
     permission :manage_evmbaselines,
                evmbaselines: [:edit,

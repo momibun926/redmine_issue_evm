@@ -28,9 +28,11 @@ module EvmLogic
       @issue_max_date ||= baselines.maximum(:due_date) unless baselines.nil?
       @issue_max_date ||= issues.maximum(:effective_date)
       # PV-ACTUAL for chart
-      @pv_actual = calculate_planed_value issues
+      @pv_actual_daily = calculate_planed_value issues
+      @pv_actual = sort_and_sum_evm_hash @pv_actual_daily
       # PV-BASELINE for chart
-      @pv_baseline = calculate_planed_value baselines
+      @pv_baseline_daily = calculate_planed_value baselines
+      @pv_baseline = sort_and_sum_evm_hash @pv_actual_daily
       # PV
       @pv = options[:no_use_baseline] ? @pv_actual : @pv_baseline
       # EV
@@ -255,6 +257,7 @@ module EvmLogic
       chart_data[:actual_cost] = convert_to_chart(@ac)
       chart_data[:earned_value] = convert_to_chart(@ev)
       chart_data[:baseline_value] = convert_to_chart(@pv_baseline)
+      chart_data[:planned_value_daily] = convert_to_chart(@pv_actual_daily)
       if @forecast
         bac_top_line = { chart_minimum_date => bac,
                          chart_maximum_date => bac }
@@ -347,7 +350,7 @@ module EvmLogic
           end
         end
       end
-      sort_and_sum_evm_hash temp_pv
+      temp_pv
     end
 
     # Calculate EV.
