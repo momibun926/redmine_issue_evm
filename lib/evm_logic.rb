@@ -467,8 +467,8 @@ module EvmLogic
           rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi(basis_hours) / basis_hours
           @basis_date + rest_days
         else
-          rest_days = @pv.count { |key, _value| key > @basis_date }
-          @pv.keys.max - (rest_days - (rest_days / today_spi(basis_hours)))
+          rest_days = (today_pv- today_ev) / today_spi(basis_hours) / basis_hours
+          @pv.keys.max + rest_days
         end
       end
     end
