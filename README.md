@@ -28,6 +28,10 @@ PV is based on your baseline. In addition, you can set calculation without basel
 * Change the level of the forecast
 * Show unfinished issues
 
+#### Page print
+If you are using the latest browser, please use the printing function of the browser.
+Printing is possible with Summary,Main-chart,Incomplete Issues.
+
 ## How to calculate EVM
 The below are used for EVM.
 
