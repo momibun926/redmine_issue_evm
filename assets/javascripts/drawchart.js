@@ -34,6 +34,11 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                     }
                 }]
             },
+            yAxis:{
+                title: {
+                    text: 'Hours'
+                }
+            },
             tooltip:{
                 valueDecimals: 2,
                 crosshairs: true,
