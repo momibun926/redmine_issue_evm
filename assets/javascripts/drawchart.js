@@ -57,6 +57,7 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                     }
                 },
                 column: {
+                    pointWidth: 10,
                     pointPadding: 0.2,
                     borderWidth: 0
                 }
@@ -68,6 +69,12 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                 itemDistance: 50
             },
             series:[
+                {
+                    name: 'PV Daily',
+                    type: 'column',
+                    color: '#8acdfc',
+                    data: data.planned_value_daily
+                },
                 {
                     name: 'PV Actual',
                     type: 'line',
@@ -119,12 +126,6 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
                     color: '#8cc63f',
                     dashStyle: 'dot',
                     data: data.earned_value_forecast
-                },
-                {
-                    name: 'PV Daily',
-                    type: 'column',
-                    color: '#0f75bc',
-                    data: data.planned_value_daily
                 }
             ]
       };
