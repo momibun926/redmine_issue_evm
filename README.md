@@ -8,7 +8,7 @@ This plugin provides the function of calculating evm of projects . EVM can help 
 3.7.2
 
 ## Compatibility
-Redmine 3.3.2 and above
+Redmine 3.3.0 and above
 
 ## Main features
 * Calculate EVM
@@ -91,13 +91,6 @@ Show SPI,CPI,CR of the days involved with PV,EV,AC
 #### Version chart
 Show PV,EV,AC of every version in the issue
 
-## My Environment
-* Redmine version                3.3.2.stable
-* Ruby version                   2.1.9-p490 (2016-03-30) [i386-mingw32]
-* Rails version                  4.2.7.1
-* Environment                    production
-* Database adapter               Mysql2
-
 ## Installation
 #### Getting plugin source
 case of zip file.
@@ -143,6 +136,13 @@ New baseline
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
 5. Create new Pull Request
+
+# My Environment
+* Redmine version                3.3.2.stable
+* Ruby version                   2.1.9-p490 (2016-03-30) [i386-mingw32]
+* Rails version                  4.2.7.1
+* Environment                    production
+* Database adapter               Mysql2
 
 #### Translators
 Wen Wen, Shen.
