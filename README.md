@@ -11,24 +11,22 @@ This plugin provides the function of calculating evm of projects . EVM can help 
 Redmine 3.3.2 and above
 
 ## Main features
-*	Calculate EVM
-*	Chart with EVM (PV,EV,AC)
-*	Forecast project end date
-*	Set the baseline
-*	Display unfinished issues
+* Calculate EVM
+* Chart with EVM (PV,EV,AC)
+* Set the baseline　and show history
 
-## Baseline
+#### Baseline
 If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
 PV is based on your baseline. In addition, you can set calculation without baseline by options.
 
-## Additional options
+#### Additional options
 * Explanation of EVM
 * Chart with Project Performance (SPI,CPI,CR)
+* Chart with each version
 * Select past baseline
 * Change the calculating basic date
 * Change the level of the forecast
-* Show incomplete issues
-
+* Show unfinished issues
 
 ## How to calculate EVM
 The below are used for EVM.
