@@ -136,7 +136,7 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ![evm sample screenshot](./images/screenshot04.png "plugin　setting")
 
 # 開発環境
-* Redmine version                3.3.2.stable
+* Redmine version                3.3.3.stable
 * Ruby version                   2.1.9-p490 (2016-03-30) [i386-mingw32]
 * Rails version                  4.2.7.1
 * Environment                    production

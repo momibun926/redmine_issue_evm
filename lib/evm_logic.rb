@@ -341,10 +341,11 @@ module EvmLogic
       unless issues.nil?
         issues.each do |issue|
           issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
+          pv_days = working_days issue.start_date,
+                                 issue.due_date
           hours_per_day = issue_hours_per_day issue.estimated_hours.to_f,
-                                              issue.start_date,
-                                              issue.due_date
-          (issue.start_date..issue.due_date).each do |date|
+                                              pv_days.length
+          pv_days.each do |date|
             temp_pv[date] += hours_per_day unless temp_pv[date].nil?
             temp_pv[date] ||= hours_per_day
           end
@@ -373,10 +374,11 @@ module EvmLogic
             start_date = [issue.start_date, @basis_date].min
             issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
             end_date = [issue.due_date, @basis_date].max
+            ev_days = working_days start_date,
+                                   end_date
             hours_per_day = issue_hours_per_day hours,
-                                                start_date,
-                                                end_date
-            (start_date..end_date).each do |date|
+                                                ev_days.length
+            ev_days.each do |date|
               ev[date] += hours_per_day unless ev[date].nil?
               ev[date] ||= hours_per_day
             end
@@ -427,11 +429,20 @@ module EvmLogic
     # Estimated time per day.
     #
     # @param [Numeric] estimated_hours estimated hours
+    # @param [Numeric] working days
+    def issue_hours_per_day(estimated_hours, days)
+      (estimated_hours || 0.0) / days
+    end
+
+    # working days.
+    #
     # @param [date] start_date start date of issue
     # @param [date] end_date end date of issue
-    # @return [numeric] estimated hours per day
-    def issue_hours_per_day(estimated_hours, start_date, end_date)
-      (estimated_hours || 0.0) / (end_date - start_date + 1)
+    # @return [Array] working days
+    def working_days(start_date, end_date)
+      issue_days = (start_date..end_date).to_a
+      working_days = issue_days.reject{|e| e.wday == 0 || e.wday == 6}
+      working_days.length == 0 ? issue_days : working_days
     end
 
     # Minimam date of chart.

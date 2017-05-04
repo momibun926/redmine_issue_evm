@@ -68,8 +68,8 @@
       <%= render partial: "/evms/measure",
           locals: { project_evm: @project_evm,
                     working_hours: @working_hours } %>
-      <!-- Main Chart -->
     </section>
+    <!-- Main Chart -->
     <section>
       <h3><%= l(:subtitle_evm_graph_main) %></h3>
       <div id="evm-graph-lines">
@@ -88,23 +88,25 @@
     <div id="noprintarea">
       <!-- Performance Chart -->
       <% if @display_performance %>
-      <section>
-        <h3><%= l(:subtitle_evm_graph_performance) %></h3>
-        <div id="evm-graph-lines-performance">
-          <%= render partial: "/evms/performance_chart_js",
-              locals: { basis_date: @basis_date,
-                        project_evm: @project_evm,
-                        project_name: project_chart_name } %>
-        </div>
-      </section>
+        <section>
+          <h3><%= l(:subtitle_evm_graph_performance) %></h3>
+          <div id="evm-graph-lines-performance">
+            <%= render partial: "/evms/performance_chart_js",
+                locals: { basis_date: @basis_date,
+                          project_evm: @project_evm,
+                          project_name: project_chart_name } %>
+          </div>
+        </section>
       <% end %>
       <!-- version Chart -->
       <% if @display_version %>
-        <% unless @version_evm.nil? %>
-          <section>
-            <h3><%= l(:subtitle_evm_graph_version) %></h3>
+        <section>
+          <h3><%= l(:subtitle_evm_graph_version) %></h3>
+          <% if @version_evm.empty? %>
+            <p class="nodata"><%= l(:label_no_data) %></p>
+          <% else %>
             <% @version_evm.each do |ver_id, ver_evm| %>
-                <div id="evm-graph-lines-version-<%= ver_id %>">
+              <div id="evm-graph-lines-version-<%= ver_id %>">
                 <%= render partial: "/evms/version_chart_js",
                   locals: { basis_date: @basis_date,
                             version_evm: ver_evm,
@@ -112,8 +114,8 @@
                             version_name: version_chart_name(ver_id) } %>
               </div>
             <% end %>
-          </section>
-        <% end %>
+          <% end %>
+        </section>
       <% end %>
     </div>
   <% end %>
