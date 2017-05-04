@@ -468,7 +468,7 @@ module EvmLogic
 
     # End of project day.(forecast)
     #
-    # @param [date] basis_hours hours of per day is plugin setting
+    # @param [numeric] basis_hours hours of per day is plugin setting
     # @return [date] End of project date
     def forecast_finish_date(basis_hours)
       # already finished project
@@ -479,13 +479,28 @@ module EvmLogic
         @pv.keys.max
       #After completion schedule date
       elsif @pv.keys.max < @basis_date
-        rest_days = (@pv[@pv.keys.max] - @ev[@ev.keys.max]) / today_spi / basis_hours
-        @basis_date + rest_days.round(0)
+        @basis_date + rest_days(@pv[@pv.keys.max],
+                                @ev[@ev.keys.max],
+                                today_spi,
+                                basis_hours)
       #Before completion schedule date
       else
-        rest_days = (today_pv- today_ev) / today_spi / basis_hours
-        @pv.keys.max + rest_days.round(0)
+        @pv.keys.max + rest_days(today_pv,
+                                 today_ev,
+                                 today_spi,
+                                 basis_hours)
       end
+    end
+
+    # rest days
+    #
+    # @param [numeric] pv pv
+    # @param [numeric] ev ev
+    # @param [numeric] spi spi
+    # @param [numeric] basis_hours hours of per day is plugin setting
+    # @return [date] rest days
+    def rest_days(pv, ev, spi, basis_hours)
+      ((pv - ev) / spi / basis_hours).round(0)
     end
 
     # EVM value of Each date. for performance chart.
