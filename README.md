@@ -15,11 +15,11 @@ Redmine 3.3.0 and above
 * Chart with EVM (PV,EV,AC)
 * Set the baseline　and show history
 
-#### Baseline
+## Baseline
 If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
 PV is based on your baseline. In addition, you can set calculation without baseline by options.
 
-#### Additional options
+## Additional options
 * Explanation of EVM
 * Chart with Project Performance (SPI,CPI,CR)
 * Chart with each version
@@ -28,7 +28,7 @@ PV is based on your baseline. In addition, you can set calculation without basel
 * Change the level of the forecast
 * Show unfinished issues
 
-#### workig days
+## workig days
 1. Excluding weekends and holidays
 2. If it is only weekends or holidays, make it a working day
 3. Use holidays gem -> Regional settings are set in the plugin setting page(Administration->plugins)
@@ -55,7 +55,7 @@ In Japan, May 3, May 4, May 5 are holidays
 |--------------------|--------------------|---------------|-----------|----------|
 |May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days     |4 hours   |
 
-#### Page print
+## Page print
 If you are using the latest browser, please use the printing function of the browser.
 Printing is possible with Summary,Main-chart,Incomplete Issues.
 
@@ -71,7 +71,8 @@ If you input these into your project, it can help you to calculate both a single
 PV: Dividing estimated time by the days (from start date to due date(or effective date of version )) to get daily workload
 EV: After issues are closed, you can get EV.
 
-#### Example
+** Example **
+
 (1) Create an issue with:
 
 * start date:  2015/08/01
@@ -113,28 +114,33 @@ Charts are displayed using HigthChart. See below for license.
 It is a license that can not be used for commercial purposes.
 https://creativecommons.org/licenses/by-nc/3.0/
 
-#### Main chart
+** Main chart **
+
 Show PV,EV,AC with baseline.Display unclosed issues according to the baseline.
 
-#### Performance chart
+** Performance chart **
+
 Show SPI,CPI,CR of the days involved with PV,EV,AC
 
-#### Version chart
+** Version chart **
+
 Show PV,EV,AC of every version in the issue
 
 # Installation
-#### Getting plugin source
-case of zip file.
+(1) Getting plugin source
+
+** case of zip file. **
 
 * Download zip-file
 * Create a folder named redmine_issue_evm under [redmine_root]/plugins/
 * Extract zip file in redmine_issue_evm
 
-Case of git clone.
+** Case of git clone. **
+
 ```
 git clone git://github.com/momibun926/redmine_issue_evm [redmine_root]/plugins/redmine_issue_evm
 ```
-#### Migration and restart
+(2) Migration and restart
 
 * Input the below command to migration
 ```
@@ -148,17 +154,16 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ```
 
 # Screen shots
-#### Overview
+** Overview **
 ![evm sample screenshot](./images/screenshot01.png "overview")
 
-#### Baseline setting
-History
+** Baseline History **
 ![evm sample screenshot](./images/screenshot02.png "History")
 
-New baseline
+** Create baseline **
 ![evm sample screenshot](./images/screenshot03.png "New baseline")
 
-#### Plugin Setting
+** Plugin Setting **
 ![evm sample screenshot](./images/screenshot04.png "plugin　setting")
 
 # Contributing
