@@ -1,6 +1,7 @@
 # Calculation EVM module
 module EvmLogic
-  # Calculation EVM class
+  # Calculation EVM class.
+  # Calculate EVM and create data for chart
   class IssueEvm
     # Constractor
     #
@@ -14,7 +15,7 @@ module EvmLogic
     # @option options [bool] no_use_baseline no use baseline of option.
     # @option options [Numeric] working_hours hours per day.
     def initialize(baselines, issues, costs, options = {})
-      # setting
+      # region setting
       @region = Setting.plugin_redmine_issue_evm['region']
       # calculationEVM options
       options.assert_valid_keys(:working_hours,

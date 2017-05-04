@@ -59,7 +59,7 @@ In Japan, May 3, May 4, May 5 are holidays
 If you are using the latest browser, please use the printing function of the browser.
 Printing is possible with Summary,Main-chart,Incomplete Issues.
 
-## How to calculate EVM
+# How to calculate EVM
 The below are used for EVM.
 
 * start date
@@ -107,7 +107,7 @@ PV: Dividing estimated time: 24hours by 3 days (from start date to due date)
 
 Based on these data, EVM and chart are created.
 
-## Chart
+# Chart
 3 types of charts can be displayed.
 Charts are displayed using HigthChart. See below for license.
 It is a license that can not be used for commercial purposes.
@@ -122,7 +122,7 @@ Show SPI,CPI,CR of the days involved with PV,EV,AC
 #### Version chart
 Show PV,EV,AC of every version in the issue
 
-## Installation
+# Installation
 #### Getting plugin source
 case of zip file.
 
@@ -142,7 +142,7 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
 ```
 * restart redmine
 
-## UnInstall
+# UnInstall
 ```
 rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ```
@@ -176,4 +176,4 @@ New baseline
 * Database adapter               Mysql2
 
 #### Translators
-Wen Wen, Shen.
+I appreciate your cooperation, Wen Wen, Shen.
