@@ -14,3 +14,8 @@
   <%=l(:label_limit_cr)%>
   <%= text_field_tag("settings[limit_cr]", @settings[:limit_cr],{size: 5, placeholder: 0.8})%>
 </p>
+<p>
+  <%=l(:label_region)%>
+  <%= select_tag('settings[region]', options_for_select(Holidays.available_regions, @settings[:region])) %>
+</p>
+
