@@ -14,6 +14,8 @@ module EvmLogic
     # @option options [bool] no_use_baseline no use baseline of option.
     # @option options [Numeric] working_hours hours per day.
     def initialize(baselines, issues, costs, options = {})
+      # setting
+      @region = Setting.plugin_redmine_issue_evm['region']
       # calculationEVM options
       options.assert_valid_keys(:working_hours,
                                 :basis_date,
@@ -374,8 +376,7 @@ module EvmLogic
             start_date = [issue.start_date, @basis_date].min
             issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
             end_date = [issue.due_date, @basis_date].max
-            ev_days = working_days start_date,
-                                   end_date
+            ev_days = (start_date..end_date).to_a
             hours_per_day = issue_hours_per_day hours,
                                                 ev_days.length
             ev_days.each do |date|
@@ -429,19 +430,20 @@ module EvmLogic
     # Estimated time per day.
     #
     # @param [Numeric] estimated_hours estimated hours
-    # @param [Numeric] working days
+    # @param [Numeric] days working days
     def issue_hours_per_day(estimated_hours, days)
       (estimated_hours || 0.0) / days
     end
 
     # working days.
+    # exclude weekends and holiday.
     #
     # @param [date] start_date start date of issue
     # @param [date] end_date end date of issue
     # @return [Array] working days
     def working_days(start_date, end_date)
       issue_days = (start_date..end_date).to_a
-      working_days = issue_days.reject{|e| e.wday == 0 || e.wday == 6}
+      working_days = issue_days.reject{|e| e.wday == 0 || e.wday == 6 || e.holiday?(@region)}
       working_days.length == 0 ? issue_days : working_days
     end
 

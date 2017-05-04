@@ -5,7 +5,7 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-3.8.1
+3.9
 
 ## Compatibility
 Redmine 3.3.0 and above
@@ -27,6 +27,33 @@ PV is based on your baseline. In addition, you can set calculation without basel
 * Change the calculating basic date
 * Change the level of the forecast
 * Show unfinished issues
+
+#### workig days
+1. Excluding weekends and holidays
+2. If it is only weekends or holidays, make it a working day
+3. Use holidays gem
+
+Example)
+
+In Japan, May 3, May 4, May 5 are holidays
+
+* Including weekends and holidays
+
+|Start date          |Due date            |Estimated time |Working day|PV per day|
+|--------------------|--------------------|---------------|-----------|----------|
+|May 1, 2017 (Monday)|May 8, 2017 (Monday)|12 hours       |3 days     |4 hours   |
+
+* Including only a few weekends and holidays
+
+|Start date          |Due date            |Estimated time |Working day|PV per day|
+|--------------------|--------------------|---------------|-----------|----------|
+|May 1, 2017 (Monday)|May 7, 2017 (Sunday)|10 hours       |2 days     |5 hours   |
+
+* Only weekends and holidays
+
+|Start date          |Due date            |Estimated time |Working day|PV per day|
+|--------------------|--------------------|---------------|-----------|----------|
+|May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days     |4 hours   |
 
 #### Page print
 If you are using the latest browser, please use the printing function of the browser.
