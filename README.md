@@ -31,7 +31,7 @@ PV is based on your baseline. In addition, you can set calculation without basel
 #### workig days
 1. Excluding weekends and holidays
 2. If it is only weekends or holidays, make it a working day
-3. Use holidays gem
+3. Use holidays gem -> Regional settings are set in the plugin setting page(Administration->plugins)
 
 Example)
 
