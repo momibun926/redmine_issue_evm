@@ -16,6 +16,6 @@
 </p>
 <p>
   <%=l(:label_region)%>
-  <%= select_tag('settings[region]', options_for_select(Holidays.available_regions, @settings[:region])) %>
+  <%= select_tag('settings[holiday_region]', options_for_select(Holidays.available_regions, @settings[:holiday_region])) %>
 </p>
 

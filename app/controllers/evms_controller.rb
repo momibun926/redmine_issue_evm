@@ -14,10 +14,11 @@ class EvmsController < ApplicationController
   #
   def index
     # plugin setting
-    @working_hours = default_setting 'working_hours_of_day', 7.5
-    @limit_spi = default_setting 'limit_spi', 0.9
-    @limit_cpi = default_setting 'limit_cpi', 0.9
-    @limit_cr = default_setting 'limit_cr', 0.8
+    @working_hours = default_setting('working_hours_of_day', 7.5).to_f
+    @limit_spi = default_setting('limit_spi', 0.9).to_f
+    @limit_cpi = default_setting('limit_cpi', 0.9).to_f
+    @limit_cr = default_setting('limit_cr', 0.8).to_f
+    @region = default_setting('holiday_region',:jp)
     # Basis date of calculate
     @basis_date = default_basis_date
     # baseline combo
@@ -45,7 +46,8 @@ class EvmsController < ApplicationController
                                 forecast: @forecast,
                                 etc_method: @calcetc,
                                 no_use_baseline: @no_use_baseline,
-                                working_hours: @working_hours
+                                working_hours: @working_hours,
+                                region: @region
     # EVM of versions
     @version_evm = {}
     project_version_ids = project_varsion_id_pair @project
@@ -62,7 +64,8 @@ class EvmsController < ApplicationController
                                             forecast: nil,
                                             etc_method: nil,
                                             no_use_baseline: true,
-                                            working_hours: @working_hours
+                                            working_hours: @working_hours,
+                                            region: @region
       end
     end
     @no_data = issues.blank?
@@ -107,7 +110,7 @@ class EvmsController < ApplicationController
   end
 
   def default_setting(setting_name, defaultvalue)
-    Setting.plugin_redmine_issue_evm[setting_name].blank? ? defaultvalue : Setting.plugin_redmine_issue_evm[setting_name].to_f
+    Setting.plugin_redmine_issue_evm[setting_name].blank? ? defaultvalue : Setting.plugin_redmine_issue_evm[setting_name]
   end
 
   def find_project

@@ -18,6 +18,7 @@ ja:
   label_limit_spi: SPIの閾値 0.99未満で設定してください。
   label_limit_cpi: CPIの閾値 0.99未満で設定してください。
   label_limit_cr: CRの閾値 0.99未満で設定してください。
+  label_region: 休日を取得する地域
   # Message
   messsage_delete_baseline: 本当に削除しますか？
   # Main form

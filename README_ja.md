@@ -5,7 +5,7 @@
 チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。期日が入力されず、ヴァージョンの期日がある場合は、期日としてヴァージョンの期日を利用します。
 
 ## バージョン
-3.9
+3.9.1
 
 ## 動作環境
 Redmine 3.3.0 以上
@@ -114,15 +114,15 @@ Redmine3.1から親チケットの予定工数が入力可能になったので�
 商用目的では利用のできないライセンスです。
 https://creativecommons.org/licenses/by-nc/3.0/
 
-** メインチャート **
+**メインチャート**
 
 PV,EV,ACを累積値で時系列に表示します。ベースラインが設定されている場合は、ベースラインも表示します。
 
-** パフォーマンスチャート **
+**パフォーマンスチャート**
 
 PV,EV,ACが計算されている日だけ、SPI,CPI,CRを計算して表示します。
 
-** バージョンチャート **.
+**バージョンチャート**
 
 バージョンが設定されているチケットがある場合、バージョンごとにPV,EV,ACを累積値で時系列に表示します。
 子孫プロジェクトがある場合、子孫プロジェクトのバージョンも表示します。
@@ -130,24 +130,30 @@ PV,EV,ACが計算されている日だけ、SPI,CPI,CRを計算して表示し�
 # インストール
 (1) ソースの取得
 
-** ZIPファイルの場合 **
+**ZIPファイルの場合**
 
 * ZIPファイルをダウンロードします
 * [redmine_root]/plugins/へ移動して、redmine_issue_evmフォルダを作成してください
 * 成したフォルダにZIPファイルを解凍します
 
-** クローンでソースを取得 **
+**クローンでソースを取得**
 ```
 git clone git://github.com/momibun926/redmine_issue_evm [redmine_root]/plugins/redmine_issue_evm
 
 ```
-(2) マイグレーション,Redmine再起動
+(2) bundle install
+```
+bundle install
+```
 
-* 次のコマンドを打ってマイグレーションします
+(3) マイグレーション。次のコマンドをタイプしてください。
 ```
 rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
 ```
-* Redmineを再起動します
+
+(4) Redmineを再起動します (e.g. mongrel, thin, mod_rails).
+
+(5) ログインして、パーミッションとプラグイン設定をします。
 
 # アンインストール
 ```
@@ -155,16 +161,16 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ```
 
 # 画面サンプル
-** 全体 **
+**全体**
 ![evm sample screenshot](./images/screenshot01.png "overview")
 
-** ベースラインの作成 **
+**ベースラインの作成**
 ![evm sample screenshot](./images/screenshot03.png "create new baseline")
 
-** ベースラインの履歴 **
+**ベースラインの履歴**
 ![evm sample screenshot](./images/screenshot02.png "History of baseline")
 
-** プラグイン全体の設定 **
+**プラグイン全体の設定**
 ![evm sample screenshot](./images/screenshot04.png "plugin　setting")
 
 # 開発環境

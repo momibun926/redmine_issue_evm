@@ -18,6 +18,7 @@ en:
   label_limit_spi: SPI subthreshold. must be under 0.99
   label_limit_cpi: CPI subthreshold. must be under 0.99
   label_limit_cr: CR subthreshold. must be under 0.99
+  label_region: Regions to get a holiday
   # Message
   messsage_delete_baseline: Are you sure?
   # Main form

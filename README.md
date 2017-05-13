@@ -5,7 +5,7 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-3.9
+3.9.1
 
 ## Compatibility
 Redmine 3.3.0 and above
@@ -71,7 +71,7 @@ If you input these into your project, it can help you to calculate both a single
 PV: Dividing estimated time by the days (from start date to due date(or effective date of version )) to get daily workload
 EV: After issues are closed, you can get EV.
 
-** Example **
+**Example**
 
 (1) Create an issue with:
 
@@ -114,39 +114,48 @@ Charts are displayed using HigthChart. See below for license.
 It is a license that can not be used for commercial purposes.
 https://creativecommons.org/licenses/by-nc/3.0/
 
-** Main chart **
+**Main chart**
 
 Show PV,EV,AC with baseline.Display unclosed issues according to the baseline.
 
-** Performance chart **
+**Performance chart**
 
 Show SPI,CPI,CR of the days involved with PV,EV,AC
 
-** Version chart **
+**Version chart**
 
 Show PV,EV,AC of every version in the issue
 
 # Installation
 (1) Getting plugin source
 
-** case of zip file. **
+**case of zip file.**
 
 * Download zip-file
 * Create a folder named redmine_issue_evm under [redmine_root]/plugins/
 * Extract zip file in redmine_issue_evm
 
-** Case of git clone. **
+**Case of git clone.**
 
 ```
 git clone git://github.com/momibun926/redmine_issue_evm [redmine_root]/plugins/redmine_issue_evm
 ```
-(2) Migration and restart
 
-* Input the below command to migration
+(2) bundle install
+
+```
+bundle install
+```
+
+(3) Migration. At the command line type
+
 ```
 rake redmine:plugins:migrate NAME=redmine_issue_evm RAILS_ENV=production
 ```
-* restart redmine
+
+(4) Restart your Redmine web servers (e.g. mongrel, thin, mod_rails).
+
+(5) Login and configure the plugin (see Permissions section, Administration->plugin)
 
 # UnInstall
 ```
@@ -154,16 +163,16 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ```
 
 # Screen shots
-** Overview **
+**Overview**
 ![evm sample screenshot](./images/screenshot01.png "overview")
 
-** Baseline History **
+**Baseline History**
 ![evm sample screenshot](./images/screenshot02.png "History")
 
-** Create baseline **
+**Create baseline**
 ![evm sample screenshot](./images/screenshot03.png "New baseline")
 
-** Plugin Setting **
+**Plugin Setting**
 ![evm sample screenshot](./images/screenshot04.png "plugin　setting")
 
 # Contributing

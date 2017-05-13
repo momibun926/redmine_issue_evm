@@ -1,5 +1,6 @@
 # Calculation EVM module
 module EvmLogic
+
   # Calculation EVM class.
   # Calculate EVM and create data for chart
   class IssueEvm
@@ -15,18 +16,18 @@ module EvmLogic
     # @option options [bool] no_use_baseline no use baseline of option.
     # @option options [Numeric] working_hours hours per day.
     def initialize(baselines, issues, costs, options = {})
-      # region setting
-      @region = Setting.plugin_redmine_issue_evm['region']
       # calculationEVM options
       options.assert_valid_keys(:working_hours,
                                 :basis_date,
                                 :forecast,
                                 :etc_method,
-                                :no_use_baseline)
+                                :no_use_baseline,
+                                :region)
       @basis_hours = options[:working_hours]
       @basis_date = options[:basis_date]
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
+      @holiday_region = options[:region]
       @issue_max_date = issues.maximum(:due_date)
       @issue_max_date ||= baselines.maximum(:due_date) unless baselines.nil?
       @issue_max_date ||= issues.maximum(:effective_date)
@@ -444,7 +445,7 @@ module EvmLogic
     # @return [Array] working days
     def working_days(start_date, end_date)
       issue_days = (start_date..end_date).to_a
-      working_days = issue_days.reject{|e| e.wday == 0 || e.wday == 6 || e.holiday?(@region)}
+      working_days = issue_days.reject{|e| e.wday == 0 || e.wday == 6 || e.holiday?(@holiday_region)}
       working_days.length == 0 ? issue_days : working_days
     end
 
