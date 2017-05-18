@@ -4,7 +4,7 @@ module ProjectAndVersionValue
   # Calculation common condition of issue's select
   SQL_COM = '(start_date IS NOT NULL AND due_date IS NOT NULL) OR (start_date IS NOT NULL AND due_date IS NULL AND fixed_version_id IS NOT NULL)'
   # Condition for filtering with an outer joined table
-  SQL_COM_FILTER = '(due_date IS NOT NULL OR effective_date IS NOT NULL)'
+  SQL_COM_FILTER = '((start_date IS NOT NULL) AND (due_date IS NOT NULL OR effective_date IS NOT NULL))'
 
   # Get Issues of Baseline.(start date, due date, estimated hours)
   # When baseline_id is nil,latest baseline of project.
