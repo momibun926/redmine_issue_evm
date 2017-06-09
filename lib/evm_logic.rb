@@ -365,11 +365,13 @@ module EvmLogic
     # @return [hash] EVM hash. Key:Date, Value:EV of each days
     def calculate_earned_value(issues)
       ev = {}
+      ev[@basis_date] ||= 0.0
       unless issues.nil?
         issues.each do |issue|
           # closed issue
           if issue.closed?
-            dt = issue.closed_on.to_time.to_date
+          	closed_date = issue.closed_on || issue.updated_on
+            dt = closed_date.to_time.to_date
             ev[dt] += issue.estimated_hours.to_f unless ev[dt].nil?
             ev[dt] ||= issue.estimated_hours.to_f
           # progress issue
