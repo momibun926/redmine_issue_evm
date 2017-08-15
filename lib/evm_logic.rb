@@ -57,9 +57,12 @@ module EvmLogic
         @forecast = false
       end
       # To calculate the EVM value
-      @pv_value = @pv[@basis_date] || @pv[pv_max_date]
-      @ev_value = @ev[@basis_date] || @ev[ev_max_date]
-      @ac_value = @ac[@basis_date] || @ac[ac_max_date]
+      pv_value_date = @pv.select {|k, v| k <= @basis_date}
+      @pv_value = @pv[pv_value_date.keys.max] || @pv[pv_max_date]
+      ev_value_date = @ev.select {|k, v| k <= @basis_date}
+      @ev_value = @ev[ev_value_date.keys.max] || @ev[ev_max_date]
+      ac_value_date = @ac.select {|k, v| k <= @basis_date}
+      @ac_value = @ac[ac_value_date.keys.max] || @ac[ac_max_date]
     end
 
     # Basis date
