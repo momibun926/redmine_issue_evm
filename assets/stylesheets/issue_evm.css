@@ -20,7 +20,8 @@
 #evm-indicator-value-table th {
   background-color: #eee;
 }
-#evm-indicator-value-table td, th {
+#evm-indicator-value-table td,
+#evm-indicator-value-table th {
   width: 60px;
   padding: 2px;
   text-align: center;
