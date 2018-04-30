@@ -1,0 +1,5 @@
+= redmine_glossary
+
+This is a plugin for Redmine to create a glossary that is a list of terms in a project.
+
+To adapt Redmine 4.0(Rails 5.1), reconstruct a glossary plugin from scratch.
