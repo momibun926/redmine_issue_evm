@@ -1,1 +1,22 @@
 <h2>GlossaryTermsController#index</h2>
+
+<table>
+  <thead>
+    <tr>
+      <td>name</td>
+      <td>description</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @glossary_terms.each do |term| %>
+    <tr>
+      <td>
+	<%= term.name %>
+      </td>
+      <td>
+	<%= term.description %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
