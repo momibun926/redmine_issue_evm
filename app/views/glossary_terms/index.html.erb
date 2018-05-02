@@ -1,19 +1,19 @@
 <h2>GlossaryTermsController#index</h2>
 
-<table>
+<table class="list">
   <thead>
     <tr>
-      <td>name</td>
-      <td>description</td>
+      <th>name</th>
+      <th>description</th>
     </tr>
   </thead>
   <tbody>
     <% @glossary_terms.each do |term| %>
     <tr>
-      <td>
+      <td class="name">
 	<%= term.name %>
       </td>
-      <td>
+      <td class="description">
 	<%= term.description %>
       </td>
     </tr>
