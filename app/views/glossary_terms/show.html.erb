@@ -1,10 +1,18 @@
-<h2><%=t :label_glossary_term %> #<%= @term.id %></h2>
+<h2><%=l :label_glossary_term %> #<%= @term.id %></h2>
 
 <h3><%= @term.name %></h3>
 
 <table>
   <tr>
-    <th><%=t :field_description %></th>
+    <th><%=l :field_description %></th>
     <td><%= @term.description %></td>
+  </tr>
+  <tr>
+    <th><%=l :field_created_on %></th>
+    <td><%= format_time(@term.created_at) %></td>
+  </tr>
+  <tr>
+    <th><%=l :field_updated_on %></th>
+    <td><%= format_time(@term.updated_at) %></td>
   </tr>
 </table>
