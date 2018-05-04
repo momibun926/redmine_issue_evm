@@ -1,4 +1,4 @@
 # English strings go here for Rails i18n
 en:
   label_glossary_terms: "Glossary terms"
-  
+  label_glossary_term: "Glossary term"

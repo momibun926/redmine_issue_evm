@@ -2,5 +2,5 @@
 # See: http://guides.rubyonrails.org/routing.html
 
 Rails.application.routes.draw do
-  resources :glossary_terms, only: [:index]
+  resources :glossary_terms, only: [:index, :show]
 end
