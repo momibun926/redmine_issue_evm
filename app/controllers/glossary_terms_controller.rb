@@ -1,6 +1,6 @@
 class GlossaryTermsController < ApplicationController
 
-  before_action :find_term_from_id, only: [:show]
+  before_action :find_term_from_id, only: [:show, :edit, :update]
   
   def index
     @glossary_terms = GlossaryTerm.all
@@ -14,8 +14,21 @@ class GlossaryTermsController < ApplicationController
     term = GlossaryTerm.new(glossary_term_params)
     if term.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to glossary_term_path(term.id)
+      redirect_to term
     end
+  end
+
+  def edit
+  end
+
+  def update
+    @term.attributes = glossary_term_params
+    if @term.save
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to @term
+    end
+  rescue ActiveRecord::StaleObjectError
+    flash.now[:error] = l(:notice_locking_conflict)
   end
   
   # Find the term whose id is the :id parameter
