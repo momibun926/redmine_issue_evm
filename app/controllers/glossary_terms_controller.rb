@@ -6,9 +6,9 @@ class GlossaryTermsController < ApplicationController
     @glossary_terms = GlossaryTerm.all
   end
 
-#  def show
-
-#  end
+  def new
+    @term = GlossaryTerm.new
+  end
 
   # Find the term whose id is the :id parameter
   def find_term_from_id
