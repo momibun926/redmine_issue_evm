@@ -1,6 +1,6 @@
 class GlossaryTermsController < ApplicationController
 
-  before_action :find_term_from_id, only: [:show, :edit, :update]
+  before_action :find_term_from_id, only: [:show, :edit, :update, :destroy]
   
   def index
     @glossary_terms = GlossaryTerm.all
@@ -29,6 +29,11 @@ class GlossaryTermsController < ApplicationController
     end
   rescue ActiveRecord::StaleObjectError
     flash.now[:error] = l(:notice_locking_conflict)
+  end
+
+  def destroy
+    @term.destroy
+    redirect_to glossary_terms_path
   end
   
   # Find the term whose id is the :id parameter

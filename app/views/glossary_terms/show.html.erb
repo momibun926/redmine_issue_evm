@@ -1,5 +1,7 @@
 <div class="contextual">
   <%= link_to l(:button_edit), edit_glossary_term_path, class: 'icon icon-edit' %>
+  <%= link_to l(:button_delete), glossary_term_path, method: :delete,
+  data: {confirm: l(:text_are_you_sure)}, class: 'icon icon-del' %>
 </div>
 
 <h2><%=l :label_glossary_term %> #<%= @term.id %></h2>
