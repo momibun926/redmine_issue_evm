@@ -3,4 +3,5 @@
 
 Rails.application.routes.draw do
   resources :glossary_terms
+  resources :glossary_categories
 end
