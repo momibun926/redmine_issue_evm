@@ -7,20 +7,28 @@
 <table class="list">
   <thead>
     <tr>
+      <th>#</th>
       <th><%=l :field_name %></th>
+      <th><%=l :field_category %></th>
       <th><%=l :field_description %></th>
     </tr>
   </thead>
   <tbody>
     <% @glossary_terms.each do |term| %>
-    <tr>
-      <td class="name">
-	<%= link_to term.name, term %>
-      </td>
-      <td class="description">
-	<%= term.description %>
-      </td>
-    </tr>
+      <tr>
+	<td class="id">
+	  <%= term.id %>
+	</td>
+	<td class="name">
+	  <%= link_to term.name, term %>
+	</td>
+	<td class="roles">
+	  <%= term.category.try!(:name) %>
+	</td>
+	<td class="description">
+	  <%= term.description %>
+	</td>
+      </tr>
     <% end %>
   </tbody>
 </table>

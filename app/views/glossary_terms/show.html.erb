@@ -10,6 +10,10 @@
 
 <table>
   <tr>
+    <th><%=l :field_category %></th>
+    <td><%= @term.category.try!(:name) %>
+  </tr>
+  <tr>
     <th><%=l :field_description %></th>
     <td><%= @term.description %></td>
   </tr>

@@ -47,7 +47,7 @@ class GlossaryTermsController < ApplicationController
 
   def glossary_term_params
     params.require(:glossary_term).permit(
-      :name, :description
+      :name, :description, :category_id
     )
   end
 end
