@@ -1,0 +1,11 @@
+<div class="contextual">
+  <%= link_to l(:button_edit), edit_glossary_category_path, class: 'icon icon-edit' %>
+  <%= link_to l(:button_delete), glossary_category_path, method: :delete,
+  data: {confirm: l(:text_are_you_sure)}, class: 'icon icon-del' %>
+</div>
+
+<h2><%=l :label_glossary_category %> #<%=@category.id %></h2>
+
+<h3><%= @category.name %></h3>
+
+

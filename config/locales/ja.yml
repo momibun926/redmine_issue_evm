@@ -1,4 +1,7 @@
 ja:
   label_glossary_terms: "用語集"
   label_glossary_term: "用語"	
-  label_glossary_term_new: "用語の作成"  
+  label_glossary_term_new: "用語の作成"
+  label_glossary_categories: "用語のカテゴリ"
+  label_glossary_category: "用語のカテゴリ"
+  label_glossary_category_new: "カテゴリの作成"

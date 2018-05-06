@@ -1,0 +1,7 @@
+<h2><%=l :label_glossary_category %> $<%= @category.id %></h2>
+
+<%= labelled_form_for :glossary_category, @category,
+url: glossary_category_path do |f| %>
+  <%= render partial: 'glossary_categories/form', locals: {form: f} %>
+  <%= f.submit l(:button_edit) %>
+<% end %>
