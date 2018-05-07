@@ -1,5 +1,5 @@
 <div class="box tabular">
   <p><%= form.text_field :name, size: 80, required: true %></p>
-  <p><%= form.collection_select :category_id, GlossaryCategory.all, :id, :name, include_blank: true %>
+  <p><%= form.select :category_id, GlossaryCategory.all.pluck(:name, :id), include_blank: true %>
   <p><%= form.text_area :description, size: "80x10", required: false %></p>
 </div>
