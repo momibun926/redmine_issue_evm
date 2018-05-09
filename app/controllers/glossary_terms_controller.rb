@@ -13,8 +13,7 @@ class GlossaryTermsController < ApplicationController
   def create
     term = GlossaryTerm.new(glossary_term_params)
     if term.save
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to term
+      redirect_to term, notice: l(:notice_successful_create)
     end
   end
 
@@ -24,8 +23,7 @@ class GlossaryTermsController < ApplicationController
   def update
     @term.attributes = glossary_term_params
     if @term.save
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to @term
+      redirect_to @term, notice: l(:notice_successful_update)
     end
   rescue ActiveRecord::StaleObjectError
     flash.now[:error] = l(:notice_locking_conflict)

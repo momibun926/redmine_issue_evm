@@ -19,16 +19,14 @@ class GlossaryCategoriesController < ApplicationController
   def create
     category = GlossaryCategory.new(glossary_category_params)
     if category.save
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to category
+      redirect_to category, notice: l(:notice_successful_create)
     end
   end
 
   def update
     @category.attributes = glossary_category_params
     if @category.save
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to @category
+      redirect_to @category, notice: l(:notice_successful_update)
     end
   rescue ActiveRecord::StaleObjectError
     flash.now[:error] = l(:notice_locking_conflict)
