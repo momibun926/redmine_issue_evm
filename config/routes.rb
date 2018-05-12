@@ -2,6 +2,8 @@
 # See: http://guides.rubyonrails.org/routing.html
 
 Rails.application.routes.draw do
-  resources :glossary_terms
+  resources :projects, shallow: true do
+      resources :glossary_terms
+  end
   resources :glossary_categories
 end

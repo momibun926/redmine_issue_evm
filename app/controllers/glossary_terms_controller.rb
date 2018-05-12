@@ -1,9 +1,10 @@
 class GlossaryTermsController < ApplicationController
 
   before_action :find_term_from_id, only: [:show, :edit, :update, :destroy]
-  
+  before_action :find_project_from_id, only: [:index, :create]
+                  
   def index
-    @glossary_terms = GlossaryTerm.all
+    @glossary_terms = GlossaryTerm.where(project_id: @project.id)
   end
 
   def new
@@ -12,6 +13,7 @@ class GlossaryTermsController < ApplicationController
 
   def create
     term = GlossaryTerm.new(glossary_term_params)
+    term.project = @project
     if term.save
       redirect_to term, notice: l(:notice_successful_create)
     end
@@ -30,8 +32,9 @@ class GlossaryTermsController < ApplicationController
   end
 
   def destroy
+    project = @term.project
     @term.destroy
-    redirect_to glossary_terms_path
+    redirect_to project.nil? ? home_path : project_glossary_terms_path(project)
   end
   
   # Find the term whose id is the :id parameter
@@ -41,6 +44,13 @@ class GlossaryTermsController < ApplicationController
     render_404
   end
 
+  # Find the project whose id is the :project_id parameter
+  def find_project_from_id
+    @project = Project.find(params[:project_id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+    
   private
 
   def glossary_term_params
