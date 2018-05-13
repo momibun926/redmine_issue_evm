@@ -5,4 +5,15 @@ Redmine::Plugin.register :redmine_glossary do
   version '1.0.1'
   url 'https://github.com/torutk/redmine_glossary'
   author_url 'http://www.torutk.com'
+
+
+  project_module :glossary do
+    permission :all_glossary, glossary_terms: :index
+  end
+
+  menu :project_menu, :glossary,
+       { controller: :glossary_terms, action: :index },
+       caption: :glossary_title,
+       param: :project_id
+
 end
