@@ -20,7 +20,7 @@
 	  <%= term.id %>
 	</td>
 	<td class="name">
-	  <%= link_to term.name, term %>
+	  <%= link_to term.name, [@project, term] %>
 	</td>
 	<td class="roles">
 	  <%= term.category.try!(:name) %>

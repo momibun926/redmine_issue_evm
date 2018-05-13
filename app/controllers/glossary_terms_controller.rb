@@ -1,7 +1,7 @@
 class GlossaryTermsController < ApplicationController
 
   before_action :find_term_from_id, only: [:show, :edit, :update, :destroy]
-  before_action :find_project_from_id, only: [:index, :create]
+  before_action :find_project_from_id
                   
   def index
     @glossary_terms = GlossaryTerm.where(project_id: @project.id)
@@ -15,7 +15,7 @@ class GlossaryTermsController < ApplicationController
     term = GlossaryTerm.new(glossary_term_params)
     term.project = @project
     if term.save
-      redirect_to term, notice: l(:notice_successful_create)
+      redirect_to [@project, term], notice: l(:notice_successful_create)
     end
   end
 
@@ -25,16 +25,15 @@ class GlossaryTermsController < ApplicationController
   def update
     @term.attributes = glossary_term_params
     if @term.save
-      redirect_to @term, notice: l(:notice_successful_update)
+      redirect_to [@project, @term], notice: l(:notice_successful_update)
     end
   rescue ActiveRecord::StaleObjectError
     flash.now[:error] = l(:notice_locking_conflict)
   end
 
   def destroy
-    project = @term.project
     @term.destroy
-    redirect_to project.nil? ? home_path : project_glossary_terms_path(project)
+    redirect_to project_glossary_terms_path
   end
   
   # Find the term whose id is the :id parameter
