@@ -3,7 +3,7 @@
 
 Rails.application.routes.draw do
   resources :projects do
-      resources :glossary_terms
+    resources :glossary_terms
+    resources :glossary_categories
   end
-  resources :glossary_categories
 end

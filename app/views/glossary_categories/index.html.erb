@@ -1,7 +1,7 @@
 <h2><%=l :label_glossary_categories %></h2>
 
 <div class="contextual">
-  <%= link_to l(:label_glossary_category_new), new_glossary_category_path, class: 'icon icon-add' %>
+  <%= link_to l(:label_glossary_category_new), new_project_glossary_category_path, class: 'icon icon-add' %>
 </div>
 
 <table class="list">
@@ -15,7 +15,7 @@
     <% @categories.each do |category| %>
       <tr>
 	<td class="id"><%= category.id %></td>
-	<td class="name"><%= link_to category.name, category %></td>
+	<td class="name"><%= link_to category.name, [@project, category] %></td>
       </tr>
     <% end %>
   </tbody>
