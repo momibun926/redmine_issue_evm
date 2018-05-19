@@ -1,0 +1,24 @@
+<% content_for :sidebar do %>
+  <h3><%=l :label_view %></h3>
+
+  <h3><%=l :label_glossary_term %></h3>
+  <p><%= link_to l(:label_glossary_term_new), new_project_glossary_term_path,
+     class: 'icon icon-add' %></p>
+
+  <h3><%=l :label_glossary_category %></h3>
+  <p><%= link_to l(:label_glossary_category_new),
+     new_project_glossary_category_path, class: 'icon icon-add' %></p>
+  <p><%= link_to l(:label_glossary_categories),
+     project_glossary_categories_path %></p>
+
+  <h3><%=l :label_glossary_index %></h3>
+  <table>
+    <% l(:index_en).each_line do |line| %>
+      <tr>
+        <% line.split(" ").each do |ch| %>
+          <td><%= link_to ch, project_glossary_terms_path(index: ch) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

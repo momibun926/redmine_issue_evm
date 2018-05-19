@@ -8,3 +8,14 @@ en:
   label_glossary_category_new: "New glossary category"
 
   glossary_title: Glossary
+
+  label_view: View
+  label_glossary_index: index
+
+  index_en: |
+      A B C D E F
+      G H I J K L
+      M N O P Q R
+      S T U V W X
+      Y Z
+      
