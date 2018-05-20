@@ -5,8 +5,12 @@ ja:
   label_glossary_categories: "用語のカテゴリ一覧"
   label_glossary_category: "用語のカテゴリ"
   label_glossary_category_new: "カテゴリの作成"
+
   glossary_title: 用語集
+  project_module_glossary: 用語集
 
   label_view: 表示
   label_glossary_index:	索引
-  
+
+  permission_view_glossary: 用語集の閲覧
+  permission_manage_glossary: 用語集の管理

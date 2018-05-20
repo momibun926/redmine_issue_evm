@@ -8,6 +8,7 @@ en:
   label_glossary_category_new: "New glossary category"
 
   glossary_title: Glossary
+  project_module_glossary: Glossary
 
   label_view: View
   label_glossary_index: index
@@ -18,4 +19,6 @@ en:
       M N O P Q R
       S T U V W X
       Y Z
-      
+
+  permission_view_glossary: View glossary
+  permission_manage_glossary: Manage glossary

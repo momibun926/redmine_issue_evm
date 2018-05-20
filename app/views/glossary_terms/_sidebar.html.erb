@@ -2,12 +2,15 @@
   <h3><%=l :label_view %></h3>
 
   <h3><%=l :label_glossary_term %></h3>
-  <p><%= link_to l(:label_glossary_term_new), new_project_glossary_term_path,
+  <p><%= link_to_if_authorized l(:label_glossary_term_new),
+     { controller: :glossary_terms, action: :new, project_id: @project },
      class: 'icon icon-add' %></p>
 
   <h3><%=l :label_glossary_category %></h3>
-  <p><%= link_to l(:label_glossary_category_new),
-     new_project_glossary_category_path, class: 'icon icon-add' %></p>
+  <p><%= link_to_if_authorized l(:label_glossary_category_new),
+     { controller: :glossary_categories, action: :new, project_id: @project},
+     class: 'icon icon-add' %></p>
+  
   <p><%= link_to l(:label_glossary_categories),
      project_glossary_categories_path %></p>
 

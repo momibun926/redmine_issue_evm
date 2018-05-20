@@ -1,7 +1,9 @@
 <h2><%=l :label_glossary_categories %></h2>
 
 <div class="contextual">
-  <%= link_to l(:label_glossary_category_new), new_project_glossary_category_path, class: 'icon icon-add' %>
+  <%= link_to_if_authorized l(:label_glossary_category_new),
+  { controller: :glossary_categories, action: :new, project_id: @project },
+  class: 'icon icon-add' %>
 </div>
 
 <%= render partial: 'glossary_terms/sidebar' %>

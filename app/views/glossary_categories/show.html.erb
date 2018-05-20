@@ -1,7 +1,11 @@
 <div class="contextual">
-  <%= link_to l(:button_edit), edit_project_glossary_category_path, class: 'icon icon-edit' %>
-  <%= link_to l(:button_delete), project_glossary_category_path, method: :delete,
-  data: {confirm: l(:text_are_you_sure)}, class: 'icon icon-del' %>
+  <%= link_to_if_authorized l(:button_edit),
+  { controller: :glossary_categories, action: :edit, project_id: @project },
+  class: 'icon icon-edit' %>
+  <%= link_to_if_authorized l(:button_delete),
+  { controller: :glossary_categories, action: :destroy,
+    id: @category, project_id: @project },
+    method: :delete, data: {confirm: l(:text_are_you_sure)}, class: 'icon icon-del' %>
 </div>
 
 <%= render partial: 'glossary_terms/sidebar' %>

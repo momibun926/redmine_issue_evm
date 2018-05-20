@@ -8,7 +8,16 @@ Redmine::Plugin.register :redmine_glossary do
 
 
   project_module :glossary do
-    permission :all_glossary, glossary_terms: :index
+    permission :view_glossary, {
+                 glossary_terms: [:index, :show],
+                 glossary_categories: [:index, :show]
+               }
+    permission :manage_glossary, {
+                 glossary_terms: [:new, :create, :edit, :update, :destroy],
+                 glossary_categories: [:new, :create, :edit, :update, :destroy],
+               },
+               require: :member
+
   end
 
   menu :project_menu, :glossary,
