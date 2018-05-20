@@ -4,7 +4,7 @@ class GlossaryCategoriesController < ApplicationController
   before_action :find_project_from_id
   
   def index
-    @categories = GlossaryCategory.where(project_id: @project_id)
+    @categories = GlossaryCategory.where(project_id: @project.id)
   end
 
   def show
