@@ -1,5 +1,6 @@
 class GlossaryCategoriesController < ApplicationController
 
+  before_action :authorize
   before_action :find_category_from_id, only: [:show, :edit, :update, :destroy]
   before_action :find_project_from_id
   

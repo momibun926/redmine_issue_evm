@@ -1,5 +1,6 @@
 class GlossaryTermsController < ApplicationController
 
+  before_action :authorize
   before_action :find_term_from_id, only: [:show, :edit, :update, :destroy]
   before_action :find_project_from_id
                   
