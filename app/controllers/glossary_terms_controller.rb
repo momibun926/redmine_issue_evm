@@ -1,9 +1,8 @@
 class GlossaryTermsController < ApplicationController
 
-  before_action :authorize
   before_action :find_term_from_id, only: [:show, :edit, :update, :destroy]
-  before_action :find_project_from_id
-                  
+  before_action :find_project_from_id, :authorize
+  
   def index
     @glossary_terms = GlossaryTerm.where(project_id: @project.id)
     @glossary_terms = @glossary_terms.search_by_name(params[:index]) unless params[:index].nil?
