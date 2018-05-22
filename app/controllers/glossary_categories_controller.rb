@@ -1,7 +1,7 @@
 class GlossaryCategoriesController < ApplicationController
 
   before_action :find_category_from_id, only: [:show, :edit, :update, :destroy]
-  before_action :find_project_from_id, :authorize
+  before_action :find_project_by_project_id, :authorize
   
   def index
     @categories = GlossaryCategory.where(project_id: @project.id)
@@ -47,13 +47,6 @@ class GlossaryCategoriesController < ApplicationController
   end
 
   private
-
-  # Find the project whose id is the :project_id parameter
-  def find_project_from_id
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
 
   def glossary_category_params
     params.require(:glossary_category).permit(

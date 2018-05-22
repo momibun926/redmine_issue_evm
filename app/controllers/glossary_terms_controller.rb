@@ -1,7 +1,7 @@
 class GlossaryTermsController < ApplicationController
 
   before_action :find_term_from_id, only: [:show, :edit, :update, :destroy]
-  before_action :find_project_from_id, :authorize
+  before_action :find_project_by_project_id, :authorize
   
   def index
     @glossary_terms = GlossaryTerm.where(project_id: @project.id)
@@ -44,13 +44,6 @@ class GlossaryTermsController < ApplicationController
     render_404
   end
 
-  # Find the project whose id is the :project_id parameter
-  def find_project_from_id
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-    
   private
 
   def glossary_term_params
