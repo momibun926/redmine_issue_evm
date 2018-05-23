@@ -22,3 +22,10 @@ en:
 
   permission_view_glossary: View glossary
   permission_manage_glossary: Manage glossary
+
+  field_name_en: English
+  field_abbr_whole: Whole word for Abbreviation
+  field_datatype: Data type for coding
+  field_codename: Abbreviation for coding
+  field_rubi: Ruby
+    

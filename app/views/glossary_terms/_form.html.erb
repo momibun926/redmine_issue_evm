@@ -1,5 +1,10 @@
 <div class="box tabular">
   <p><%= form.text_field :name, size: 80, required: true %></p>
+  <p><%= form.text_field :name_en, size: 80 %></p>
+  <p><%= form.text_field :rubi, size: 80 %></p>
+  <p><%= form.text_field :abbr_whole, size: 80 %></p>
+  <p><%= form.text_field :datatype, size: 80 %></p>
+  <p><%= form.text_field :codename, size: 80 %></p>
   <p><%= form.select :category_id, GlossaryCategory.pluck(:name, :id), include_blank: true %></p>
   <p><%= form.text_area :description, size: "80x10", required: false %></p>
 </div>

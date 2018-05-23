@@ -14,3 +14,10 @@ ja:
 
   permission_view_glossary: 用語集の閲覧
   permission_manage_glossary: 用語集の管理
+
+  field_name_en: 英語名
+  field_abbr_whole: 略語の展開名称
+  field_datatype: データ型
+  field_codename: コーディング用名称例
+  field_rubi: ふりがな
+

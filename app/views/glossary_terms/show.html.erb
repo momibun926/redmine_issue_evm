@@ -16,6 +16,26 @@
 
 <table>
   <tr>
+    <th><%=l :field_name_en %></th>
+    <td><%= @term.name_en %></td>
+  </tr>
+  <tr>
+    <th><%=l :field_rubi %></th>
+    <td><%= @term.rubi %></td>
+  </tr>
+  <tr>
+    <th><%=l :field_abbr_whole %></th>
+    <td><%= @term.abbr_whole %></td>
+  </tr>
+  <tr>
+    <th><%=l :field_datatype %></th>
+    <td><%= @term.datatype %></td>
+  </tr>
+  <tr>
+    <th><%=l :field_codename %></th>
+    <td><%= @term.codename %></td>
+  </tr>
+  <tr>
     <th><%=l :field_category %></th>
     <td><%= @term.category.try!(:name) %>
   </tr>
