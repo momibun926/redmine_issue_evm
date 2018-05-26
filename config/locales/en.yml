@@ -12,7 +12,8 @@ en:
 
   label_view: View
   label_glossary_index: index
-
+  label_not_categorized: Not categorized
+  
   index_en: |
       A B C D E F
       G H I J K L

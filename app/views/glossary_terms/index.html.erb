@@ -8,31 +8,15 @@
 
 <%= render partial: 'sidebar' %>
 
-<table class="list">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th><%=l :field_name %></th>
-      <th><%=l :field_category %></th>
-      <th><%=l :field_description %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @glossary_terms.each do |term| %>
-      <tr>
-	<td class="id">
-	  <%= term.id %>
-	</td>
-	<td class="name">
-	  <%= link_to term.name, [@project, term] %>
-	</td>
-	<td class="roles">
-	  <%= term.category.try!(:name) %>
-	</td>
-	<td class="description">
-	  <%= term.description %>
-	</td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<% categorized_terms = @glossary_terms.reject { |t| t.category_id.nil? } %>
+<% uncategorized_terms = @glossary_terms.where(category_id: nil) %>
+
+<% categorized_terms.group_by(&:category).each do |category, terms| %>
+  <h3><%= category.name %></h3>
+  <%= render partial: 'index_in_category', locals: {terms: terms} %>
+<% end %>
+
+<h3><%=l :label_not_categorized %></h3>
+<%= render 'index_in_category',  terms: uncategorized_terms %>
+
+
