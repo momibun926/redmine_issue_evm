@@ -8,15 +8,19 @@
 
 <%= render partial: 'sidebar' %>
 
-<% categorized_terms = @glossary_terms.reject { |t| t.category_id.nil? } %>
-<% uncategorized_terms = @glossary_terms.where(category_id: nil) %>
+<% if @grouping == '1' %>
+  <% categorized_terms = @glossary_terms.reject { |t| t.category_id.nil? } %>
+  <% uncategorized_terms = @glossary_terms.where(category_id: nil) %>
 
-<% categorized_terms.group_by(&:category).each do |category, terms| %>
-  <h3><%= category.name %></h3>
-  <%= render partial: 'index_in_category', locals: {terms: terms} %>
+  <% categorized_terms.group_by(&:category).each do |category, terms| %>
+    <h3><%= category.name %></h3>
+    <%= render partial: 'index_terms', locals: {terms: terms} %>
+  <% end %>
+
+  <h3><%=l :label_not_categorized %></h3>
+  <%= render 'index_terms',  terms: uncategorized_terms %>
+<% else %>
+  <%= render 'index_terms', terms: @glossary_terms %>
 <% end %>
-
-<h3><%=l :label_not_categorized %></h3>
-<%= render 'index_in_category',  terms: uncategorized_terms %>
 
 

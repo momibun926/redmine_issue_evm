@@ -12,6 +12,8 @@ ja:
   label_view: 表示
   label_glossary_index: 索引 
   label_not_categorized: 未分類
+  label_grouping: グループ化
+  label_categorized: カテゴリで分類
 
   permission_view_glossary: 用語集の閲覧
   permission_manage_glossary: 用語集の管理

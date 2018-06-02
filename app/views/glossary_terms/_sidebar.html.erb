@@ -1,6 +1,17 @@
 <% content_for :sidebar do %>
   <h3><%=l :label_view %></h3>
 
+  <%= form_with url: project_glossary_terms_path, method: :get, local: true do |form| %>
+    <fieldset>
+      <legend><%=l :label_grouping %></legend>
+      <%= form.radio_button :grouping, 1, checked: @grouping == '1' ? 'checked' : nil %>
+      <%= form.label :grouping, l(:label_categorized), vaule: 1 %>
+      <%= form.radio_button :grouping, 0, checked: @grouping == '0' ? 'checked' : nil %>
+      <%= form.label :grouping, l(:label_not_categorized), value: 0 %>
+    </fieldset>
+    <%= form.submit l(:label_view) %>
+  <% end %>
+
   <h3><%=l :label_glossary_term %></h3>
   <p><%= link_to_if_authorized l(:label_glossary_term_new),
      { controller: :glossary_terms, action: :new, project_id: @project },

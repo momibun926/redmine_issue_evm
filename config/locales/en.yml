@@ -13,6 +13,8 @@ en:
   label_view: View
   label_glossary_index: index
   label_not_categorized: Not categorized
+  label_grouping: Grouping
+  label_categorized: Categorized
   
   index_en: |
       A B C D E F
