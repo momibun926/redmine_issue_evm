@@ -5,8 +5,12 @@ class GlossaryTermsController < ApplicationController
   
   def index
     @glossary_terms = GlossaryTerm.where(project_id: @project.id)
-    @glossary_terms = @glossary_terms.search_by_name(params[:index]) unless params[:index].nil?
-    @grouping = params[:grouping]
+    if not params[:index].nil?
+      @glossary_terms = @glossary_terms.search_by_name(params[:index])
+    elsif not params[:index_rubi].nil?
+      @glossary_terms = @glossary_terms.search_by_rubi(params[:index_rubi])
+    end
+    @grouping = params[:grouping] unless params[:grouping].nil?
   end
 
   def new

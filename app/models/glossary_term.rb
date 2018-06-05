@@ -6,4 +6,8 @@ class GlossaryTerm < ActiveRecord::Base
     where 'name like ?', "#{sanitize_sql_like(keyword)}%"
   }
 
+  scope :search_by_rubi, -> (keyword) {
+    where 'rubi like ?', "#{sanitize_sql_like(keyword)}%"
+  }
+
 end

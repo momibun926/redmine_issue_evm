@@ -35,4 +35,15 @@
       </tr>
     <% end %>
   </table>
+  <table>
+    <% l(:index_rubi).each_line do |line| %>
+      <tr>
+        <% line.split(" ").each do |char| %>
+          <td>
+            <%= link_to char, project_glossary_terms_path(index_rubi: char) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
 <% end %>

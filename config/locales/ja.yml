@@ -15,6 +15,19 @@ ja:
   label_grouping: グループ化
   label_categorized: カテゴリで分類
 
+  index_rubi: |
+    あ い う え お
+    か き く け こ
+    さ し す せ そ
+    た ち つ て と
+    な に ぬ ね の
+    は ひ ふ へ ほ
+    ま み む め も
+    や ゆ よ
+    ら り る れ ろ
+    わ を ん
+
+
   permission_view_glossary: 用語集の閲覧
   permission_manage_glossary: 用語集の管理
 
