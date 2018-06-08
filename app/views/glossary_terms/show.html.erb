@@ -52,3 +52,8 @@
     <td><%= format_time(@term.updated_at) %></td>
   </tr>
 </table>
+
+<%= render partial: 'attachments/links',
+locals: {attachments: @term.attachments,
+	 options: {deletable: User.current.logged?}
+}%>

@@ -8,3 +8,11 @@
   <p><%= form.select :category_id, GlossaryCategory.pluck(:name, :id), include_blank: true %></p>
   <p><%= form.text_area :description, size: "80x10", required: false %></p>
 </div>
+
+<div class="box">
+  <p>
+    <label><%=l :label_attachment_plural %></label>
+    <%= render partial: 'attachments/form' %>
+  </p>
+</div>
+

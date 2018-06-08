@@ -30,6 +30,8 @@ class GlossaryTermsController < ApplicationController
 
   def update
     @term.attributes = glossary_term_params
+    @term.save_attachments(params[:attachments])
+    render_attachment_warning_if_needed(@term)
     if @term.save
       redirect_to [@project, @term], notice: l(:notice_successful_update)
     end
