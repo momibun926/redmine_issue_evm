@@ -55,5 +55,5 @@
 
 <%= render partial: 'attachments/links',
 locals: {attachments: @term.attachments,
-	 options: {deletable: User.current.logged?}
+	 options: {deletable: User.current.allowed_to?(:manage_glossary, @project)}
 }%>
