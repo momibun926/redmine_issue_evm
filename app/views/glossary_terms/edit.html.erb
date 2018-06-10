@@ -1,6 +1,6 @@
 <h2><%=l :label_glossary_term %> #<%= @term.id %></h2>
 
-<%= labelled_form_for :glossary_term, @term, url: project_glossary_term_path do |f| %>
+<%= labelled_form_for @term, url: project_glossary_term_path, html: {multipart: true} do |f| %>
   <%= render partial: 'glossary_terms/form', locals: {form: f} %>
   <%= f.submit l(:button_edit) %>
 <% end %>
