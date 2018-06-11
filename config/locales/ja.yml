@@ -14,6 +14,7 @@ ja:
   label_not_categorized: 未分類
   label_grouping: グループ化
   label_categorized: カテゴリで分類
+  label_glossary_term_plural: 用語集
 
   index_rubi: |
     あ い う え お

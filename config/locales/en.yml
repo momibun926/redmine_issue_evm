@@ -15,7 +15,8 @@ en:
   label_not_categorized: Not categorized
   label_grouping: Grouping
   label_categorized: Categorized
-  
+  label_glossary_term_plural: Glossary
+
   index_en: |
       A B C D E F
       G H I J K L
