@@ -1,3 +1,7 @@
+#Rails.configuration.to_prepare do
+#  Redmine::Activity.register :glossary_terms
+#end
+
 Redmine::Plugin.register :redmine_glossary do
   name 'Redmine Glossary plugin'
   author 'Toru Takahashi'
@@ -26,3 +30,6 @@ Redmine::Plugin.register :redmine_glossary do
        param: :project_id
 
 end
+
+
+Redmine::Activity.register :glossary_terms
