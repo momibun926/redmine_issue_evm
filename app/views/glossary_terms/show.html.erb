@@ -41,7 +41,7 @@
   </tr>
   <tr>
     <th><%=l :field_description %></th>
-    <td><%= @term.description %></td>
+    <td><div class="wiki"><%= textilizable @term, :description %></div></td>
   </tr>
   <tr>
     <th><%=l :field_created_on %></th>

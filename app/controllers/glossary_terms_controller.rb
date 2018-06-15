@@ -1,8 +1,9 @@
 class GlossaryTermsController < ApplicationController
 
   before_action :find_term_from_id, only: [:show, :edit, :update, :destroy]
-  before_action :find_project_by_project_id, :authorize
-  
+  before_action :find_project_by_project_id, :authorize, except: [:preview]
+  before_action :find_attachments, only: [:preview]
+
   def index
     @glossary_terms = GlossaryTerm.where(project_id: @project.id)
     if not params[:index].nil?
@@ -44,6 +45,16 @@ class GlossaryTermsController < ApplicationController
   def destroy
     @term.destroy
     redirect_to project_glossary_terms_path
+  end
+
+  def preview
+    term = GlossaryTerm.find_by_id(params[:id])
+    if term
+      @attachments += term.attachments
+      @previewed = term
+    end
+    @text = params[:glossary_term][:description]
+    render partial: 'common/preview'
   end
   
   # Find the term whose id is the :id parameter
