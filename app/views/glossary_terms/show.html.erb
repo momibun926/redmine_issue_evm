@@ -1,3 +1,7 @@
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'glossary', plugin: 'redmine_glossary' %>
+<% end %>
+
 <div class="contextual">
   <%= link_to_if_authorized l(:button_edit),
   { controller: :glossary_terms, action: :edit, project_id: @project },
@@ -14,41 +18,41 @@
 
 <h3><%= @term.name %></h3>
 
-<table>
+<table class="term">
   <tr>
-    <th><%=l :field_name_en %></th>
+    <th><%=l :field_name_en %>:</th>
     <td><%= @term.name_en %></td>
   </tr>
   <tr>
-    <th><%=l :field_rubi %></th>
+    <th><%=l :field_rubi %>:</th>
     <td><%= @term.rubi %></td>
   </tr>
   <tr>
-    <th><%=l :field_abbr_whole %></th>
+    <th><%=l :field_abbr_whole %>:</th>
     <td><%= @term.abbr_whole %></td>
   </tr>
   <tr>
-    <th><%=l :field_datatype %></th>
+    <th><%=l :field_datatype %>:</th>
     <td><%= @term.datatype %></td>
   </tr>
   <tr>
-    <th><%=l :field_codename %></th>
+    <th><%=l :field_codename %>:</th>
     <td><%= @term.codename %></td>
   </tr>
   <tr>
-    <th><%=l :field_category %></th>
+    <th><%=l :field_category %>:</th>
     <td><%= @term.category.try!(:name) %>
   </tr>
   <tr>
-    <th><%=l :field_description %></th>
+    <th><%=l :field_description %>:</th>
     <td><div class="wiki"><%= textilizable @term, :description %></div></td>
   </tr>
   <tr>
-    <th><%=l :field_created_on %></th>
+    <th><%=l :field_created_on %>:</th>
     <td><%= format_time(@term.created_at) %></td>
   </tr>
   <tr>
-    <th><%=l :field_updated_on %></th>
+    <th><%=l :field_updated_on %>:</th>
     <td><%= format_time(@term.updated_at) %></td>
   </tr>
 </table>
