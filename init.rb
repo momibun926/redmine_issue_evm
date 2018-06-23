@@ -33,3 +33,17 @@ end
 
 
 Redmine::Activity.register :glossary_terms
+
+Redmine::WikiFormatting::Macros.register do
+  desc "create macro which links to glossary term."
+  macro :termno do |obj, args|
+    puts "@@@@@@@@@@@@ Macros.register macro block: obj=#{obj.inspect} @@@@@@@@@@@@"
+    term_id = args.first
+    term = GlossaryTerm.find(term_id)
+    link_to term.name, project_glossary_term_path(@project, term)
+  end
+  macro :term do |obj, args|
+    term = GlossaryTerm.find_by(name: args.first)
+    link_to 
+  end
+end
