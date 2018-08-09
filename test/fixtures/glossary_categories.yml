@@ -1,0 +1,10 @@
+color:
+  id: 1
+  name: Color
+  project_id: 1
+
+shape:
+  id: 2
+  name: Shape
+  project_id: 1
+  
