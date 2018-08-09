@@ -30,4 +30,21 @@ class GlossaryCategoriesControllerTest < ActionController::TestCase
     assert_redirected_to project_glossary_category_path(@project, category)
     assert_equal 'Colour', category.name
   end
+
+  def test_new
+    @request.session[:user_id] = users('users_002').id
+    get :new, params: {id: 1, project_id: 1}
+    assert_response :success
+    assert_select 'form', true
+  end
+
+  def test_create
+    @request.session[:user_id] = users('users_002').id
+    post :create, params: {
+      project_id: 1, glossary_category: {name: 'Material'}
+    }
+    category = GlossaryCategory.find_by(name: 'Material')
+    assert_not_nil category
+    assert_redirected_to project_glossary_category_path(@project, category)
+  end
 end
