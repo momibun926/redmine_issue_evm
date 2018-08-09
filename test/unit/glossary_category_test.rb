@@ -10,6 +10,6 @@ class GlossaryCategoryTest < ActiveSupport::TestCase
   end
   
   def test_valid
-    assert !@category.valid?
+    assert @category.valid?
   end
 end
