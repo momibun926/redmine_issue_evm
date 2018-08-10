@@ -47,4 +47,11 @@ class GlossaryCategoriesControllerTest < ActionController::TestCase
     assert_not_nil category
     assert_redirected_to project_glossary_category_path(@project, category)
   end
+
+  def test_destroy
+    @request.session[:user_id] = users('users_002').id
+    delete :destroy, params: { id: 1, project_id: 1 }
+    assert_raise(ActiveRecord::RecordNotFound) { GlossaryCategory.find(1) }
+    assert_redirected_to project_glossary_categories_path(@project)
+  end
 end

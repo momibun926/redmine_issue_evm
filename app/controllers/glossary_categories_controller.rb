@@ -36,7 +36,7 @@ class GlossaryCategoriesController < ApplicationController
 
   def destroy
     @category.destroy
-    redirect_to project_glossary_categories_path
+    redirect_to project_glossary_categories_path(@project)
   end
   
   # Find the category whose id is the :id parameter
