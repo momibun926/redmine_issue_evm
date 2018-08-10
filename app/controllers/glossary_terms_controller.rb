@@ -44,7 +44,7 @@ class GlossaryTermsController < ApplicationController
 
   def destroy
     @term.destroy
-    redirect_to project_glossary_terms_path
+    redirect_to project_glossary_terms_path(@project)
   end
 
   def preview
