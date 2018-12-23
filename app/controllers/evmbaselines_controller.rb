@@ -40,7 +40,7 @@ class EvmbaselinesController < ApplicationController
   #
   def update
     evm_baselines = Evmbaseline.find(params[:id])
-    evm_baselines.update_attributes(params[:evmbaseline])
+    evm_baselines.update_attributes(evm_baseline_params)
     if evm_baselines.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: :index
@@ -52,7 +52,7 @@ class EvmbaselinesController < ApplicationController
   # Create baseline
   #
   def create
-    evm_baselines = Evmbaseline.new(params[:evmbaseline])
+    evm_baselines = Evmbaseline.new(evm_baseline_params)
     evm_baselines.project_id = @project.id
     evm_baselines.state = l(:label_current_baseline)
     evm_baselines.author_id = User.current.id
@@ -109,4 +109,11 @@ class EvmbaselinesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
+  # Strong parameter
+  #
+  def evm_baseline_params
+    params.require(:evmbaseline).permit(:subject, :description)
+  end
+
 end
