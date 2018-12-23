@@ -1,6 +1,6 @@
 # Stored baseline
 #
-class CreateEvmbaselines < ActiveRecord::Migration
+class CreateEvmbaselines < ActiveRecord::Migration[4.2]
   # 1st create
   def change
     create_table :evmbaselines do |t|

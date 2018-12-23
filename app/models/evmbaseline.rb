@@ -1,14 +1,10 @@
 # baseline model
 class Evmbaseline < ActiveRecord::Base
-  unloadable
 
   # Relations
   belongs_to :author, class_name: 'User'
   belongs_to :project
   has_many :evmbaselineIssues, dependent: :delete_all
-
-  # attribute
-  attr_protected :id
 
   # Validate
   validates :subject, presence: true

@@ -82,7 +82,7 @@
     </section>
     <!-- Exports -->
     <% other_formats_links do |f| %>
-      <%= f.link_to 'CSV', :url => params %>
+      <%= f.link_to 'CSV', :url => {:action => 'index'} %>
     <% end %>
     <br>
     <div id="noprintarea">
