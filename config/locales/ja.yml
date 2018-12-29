@@ -55,7 +55,7 @@ ja:
   # Explanation
   explanation_bac: 完成時総予算：プロジェクトのチケットの総予定工数
   explanation_pv: 今日までのチケットの予定工数
-  explanation_ev: 出来高：チケットが完了となった時に予定工数を計上
+  explanation_ev: 出来高：チケットが完了となった時に予定工数を計上。進捗率が設定されている場合は、進捗率を変更した日に予定工数*進捗率を計上
   explanation_ac: 作業時間の記録から集計した作業時間
   explanation_sv: スケジュール差異：予定工数と完了工数の差(EV-PV)
   explanation_cv: コスト差異：予定工数と作業時間の差(EV-AC)

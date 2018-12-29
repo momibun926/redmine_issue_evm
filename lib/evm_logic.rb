@@ -380,16 +380,14 @@ module EvmLogic
           # progress issue
           elsif issue.done_ratio > 0
             hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
-            start_date = [issue.start_date, @basis_date].min
-            issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
-            end_date = [issue.due_date, @basis_date].max
-            ev_days = (start_date..end_date).to_a
-            hours_per_day = issue_hours_per_day hours,
-                                                ev_days.length
-            ev_days.each do |date|
-              ev[date] += hours_per_day unless ev[date].nil?
-              ev[date] ||= hours_per_day
-            end
+            # latest date of changed ratio
+            ratio_date_utc = Journal.where(journalized_id: issue.id, journal_details: { prop_key: 'done_ratio' })
+                                    .joins(:details)
+                                    .maximum(:created_on)
+            ratio_date = ratio_date_utc.to_time.to_date
+            ev[ratio_date] += hours unless ev[ratio_date].nil?
+            ev[ratio_date] ||= hours
+
           end
         end
       end

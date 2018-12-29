@@ -5,7 +5,7 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-4.1
+4.1.1
 
 ## Compatibility
 Redmine 4.0.0 and above
@@ -69,7 +69,7 @@ The below are used for EVM.
 
 If you input these into your project, it can help you to calculate both a single issue’s EVM and whole project’s one.
 PV: Dividing estimated time by the days (from start date to due date(or effective date of version )) to get daily workload
-EV: After issues are closed, you can get EV.
+EV: After issues are closed, you can get EV.　When the progress rate is set, it is calculated by estimated time * progress rate on the day when the progress is set.
 
 **Example**
 

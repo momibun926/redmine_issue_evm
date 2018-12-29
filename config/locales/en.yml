@@ -55,7 +55,7 @@ en:
   # Explanation
   explanation_bac: Total budget allocated to the project.
   explanation_pv: Total cost of the work scheduled/planned as of a reporting date.
-  explanation_ev: Total cost of the work completed/performed as of a reporting date.
+  explanation_ev: Total cost of the work completed/performed as of a reporting date. When the progress rate is set, recorded on change date.
   explanation_ac: Total cost taken to complete the work as of a reporting date.
   explanation_sv: Positive Schedule Variance Indicates we are ahead of schedule. Negative Schedule Variance Indicates we are behind of schedule.
   explanation_cv: Positive Cost Variance Indicates the project is under budget. Negative Cost Variance Indicates the project is over budget.
