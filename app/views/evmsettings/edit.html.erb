@@ -1,4 +1,4 @@
-<h2><%= l(:label_setting_create) %></h2>
+<h2><%= l(:label_setting_edit) %></h2>
 <%= form_for @evm_settings, url: project_evmsettings_path do |f| %>
 <div class="option-col">
   <p>
@@ -49,6 +49,6 @@
   </p>
 </div>
 <div class="option-apply">
-  <%= submit_tag l(:button_create) %>
+  <%= submit_tag l(:button_edit) %>
 </div>
 <% end %>

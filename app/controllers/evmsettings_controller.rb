@@ -20,18 +20,18 @@ class EvmsettingsController < ApplicationController
   # Edit setting
   #
   def edit
-    @evm_settings = Evmsetting.find(params[:id])
+    @evm_settings = Evmsetting.find_by(:project_id => @project.id)
   end
 
   # Update baselie
   #
   def update
-    evm_settings = Evmsetting.find(params[:id])
-    evm_settings.update_attributes(evm_baseline_params)
+    evm_settings = Evmsetting.find_by(:project_id => @project.id)
+    evm_settings.update_attributes(evm_setting_params)
     evm_settings.user_id = User.current.id
-    if evm_settings.save
+    if evm_settings.save!
       flash[:notice] = l(:notice_successful_update)
-      redirect_to action: :new
+      redirect_to project_evms_path
     else
       redirect_to action: :edit
     end
@@ -46,10 +46,9 @@ class EvmsettingsController < ApplicationController
     # Save
     if evm_settings.save!
       flash[:notice] = l(:notice_successful_create)
-      Rails.logger.info(project_evms_path)
       redirect_to project_evms_path
     else
-      render_404
+      redirect_to action: :new
     end
   end
 

@@ -19,6 +19,7 @@
 <!-- contextual (Basline setting) -->
 <div class="contextual">
   <%= link_to l(:label_baseline_set), {controller: :evmbaselines, action: :index, id: @project.id} , class: "icon icon-edit"%>
+  <%= link_to l(:label_setting_set), {controller: :evmsettings, action: :edit, id: @project.id} , class: "icon icon-edit"%>
   <%= link_to "#", {id: "btn_print", class: "icon icon-print" } do l(:label_evm_print) end %>
 </div>
 <!--Sidebar-->

@@ -1,6 +1,9 @@
 ﻿# japanease translation
 ja:
   # Setting Tab
+  label_setting_create: EVM設定の作成
+  label_setting_edit: EVM設定の編集
+  label_setting_set: EVM設定の編集
   label_baseline: ベースライン
   label_baseline_show: ベースラインの照会
   label_baseline_edit: ベースラインの編集
