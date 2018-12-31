@@ -13,6 +13,12 @@ class EvmsController < ApplicationController
   # View of EVM
   #
   def index
+    # check view setting
+    exist_setting = Evmsetting.where('project_id = ? ', @project.id)
+    if exist_setting.nil? then
+      redirect_to new_evmsetting_path
+    else
+    end
     # plugin setting
     @working_hours = default_setting('working_hours_of_day', 7.5).to_f
     @limit_spi = default_setting('limit_spi', 0.9).to_f
