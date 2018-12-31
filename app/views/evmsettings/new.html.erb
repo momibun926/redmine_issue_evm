@@ -1,10 +1,58 @@
 <h2><%= l(:label_baseline_create) %></h2>
-<%= form_for @evm_settings, url: project_settings_path do |f| %>
-  <div class="box tabular">
-    <p>
-      <%= f.label :view_forecast %>
-      <%= f.check_box :view_forecast,{},checked_value = "true",unchecked_value = "false" %>
-    </p>
-  </div>
+<%= form_for @evm_settings, url: project_evmsettings_path do |f| %>
+<div class="option-col">
+  <p>
+    <%= f.check_box :view_forecast,{},checked_value = "true",unchecked_value = "false" %>
+    <%= l(:label_forecast) %>
+  </p>
+  <p>
+    <%= f.check_box :view_version,{},checked_value = "true",unchecked_value = "false" %>
+    <%= l(:label_display_version) %>
+  </p>
+  <p>
+    <%= f.check_box :view_performance,{},checked_value = "true",unchecked_value = "false" %>
+    <%= l(:label_display_performance) %>
+  </p>
+  <p>
+    <%= f.check_box :view_issuelist,{},checked_value = "true",unchecked_value = "false" %>
+    <%= l(:label_display_incomplete) %>
+  </p>
+</div>
+<div class="option-col">
+  <p><%= l(:label_calculate) %></p>
+  <%= f.radio_button :etc_method, 'method1' %><%= label_tag l(:label_calc_method1) %><br>
+  <%= f.radio_button :etc_method, 'method2' %><%= label_tag l(:label_calc_method2) %><br>
+  <%= f.radio_button :etc_method, 'method3' %><%= label_tag l(:label_calc_method3) %><br>
+</div>
+<div class="option-col">
+  <p>
+    <%= l(:label_basis_hours_of_day) %>
+    <%= f.text_field :basis_hours, {size: 5, placeholder: '8.0'} %>
+  </p>
+  <p>
+    <%=l(:label_region)%>
+    <%= f.select :region, options_for_select(Holidays.available_regions, :selected => :region) %>
+  </p>
+</div>
+<div class="option-col">
+  <p>
+    <%= l(:label_limit_spi) %>
+    <%= f.text_field :threshold_spi, {size: 5, placeholder: '0.9'}  %>
+  </p>
+  <p>
+    <%= l(:label_limit_cpi) %>
+    <%= f.text_field :threshold_cpi, {size: 5, placeholder: '0.9'}  %>
+  </p>
+  <p>
+    <%= l(:label_limit_cr) %>
+    <%= f.text_field :threshold_cr, {size: 5, placeholder: '0.9'}  %>
+  </p>
+</div>
+<div class="option-apply">
   <%= submit_tag l(:button_create) %>
+</div>
+<div>
+  <%= link_to l(:label_latest_baseline), {controller: :evms, action: :index}, class: "icon icon-move" %>
+</div>
+
 <% end %>
