@@ -1,6 +1,9 @@
 ﻿# English strings go here for Rails i18n
 en:
   # Setting Tab
+  label_setting_create: EVM setting
+  label_setting_edit: Edit EVM setting
+  label_setting_set: Edit EVM setting
   label_baseline: Baseline Name
   label_baseline_show: Show Baseline
   label_baseline_edit: Edit Baseline

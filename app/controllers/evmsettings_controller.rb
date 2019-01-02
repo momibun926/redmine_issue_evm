@@ -5,16 +5,10 @@ class EvmsettingsController < ApplicationController
   # Before action
   before_action :find_project
 
-  # Create of baseline
+  # New setting
   #
   def new
     @evm_settings = Evmsetting.new
-  end
-
-  # View of setting
-  #
-  def show
-    @evm_settings = Evmsetting.find(params[:id])
   end
 
   # Edit setting
@@ -29,7 +23,7 @@ class EvmsettingsController < ApplicationController
     evm_settings = Evmsetting.find_by(:project_id => @project.id)
     evm_settings.update_attributes(evm_setting_params)
     evm_settings.user_id = User.current.id
-    if evm_settings.save!
+    if evm_settings.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_evms_path
     else
@@ -44,7 +38,7 @@ class EvmsettingsController < ApplicationController
     evm_settings.project_id = @project.id
     evm_settings.user_id = User.current.id
     # Save
-    if evm_settings.save!
+    if evm_settings.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_evms_path
     else
