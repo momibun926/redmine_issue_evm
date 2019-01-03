@@ -9,19 +9,6 @@
   <%= select_tag :evmbaseline_id, options_from_collection_for_select(evmbaseline, :id, :subject, baseline_id), disabled: no_use_baseline %>
 </div>
 <div class="option-col">
-  <p><%= l(:label_graph) %></p>
-  <%= check_box_tag :forecast,"true", forecast %><%= label_tag l(:label_forecast) %><br>
-  <%= check_box_tag :display_version,"true", display_version %><%= label_tag l(:label_display_version) %><br>
-  <%= check_box_tag :display_performance,"true", display_performance %><%= label_tag l(:label_display_performance) %><br />
-  <%= check_box_tag :display_incomplete,"true", display_incomplete %><%= label_tag l(:label_display_incomplete) %><br />
-</div>
-<div class="option-col">
-  <p><%= l(:label_calculate) %></p>
-  <%= radio_button_tag :calcetc, "method1", calcetc == "method1" %><%= label_tag l(:label_calc_method1) %><br>
-  <%= radio_button_tag :calcetc, "method2", calcetc == "method2" %><%= label_tag l(:label_calc_method2) %><br>
-  <%= radio_button_tag :calcetc, "method3", calcetc == "method3" %><%= label_tag l(:label_calc_method3) %><br>
-</div>
-<div class="option-col">
   <p><%= l(:label_Display) %></p>
   <%= check_box_tag :display_explanation, "true", display_explanation %><%= label_tag l(:label_display_explanation) %>
 </div>
