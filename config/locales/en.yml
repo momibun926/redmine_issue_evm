@@ -1,6 +1,9 @@
 ﻿# English strings go here for Rails i18n
 en:
   # Setting Tab
+  label_setting_create: EVM setting
+  label_setting_edit: Edit EVM setting
+  label_setting_set: Edit EVM setting
   label_baseline: Baseline Name
   label_baseline_show: Show Baseline
   label_baseline_edit: Edit Baseline
@@ -15,9 +18,9 @@ en:
   label_old_baseline: old
   label_latest_baseline: View EVM
   label_basis_hours_of_day: Basis hours of day
-  label_limit_spi: SPI subthreshold. must be under 0.99
-  label_limit_cpi: CPI subthreshold. must be under 0.99
-  label_limit_cr: CR subthreshold. must be under 0.99
+  label_limit_spi: SPI threshold.
+  label_limit_cpi: CPI threshold.
+  label_limit_cr: CR threshold.
   label_region: Regions to get a holiday
   # Message
   messsage_delete_baseline: Are you sure?

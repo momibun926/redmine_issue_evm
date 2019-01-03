@@ -17,7 +17,7 @@ Redmine::Plugin.register :redmine_issue_evm do
   name 'Redmine Issue Evm plugin'
   author 'Hajime Nakagama'
   description 'Earned value management calculation plugin.'
-  version '4.1.1'
+  version '4.2.0'
   url 'https://github.com/momibun926/redmine_issue_evm'
   author_url 'https://github.com/momibun926'
 
@@ -42,14 +42,6 @@ Redmine::Plugin.register :redmine_issue_evm do
   # menu
   menu :project_menu, :issuevm, { controller: :evms, action: :index },
        caption: :tab_display_name, param: :project_id
-
-  # setting
-  settings default: { working_hours_of_day: '8.0',
-                      limit_spi: '0.9',
-                      limit_cpi: '0.9',
-                      limit_cr: '0.8',
-                      region: :jp},
-           partial: 'settings/issue_evm_settings'
 
   # View listener for activity page
   class RedmineIssueEvmHookListener < Redmine::Hook::ViewListener

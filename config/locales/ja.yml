@@ -1,6 +1,9 @@
 ﻿# japanease translation
 ja:
   # Setting Tab
+  label_setting_create: EVM設定の作成
+  label_setting_edit: EVM設定の編集
+  label_setting_set: EVM設定の編集
   label_baseline: ベースライン
   label_baseline_show: ベースラインの照会
   label_baseline_edit: ベースラインの編集
@@ -15,9 +18,9 @@ ja:
   label_old_baseline: 過去
   label_latest_baseline: 最新のベースラインで表示
   label_basis_hours_of_day: 一日の基準時間
-  label_limit_spi: SPIの閾値 0.99未満で設定してください。
-  label_limit_cpi: CPIの閾値 0.99未満で設定してください。
-  label_limit_cr: CRの閾値 0.99未満で設定してください。
+  label_limit_spi: SPIの閾値
+  label_limit_cpi: CPIの閾値
+  label_limit_cr: CRの閾値
   label_region: 休日を取得する地域
   # Message
   messsage_delete_baseline: 本当に削除しますか？
