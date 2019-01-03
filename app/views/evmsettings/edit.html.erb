@@ -1,7 +1,5 @@
 <h2><%= l(:label_setting_edit) %></h2>
 <%= form_for @evm_settings,  url: {action: :update, method: :get} do |f| %>
-  <%= render partial: "/evmsettings/evmsetting", locals: { f: f } %>
-  <div class="option-apply">
-    <%= submit_tag l(:button_edit) %>
-  </div>
+  <%= render partial: "/evmsettings/evmsetting", locals: { f: f , evm_setting: @evm_settings } %>
+  <%= submit_tag l(:button_edit) %>
 <% end %>
