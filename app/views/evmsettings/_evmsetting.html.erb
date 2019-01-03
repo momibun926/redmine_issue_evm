@@ -1,21 +1,13 @@
 <div class="option-col">
   <fieldset><legend><%= l(:subtitle_evm_graph_main) %></legend>
-    <p>
-      <%= f.check_box :view_forecast,{},checked_value = "true",unchecked_value = "false" %>
-      <%= l(:label_forecast) %>
-    </p>
-    <p>
-      <%= f.check_box :view_version,{},checked_value = "true",unchecked_value = "false" %>
-      <%= l(:label_display_version) %>
-    </p>
-    <p>
-      <%= f.check_box :view_performance,{},checked_value = "true",unchecked_value = "false" %>
-      <%= l(:label_display_performance) %>
-    </p>
-    <p>
-      <%= f.check_box :view_issuelist,{},checked_value = "true",unchecked_value = "false" %>
-      <%= l(:label_display_incomplete) %>
-    </p>
+    <%= f.check_box :view_forecast,{},checked_value = "true",unchecked_value = "false" %>
+    <%= l(:label_forecast) %><br>
+    <%= f.check_box :view_version,{},checked_value = "true",unchecked_value = "false" %>
+    <%= l(:label_display_version) %><br>
+    <%= f.check_box :view_performance,{},checked_value = "true",unchecked_value = "false" %>
+    <%= l(:label_display_performance) %><br>
+    <%= f.check_box :view_issuelist,{},checked_value = "true",unchecked_value = "false" %>
+    <%= l(:label_display_incomplete) %><br>
   </fieldset>
 </div>
 <div class="option-col">
@@ -27,29 +19,19 @@
 </div>
 <div class="option-col">
   <fieldset><legend><%= l(:label_basis_date) %></legend>
-    <p>
-      <%= l(:label_basis_hours_of_day) %>
-      <%= f.text_field :basis_hours, {size: 5, placeholder: '8.0'} %>
-    </p>
-    <p>
-      <%=l(:label_region)%>
-      <%= f.select :region, options_for_select(Holidays.available_regions, :selected => :region) %>
-    </p>
+    <%= l(:label_basis_hours_of_day) %>
+    <%= f.text_field :basis_hours, {size: 5, placeholder: '8.0'} %><br>
+    <%=l(:label_region)%>
+    <%= f.select :region, options_for_select(Holidays.available_regions, :selected => :region) %><br>
   </fieldset>
 </div>
 <div class="option-col">
   <fieldset><legend><%= l(:label_display_performance) %></legend>
-    <p>
-      <%= l(:label_limit_spi) %>
-      <%= f.text_field :threshold_spi, {size: 5, placeholder: '0.9'}  %>
-    </p>
-    <p>
-      <%= l(:label_limit_cpi) %>
-      <%= f.text_field :threshold_cpi, {size: 5, placeholder: '0.9'}  %>
-    </p>
-    <p>
-      <%= l(:label_limit_cr) %>
-      <%= f.text_field :threshold_cr, {size: 5, placeholder: '0.9'}  %>
-    </p>
+    <%= l(:label_limit_spi) %>
+    <%= f.text_field :threshold_spi, {size: 5, placeholder: '0.9'}  %><br>
+    <%= l(:label_limit_cpi) %>
+    <%= f.text_field :threshold_cpi, {size: 5, placeholder: '0.9'}  %><br>
+    <%= l(:label_limit_cr) %>
+    <%= f.text_field :threshold_cr, {size: 5, placeholder: '0.9'}  %><br>
   </fieldset>
 </div>

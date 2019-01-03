@@ -26,3 +26,5 @@ class Evmsetting < ActiveRecord::Base
 
   validates :region,
             presence: true
+
+end
