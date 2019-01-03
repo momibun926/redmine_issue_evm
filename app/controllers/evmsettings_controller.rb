@@ -15,6 +15,7 @@ class EvmsettingsController < ApplicationController
   #
   def edit
     @evm_settings = Evmsetting.find_by(:project_id => @project.id)
+    @update_user = User.find(@evm_settings.user_id)
   end
 
   # Update baselie
@@ -23,6 +24,7 @@ class EvmsettingsController < ApplicationController
     @evm_settings = Evmsetting.find_by(:project_id => @project.id)
     @evm_settings.update_attributes(evm_setting_params)
     @evm_settings.user_id = User.current.id
+    @update_user = User.find(@evm_settings.user_id)
     if @evm_settings.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_evms_path
