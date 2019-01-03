@@ -1,4 +1,13 @@
 <h2><%= l(:label_setting_create) %></h2>
+<% if @evm_settings.errors.any? %>
+  <div id="error_explanation" class="alert alert-danger">
+    <ul>
+      <% @evm_settings.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 <%= form_for @evm_settings, url: project_evmsettings_path do |f| %>
   <%= render partial: "/evmsettings/evmsetting", locals: { f: f } %>
   <div class="option-apply">

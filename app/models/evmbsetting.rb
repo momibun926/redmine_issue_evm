@@ -5,6 +5,9 @@ class Evmsetting < ActiveRecord::Base
   belongs_to :project
 
   # Validate
+  validates :etc_method,
+            presence: true
+
   validates :basis_hours,
             presence: true,
             numericality: { greater_than: 0  }
