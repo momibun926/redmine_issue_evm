@@ -40,7 +40,7 @@ module EvmLogic
       # PV
       @pv = options[:no_use_baseline] ? @pv_actual : @pv_baseline
       # EV
-      @ev = calculate_earned_value issues
+      @ev = calculate_earned_value issues, @basis_date
       # AC
       @ac = calculate_actual_cost costs
       # max date of evm
@@ -366,8 +366,9 @@ module EvmLogic
     # Only closed issues.
     #
     # @param [issue] issues target issues of EVM
+    # @param [basis_date] basis date of option
     # @return [hash] EVM hash. Key:Date, Value:EV of each days
-    def calculate_earned_value(issues)
+    def calculate_earned_value(issues, basis_date)
       ev = {}
       ev[@basis_date] ||= 0.0
       unless issues.nil?
@@ -385,7 +386,8 @@ module EvmLogic
             ratio_date_utc = Journal.where(journalized_id: issue.id, journal_details: { prop_key: 'done_ratio' })
                                     .joins(:details)
                                     .maximum(:created_on)
-            ratio_date = ratio_date_utc.to_time.to_date
+            ratio_date = ratio_date_utc.to_time.to_date unless ratio_date_utc.nil?
+            ratio_date ||= basis_date
             ev[ratio_date] += hours unless ev[ratio_date].nil?
             ev[ratio_date] ||= hours
 
