@@ -18,8 +18,8 @@
 <% end %>
 <!-- contextual (Basline setting) -->
 <div class="contextual">
-  <%= link_to l(:label_baseline_set), {controller: :evmbaselines, action: :index, id: @project.id} , class: "icon icon-edit"%>
-  <%= link_to l(:label_setting_set), {controller: :evmsettings, action: :edit, id: @project.id} , class: "icon icon-edit"%>
+  <%= link_to l(:label_baseline_set), {controller: :evmbaselines, action: :index, id: @project.id} , class: "icon icon-settings"%>
+  <%= link_to l(:label_setting_set), {controller: :evmsettings, action: :edit, id: @project.id} , class: "icon icon-settings"%>
   <%= link_to "#", {id: "btn_print", class: "icon icon-print" } do l(:label_evm_print) end %>
 </div>
 <!--Sidebar-->
@@ -56,6 +56,7 @@
                           display_explanation: @display_explanation  } %>
           <div class="option-apply">
             <!-- Apply button -->
+            <br>
             <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
           </div>
           </div>

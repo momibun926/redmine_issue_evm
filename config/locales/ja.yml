@@ -3,13 +3,13 @@ ja:
   # Setting Tab
   label_setting_create: EVM設定の作成
   label_setting_edit: EVM設定の編集
-  label_setting_set: EVM設定の編集
+  label_setting_set: EVM設定
   label_baseline: ベースライン
   label_baseline_show: ベースラインの照会
   label_baseline_edit: ベースラインの編集
   label_baseline_create: ベースラインの作成
   label_baseline_version: ベースライン履歴
-  label_baseline_set: ベースラインを設定
+  label_baseline_set: ベースライン設定
   label_baseline_start_date: 開始日
   label_baseline_due_date: 終了日
   label_baseline_bac: BAC
