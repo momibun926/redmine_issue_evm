@@ -40,7 +40,7 @@ module EvmLogic
       # PV
       @pv = options[:no_use_baseline] ? @pv_actual : @pv_baseline
       # EV
-      @ev = calculate_earned_value issues
+      @ev = calculate_earned_value issues, @basis_date
       # AC
       @ac = calculate_actual_cost costs
       # max date of evm
@@ -48,7 +48,8 @@ module EvmLogic
       ev_max_date = @ev.keys.max
       ac_max_date = @ac.keys.max
       # Project finished?
-      if (@pv_actual[@pv_actual.keys.max] == @ev[@ev.keys.max]) || (@pv_baseline[@pv_baseline.keys.max] == @ev[@ev.keys.max])
+      if (@pv_actual[@pv_actual.keys.max] == @ev[@ev.keys.max]) ||
+         (@pv_baseline[@pv_baseline.keys.max] == @ev[@ev.keys.max])
         delete_basis_date = [pv_max_date, ev_max_date, ac_max_date].max
         [@pv, @ev, @ac, @pv_actual, @pv_baseline].each do |evm_hash|
           evm_hash.delete_if { |date, _value| date > delete_basis_date }
@@ -57,11 +58,11 @@ module EvmLogic
         @forecast = false
       end
       # To calculate the EVM value
-      pv_value_date = @pv.select {|k, v| k <= @basis_date}
+      pv_value_date = @pv.select { |k, v| k <= @basis_date }
       @pv_value = @pv[pv_value_date.keys.max] || @pv[pv_max_date]
-      ev_value_date = @ev.select {|k, v| k <= @basis_date}
+      ev_value_date = @ev.select { |k, v| k <= @basis_date }
       @ev_value = @ev[ev_value_date.keys.max] || @ev[ev_max_date]
-      ac_value_date = @ac.select {|k, v| k <= @basis_date}
+      ac_value_date = @ac.select { |k, v| k <= @basis_date }
       @ac_value = @ac[ac_value_date.keys.max] || @ac[ac_max_date]
     end
 
@@ -365,8 +366,9 @@ module EvmLogic
     # Only closed issues.
     #
     # @param [issue] issues target issues of EVM
+    # @param [basis_date] basis date of option
     # @return [hash] EVM hash. Key:Date, Value:EV of each days
-    def calculate_earned_value(issues)
+    def calculate_earned_value(issues, basis_date)
       ev = {}
       ev[@basis_date] ||= 0.0
       unless issues.nil?
@@ -384,7 +386,8 @@ module EvmLogic
             ratio_date_utc = Journal.where(journalized_id: issue.id, journal_details: { prop_key: 'done_ratio' })
                                     .joins(:details)
                                     .maximum(:created_on)
-            ratio_date = ratio_date_utc.to_time.to_date
+            ratio_date = ratio_date_utc.to_time.to_date unless ratio_date_utc.nil?
+            ratio_date ||= basis_date
             ev[ratio_date] += hours unless ev[ratio_date].nil?
             ev[ratio_date] ||= hours
 
@@ -448,7 +451,7 @@ module EvmLogic
     # @return [Array] working days
     def working_days(start_date, end_date)
       issue_days = (start_date..end_date).to_a
-      working_days = issue_days.reject{|e| e.wday == 0 || e.wday == 6 || e.holiday?(@holiday_region)}
+      working_days = issue_days.reject{ |e| e.wday == 0 || e.wday == 6 || e.holiday?(@holiday_region) }
       working_days.length == 0 ? issue_days : working_days
     end
 
