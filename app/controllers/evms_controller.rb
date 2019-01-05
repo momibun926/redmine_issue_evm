@@ -14,8 +14,8 @@ class EvmsController < ApplicationController
   #
   def index
     # check view setting
-    emv_setting = Evmsetting.find_by(:project_id => @project.id)
-    if emv_setting.present? then
+    emv_setting = Evmsetting.find_by(project_id: @project.id)
+    if emv_setting.present?
       # plugin setting chart
       @forecast = emv_setting.view_forecast
       @display_version = emv_setting.view_version
@@ -94,7 +94,7 @@ class EvmsController < ApplicationController
 
   # default basis date
   def default_basis_date
-    params[:basis_date].nil? ? Date.today : params[:basis_date].to_date
+    params[:basis_date].nil? ? Time.zone.today : params[:basis_date].to_date
   end
 
   # default baseline. latest baseline
@@ -118,10 +118,6 @@ class EvmsController < ApplicationController
     params[:calcetc].nil? ? 'method2' : params[:calcetc]
   end
 
-  def default_setting(setting_name, defaultvalue)
-    Setting.plugin_redmine_issue_evm[setting_name].blank? ? defaultvalue : Setting.plugin_redmine_issue_evm[setting_name]
-  end
-
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
@@ -129,6 +125,6 @@ class EvmsController < ApplicationController
   end
 
   def find_evmbaselines
-    Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
+    Evmbaseline.where(project_id: @project.id).order('created_on DESC')
   end
 end

@@ -10,11 +10,12 @@ module EvmLogic
     # @param [issue] issues
     # @param [hash] costs spent time.
     # @param [hash] options calculationEVM options.
+    # @option options [Numeric] working_hours hours per day.
     # @option options [date] basis_date basis date.
     # @option options [bool] forecast forecast of option.
     # @option options [String] etc_method etc method of option.
     # @option options [bool] no_use_baseline no use baseline of option.
-    # @option options [Numeric] working_hours hours per day.
+    # @option options [String] holiday region.
     def initialize(baselines, issues, costs, options = {})
       # calculationEVM options
       options.assert_valid_keys(:working_hours,
@@ -28,6 +29,7 @@ module EvmLogic
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
       @holiday_region = options[:region]
+      # max of date
       @issue_max_date = issues.maximum(:due_date)
       @issue_max_date ||= baselines.maximum(:due_date) unless baselines.nil?
       @issue_max_date ||= issues.maximum(:effective_date)
@@ -58,11 +60,11 @@ module EvmLogic
         @forecast = false
       end
       # To calculate the EVM value
-      pv_value_date = @pv.select { |k, v| k <= @basis_date }
+      pv_value_date = @pv.select { |k| k <= @basis_date }
       @pv_value = @pv[pv_value_date.keys.max] || @pv[pv_max_date]
-      ev_value_date = @ev.select { |k, v| k <= @basis_date }
+      ev_value_date = @ev.select { |k| k <= @basis_date }
       @ev_value = @ev[ev_value_date.keys.max] || @ev[ev_max_date]
-      ac_value_date = @ac.select { |k, v| k <= @basis_date }
+      ac_value_date = @ac.select { |k| k <= @basis_date }
       @ac_value = @ac[ac_value_date.keys.max] || @ac[ac_max_date]
     end
 
@@ -363,7 +365,7 @@ module EvmLogic
     end
 
     # Calculate EV.
-    # Only closed issues.
+    # Closed date or Date of ratio was set.
     #
     # @param [issue] issues target issues of EVM
     # @param [basis_date] basis date of option
@@ -375,22 +377,23 @@ module EvmLogic
         issues.each do |issue|
           # closed issue
           if issue.closed?
-          	closed_date = issue.closed_on || issue.updated_on
+            closed_date = issue.closed_on || issue.updated_on
             dt = closed_date.to_time.to_date
             ev[dt] += issue.estimated_hours.to_f unless ev[dt].nil?
             ev[dt] ||= issue.estimated_hours.to_f
           # progress issue
-          elsif issue.done_ratio > 0
+          elsif issue.done_ratio.positive?
             hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
             # latest date of changed ratio
-            ratio_date_utc = Journal.where(journalized_id: issue.id, journal_details: { prop_key: 'done_ratio' })
-                                    .joins(:details)
-                                    .maximum(:created_on)
+            ratio_date_utc = Journal.where(journalized_id: issue.id,
+                                           journal_details: { prop_key: 'done_ratio' }).
+                                     joins(:details).
+                                     maximum(:created_on)
+            # parent isssue is no journals
             ratio_date = ratio_date_utc.to_time.to_date unless ratio_date_utc.nil?
             ratio_date ||= basis_date
             ev[ratio_date] += hours unless ev[ratio_date].nil?
             ev[ratio_date] ||= hours
-
           end
         end
       end
@@ -452,7 +455,7 @@ module EvmLogic
     def working_days(start_date, end_date)
       issue_days = (start_date..end_date).to_a
       working_days = issue_days.reject{ |e| e.wday == 0 || e.wday == 6 || e.holiday?(@holiday_region) }
-      working_days.length == 0 ? issue_days : working_days
+      working_days.length.zero? ? issue_days : working_days
     end
 
     # Minimam date of chart.
@@ -482,16 +485,16 @@ module EvmLogic
       # already finished project
       if complete_ev == 100.0
         @ev.keys.max
-      #not worked yet
+      # not worked yet
       elsif today_ev == 0.0
         @pv.keys.max
-      #After completion schedule date
+      # After completion schedule date
       elsif @pv.keys.max < @basis_date
         @basis_date + rest_days(@pv[@pv.keys.max],
                                 @ev[@ev.keys.max],
                                 today_spi,
                                 basis_hours)
-      #Before completion schedule date
+      # Before completion schedule date
       else
         @pv.keys.max + rest_days(today_pv,
                                  today_ev,
@@ -522,7 +525,7 @@ module EvmLogic
       evm_hash.each do |date, value|
         dif_days = (date - before_date - 1).to_i
         dif_value = (value - before_value) / dif_days
-        if dif_days > 0
+        if dif_days.positive?
           sum_value = 0.0
           (1..dif_days).each do |add_days|
             tmpdate = before_date + add_days

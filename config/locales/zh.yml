@@ -1,6 +1,9 @@
-﻿# japanease translation
+﻿# chinese translation
 zh:
   # Setting Tab
+  label_setting_create: 创建EVM设置
+  label_setting_edit: 编辑EVM设置
+  label_setting_set: EVM设置
   label_baseline: 基线
   label_baseline_show: 显示基线
   label_baseline_edit: 编辑基线

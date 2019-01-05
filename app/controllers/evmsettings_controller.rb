@@ -14,15 +14,15 @@ class EvmsettingsController < ApplicationController
   # Edit setting
   #
   def edit
-    @evm_settings = Evmsetting.find_by(:project_id => @project.id)
+    @evm_settings = Evmsetting.find_by(project_id: @project.id)
     @update_user = User.find(@evm_settings.user_id)
   end
 
   # Update baselie
   #
   def update
-    @evm_settings = Evmsetting.find_by(:project_id => @project.id)
-    @evm_settings.update_attributes(evm_setting_params)
+    @evm_settings = Evmsetting.find_by(project_id: @project.id)
+    @evm_settings.update(evm_setting_params)
     @evm_settings.user_id = User.current.id
     @update_user = User.find(@evm_settings.user_id)
     if @evm_settings.save
@@ -61,8 +61,8 @@ class EvmsettingsController < ApplicationController
   # Strong parameter
   #
   def evm_setting_params
-    params.require(:evmsetting)
-          .permit(:view_forecast,
+    params.require(:evmsetting).
+           permit(:view_forecast,
                   :view_version,
                   :view_performance,
                   :view_issuelist,
