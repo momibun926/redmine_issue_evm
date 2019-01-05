@@ -165,10 +165,10 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ![evm sample screenshot](./images/screenshot01.png "overview")
 
 **ベースラインの作成**
-![evm sample screenshot](./images/screenshot03.png "create new baseline")
+![evm sample screenshot](./images/screenshot02.png "create new baseline")
 
 **ベースラインの履歴**
-![evm sample screenshot](./images/screenshot02.png "History of baseline")
+![evm sample screenshot](./images/screenshot03.png "History of baseline")
 
 **プラグイン全体の設定**
 ![evm sample screenshot](./images/screenshot04.png "plugin　setting")
