@@ -22,7 +22,7 @@ class EvmsController < ApplicationController
       @display_performance = emv_setting.view_performance
       @display_incomplete = emv_setting.view_issuelist
       # plugin setting calculation evm
-      @calcetc = default_calcetc
+      @calcetc = emv_setting.etc_method
       @working_hours = emv_setting.basis_hours
       @limit_spi = emv_setting.threshold_spi
       @limit_cpi = emv_setting.threshold_cpi
@@ -31,12 +31,12 @@ class EvmsController < ApplicationController
       @region = emv_setting.region
       # Basis date of calculate
       @basis_date = default_basis_date
-      # baseline combo
-      @evmbaseline = find_evmbaselines
       # option parameters
       @baseline_id = default_baseline_id
       @no_use_baseline = default_no_use_baseline
       @display_explanation = params[:display_explanation]
+      # baseline combo
+      @evmbaseline = find_evmbaselines
       # Project. all versions
       baselines = project_baseline @project, @baseline_id
       issues = project_issues @project
@@ -112,12 +112,6 @@ class EvmsController < ApplicationController
     @evmbaseline.blank? ? 'ture' : params[:no_use_baseline]
   end
 
-  # view option.
-  # Method of calculation
-  def default_calcetc
-    params[:calcetc].nil? ? 'method2' : params[:calcetc]
-  end
-
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
@@ -125,6 +119,6 @@ class EvmsController < ApplicationController
   end
 
   def find_evmbaselines
-    Evmbaseline.where(project_id: @project.id).order('created_on DESC')
+    Evmbaseline.where(project_id: @project.id).order(created_on: :DESC)
   end
 end
