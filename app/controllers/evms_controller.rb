@@ -73,6 +73,29 @@ class EvmsController < ApplicationController
                                               region: @region
         end
       end
+      # EVM of assignee
+      @assignee_evm = {}
+      # Get assignee id and name
+      project_assignee_ids = project_assignee_id_pair @project
+      unless project_assignee_ids.nil?
+        project_assignee_ids.each do |proj_id, assignee_id|
+          # issues of assignee
+          assignee_issue = assignee_issues proj_id,
+                                           assignee_id
+          # spent time of assignee
+          assignee_actual_cost = assignee_costs proj_id,
+                                                assignee_id
+          @assignee_evm[ver_id] = IssueEvm.new nil,
+                                               assignee_issue,
+                                               assignee_actual_cost,
+                                               basis_date: @basis_date,
+                                               forecast: nil,
+                                               etc_method: nil,
+                                               no_use_baseline: true,
+                                               working_hours: @working_hours,
+                                               region: @region
+        end
+      end
       @no_data = issues.blank?
       @no_data_incomplete_issues = @incomplete_issues.blank?
       # export

@@ -69,6 +69,22 @@ module ProjectAndVersionValue
           where(fixed_version_id: version_id)
   end
 
+  # Get issues of assignee.
+  # Include descendants project.require inputted start date and due date.
+  #
+  # @note If the due date has not been entered, we will use the due date of the version
+  # @param [Numeric] proj_id project id
+  # @param [Numeric] assignee_id assignee of issue
+  # @return [Issue] issue object
+  def assignee_issues(proj_id, assignee_id)
+    proj = Project.find(proj_id)
+    Issue.cross_project_scope(proj, 'descendants').
+          includes(:fixed_version).
+          where(SQL_COM_FILTER.to_s).
+          references(:fixed_version).
+          where(assigned_to_id: assignee_id)
+  end
+
   # Get spent time of version.
   # Include descendants project.require inputted start date and due date.
   #
@@ -80,6 +96,22 @@ module ProjectAndVersionValue
     Issue.cross_project_scope(proj, 'descendants').
           select('spent_on, SUM(hours) AS sum_hours').
           where(fixed_version_id: version_id).
+          joins(:time_entries).
+          group(:spent_on).
+          collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
+  end
+
+  # Get spent time of assignee.
+  # Include descendants project.
+  #
+  # @param [Numeric] proj_id project id
+  # @param [Numeric] assignee_id of issue
+  # @return [Issue] Two column,spent_on,sum of hours
+  def assignee_costs(proj_id, assignee_id)
+    proj = Project.find(proj_id)
+    Issue.cross_project_scope(proj, 'descendants').
+          select('spent_on, SUM(hours) AS sum_hours').
+          where(assigned_to_id: assignee_id).
           joins(:time_entries).
           group(:spent_on).
           collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
@@ -97,6 +129,20 @@ module ProjectAndVersionValue
           group(:project_id, :fixed_version_id).
           order('MIN(due_date)').
           collect { |issue| [issue.project_id, issue.fixed_version_id] }
+  end
+
+  # Get pair of project id and assinee id.
+  # sort by assignee id.
+  #
+  # @param [project] proj project object
+  # @return [Array] project_id, assigned_to_id
+  def project_assignee_id_pair(proj)
+    Issue.cross_project_scope(proj, 'descendants').
+          select('project_id, assigned_to_id').
+          where.not(assigned_to_id: nil).
+          group(:project_id, :assigned_to_id).
+          order(:assigned_to_id).
+          collect { |issue| [issue.project_id, issue.assigned_to_id] }
   end
 
   # Get imcomplete issuees on basis date.
