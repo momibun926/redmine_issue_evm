@@ -53,7 +53,8 @@
                           display_performance: @display_performance,
                           display_incomplete: @display_incomplete,
                           calcetc: @calcetc,
-                          display_explanation: @display_explanation  } %>
+                          display_explanation: @display_explanation,
+                          display_evm_assignee: @display_evm_assignee  } %>
           <div class="option-apply">
             <!-- Apply button -->
             <br>
@@ -122,9 +123,20 @@
     </div>
   <% end %>
   <br />
+
+  <!--Indicator value of assignee -->
+  <% if @display_evm_assignee %>
+    <section>
+      <h3><%= l(:subtitle_evm_summary_assignee)%></h3>
+      <%= render partial: "/evms/measure_assignee",
+          locals: { assignee_evm: @assignee_evm } %>
+    </section>
+    <br />
+  <% end %>
+
+  <!-- Incomplete issue list -->
   <% if @display_incomplete %>
     <br />
-    <!-- Incomplete issue list -->
     <section>
       <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
       <% if @no_data_incomplete_issues %>

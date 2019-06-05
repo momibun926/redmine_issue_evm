@@ -27,6 +27,7 @@ en:
   # Main form
   title_evm_tab:  Track with EVM
   subtitle_evm_summary: Summary
+  subtitle_evm_summary_assignee: EVM of assignees
   subtitle_evm_graph_main: Charts
   subtitle_evm_incomplete_issues: Incomplete Issues
   subtitle_evm_graph_performance: Performance Cahrts
@@ -45,6 +46,7 @@ en:
   label_calc_method2: Normal
   label_calc_method3: Pessimistic
   label_Display : Explanation
+  label_display_evm_assignee : View EVM of assignees
   label_display_explanation: View explanation of EVM value to sidebar
   label_evmbaseline_plural: Baseline
   label_ativity_message_new: Baseline is created.

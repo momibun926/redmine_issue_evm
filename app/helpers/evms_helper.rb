@@ -65,6 +65,14 @@ module EvmsHelper
     pro.name + ' - ' + ver.name
   end
 
+  # Get assignee name
+  #
+  # @param [numeric] assignee_id assignee id
+  # @return [String] assignee name, assignee name
+  def assignee_name(assignee_id)
+    name = User.find(assignee_id).login
+  end
+
   # Get local date time
   #
   # @param [datetime] bldatetime updated or created datetime
