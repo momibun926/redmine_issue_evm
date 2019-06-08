@@ -45,8 +45,10 @@ zh:
   label_calc_method1: 乐观
   label_calc_method2: 常规
   label_calc_method3: 悲观
-  label_Display : EVM相关名词说明
+  label_display : EVM相关名词说明
+  label_display_other_evm : View of other EVM
   label_display_evm_assignee : View EVM of assignees
+  label_display_evm_tracker : View EVM of selected trackers
   label_display_explanation: 在侧边栏上显示EVM相关名词的释义
   label_evmbaseline_plural: 基线
   label_ativity_message_new: 基线已建立。

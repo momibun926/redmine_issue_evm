@@ -45,8 +45,10 @@ ja:
   label_calc_method1: 楽観的
   label_calc_method2: 通常
   label_calc_method3: 悲観的
-  label_Display : EVM値の説明
+  label_display : 表示
+  label_display_other_evm : その他のEVM表示
   label_display_evm_assignee : 担当ごとのEVMを表示
+  label_display_evm_tracker : 選択したトラッカーでEVMを表示
   label_display_explanation: サイドバーにEVMの説明を表示
   label_evmbaseline_plural: ベースライン
   label_ativity_message_new: ベースラインが作成されました

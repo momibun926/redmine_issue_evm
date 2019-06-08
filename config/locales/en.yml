@@ -45,8 +45,10 @@ en:
   label_calc_method1: Optimistic
   label_calc_method2: Normal
   label_calc_method3: Pessimistic
-  label_Display : Explanation
+  label_display : Explanation
+  label_display_other_evm : Other view of EVM
   label_display_evm_assignee : View EVM of assignees
+  label_display_evm_tracker : View EVM of selected trackers
   label_display_explanation: View explanation of EVM value to sidebar
   label_evmbaseline_plural: Baseline
   label_ativity_message_new: Baseline is created.

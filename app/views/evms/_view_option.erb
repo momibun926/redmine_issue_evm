@@ -10,9 +10,18 @@
 </div>
 <div class="option-col">
   <p><%= l(:label_display) %></p>
+  <%= check_box_tag :display_explanation, "true", display_explanation %>
+  <%= label_tag l(:label_display_explanation) %>
+  <br>
+</div>
+<div class="option-col">
+  <p><%= l(:label_display_other_evm) %></p>
   <%= check_box_tag :display_evm_assignee, "true", display_evm_assignee %>
   <%= label_tag l(:label_display_evm_assignee) %>
   <br>
-  <%= check_box_tag :display_explanation, "true", display_explanation %>
-  <%= label_tag l(:label_display_explanation) %>
+  <%= check_box_tag :display_evm_tracker, "true", display_evm_tracker %>
+  <%= label_tag l(:label_display_evm_tracker) %>
+  <br>
+  <%= select_tag :selected_tracker_id,
+    options_from_collection_for_select(selectable_tracker, :id, :name, params[:selected_tracker_id]), {:multiple => true, :size =>5 }%>
 </div>

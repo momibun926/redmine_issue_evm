@@ -36,6 +36,7 @@ class EvmsController < ApplicationController
       @no_use_baseline = default_no_use_baseline
       @display_explanation = params[:display_explanation]
       @display_evm_assignee = params[:display_evm_assignee]
+      @display_evm_tracker = params[:display_evm_tracker]
       # baseline combo
       @evmbaseline = find_evmbaselines
       # Project. all versions
@@ -99,6 +100,8 @@ class EvmsController < ApplicationController
           end
         end
       end
+      @selectable_tracker = @project.trackers
+
       @no_data = issues.blank?
       @no_data_incomplete_issues = @incomplete_issues.blank?
       # export
