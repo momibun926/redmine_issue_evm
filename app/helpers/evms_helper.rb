@@ -70,7 +70,7 @@ module EvmsHelper
   # @param [numeric] assignee_id assignee id
   # @return [String] assignee name, assignee name
   def assignee_name(assignee_id)
-    name = User.find(assignee_id).login
+    name = User.find(assignee_id).name
   end
 
   # Get local date time
