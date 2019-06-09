@@ -27,6 +27,7 @@ en:
   # Main form
   title_evm_tab:  Track with EVM
   subtitle_evm_summary: Summary
+  subtitle_evm_summary_trackers: EVM of selected trackers
   subtitle_evm_summary_assignee: EVM of assignees
   subtitle_evm_graph_main: Charts
   subtitle_evm_incomplete_issues: Incomplete Issues
@@ -81,6 +82,7 @@ en:
   indicator_table_header_difference: Difference
   indicator_table_header_performance: Perfromance
   indicator_table_header_forecast: Forecast
+  indicator_table_header_tracker: selected trackers
   # Indicator table legend
   explanation_upper_row: Upper row is hours.
   explanation_lower_row: Lower row is days.

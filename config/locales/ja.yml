@@ -27,6 +27,7 @@ ja:
   # Main form
   title_evm_tab: Track with EVM
   subtitle_evm_summary: サマリー
+  subtitle_evm_summary_trackers: 選択したトラッカーのEVM
   subtitle_evm_summary_assignee: 担当ごとのEVM
   subtitle_evm_graph_main: チャート
   subtitle_evm_incomplete_issues: 未完了のチケット
@@ -81,6 +82,7 @@ ja:
   indicator_table_header_difference: 差異
   indicator_table_header_performance: 効率
   indicator_table_header_forecast: 予測
+  indicator_table_header_tracker: 選択したトラッカー
   # Indicator table legend
   explanation_upper_row: 上段の値は時間
   explanation_lower_row: 下段の値は人日
