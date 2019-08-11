@@ -68,9 +68,9 @@ module EvmsHelper
   # Get assignee name
   #
   # @param [numeric] assignee_id assignee id
-  # @return [String] assignee name, assignee name
+  # @return [String] assignee name, assignee name. "no assigned" if not assigned.
   def assignee_name(assignee_id)
-    name = User.find(assignee_id).name
+    assignee_id.nil? ? l(:no_assignee) : User.find(assignee_id).name
   end
 
   # Get local date time

@@ -95,3 +95,5 @@ zh:
   tab_display_name: EVM
   # incomplete_issue
   incomplete_issue_parent_id: 父任务#
+  # EVM of assignee
+  no_assignee: 没有负责人

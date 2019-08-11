@@ -167,7 +167,6 @@ module ProjectAndVersionValue
   def project_assignee_id_pair(proj)
     Issue.cross_project_scope(proj, 'descendants').
           select('assigned_to_id').
-          where.not(assigned_to_id: nil).
           group(:assigned_to_id).
           order(:assigned_to_id)
   end

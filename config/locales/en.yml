@@ -95,3 +95,5 @@ en:
   tab_display_name: EVM
   # incomplete_issue
   incomplete_issue_parent_id: Parent#
+  # EVM of assignee
+  no_assignee: no assigned
