@@ -40,20 +40,6 @@ module ProjectAndVersionValue
           where(SQL_COM.to_s)
   end
 
-  # Get spent time of project.
-  # Include descendants project.require inputted start date and due date.
-  #
-  # @param [Object] proj project
-  # @return [Array] Two column,spent_on,sum of hours
-  def project_costs(proj)
-    Issue.cross_project_scope(proj, 'descendants').
-          select('spent_on, SUM(hours) AS sum_hours').
-          where(SQL_COM.to_s).
-          joins(:time_entries).
-          group(:spent_on).
-          collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
-  end
-
   # Get issues of version.
   # Include descendants project.require inputted start date and due date.
   #
@@ -67,6 +53,50 @@ module ProjectAndVersionValue
           includes(:fixed_version).where(SQL_COM_FILTER.to_s).
           references(:fixed_version).
           where(fixed_version_id: version_id)
+  end
+
+  # Get issues of assignee.
+  # Include descendants project.require inputted start date and due date.
+  #
+  # @note If the due date has not been entered, we will use the due date of the version
+  # @param [object] proj project object
+  # @param [Numeric] assignee_id assignee of issue
+  # @return [Issue] issue object
+  def assignee_issues(proj, assignee_id)
+    Issue.cross_project_scope(proj, 'descendants').
+          includes(:fixed_version).
+          where(SQL_COM_FILTER.to_s).
+          references(:fixed_version).
+          where(assigned_to_id: assignee_id)
+  end
+
+  # Get issues of selected trackers.
+  # Include descendants project.require inputted start date and due date.
+  #
+  # @note If the due date has not been entered, we will use the due date of the version
+  # @param [object] proj project object
+  # @param [Array] tracker_ids selected trackers
+  # @return [Issue] issue object
+  def tracker_issues(proj, tracker_ids)
+    Issue.cross_project_scope(proj, 'descendants').
+          includes(:fixed_version).
+          where(SQL_COM_FILTER.to_s).
+          references(:fixed_version).
+          where(tracker_id: tracker_ids)
+  end
+
+  # Get spent time of project.
+  # Include descendants project.require inputted start date and due date.
+  #
+  # @param [Object] proj project
+  # @return [Array] Two column,spent_on,sum of hours
+  def project_costs(proj)
+    Issue.cross_project_scope(proj, 'descendants').
+          select('spent_on, SUM(hours) AS sum_hours').
+          where(SQL_COM.to_s).
+          joins(:time_entries).
+          group(:spent_on).
+          collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
   end
 
   # Get spent time of version.
@@ -85,6 +115,36 @@ module ProjectAndVersionValue
           collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
   end
 
+  # Get spent time of assignee.
+  # Include descendants project.
+  #
+  # @param [object] proj project object
+  # @param [Numeric] assignee_id of issue
+  # @return [Issue] Two column,spent_on,sum of hours
+  def assignee_costs(proj, assignee_id)
+    Issue.cross_project_scope(proj, 'descendants').
+          select('spent_on, SUM(hours) AS sum_hours').
+          where(assigned_to_id: assignee_id).
+          joins(:time_entries).
+          group(:spent_on).
+          collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
+  end
+
+  # Get spent time of selected trackers.
+  # Include descendants project.
+  #
+  # @param [object] proj project object
+  # @param [Array] tracker_ids selected trackers
+  # @return [Issue] Two column,spent_on,sum of hours
+  def tracker_costs(proj, tracker_ids)
+    Issue.cross_project_scope(proj, 'descendants').
+          select('spent_on, SUM(hours) AS sum_hours').
+          where(tracker_id: tracker_ids).
+          joins(:time_entries).
+          group(:spent_on).
+          collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
+  end
+
   # Get pair of project id and fixed version id.
   # sort by minimum due date of each version.
   #
@@ -97,6 +157,18 @@ module ProjectAndVersionValue
           group(:project_id, :fixed_version_id).
           order('MIN(due_date)').
           collect { |issue| [issue.project_id, issue.fixed_version_id] }
+  end
+
+  # Get pair of project id and assinee id.
+  # sort by assignee id.
+  #
+  # @param [project] proj project object
+  # @return [Array] assigned_to_id
+  def project_assignee_id_pair(proj)
+    Issue.cross_project_scope(proj, 'descendants').
+          select('assigned_to_id').
+          group(:assigned_to_id).
+          order(:assigned_to_id)
   end
 
   # Get imcomplete issuees on basis date.

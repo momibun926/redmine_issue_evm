@@ -1,0 +1,25 @@
+<table id="evm-indicator-value-table" border="1" bordercolor = "#bbb">
+  <tr>
+    <th>BAC(<%=l(:indicator_table_header_tracker)%>)</th>
+    <th>Complete EV</th>
+    <th>PV</th>
+    <th>EV</th>
+    <th>AC</th>
+    <th>SV</th>
+    <th>CV</th>
+    <th>SPI</th>
+    <th>CPI</th>
+  </tr>
+  <tr>
+    <td><%=tracker_evm.bac%></td>
+    <td><%=tracker_evm.complete_ev%> %</td>
+    <td><%=tracker_evm.today_pv%></td>
+    <td><%=tracker_evm.today_ev%></td>
+    <td><%=tracker_evm.today_ac%></td>
+    <td><%=tracker_evm.today_sv%></td>
+    <td><%=tracker_evm.today_cv%></td>
+    <td <%=spi_color%>><%=tracker_evm.today_spi%></td>
+    <td <%=cpi_color%>><%=tracker_evm.today_cpi%></td>
+  </tr>
+</table>
+<br>
