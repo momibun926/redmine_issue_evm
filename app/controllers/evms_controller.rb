@@ -108,14 +108,14 @@ class EvmsController < ApplicationController
             assignee_actual_cost = assignee_costs @project,
                                                   issue.assigned_to_id
             @assignee_evm[issue.assigned_to_id] = IssueEvm.new nil,
-                                                      assignee_issue,
-                                                      assignee_actual_cost,
-                                                      basis_date: @basis_date,
-                                                      forecast: nil,
-                                                      etc_method: nil,
-                                                      no_use_baseline: @no_use_baseline,
-                                                      working_hours: @working_hours,
-                                                      region: @region
+                                                               assignee_issue,
+                                                               assignee_actual_cost,
+                                                               basis_date: @basis_date,
+                                                               forecast: nil,
+                                                               etc_method: nil,
+                                                               no_use_baseline: @no_use_baseline,
+                                                               working_hours: @working_hours,
+                                                               region: @region
           end
         end
       end
@@ -151,7 +151,7 @@ class EvmsController < ApplicationController
         format.html
         format.csv do
           send_data @project_evm.to_csv,
-                    type: 'text/csv; header=present',
+                    type: "text/csv; header=present",
                     filename: "evm_#{@project.name}_#{Date.current}.csv"
         end
       end
@@ -163,33 +163,33 @@ class EvmsController < ApplicationController
 
   private
 
-  # default basis date
-  def default_basis_date
-    params[:basis_date].nil? ? Time.zone.today : params[:basis_date].to_date
-  end
-
-  # default baseline. latest baseline
-  def default_baseline_id
-    if params[:evmbaseline_id].nil?
-      @evmbaseline.blank? ? nil : @evmbaseline.first.id
-    else
-      params[:evmbaseline_id]
+    # default basis date
+    def default_basis_date
+      params[:basis_date].nil? ? Time.zone.today : params[:basis_date].to_date
     end
-  end
 
-  # view option.
-  # use baseline
-  def default_no_use_baseline
-    @evmbaseline.blank? ? 'ture' : params[:no_use_baseline]
-  end
+    # default baseline. latest baseline
+    def default_baseline_id
+      if params[:evmbaseline_id].nil?
+        @evmbaseline.blank? ? nil : @evmbaseline.first.id
+      else
+        params[:evmbaseline_id]
+      end
+    end
 
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
+    # view option.
+    # use baseline
+    def default_no_use_baseline
+      @evmbaseline.blank? ? "ture" : params[:no_use_baseline]
+    end
 
-  def find_evmbaselines
-    Evmbaseline.where(project_id: @project.id).order(created_on: :DESC)
-  end
+    def find_project
+      @project = Project.find(params[:project_id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
+    end
+
+    def find_evmbaselines
+      Evmbaseline.where(project_id: @project.id).order(created_on: :DESC)
+    end
 end

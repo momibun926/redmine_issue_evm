@@ -29,7 +29,7 @@ class EvmsettingsController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_evms_path
     else
-      render 'edit'
+      render "edit"
     end
   end
 
@@ -44,33 +44,32 @@ class EvmsettingsController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_evms_path
     else
-      render 'new'
+      render "new"
     end
   end
 
   private
 
-  # find project object
-  #
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
+    # find project object
+    #
+    def find_project
+      @project = Project.find(params[:project_id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
+    end
 
-  # Strong parameter
-  #
-  def evm_setting_params
-    params.require(:evmsetting).
-           permit(:view_forecast,
-                  :view_version,
-                  :view_performance,
-                  :view_issuelist,
-                  :basis_hours,
-                  :etc_method,
-                  :region,
-                  :threshold_spi,
-                  :threshold_cpi,
-                  :threshold_cr)
-  end
+    # Strong parameter
+    #
+    def evm_setting_params
+      params.require(:evmsetting).permit(:view_forecast,
+                                         :view_version,
+                                         :view_performance,
+                                         :view_issuelist,
+                                         :basis_hours,
+                                         :etc_method,
+                                         :region,
+                                         :threshold_spi,
+                                         :threshold_cpi,
+                                         :threshold_cr)
+    end
 end

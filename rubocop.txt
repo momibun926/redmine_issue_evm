@@ -1,0 +1,162 @@
+Inspecting 22 files
+.CC...CCC.....CCCCCCCC
+
+Offenses:
+
+app/controllers/evmbaselines_controller.rb:1:1: C: Style/MixinUsage: include is used at the top level. Use inside class or module.
+include ProjectAndVersionValue
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/controllers/evmbaselines_controller.rb:53:3: C: Metrics/AbcSize: Assignment Branch Condition size for create is too high. [32.34/24]
+  def create ...
+  ^^^^^^^^^^
+app/controllers/evmbaselines_controller.rb:53:3: C: Metrics/MethodLength: Method has too many lines. [23/20]
+  def create ...
+  ^^^^^^^^^^
+app/controllers/evms_controller.rb:4:1: C: Metrics/ClassLength: Class has too many lines. [131/100]
+class EvmsController < ApplicationController ...
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/controllers/evms_controller.rb:15:3: C: Metrics/AbcSize: Assignment Branch Condition size for index is too high. [74.22/24]
+  def index ...
+  ^^^^^^^^^
+app/controllers/evms_controller.rb:15:3: C: Metrics/MethodLength: Method has too many lines. [104/20]
+  def index ...
+  ^^^^^^^^^
+app/controllers/evms_controller.rb:15:3: C: Metrics/PerceivedComplexity: Perceived complexity for index is too high. [9/8]
+  def index ...
+  ^^^^^^^^^
+app/models/evmbaseline.rb:3:1: C: Layout/EmptyLinesAroundClassBody: Extra empty line detected at class body beginning.
+app/models/evmbaseline.rb:34:24: C: Style/Proc: Use proc instead of Proc.new.
+  acts_as_event title: Proc.new {|o| l(:title_evm_tab) + " : " +
+                       ^^^^^^^^
+app/models/evmbaseline.rb:34:38: C: Layout/MultilineBlockLayout: Block body expression is on the same line as the block start.
+  acts_as_event title: Proc.new {|o| l(:title_evm_tab) + " : " + ...
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/models/evmbaseline.rb:35:39: C: Layout/MultilineOperationIndentation: Use 2 (not 36) spaces for indenting an expression spanning multiple lines.
+                                      o.subject + " : " +
+                                      ^^^^^^^^^
+app/models/evmbaseline.rb:36:39: C: Layout/MultilineOperationIndentation: Use 2 (not 36) spaces for indenting an expression spanning multiple lines.
+                                      (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new))},
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/models/evmbaseline.rb:36:40: C: Style/TernaryParentheses: Use parentheses for ternary expressions with complex conditions.
+                                      (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new))},
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/models/evmbaseline.rb:36:133: C: Layout/BlockEndNewline: Expression at 36, 133 should be on its own line.
+                                      (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new))},
+                                                                                                                                    ^
+app/models/evmbaseline.rb:39:23: C: Style/Proc: Use proc instead of Proc.new.
+                type: Proc.new {|o| "evmbaseline-" + (o.created_on < o.updated_on ? "edit" : "new") },
+                      ^^^^^^^^
+app/models/evmbaseline.rb:39:55: C: Style/TernaryParentheses: Use parentheses for ternary expressions with complex conditions.
+                type: Proc.new {|o| "evmbaseline-" + (o.created_on < o.updated_on ? "edit" : "new") },
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/models/evmbaseline.rb:40:22: C: Style/Proc: Use proc instead of Proc.new.
+                url: Proc.new {|o| { controller: "evmbaselines", action: :show, project_id: o.project, id: o.id } }
+                     ^^^^^^^^
+app/models/evmbaseline.rb:53:5: C: Layout/AlignArguments: Align the arguments of a method call if they span more than one line.
+    lambda {|*args| joins(:project). ...
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+app/models/evmbaseline.rb:53:5: C: Style/Lambda: Use the -> { ... } lambda literal syntax for all lambdas.
+    lambda {|*args| joins(:project).
+    ^^^^^^
+app/models/evmbaseline.rb:53:21: C: Layout/MultilineBlockLayout: Block body expression is on the same line as the block start.
+    lambda {|*args| joins(:project). ...
+                    ^^^^^^^^^^^^^^^^
+app/models/evmbaseline.rb:54:7: C: Layout/MultilineMethodCallIndentation: Indent where 2 spaces more than joins(:project) on line 53.
+      where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args))}
+      ^^^^^
+app/models/evmbaseline.rb:54:97: C: Layout/BlockEndNewline: Expression at 54, 97 should be on its own line.
+      where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args))}
+                                                                                                ^
+app/models/evmbaseline_issue.rb:3:1: C: Layout/EmptyLinesAroundClassBody: Extra empty line detected at class body beginning.
+app/models/evmbsetting.rb:3:1: C: Layout/EmptyLinesAroundClassBody: Extra empty line detected at class body beginning.
+init.rb:16:1: C: Metrics/BlockLength: Block has too many lines. [28/25]
+Redmine::Plugin.register :redmine_issue_evm do ...
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+init.rb:48:45: C: Style/HashSyntax: Use the new Ruby 1.9 hash syntax.
+    render_on :view_layouts_base_html_head, :inline => "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
+                                            ^^^^^^^^^^
+init.rb:53:1: C: Layout/EmptyLinesAroundBlockBody: Extra empty line detected at block body end.
+lib/evm_logic.rb:3:1: C: Layout/EmptyLinesAroundModuleBody: Extra empty line detected at module body beginning.
+lib/evm_logic.rb:6:3: C: Metrics/ClassLength: Class has too many lines. [325/100]
+  class IssueEvm ...
+  ^^^^^^^^^^^^^^
+lib/evm_logic.rb:19:5: C: Metrics/AbcSize: Assignment Branch Condition size for initialize is too high. [61.34/24]
+    def initialize(baselines, issues, costs, options = {}) ...
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:19:5: C: Metrics/MethodLength: Method has too many lines. [38/20]
+    def initialize(baselines, issues, costs, options = {}) ...
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:89:7: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
+      if bac(hours) == 0.0 ...
+      ^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:94:7: C: Style/RedundantReturn: Redundant return detected.
+      return complete_ev.round(1)
+      ^^^^^^
+lib/evm_logic.rb:155:7: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
+      if today_ev(hours) == 0.0 || today_pv(hours) == 0.0 ...
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:170:7: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
+      if today_ev(hours) == 0.0 || today_ac(hours) == 0.0 ...
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:197:9: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
+        case @etc_method ...
+        ^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:249:7: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
+      if bac(hours) == 0.0 ...
+      ^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:260:5: C: Metrics/AbcSize: Assignment Branch Condition size for chart_data is too high. [34.37/24]
+    def chart_data ...
+    ^^^^^^^^^^^^^^
+lib/evm_logic.rb:260:5: C: Metrics/MethodLength: Method has too many lines. [25/20]
+    def chart_data ...
+    ^^^^^^^^^^^^^^
+lib/evm_logic.rb:291:5: C: Metrics/AbcSize: Assignment Branch Condition size for performance_chart_data is too high. [36.25/24]
+    def performance_chart_data ...
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:291:5: C: Metrics/MethodLength: Method has too many lines. [22/20]
+    def performance_chart_data ...
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:319:5: C: Metrics/AbcSize: Assignment Branch Condition size for to_csv is too high. [44.03/24]
+    def to_csv ...
+    ^^^^^^^^^^
+lib/evm_logic.rb:373:7: C: Metrics/AbcSize: Assignment Branch Condition size for calculate_earned_value is too high. [39.45/24]
+      def calculate_earned_value(issues, basis_date) ...
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:373:7: C: Metrics/MethodLength: Method has too many lines. [24/20]
+      def calculate_earned_value(issues, basis_date) ...
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:373:7: C: Metrics/PerceivedComplexity: Perceived complexity for calculate_earned_value is too high. [9/8]
+      def calculate_earned_value(issues, basis_date) ...
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/evm_logic.rb:390:40: C: Layout/MultilineMethodCallIndentation: Indent joins 2 spaces more than Journal on line 388.
+                                       joins(:details).
+                                       ^^^^^
+lib/evm_logic.rb:391:40: C: Layout/MultilineMethodCallIndentation: Indent maximum 2 spaces more than Journal on line 388.
+                                       maximum(:created_on)
+                                       ^^^^^^^
+lib/evm_logic.rb:484:7: C: Metrics/AbcSize: Assignment Branch Condition size for forecast_finish_date is too high. [25/24]
+      def forecast_finish_date(basis_hours) ...
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/project_and_version_value.rb:19:5: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
+    if baseline_id.nil? ...
+    ^^^^^^^^^^^^^^^^^^^
+lib/project_and_version_value.rb:21:31: C: Layout/MultilineMethodCallIndentation: Indent order 2 spaces more than Evmbaseline on line 20.
+                              order(created_on: :DESC)
+                              ^^^^^
+test/functional/evmbaselines_controller_test.rb:1:26: C: Style/StringLiterals: Prefer double-quoted strings unless you need single quotes to avoid extra backslashes for escaping.
+require File.expand_path('../../test_helper', __dir__)
+                         ^^^^^^^^^^^^^^^^^^^
+test/functional/evms_controller_test.rb:1:26: C: Style/StringLiterals: Prefer double-quoted strings unless you need single quotes to avoid extra backslashes for escaping.
+require File.expand_path('../../test_helper', __dir__)
+                         ^^^^^^^^^^^^^^^^^^^
+test/test_helper.rb:2:50: C: Style/StringLiterals: Prefer double-quoted strings unless you need single quotes to avoid extra backslashes for escaping.
+require File.expand_path(File.dirname(__dir__) + '/../../../test/test_helper')
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test/unit/evmbaseline_issue_test.rb:1:26: C: Style/StringLiterals: Prefer double-quoted strings unless you need single quotes to avoid extra backslashes for escaping.
+require File.expand_path('../../test_helper', __dir__)
+                         ^^^^^^^^^^^^^^^^^^^
+test/unit/evmbaseline_test.rb:1:26: C: Style/StringLiterals: Prefer double-quoted strings unless you need single quotes to avoid extra backslashes for escaping.
+require File.expand_path('../../test_helper', __dir__)
+                         ^^^^^^^^^^^^^^^^^^^
+
+22 files inspected, 55 offenses detected

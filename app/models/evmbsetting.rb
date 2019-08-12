@@ -10,7 +10,7 @@ class Evmsetting < ActiveRecord::Base
 
   validates :basis_hours,
             presence: true,
-            numericality: { greater_than: 0  }
+            numericality: { greater_than: 0 }
 
   validates :threshold_spi,
             presence: true,
