@@ -1,6 +1,5 @@
 # evm setting model
 class Evmsetting < ActiveRecord::Base
-
   # Relations
   belongs_to :project
 

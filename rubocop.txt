@@ -1,5 +1,5 @@
 Inspecting 22 files
-.CC...CCC.....CCCCCCCC
+.CC...C.......CCCCCCCC
 
 Offenses:
 
@@ -53,22 +53,14 @@ app/models/evmbaseline.rb:40:22: C: Style/Proc: Use proc instead of Proc.new.
                 url: Proc.new {|o| { controller: "evmbaselines", action: :show, project_id: o.project, id: o.id } }
                      ^^^^^^^^
 app/models/evmbaseline.rb:53:5: C: Layout/AlignArguments: Align the arguments of a method call if they span more than one line.
-    lambda {|*args| joins(:project). ...
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    lambda {|*args| joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args))}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 app/models/evmbaseline.rb:53:5: C: Style/Lambda: Use the -> { ... } lambda literal syntax for all lambdas.
-    lambda {|*args| joins(:project).
+    lambda {|*args| joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args))}
     ^^^^^^
-app/models/evmbaseline.rb:53:21: C: Layout/MultilineBlockLayout: Block body expression is on the same line as the block start.
-    lambda {|*args| joins(:project). ...
-                    ^^^^^^^^^^^^^^^^
-app/models/evmbaseline.rb:54:7: C: Layout/MultilineMethodCallIndentation: Indent where 2 spaces more than joins(:project) on line 53.
-      where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args))}
-      ^^^^^
-app/models/evmbaseline.rb:54:97: C: Layout/BlockEndNewline: Expression at 54, 97 should be on its own line.
-      where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args))}
-                                                                                                ^
-app/models/evmbaseline_issue.rb:3:1: C: Layout/EmptyLinesAroundClassBody: Extra empty line detected at class body beginning.
-app/models/evmbsetting.rb:3:1: C: Layout/EmptyLinesAroundClassBody: Extra empty line detected at class body beginning.
+app/models/evmbaseline.rb:53:127: C: Layout/SpaceInsideBlockBraces: Space missing inside }.
+    lambda {|*args| joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args))}
+                                                                                                                              ^
 init.rb:16:1: C: Metrics/BlockLength: Block has too many lines. [28/25]
 Redmine::Plugin.register :redmine_issue_evm do ...
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -86,24 +78,9 @@ lib/evm_logic.rb:19:5: C: Metrics/AbcSize: Assignment Branch Condition size for 
 lib/evm_logic.rb:19:5: C: Metrics/MethodLength: Method has too many lines. [38/20]
     def initialize(baselines, issues, costs, options = {}) ...
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-lib/evm_logic.rb:89:7: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
-      if bac(hours) == 0.0 ...
-      ^^^^^^^^^^^^^^^^^^^^
-lib/evm_logic.rb:94:7: C: Style/RedundantReturn: Redundant return detected.
-      return complete_ev.round(1)
-      ^^^^^^
-lib/evm_logic.rb:155:7: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
-      if today_ev(hours) == 0.0 || today_pv(hours) == 0.0 ...
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-lib/evm_logic.rb:170:7: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
-      if today_ev(hours) == 0.0 || today_ac(hours) == 0.0 ...
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 lib/evm_logic.rb:197:9: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
         case @etc_method ...
         ^^^^^^^^^^^^^^^^
-lib/evm_logic.rb:249:7: C: Style/ConditionalAssignment: Use the return of the conditional for variable assignment and comparison.
-      if bac(hours) == 0.0 ...
-      ^^^^^^^^^^^^^^^^^^^^
 lib/evm_logic.rb:260:5: C: Metrics/AbcSize: Assignment Branch Condition size for chart_data is too high. [34.37/24]
     def chart_data ...
     ^^^^^^^^^^^^^^
@@ -159,4 +136,4 @@ test/unit/evmbaseline_test.rb:1:26: C: Style/StringLiterals: Prefer double-quote
 require File.expand_path('../../test_helper', __dir__)
                          ^^^^^^^^^^^^^^^^^^^
 
-22 files inspected, 55 offenses detected
+22 files inspected, 46 offenses detected
