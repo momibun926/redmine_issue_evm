@@ -23,11 +23,13 @@ module EvmLogic
                                 :forecast,
                                 :etc_method,
                                 :no_use_baseline,
+                                :exclude_holiday,
                                 :region)
       @basis_hours = options[:working_hours]
       @basis_date = options[:basis_date]
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
+      @holiday_exclude = options[:exclude_holiday]
       @holiday_region = options[:region]
       # max of date
       @issue_max_date = issues.maximum(:due_date)
@@ -454,8 +456,12 @@ module EvmLogic
       # @return [Array] working days
       def working_days(start_date, end_date)
         issue_days = (start_date..end_date).to_a
-        working_days = issue_days.reject {|e| e.wday == 0 || e.wday == 6 || e.holiday?(@holiday_region) }
-        working_days.length.zero? ? issue_days : working_days
+        working_days = if @holiday_exclude
+                         working_days = issue_days.reject {|e| e.wday == 0 || e.wday == 6 || e.holiday?(@holiday_region) }
+                         working_days.length.zero? ? issue_days : working_days
+                       else
+                         issue_days
+                       end
       end
 
       # Minimam date of chart.

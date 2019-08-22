@@ -21,7 +21,8 @@ zh:
   label_limit_spi: SPI阈值，必须小于0.99。
   label_limit_cpi: CPI阈值，必须小于0.99。
   label_limit_cr: CR阈值，必须小于0.99。
-  label_region: Regions to get a holiday
+  label_exclude_holidays: 在PV计算中排除假期
+    label_region: Regions to get a holiday
   # Message
   messsage_delete_baseline: 确定删除基线？
   # Main form

@@ -10,6 +10,8 @@
 <fieldset><legend><%= l(:label_basis_date) %></legend>
   <%= l(:label_basis_hours_of_day) %>
   <%= f.text_field :basis_hours, {size: 3, placeholder: '8.0'} %><br>
+  <%= f.check_box :exclude_holidays,{},checked_value = "true",unchecked_value = "false" %>
+  <%= l(:label_exclude_holidays) %><br>
   <%=l(:label_region)%>
   <%= f.select :region, options_for_select(Holidays.available_regions, :selected => evm_setting.region) %><br>
 </fieldset>

@@ -67,6 +67,7 @@ class EvmsettingsController < ApplicationController
                                          :view_issuelist,
                                          :basis_hours,
                                          :etc_method,
+                                         :exclude_holidays,
                                          :region,
                                          :threshold_spi,
                                          :threshold_cpi,

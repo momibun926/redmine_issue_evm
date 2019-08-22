@@ -21,6 +21,7 @@ en:
   label_limit_spi: SPI threshold.
   label_limit_cpi: CPI threshold.
   label_limit_cr: CR threshold.
+  label_exclude_holidays: Exclude holidays and weekend in PV calculation.
   label_region: Regions to get a holiday
   # Message
   messsage_delete_baseline: Are you sure?

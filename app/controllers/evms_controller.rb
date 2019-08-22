@@ -31,6 +31,7 @@ class EvmsController < ApplicationController
       @limit_cpi = emv_setting.threshold_cpi
       @limit_cr = emv_setting.threshold_cr
       # plugin setting holyday region
+      @exclude_holiday = emv_setting.exclude_holidays
       @region = emv_setting.region
 
       # ##################################
@@ -67,6 +68,7 @@ class EvmsController < ApplicationController
                                   etc_method: @calcetc,
                                   no_use_baseline: @no_use_baseline,
                                   working_hours: @working_hours,
+                                  exclude_holiday: @exclude_holiday,
                                   region: @region
       # ##################################
       # EVM optional (versions)
@@ -88,6 +90,7 @@ class EvmsController < ApplicationController
                                                 etc_method: nil,
                                                 no_use_baseline: true,
                                                 working_hours: @working_hours,
+                                                exclude_holiday: @exclude_holiday,
                                                 region: @region
           end
         end
@@ -115,6 +118,7 @@ class EvmsController < ApplicationController
                                                                etc_method: nil,
                                                                no_use_baseline: @no_use_baseline,
                                                                working_hours: @working_hours,
+                                                               exclude_holiday: @exclude_holiday,
                                                                region: @region
           end
         end
@@ -135,6 +139,7 @@ class EvmsController < ApplicationController
                                     etc_method: @calcetc,
                                     no_use_baseline: @no_use_baseline,
                                     working_hours: @working_hours,
+                                    exclude_holiday: @exclude_holiday,
                                     region: @region
       end
       # ##################################
