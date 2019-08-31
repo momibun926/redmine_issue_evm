@@ -25,7 +25,4 @@ class Evmsetting < ActiveRecord::Base
 
   validates :region,
             presence: true
-
-  validates :exclude_holidays,
-            presence: true
 end
