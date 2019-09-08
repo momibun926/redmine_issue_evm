@@ -10,8 +10,7 @@ class EvmbaselinesController < ApplicationController
   # display baseline list
   #
   def index
-    @evm_baselines = Evmbaseline.where('project_id = ? ', @project.id)
-                     .order('created_on DESC')
+    @evm_baselines = Evmbaseline.where(project_id: @project.id).order(created_on: :DESC)
   end
 
   # Create of baseline
@@ -40,7 +39,7 @@ class EvmbaselinesController < ApplicationController
   #
   def update
     evm_baselines = Evmbaseline.find(params[:id])
-    evm_baselines.update_attributes(params[:evmbaseline])
+    evm_baselines.update(evm_baseline_params)
     if evm_baselines.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: :index
@@ -52,7 +51,7 @@ class EvmbaselinesController < ApplicationController
   # Create baseline
   #
   def create
-    evm_baselines = Evmbaseline.new(params[:evmbaseline])
+    evm_baselines = Evmbaseline.new(evm_baseline_params)
     evm_baselines.project_id = @project.id
     evm_baselines.state = l(:label_current_baseline)
     evm_baselines.author_id = User.current.id
@@ -65,13 +64,12 @@ class EvmbaselinesController < ApplicationController
                                              start_date: issue.start_date,
                                              due_date: issue.due_date,
                                              estimated_hours: issue.estimated_hours,
-                                             leaf: issue.leaf?
-                                            )
+                                             leaf: issue.leaf?)
       evm_baselines.evmbaselineIssues << baseline_issues
     end
     # update status
-    Evmbaseline.where(project_id: @project.id)
-      .update_all(state: l(:label_old_baseline))
+    Evmbaseline.where(project_id: @project.id).
+      update_all(state: l(:label_old_baseline))
     # Save
     if evm_baselines.save
       flash[:notice] = l(:notice_successful_create)
@@ -88,9 +86,9 @@ class EvmbaselinesController < ApplicationController
     evm_baselines = Evmbaseline.find(params[:id])
     evm_baselines.destroy
     # update status
-    Evmbaseline.where(project_id: @project.id)
-      .update_all(state: l(:label_old_baseline))
-    evm_baselines = Evmbaseline.order('created_on desc').limit(1).first
+    Evmbaseline.where(project_id: @project.id).
+      update_all(state: l(:label_old_baseline))
+    evm_baselines = Evmbaseline.order(created_on: :desc).limit(1).first
     if evm_baselines.present?
       evm_baselines.state = l(:label_current_baseline)
       evm_baselines.save
@@ -109,4 +107,10 @@ class EvmbaselinesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
+    # Strong parameter
+    #
+    def evm_baseline_params
+      params.require(:evmbaseline).permit(:subject, :description)
+    end
 end

@@ -4,11 +4,11 @@ module EvmsHelper
   #
   # @return [String] SPI color
   def spi_color
-    value = ''
+    value = ""
     case @project_evm.today_spi
-    when (@limit_spi + 0.01..0.99) then
+    when (@limit_spi + 0.01..0.99)
       value = 'class="indicator-orange"'
-    when (0.01..@limit_spi) then
+    when (0.01..@limit_spi)
       value = 'class="indicator-red"'
     end
     value.html_safe
@@ -18,11 +18,11 @@ module EvmsHelper
   #
   # @return [String] CPI color
   def cpi_color
-    value = ''
+    value = ""
     case @project_evm.today_cpi
-    when (@limit_cpi + 0.01..0.99) then
+    when (@limit_cpi + 0.01..0.99)
       value = 'class="indicator-orange"'
-    when (0.01..@limit_cpi) then
+    when (0.01..@limit_cpi)
       value = 'class="indicator-red"'
     end
     value.html_safe
@@ -32,12 +32,12 @@ module EvmsHelper
   #
   # @return [String] CR color
   def cr_color
-    value = ''
+    value = ""
     if @project_evm.today_sv < 0.0
       case @project_evm.today_cr
-      when (@limit_cr + 0.01..0.99) then
+      when (@limit_cr + 0.01..0.99)
         value = 'class="indicator-orange"'
-      when (0.01..@limit_cr) then
+      when (0.01..@limit_cr)
         value = 'class="indicator-red"'
       end
     end
@@ -51,7 +51,7 @@ module EvmsHelper
     if @baseline_id.nil?
       @project.name
     else
-      @project.name + ' - ' + @evmbaseline.find(@baseline_id).subject
+      @project.name + "- " + @evmbaseline.find(@baseline_id).subject
     end
   end
 
@@ -62,7 +62,15 @@ module EvmsHelper
   def version_chart_name(ver_id)
     ver = Version.find(ver_id)
     pro = Project.find(ver.project_id)
-    pro.name + ' - ' + ver.name
+    pro.name + " - " + ver.name
+  end
+
+  # Get assignee name
+  #
+  # @param [numeric] assignee_id assignee id
+  # @return [String] assignee name, assignee name. "no assigned" if not assigned.
+  def assignee_name(assignee_id)
+    assignee_id.nil? ? l(:no_assignee) : User.find(assignee_id).name
   end
 
   # Get local date time
@@ -70,6 +78,6 @@ module EvmsHelper
   # @param [datetime] bldatetime updated or created datetime
   # @return [String] formatted date
   def local_date(bldatetime)
-    bldatetime.localtime.strftime('%Y-%m-%d %H:%M:%S') if bldatetime.present?
+    bldatetime.localtime.strftime("%Y-%m-%d %H:%M:%S") if bldatetime.present?
   end
 end

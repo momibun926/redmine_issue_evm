@@ -18,7 +18,8 @@
 <% end %>
 <!-- contextual (Basline setting) -->
 <div class="contextual">
-  <%= link_to l(:label_baseline_set), {controller: :evmbaselines, action: :index, id: @project.id} , class: "icon icon-edit"%>
+  <%= link_to l(:label_baseline_set), {controller: :evmbaselines, action: :index, id: @project.id} , class: "icon icon-settings"%>
+  <%= link_to l(:label_setting_set), {controller: :evmsettings, action: :edit, id: @project.id} , class: "icon icon-settings"%>
   <%= link_to "#", {id: "btn_print", class: "icon icon-print" } do l(:label_evm_print) end %>
 </div>
 <!--Sidebar-->
@@ -52,9 +53,13 @@
                           display_performance: @display_performance,
                           display_incomplete: @display_incomplete,
                           calcetc: @calcetc,
-                          display_explanation: @display_explanation  } %>
+                          display_explanation: @display_explanation,
+                          selectable_tracker: @selectable_tracker,
+                          display_evm_assignee: @display_evm_assignee,
+                          display_evm_tracker: @display_evm_tracker  } %>
           <div class="option-apply">
             <!-- Apply button -->
+            <br>
             <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
           </div>
           </div>
@@ -82,7 +87,7 @@
     </section>
     <!-- Exports -->
     <% other_formats_links do |f| %>
-      <%= f.link_to 'CSV', :url => params %>
+      <%= f.link_to 'CSV', :url => {:action => 'index'} %>
     <% end %>
     <br>
     <div id="noprintarea">
@@ -120,9 +125,30 @@
     </div>
   <% end %>
   <br />
+
+  <!--Indicator value of tracker -->
+  <% if @display_evm_tracker %>
+    <section>
+      <h3><%= l(:subtitle_evm_summary_trackers)%></h3>
+      <%= render partial: "/evms/measure_tracker",
+          locals: { tracker_evm: @tracker_evm } %>
+    </section>
+    <br />
+  <% end %>
+
+  <!--Indicator value of assignee -->
+  <% if @display_evm_assignee %>
+    <section>
+      <h3><%= l(:subtitle_evm_summary_assignee)%></h3>
+      <%= render partial: "/evms/measure_assignee",
+          locals: { assignee_evm: @assignee_evm } %>
+    </section>
+    <br />
+  <% end %>
+
+    <!-- Incomplete issue list -->
   <% if @display_incomplete %>
     <br />
-    <!-- Incomplete issue list -->
     <section>
       <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
       <% if @no_data_incomplete_issues %>

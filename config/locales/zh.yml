@@ -1,6 +1,9 @@
-﻿# japanease translation
+﻿# chinese translation
 zh:
   # Setting Tab
+  label_setting_create: 创建EVM设置
+  label_setting_edit: 编辑EVM设置
+  label_setting_set: EVM设置
   label_baseline: 基线
   label_baseline_show: 显示基线
   label_baseline_edit: 编辑基线
@@ -18,12 +21,15 @@ zh:
   label_limit_spi: SPI阈值，必须小于0.99。
   label_limit_cpi: CPI阈值，必须小于0.99。
   label_limit_cr: CR阈值，必须小于0.99。
-  label_region: Regions to get a holiday
+  label_exclude_holidays: 在PV计算中排除假期
+    label_region: Regions to get a holiday
   # Message
   messsage_delete_baseline: 确定删除基线？
   # Main form
   title_evm_tab: Track with EVM
   subtitle_evm_summary: 概览
+  subtitle_evm_summary_trackers: EVM of selected trackers
+  subtitle_evm_summary_assignee: EVM of assignees
   subtitle_evm_graph_main: 预估图表
   subtitle_evm_incomplete_issues: 未完成工作项列表
   subtitle_evm_graph_performance: 绩效指数图表
@@ -41,7 +47,10 @@ zh:
   label_calc_method1: 乐观
   label_calc_method2: 常规
   label_calc_method3: 悲观
-  label_Display : EVM相关名词说明
+  label_display : EVM相关名词说明
+  label_display_other_evm : View of other EVM
+  label_display_evm_assignee : View EVM of assignees
+  label_display_evm_tracker : View EVM of selected trackers
   label_display_explanation: 在侧边栏上显示EVM相关名词的释义
   label_evmbaseline_plural: 基线
   label_ativity_message_new: 基线已建立。
@@ -74,6 +83,7 @@ zh:
   indicator_table_header_difference: 差异
   indicator_table_header_performance: 绩效指数
   indicator_table_header_forecast: 预测
+  indicator_table_header_tracker: selected trackers
   # Indicator table legend
   explanation_upper_row: 上面一行按小时计算。
   explanation_lower_row: 下面一行按天数计算。
@@ -86,3 +96,5 @@ zh:
   tab_display_name: EVM
   # incomplete_issue
   incomplete_issue_parent_id: 父任务#
+  # EVM of assignee
+  no_assignee: 没有负责人

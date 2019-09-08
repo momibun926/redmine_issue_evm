@@ -13,31 +13,52 @@ class EvmsController < ApplicationController
   # View of EVM
   #
   def index
-    # plugin setting
-    @working_hours = default_setting('working_hours_of_day', 7.5).to_f
-    @limit_spi = default_setting('limit_spi', 0.9).to_f
-    @limit_cpi = default_setting('limit_cpi', 0.9).to_f
-    @limit_cr = default_setting('limit_cr', 0.8).to_f
-    @region = default_setting('holiday_region',:jp)
+    # check view setting
+    emv_setting = Evmsetting.find_by(project_id: @project.id)
+    if emv_setting.present?
+      # ##################################
+      # saved settings
+      # ##################################
+      # plugin setting chart
+      @forecast = emv_setting.view_forecast
+      @display_version = emv_setting.view_version
+      @display_performance = emv_setting.view_performance
+      @display_incomplete = emv_setting.view_issuelist
+      # plugin setting calculation evm
+      @calcetc = emv_setting.etc_method
+      @working_hours = emv_setting.basis_hours
+      @limit_spi = emv_setting.threshold_spi
+      @limit_cpi = emv_setting.threshold_cpi
+      @limit_cr = emv_setting.threshold_cr
+      # plugin setting holyday region
+      @exclude_holiday = emv_setting.exclude_holidays
+      @region = emv_setting.region
+
+      # ##################################
+      # view options
+      # ##################################
     # Basis date of calculate
     @basis_date = default_basis_date
-    # baseline combo
-    @evmbaseline = find_evmbaselines
-    # option parameters
+      # baseline
     @baseline_id = default_baseline_id
     @no_use_baseline = default_no_use_baseline
-    @calcetc = default_calcetc
-    @forecast = params[:forecast]
+      @evmbaseline = find_evmbaselines
+      # evm explanation
     @display_explanation = params[:display_explanation]
-    @display_version = params[:display_version]
-    @display_performance = params[:display_performance]
-    @display_incomplete = params[:display_incomplete]
-    # Project. all versions
+      # assignee
+      @display_evm_assignee = params[:display_evm_assignee]
+      # tracker
+      @selectable_tracker = @project.trackers
+      @display_evm_tracker = params[:display_evm_tracker]
+
+      # ##################################
+      # EVM
+      # ##################################
+      # Project(all versions)
     baselines = project_baseline @project, @baseline_id
     issues = project_issues @project
+      @no_data = issues.blank?
     actual_cost = project_costs @project
-    # incomplete issues
-    @incomplete_issues = incomplete_project_issues @project, @basis_date
     # EVM of project
     @project_evm = IssueEvm.new baselines,
                                 issues,
@@ -47,8 +68,12 @@ class EvmsController < ApplicationController
                                 etc_method: @calcetc,
                                 no_use_baseline: @no_use_baseline,
                                 working_hours: @working_hours,
+                                  exclude_holiday: @exclude_holiday,
                                 region: @region
-    # EVM of versions
+      # ##################################
+      # EVM optional (versions)
+      # ##################################
+      if @display_version
     @version_evm = {}
     project_version_ids = project_varsion_id_pair @project
     unless project_version_ids.nil?
@@ -65,19 +90,79 @@ class EvmsController < ApplicationController
                                             etc_method: nil,
                                             no_use_baseline: true,
                                             working_hours: @working_hours,
+                                                exclude_holiday: @exclude_holiday,
                                             region: @region
       end
     end
-    @no_data = issues.blank?
+      end
+      # ##################################
+      # EVM optional (assignee)
+      # ##################################
+      if @display_evm_assignee
+        @assignee_evm = {}
+        # Get assignee id and name
+        project_assignee_ids = project_assignee_id_pair @project
+        unless project_assignee_ids.nil?
+          project_assignee_ids.each do |issue|
+            # issues of assignee
+            assignee_issue = assignee_issues @project,
+                                             issue.assigned_to_id
+            # spent time of assignee
+            assignee_actual_cost = assignee_costs @project,
+                                                  issue.assigned_to_id
+            @assignee_evm[issue.assigned_to_id] = IssueEvm.new nil,
+                                                               assignee_issue,
+                                                               assignee_actual_cost,
+                                                               basis_date: @basis_date,
+                                                               forecast: nil,
+                                                               etc_method: nil,
+                                                               no_use_baseline: @no_use_baseline,
+                                                               working_hours: @working_hours,
+                                                               exclude_holiday: @exclude_holiday,
+                                                               region: @region
+          end
+        end
+      end
+
+      # ##################################
+      # EVM optional (selected trackers)
+      # ##################################
+      if @display_evm_tracker
+        @trackers_evm = {}
+        tracker_issues = tracker_issues @project, params[:selected_tracker_id]
+        tracker_actual_cost = tracker_costs @project, params[:selected_tracker_id]
+        @tracker_evm = IssueEvm.new baselines,
+                                    tracker_issues,
+                                    tracker_actual_cost,
+                                    basis_date: @basis_date,
+                                    forecast: @forecast,
+                                    etc_method: @calcetc,
+                                    no_use_baseline: @no_use_baseline,
+                                    working_hours: @working_hours,
+                                    exclude_holiday: @exclude_holiday,
+                                    region: @region
+      end
+      # ##################################
+      # incomplete issues
+      # ##################################
+      if @display_incomplete
+        @incomplete_issues = incomplete_project_issues @project, @basis_date
     @no_data_incomplete_issues = @incomplete_issues.blank?
+      end
+      # ##################################
     # export
+      # ##################################
     respond_to do |format|
       format.html
       format.csv do
         send_data @project_evm.to_csv,
-                  type: 'text/csv; header=present',
+                    type: "text/csv; header=present",
                   filename: "evm_#{@project.name}_#{Date.current}.csv"
       end
+    end
+    else
+      # redirect emv setting
+      redirect_to new_project_evmsetting_path
     end
   end
 
@@ -85,7 +170,7 @@ class EvmsController < ApplicationController
 
   # default basis date
   def default_basis_date
-    params[:basis_date].nil? ? Date.today : params[:basis_date].to_date
+      params[:basis_date].nil? ? Time.zone.today : params[:basis_date].to_date
   end
 
   # default baseline. latest baseline
@@ -100,17 +185,7 @@ class EvmsController < ApplicationController
   # view option.
   # use baseline
   def default_no_use_baseline
-    @evmbaseline.blank? ? 'ture' : params[:no_use_baseline]
-  end
-
-  # view option.
-  # Method of calculation
-  def default_calcetc
-    params[:calcetc].nil? ? 'method2' : params[:calcetc]
-  end
-
-  def default_setting(setting_name, defaultvalue)
-    Setting.plugin_redmine_issue_evm[setting_name].blank? ? defaultvalue : Setting.plugin_redmine_issue_evm[setting_name]
+      @evmbaseline.blank? ? "ture" : params[:no_use_baseline]
   end
 
   def find_project
@@ -120,6 +195,6 @@ class EvmsController < ApplicationController
   end
 
   def find_evmbaselines
-    Evmbaseline.where('project_id = ? ', @project.id).order('created_on DESC')
+      Evmbaseline.where(project_id: @project.id).order(created_on: :DESC)
   end
 end

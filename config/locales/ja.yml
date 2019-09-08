@@ -1,12 +1,15 @@
 ﻿# japanease translation
 ja:
   # Setting Tab
+  label_setting_create: EVM設定の作成
+  label_setting_edit: EVM設定の編集
+  label_setting_set: EVM設定
   label_baseline: ベースライン
   label_baseline_show: ベースラインの照会
   label_baseline_edit: ベースラインの編集
   label_baseline_create: ベースラインの作成
   label_baseline_version: ベースライン履歴
-  label_baseline_set: ベースラインを設定
+  label_baseline_set: ベースライン設定
   label_baseline_start_date: 開始日
   label_baseline_due_date: 終了日
   label_baseline_bac: BAC
@@ -15,15 +18,18 @@ ja:
   label_old_baseline: 過去
   label_latest_baseline: 最新のベースラインで表示
   label_basis_hours_of_day: 一日の基準時間
-  label_limit_spi: SPIの閾値 0.99未満で設定してください。
-  label_limit_cpi: CPIの閾値 0.99未満で設定してください。
-  label_limit_cr: CRの閾値 0.99未満で設定してください。
+  label_limit_spi: SPIの閾値
+  label_limit_cpi: CPIの閾値
+  label_limit_cr: CRの閾値
+  label_exclude_holidays: PVを計算するのに週末と休日を含めない.
   label_region: 休日を取得する地域
   # Message
   messsage_delete_baseline: 本当に削除しますか？
   # Main form
   title_evm_tab: Track with EVM
   subtitle_evm_summary: サマリー
+  subtitle_evm_summary_trackers: 選択したトラッカーのEVM
+  subtitle_evm_summary_assignee: 担当ごとのEVM
   subtitle_evm_graph_main: チャート
   subtitle_evm_incomplete_issues: 未完了のチケット
   subtitle_evm_graph_performance: パフォーマンス
@@ -41,8 +47,11 @@ ja:
   label_calc_method1: 楽観的
   label_calc_method2: 通常
   label_calc_method3: 悲観的
-  label_Display : EVM値の説明
-  label_display_explanation: サイドバーに表示
+  label_display : 表示
+  label_display_other_evm : その他のEVM表示
+  label_display_evm_assignee : 担当ごとのEVMを表示
+  label_display_evm_tracker : 選択したトラッカーでEVMを表示
+  label_display_explanation: サイドバーにEVMの説明を表示
   label_evmbaseline_plural: ベースライン
   label_ativity_message_new: ベースラインが作成されました
   label_ativity_message_edit: ベースラインが更新されました
@@ -55,7 +64,7 @@ ja:
   # Explanation
   explanation_bac: 完成時総予算：プロジェクトのチケットの総予定工数
   explanation_pv: 今日までのチケットの予定工数
-  explanation_ev: 出来高：チケットが完了となった時に予定工数を計上
+  explanation_ev: 出来高：チケットが完了となった時に予定工数を計上。進捗率が設定されている場合は、進捗率を変更した日に予定工数*進捗率を計上
   explanation_ac: 作業時間の記録から集計した作業時間
   explanation_sv: スケジュール差異：予定工数と完了工数の差(EV-PV)
   explanation_cv: コスト差異：予定工数と作業時間の差(EV-AC)
@@ -74,6 +83,7 @@ ja:
   indicator_table_header_difference: 差異
   indicator_table_header_performance: 効率
   indicator_table_header_forecast: 予測
+  indicator_table_header_tracker: 選択したトラッカー
   # Indicator table legend
   explanation_upper_row: 上段の値は時間
   explanation_lower_row: 下段の値は人日
@@ -86,3 +96,5 @@ ja:
   tab_display_name: EVM
   # incomplete_issue
   incomplete_issue_parent_id: 親チケット#
+  # EVM of assignee
+  no_assignee: 担当なし

@@ -10,6 +10,7 @@
 .option-apply {
   clear:both;
 }
+
 /*** summary evm indicator ***/
 
 #evm-indicator-value-table {
@@ -60,4 +61,12 @@ dt.evmbaseline-new {
 }
 dt.evmbaseline-edit {
   background-image: url('../images/baseline-edit.png');
+}
+
+/*** for validate ***/
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
 }

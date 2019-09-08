@@ -1,3 +1,7 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'holidays'
+gem "holidays"
+
+group :development do
+  gem "rubocop"
+end

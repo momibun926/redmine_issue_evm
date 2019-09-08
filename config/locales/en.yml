@@ -1,6 +1,9 @@
 ﻿# English strings go here for Rails i18n
 en:
   # Setting Tab
+  label_setting_create: Create EVM setting
+  label_setting_edit: Edit EVM setting
+  label_setting_set: EVM setting
   label_baseline: Baseline Name
   label_baseline_show: Show Baseline
   label_baseline_edit: Edit Baseline
@@ -15,15 +18,18 @@ en:
   label_old_baseline: old
   label_latest_baseline: View EVM
   label_basis_hours_of_day: Basis hours of day
-  label_limit_spi: SPI subthreshold. must be under 0.99
-  label_limit_cpi: CPI subthreshold. must be under 0.99
-  label_limit_cr: CR subthreshold. must be under 0.99
+  label_limit_spi: SPI threshold.
+  label_limit_cpi: CPI threshold.
+  label_limit_cr: CR threshold.
+  label_exclude_holidays: Exclude holidays and weekend in PV calculation.
   label_region: Regions to get a holiday
   # Message
   messsage_delete_baseline: Are you sure?
   # Main form
   title_evm_tab:  Track with EVM
   subtitle_evm_summary: Summary
+  subtitle_evm_summary_trackers: EVM of selected trackers
+  subtitle_evm_summary_assignee: EVM of assignees
   subtitle_evm_graph_main: Charts
   subtitle_evm_incomplete_issues: Incomplete Issues
   subtitle_evm_graph_performance: Performance Cahrts
@@ -41,7 +47,10 @@ en:
   label_calc_method1: Optimistic
   label_calc_method2: Normal
   label_calc_method3: Pessimistic
-  label_Display : Explanation
+  label_display : Explanation
+  label_display_other_evm : Other view of EVM
+  label_display_evm_assignee : View EVM of assignees
+  label_display_evm_tracker : View EVM of selected trackers
   label_display_explanation: View explanation of EVM value to sidebar
   label_evmbaseline_plural: Baseline
   label_ativity_message_new: Baseline is created.
@@ -55,7 +64,7 @@ en:
   # Explanation
   explanation_bac: Total budget allocated to the project.
   explanation_pv: Total cost of the work scheduled/planned as of a reporting date.
-  explanation_ev: Total cost of the work completed/performed as of a reporting date.
+  explanation_ev: Total cost of the work completed/performed as of a reporting date. When the progress rate is set, recorded on change date.
   explanation_ac: Total cost taken to complete the work as of a reporting date.
   explanation_sv: Positive Schedule Variance Indicates we are ahead of schedule. Negative Schedule Variance Indicates we are behind of schedule.
   explanation_cv: Positive Cost Variance Indicates the project is under budget. Negative Cost Variance Indicates the project is over budget.
@@ -74,6 +83,7 @@ en:
   indicator_table_header_difference: Difference
   indicator_table_header_performance: Perfromance
   indicator_table_header_forecast: Forecast
+  indicator_table_header_tracker: selected trackers
   # Indicator table legend
   explanation_upper_row: Upper row is hours.
   explanation_lower_row: Lower row is days.
@@ -86,3 +96,5 @@ en:
   tab_display_name: EVM
   # incomplete_issue
   incomplete_issue_parent_id: Parent#
+  # EVM of assignee
+  no_assignee: no assigned

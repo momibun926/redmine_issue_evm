@@ -1,0 +1,5 @@
+<h2><%= l(:label_setting_create) %></h2>
+<%= form_for @evm_settings, url: project_evmsettings_path do |f| %>
+  <%= render partial: "/evmsettings/evmsetting", locals: { f: f , evm_setting: @evm_settings } %>
+  <%= submit_tag l(:button_create) %>
+<% end %>

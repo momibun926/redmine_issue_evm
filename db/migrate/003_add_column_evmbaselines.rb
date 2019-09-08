@@ -1,6 +1,6 @@
 # add column for actility page
 #
-class AddColumnEvmbaselines < ActiveRecord::Migration
+class AddColumnEvmbaselines < ActiveRecord::Migration[4.2]
   # add col for activity page
   def change
     add_column :evmbaselines, :author_id, :integer

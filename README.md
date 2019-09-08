@@ -26,6 +26,7 @@ PV is based on your baseline. In addition, you can set calculation without basel
 * Select past baseline
 * Change the calculating basic date
 * Change the level of the forecast
+* Calculate EVM of assignee and choosed trackers
 * Show unfinished issues
 
 ## workig days
@@ -69,7 +70,7 @@ The below are used for EVM.
 
 If you input these into your project, it can help you to calculate both a single issue’s EVM and whole project’s one.
 PV: Dividing estimated time by the days (from start date to due date(or effective date of version )) to get daily workload
-EV: After issues are closed, you can get EV.
+EV: After issues are closed, you can get EV.　When the progress rate is set, it is calculated by estimated time * progress rate on the day when the progress is set.
 
 **Example**
 
@@ -166,11 +167,11 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 **Overview**
 ![evm sample screenshot](./images/screenshot01.png "overview")
 
-**Baseline History**
-![evm sample screenshot](./images/screenshot02.png "History")
-
 **Create baseline**
-![evm sample screenshot](./images/screenshot03.png "New baseline")
+![evm sample screenshot](./images/screenshot02.png "New baseline")
+
+**Baseline History**
+![evm sample screenshot](./images/screenshot03.png "History")
 
 **Plugin Setting**
 ![evm sample screenshot](./images/screenshot04.png "plugin　setting")

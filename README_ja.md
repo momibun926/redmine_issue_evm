@@ -26,6 +26,7 @@ Redmine 3.4.0 以上
 * ヴァージョンごとのEVMチャート表示
 * プロジェクト完了予測
 * ベースラインもしくは、すべてのチケットをもとにしたEVMの計算
+* 担当者ごと、トラッカーを選択してEVM値を計算
 * 基準日を元に未完了であるチケットを表示します
 
 ## 稼働日について
@@ -69,7 +70,7 @@ Redmine 3.4.0 以上
 Redmine3.1から親チケットの予定工数が入力可能になったので、チケットの親子関係に関係なくチケット毎にPV,EVを算出しています。
 
 * PV : 開始日、期日、予定工数を利用して、PVを計算します。日毎の工数を計算しています。
-* EV : チケットをCLOSEした日に、予定工数をEVとして計算しています。
+* EV : チケットをCLOSEした日に、予定工数をEVとして計算しています。進捗率が設定されている場合は、進捗理とをセットした日に予定工数*進捗率で計算しています。
 * AC : PVの計算に使われているチケットの作業時間を使って、ACを計算しています。
 
 #### EVMの計算例
@@ -165,10 +166,10 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ![evm sample screenshot](./images/screenshot01.png "overview")
 
 **ベースラインの作成**
-![evm sample screenshot](./images/screenshot03.png "create new baseline")
+![evm sample screenshot](./images/screenshot02.png "create new baseline")
 
 **ベースラインの履歴**
-![evm sample screenshot](./images/screenshot02.png "History of baseline")
+![evm sample screenshot](./images/screenshot03.png "History of baseline")
 
 **プラグイン全体の設定**
 ![evm sample screenshot](./images/screenshot04.png "plugin　setting")

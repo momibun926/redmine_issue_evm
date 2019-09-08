@@ -1,0 +1,7 @@
+<h2><%= l(:label_setting_edit) %></h2>
+<%= form_for @evm_settings,  url: {action: :update, method: :get} do |f| %>
+  <%= render partial: "/evmsettings/evmsetting", locals: { f: f , evm_setting: @evm_settings } %>
+  <%= f.label :updated_on %>&emsp;<%= format_time(@evm_settings.updated_on) %><br>
+  <%= f.label :user_id %>&emsp;<%= @update_user.login unless @update_user.nil? %><br><br>
+  <%= submit_tag l(:button_save) %>
+<% end %>
