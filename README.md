@@ -10,6 +10,10 @@ This plugin provides the function of calculating evm of projects . EVM can help 
 ## Compatibility
 Redmine 4.0.0 and above
 
+> *Notification of support status for redmine3.4*
+> The redmine3.4 compatible version is working on branch "redmine3-4-3".
+> It is not available because it is still working.
+
 ## Main features
 * Calculate EVM
 * Chart with EVM (PV,EV,AC)
