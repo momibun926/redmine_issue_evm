@@ -56,7 +56,9 @@
                           display_explanation: @display_explanation,
                           selectable_tracker: @selectable_tracker,
                           display_evm_assignee: @display_evm_assignee,
-                          display_evm_tracker: @display_evm_tracker  } %>
+                          display_evm_tracker: @display_evm_tracker,
+                          display_evm_parent_issue: @display_evm_parent_issue,
+                          parent_issue_id: @parent_issue_id } %>
           <div class="option-apply">
             <!-- Apply button -->
             <br>
@@ -146,7 +148,17 @@
     <br />
   <% end %>
 
-    <!-- Incomplete issue list -->
+  <!--Indicator value of parent issue -->
+  <% if @display_evm_parent_issue %>
+    <section>
+      <h3><%= l(:subtitle_evm_summary_parent_issue)%></h3>
+      <%= render partial: "/evms/measure_parent_issue",
+          locals: { parent_issue_evm: @parent_issue_evm } %>
+    </section>
+    <br />
+  <% end %>
+
+  <!-- Incomplete issue list -->
   <% if @display_incomplete %>
     <br />
     <section>

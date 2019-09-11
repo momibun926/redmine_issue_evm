@@ -2,9 +2,9 @@
 #
 module ProjectAndVersionValue
   # Calculation common condition of issue"s select
-  SQL_COM = "(start_date IS NOT NULL AND due_date IS NOT NULL) OR (start_date IS NOT NULL AND due_date IS NULL AND fixed_version_id IS NOT NULL)".freeze
+  SQL_COM = "(issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL) OR (issues.start_date IS NOT NULL AND issues.due_date IS NULL AND fixed_version_id IS NOT NULL)".freeze
   # Condition for filtering with an outer joined table
-  SQL_COM_FILTER = "((start_date IS NOT NULL) AND (due_date IS NOT NULL OR effective_date IS NOT NULL))".freeze
+  SQL_COM_FILTER = "((issues.start_date IS NOT NULL) AND (issues.due_date IS NOT NULL OR effective_date IS NOT NULL))".freeze
 
   # Get Issues of Baseline.(start date, due date, estimated hours)
   # When baseline_id is nil,latest baseline of project.
@@ -83,6 +83,20 @@ module ProjectAndVersionValue
       where(tracker_id: tracker_ids)
   end
 
+  # Get descendants issues
+  #
+  # @param [numeric] issue_id selected issue
+  # @return [issue] descendants issues
+  def parent_issues(issue_id)
+    Issue.joins("JOIN #{Issue.table_name} ancestors" +
+      " ON ancestors.root_id = #{Issue.table_name}.root_id" +
+      " AND ancestors.lft <= #{Issue.table_name}.lft " +
+      " AND ancestors.rgt >= #{Issue.table_name}.rgt " +
+      " AND #{Issue.table_name}.start_date IS NOT NULL AND #{Issue.table_name}.due_date IS NOT NULL" +
+      " AND ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL").
+      where(:ancestors => {:id => issue_id})
+  end
+
   # Get spent time of project.
   # Include descendants project.require inputted start date and due date.
   #
@@ -133,11 +147,28 @@ module ProjectAndVersionValue
   #
   # @param [object] proj project object
   # @param [Array] tracker_ids selected trackers
-  # @return [Issue] Two column,spent_on,sum of hours
+  # @return [Array] Two column,spent_on,sum of hours
   def tracker_costs(proj, tracker_ids)
     Issue.cross_project_scope(proj, "descendants").
       select("spent_on, SUM(hours) AS sum_hours").
       where(tracker_id: tracker_ids).
+      joins(:time_entries).
+      group(:spent_on).
+      collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
+  end
+
+  # Get spent time of descendants issues
+  #
+  # @param [numeric] issue_id selected issue
+  # @return [Array] Two column,spent_on,sum of hours
+  def parent_issue_costs(issue_id)
+    Issue.joins("JOIN #{Issue.table_name} ancestors" +
+      " ON ancestors.root_id = #{Issue.table_name}.root_id" +
+      " AND ancestors.lft <= #{Issue.table_name}.lft " +
+      " AND ancestors.rgt >= #{Issue.table_name}.rgt " +
+      " AND #{Issue.table_name}.start_date IS NOT NULL AND #{Issue.table_name}.due_date IS NOT NULL" +
+      " AND ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL").
+      select("spent_on, SUM(hours) AS sum_hours").
       joins(:time_entries).
       group(:spent_on).
       collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
@@ -161,7 +192,7 @@ module ProjectAndVersionValue
   # sort by assignee id.
   #
   # @param [project] proj project object
-  # @return [Array] assigned_to_id
+  # @return [issue] assigned_to_id
   def project_assignee_id_pair(proj)
     Issue.cross_project_scope(proj, "descendants").
       select("assigned_to_id").

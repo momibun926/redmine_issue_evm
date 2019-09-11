@@ -50,6 +50,9 @@ class EvmsController < ApplicationController
       # tracker
       @selectable_tracker = @project.trackers
       @display_evm_tracker = params[:display_evm_tracker]
+      # parent issue
+      @display_evm_parent_issue = params[:display_evm_parent_issue]
+      @parent_issue_id =params[:parent_issue_id]
 
       # ##################################
       # EVM
@@ -122,12 +125,10 @@ class EvmsController < ApplicationController
           end
         end
       end
-
       # ##################################
       # EVM optional (selected trackers)
       # ##################################
       if @display_evm_tracker
-        @trackers_evm = {}
         tracker_issues = tracker_issues @project, params[:selected_tracker_id]
         tracker_actual_cost = tracker_costs @project, params[:selected_tracker_id]
         @tracker_evm = IssueEvm.new baselines,
@@ -140,6 +141,23 @@ class EvmsController < ApplicationController
                                     working_hours: @working_hours,
                                     exclude_holiday: @exclude_holiday,
                                     region: @region
+      end
+      # ##################################
+      # EVM optional (selected issue)
+      # ##################################
+      if @display_evm_parent_issue
+        parent_issue = parent_issues @parent_issue_id
+        parent_issue_actual_cost = parent_issue_costs @parent_issue_id
+        @parent_issue_evm = IssueEvm.new baselines,
+                                         parent_issue,
+                                         parent_issue_actual_cost,
+                                         basis_date: @basis_date,
+                                         forecast: @forecast,
+                                         etc_method: @calcetc,
+                                         no_use_baseline: @no_use_baseline,
+                                         working_hours: @working_hours,
+                                         exclude_holiday: @exclude_holiday,
+                                         region: @region
       end
       # ##################################
       # incomplete issues

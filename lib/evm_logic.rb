@@ -400,7 +400,7 @@ module EvmLogic
         end
       end
       calculate_earned_value = sort_and_sum_evm_hash ev
-        calculate_earned_value.delete_if {|date, _value| date > @basis_date }
+      calculate_earned_value.delete_if {|date, _value| date > @basis_date }
     end
 
     # Calculate AC.
@@ -410,7 +410,7 @@ module EvmLogic
     # @return [hash] EVM hash. Key:Date, Value:AC of each days
     def calculate_actual_cost(costs)
       calculate_actual_cost = sort_and_sum_evm_hash Hash[costs]
-        calculate_actual_cost.delete_if {|date, _value| date > @basis_date }
+      calculate_actual_cost.delete_if {|date, _value| date > @basis_date }
     end
 
     # Convert to chart. xAxis of Chart is time.
@@ -418,7 +418,7 @@ module EvmLogic
     # @param [hash] data target issues of EVM
     # @return [array] EVM hash. Key:time, Value:EVM value
     def convert_to_chart(data)
-        converted = Hash[data.map {|k, v| [k.to_time(:local).to_i * 1000, v] }]
+      converted = Hash[data.map {|k, v| [k.to_time(:local).to_i * 1000, v] }]
       converted.to_a
     end
 
@@ -456,12 +456,12 @@ module EvmLogic
     # @return [Array] working days
     def working_days(start_date, end_date)
       issue_days = (start_date..end_date).to_a
-        working_days = if @holiday_exclude
-                         working_days = issue_days.reject {|e| e.wday == 0 || e.wday == 6 || e.holiday?(@holiday_region) }
-                         working_days.length.zero? ? issue_days : working_days
-                       else
-                         issue_days
-                       end
+      working_days = if @holiday_exclude
+                       working_days = issue_days.reject {|e| e.wday == 0 || e.wday == 6 || e.holiday?(@holiday_region) }
+                       working_days.length.zero? ? issue_days : working_days
+                     else
+                       issue_days
+                     end
     end
 
     # Minimam date of chart.
