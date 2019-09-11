@@ -1,6 +1,6 @@
 # View setting
 #
-class CreateEvmsettings < ActiveRecord::Migration[4.2]
+class CreateEvmsettings < ActiveRecord::Migration
   # 1st create
   def change
     create_table :evmsettings do |t|

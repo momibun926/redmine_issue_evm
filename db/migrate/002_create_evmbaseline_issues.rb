@@ -1,6 +1,6 @@
 # Stored issue of baseline
 #
-class CreateEvmbaselineIssues < ActiveRecord::Migration[4.2]
+class CreateEvmbaselineIssues < ActiveRecord::Migration
   # 1st create
   def change
     create_table :evmbaseline_issues do |t|
