@@ -53,6 +53,7 @@ ja:
   label_display_evm_assignee : 担当ごとのEVMを表示
   label_display_evm_tracker : 選択したトラッカーでEVMを表示
   label_display_evm_parent_issue : 選択した親チケットのEVMを表示
+  label_display_evm_parent_issue_attention : 関連するすべてのチケットに開始日・終了日が入っていないと表示できません
   label_display_explanation: サイドバーにEVMの説明を表示
   label_evmbaseline_plural: ベースライン
   label_ativity_message_new: ベースラインが作成されました

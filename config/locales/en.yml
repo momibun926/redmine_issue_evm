@@ -53,6 +53,7 @@ en:
   label_display_evm_assignee : View EVM of assignees
   label_display_evm_tracker : View EVM of selected trackers
   label_display_evm_parent_issue : View EVM of selected parent issue
+  label_display_evm_parent_issue_attention : All related tickets must have start and end dates
   label_display_explanation: View explanation of EVM value to sidebar
   label_evmbaseline_plural: Baseline
   label_ativity_message_new: Baseline is created.
