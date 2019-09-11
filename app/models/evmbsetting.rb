@@ -1,7 +1,7 @@
 # evm setting model
 class Evmsetting < ActiveRecord::Base
   unloadable
-  
+
   # Relations
   belongs_to :project
 
