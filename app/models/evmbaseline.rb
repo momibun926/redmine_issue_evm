@@ -1,6 +1,5 @@
 # baseline model
 class Evmbaseline < ActiveRecord::Base
-
   # Relations
   belongs_to :author, class_name: "User"
   belongs_to :project
