@@ -107,7 +107,7 @@
       <% if @display_version %>
         <section>
           <h3><%= l(:subtitle_evm_graph_version) %></h3>
-          <% if @version_evm.empty? %>
+          <% if @version_evm.blank? %>
             <p class="nodata"><%= l(:label_no_data) %></p>
           <% else %>
             <% @version_evm.each do |ver_id, ver_evm| %>
