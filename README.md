@@ -184,7 +184,7 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 5. Create new Pull Request
 
 # My Environment
-* Redmine version                3.4.2.stable
+* Redmine version                3.4.6.stable
 * Ruby version                   2.3.3-p222 (2016-11-21) [i386-mingw32]
 * Rails version                  4.2.8
 * Environment                    production
