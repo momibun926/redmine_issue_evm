@@ -27,6 +27,23 @@
   padding: 2px;
   text-align: center;
 }
+
+#evm-indicator-option_value-table {
+  border: 1px solid #bbb;
+  width: auto;
+  border-collapse: collapse;
+}
+#evm-indicator-option_value-table th {
+  background-color: #eee;
+}
+#evm-indicator-option_value-table td,
+#evm-indicator-option_value-table th {
+  min-width: 60px;
+  max-width: 150px;
+  padding: 2px;
+  text-align: center;
+}
+
 td.indicator-red {
   background-color: #FF0000;
 }

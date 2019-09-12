@@ -16,7 +16,7 @@
   <tbody>
     <% unless incomplete_issues.nil? %>
       <% incomplete_issues.each do |issue| %>
-        <tr id="issue-<%= issue.id %>" class="<%= cycle("odd", "even") %> <%= issue.css_classes %>">
+        <tr id="issue-<%= issue.id %>" class="<%= cycle("odd", "even") %> <%= issue.css_classes %>"></tr>
           <td><%=link_to(issue.id, issue_path(issue))%></td>
           <td><%=issue.parent_id%></td>
           <td><%=issue.project%></td>

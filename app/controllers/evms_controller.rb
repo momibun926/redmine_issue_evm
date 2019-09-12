@@ -52,7 +52,7 @@ class EvmsController < ApplicationController
       @display_evm_tracker = params[:display_evm_tracker]
       # parent issue
       @display_evm_parent_issue = params[:display_evm_parent_issue]
-      @parent_issue_id =params[:parent_issue_id]
+      @selectable_parent_issue = find_parent_issues
 
       # ##################################
       # EVM
@@ -143,21 +143,27 @@ class EvmsController < ApplicationController
                                     region: @region
       end
       # ##################################
-      # EVM optional (selected issue)
+      # EVM optional (selected parent issue)
       # ##################################
       if @display_evm_parent_issue
-        parent_issue = parent_issues @parent_issue_id
-        parent_issue_actual_cost = parent_issue_costs @parent_issue_id
-        @parent_issue_evm = IssueEvm.new baselines,
-                                         parent_issue,
-                                         parent_issue_actual_cost,
-                                         basis_date: @basis_date,
-                                         forecast: @forecast,
-                                         etc_method: @calcetc,
-                                         no_use_baseline: @no_use_baseline,
-                                         working_hours: @working_hours,
-                                         exclude_holiday: @exclude_holiday,
-                                         region: @region
+        @parent_issue_evm = {}
+        selected_prent_issue_ids = params[:selected_parent_issue_id]
+        unless selected_prent_issue_ids.nil?
+          selected_prent_issue_ids.each do |parent_issue_id|
+            parent_issue = parent_issues parent_issue_id
+            parent_issue_actual_cost = parent_issue_costs parent_issue_id
+            @parent_issue_evm[parent_issue_id] = IssueEvm.new baselines,
+                                                              parent_issue,
+                                                              parent_issue_actual_cost,
+                                                              basis_date: @basis_date,
+                                                              forecast: @forecast,
+                                                              etc_method: @calcetc,
+                                                              no_use_baseline: @no_use_baseline,
+                                                              working_hours: @working_hours,
+                                                              exclude_holiday: @exclude_holiday,
+                                                              region: @region
+          end
+        end
       end
       # ##################################
       # incomplete issues
@@ -202,7 +208,7 @@ class EvmsController < ApplicationController
   # view option.
   # use baseline
   def default_no_use_baseline
-      @evmbaseline.blank? ? "ture" : params[:no_use_baseline]
+    @evmbaseline.blank? ? "ture" : params[:no_use_baseline]
   end
 
   def find_project
@@ -212,6 +218,10 @@ class EvmsController < ApplicationController
   end
 
   def find_evmbaselines
-      Evmbaseline.where(project_id: @project.id).order(created_on: :DESC)
+    Evmbaseline.where(project_id: @project.id).order(created_on: :DESC)
+  end
+
+  def find_parent_issues
+    Issue.where(project_id: @project.id, parent_id: nil)
   end
 end

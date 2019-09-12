@@ -55,10 +55,10 @@
                           calcetc: @calcetc,
                           display_explanation: @display_explanation,
                           selectable_tracker: @selectable_tracker,
+                          selectable_parent_issue: @selectable_parent_issue,
                           display_evm_assignee: @display_evm_assignee,
                           display_evm_tracker: @display_evm_tracker,
-                          display_evm_parent_issue: @display_evm_parent_issue,
-                          parent_issue_id: @parent_issue_id } %>
+                          display_evm_parent_issue: @display_evm_parent_issue } %>
           <div class="option-apply">
             <!-- Apply button -->
             <br>
@@ -137,7 +137,6 @@
     </section>
     <br />
   <% end %>
-
   <!--Indicator value of assignee -->
   <% if @display_evm_assignee %>
     <section>
@@ -147,7 +146,6 @@
     </section>
     <br />
   <% end %>
-
   <!--Indicator value of parent issue -->
   <% if @display_evm_parent_issue %>
     <section>
@@ -157,7 +155,6 @@
     </section>
     <br />
   <% end %>
-
   <!-- Incomplete issue list -->
   <% if @display_incomplete %>
     <br />

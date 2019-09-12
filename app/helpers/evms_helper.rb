@@ -13,7 +13,6 @@ module EvmsHelper
     end
     value.html_safe
   end
-
   # CPI color of CSS.
   #
   # @return [String] CPI color
@@ -27,7 +26,6 @@ module EvmsHelper
     end
     value.html_safe
   end
-
   # CR color of CSS.
   #
   # @return [String] CR color
@@ -43,7 +41,6 @@ module EvmsHelper
     end
     value.html_safe
   end
-
   # Get project name
   #
   # @return [String] project name, baseline subject
@@ -54,7 +51,6 @@ module EvmsHelper
       @project.name + "- " + @evmbaseline.find(@baseline_id).subject
     end
   end
-
   # Get project name
   #
   # @param [numeric] ver_id fixed version id
@@ -64,7 +60,6 @@ module EvmsHelper
     pro = Project.find(ver.project_id)
     pro.name + " - " + ver.name
   end
-
   # Get assignee name
   #
   # @param [numeric] assignee_id assignee id
@@ -72,7 +67,21 @@ module EvmsHelper
   def assignee_name(assignee_id)
     assignee_id.nil? ? l(:no_assignee) : User.find(assignee_id).name
   end
-
+  # Get parent issue
+  #
+  # @param [numeric] issue_id parent issue id
+  # @return [issue] parent issue object
+  def parent_issue(parent_issue_id)
+    Issue.find(parent_issue_id)
+  end
+  # Get parent issue link
+  #
+  # @param [numeric] issue_id parent issue id
+  # @return [issue] parent issue link
+  def parent_issue_link(parent_issue_id)
+    parent_issue = Issue.find(parent_issue_id)
+    link_to(parent_issue_id, issue_path(parent_issue))
+  end
   # Get local date time
   #
   # @param [datetime] bldatetime updated or created datetime

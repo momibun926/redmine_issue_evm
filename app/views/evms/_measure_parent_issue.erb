@@ -1,6 +1,8 @@
-<table id="evm-indicator-value-table" border="1" bordercolor = "#bbb">
+<table id="evm-indicator-option_value-table" border="1" bordercolor = "#bbb">
   <tr>
-    <th>BAC(<%=l(:indicator_table_header_parent_issue)%>)</th>
+    <th>#</th>
+    <th><%=l(:field_subject)%></th>
+    <th>BAC</th>
     <th>Complete EV</th>
     <th>PV</th>
     <th>EV</th>
@@ -10,16 +12,20 @@
     <th>SPI</th>
     <th>CPI</th>
   </tr>
-  <tr>
-    <td><%=parent_issue_evm.bac%></td>
-    <td><%=parent_issue_evm.complete_ev%> %</td>
-    <td><%=parent_issue_evm.today_pv%></td>
-    <td><%=parent_issue_evm.today_ev%></td>
-    <td><%=parent_issue_evm.today_ac%></td>
-    <td><%=parent_issue_evm.today_sv%></td>
-    <td><%=parent_issue_evm.today_cv%></td>
-    <td <%=spi_color%>><%=parent_issue_evm.today_spi%></td>
-    <td <%=cpi_color%>><%=parent_issue_evm.today_cpi%></td>
-  </tr>
+  <% parent_issue_evm.each do |parent_issue_id, evm| %>
+    <tr>
+      <td><%=parent_issue_link parent_issue_id%></td>
+      <td><%=parent_issue(parent_issue_id).subject%></td>
+      <td><%=evm.bac%></td>
+      <td><%=evm.complete_ev%> %</td>
+      <td><%=evm.today_pv%></td>
+      <td><%=evm.today_ev%></td>
+      <td><%=evm.today_ac%></td>
+      <td><%=evm.today_sv%></td>
+      <td><%=evm.today_cv%></td>
+      <td><%=spi_color%><%=evm.today_spi%></td>
+      <td><%=cpi_color%><%=evm.today_cpi%></td>
+    </tr>
+  <% end %>
 </table>
 <br>

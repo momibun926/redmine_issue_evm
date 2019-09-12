@@ -2,9 +2,21 @@
 #
 module ProjectAndVersionValue
   # Calculation common condition of issue"s select
-  SQL_COM = "(issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL) OR (issues.start_date IS NOT NULL AND issues.due_date IS NULL AND fixed_version_id IS NOT NULL)".freeze
-  # Condition for filtering with an outer joined table
-  SQL_COM_FILTER = "((issues.start_date IS NOT NULL) AND (issues.due_date IS NOT NULL OR effective_date IS NOT NULL))".freeze
+  SQL_COM = "(issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL) " +
+            " OR " +
+            "(issues.start_date IS NOT NULL " +
+            " AND " +
+            " issues.due_date IS NULL " +
+            " AND " +
+            " issues.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
+
+  SQL_COM_ANC = "(ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL) " +
+	            " OR " +
+	            "(ancestors.start_date IS NOT NULL " +
+	            " AND " +
+	            " ancestors.due_date IS NULL " +
+	            " AND " +
+	            " ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
 
   # Get Issues of Baseline.(start date, due date, estimated hours)
   # When baseline_id is nil,latest baseline of project.
@@ -15,12 +27,12 @@ module ProjectAndVersionValue
   def project_baseline(project_id, baseline_id)
     baselines = {}
     return unless Evmbaseline.exists?(project_id: project_id)
-    if baseline_id.nil?
-      baselines = Evmbaseline.where(project_id: project_id).
+    baselines = if baseline_id.nil?
+                  Evmbaseline.where(project_id: project_id).
                               order(created_on: :DESC)
-    else
-      baselines = Evmbaseline.where(id: baseline_id)
-    end
+                else
+                  Evmbaseline.where(id: baseline_id)
+                end
     baselines.first.evmbaselineIssues
   end
 
@@ -32,9 +44,6 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def project_issues(proj)
     Issue.cross_project_scope(proj, "descendants").
-      includes(:fixed_version).
-      where(SQL_COM_FILTER.to_s).
-      references(:fixed_version).
       where(SQL_COM.to_s)
   end
 
@@ -48,8 +57,7 @@ module ProjectAndVersionValue
   def version_issues(proj_id, version_id)
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, "descendants").
-      includes(:fixed_version).where(SQL_COM_FILTER.to_s).
-      references(:fixed_version).
+      where(SQL_COM.to_s).
       where(fixed_version_id: version_id)
   end
 
@@ -62,9 +70,7 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def assignee_issues(proj, assignee_id)
     Issue.cross_project_scope(proj, "descendants").
-      includes(:fixed_version).
-      where(SQL_COM_FILTER.to_s).
-      references(:fixed_version).
+      where(SQL_COM.to_s).
       where(assigned_to_id: assignee_id)
   end
 
@@ -77,9 +83,7 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def tracker_issues(proj, tracker_ids)
     Issue.cross_project_scope(proj, "descendants").
-      includes(:fixed_version).
-      where(SQL_COM_FILTER.to_s).
-      references(:fixed_version).
+      where(SQL_COM.to_s).
       where(tracker_id: tracker_ids)
   end
 
@@ -91,9 +95,9 @@ module ProjectAndVersionValue
     Issue.joins("JOIN #{Issue.table_name} ancestors" +
       " ON ancestors.root_id = #{Issue.table_name}.root_id" +
       " AND ancestors.lft <= #{Issue.table_name}.lft " +
-      " AND ancestors.rgt >= #{Issue.table_name}.rgt " +
-      " AND #{Issue.table_name}.start_date IS NOT NULL AND #{Issue.table_name}.due_date IS NOT NULL" +
-      " AND ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL").
+      " AND ancestors.rgt >= #{Issue.table_name}.rgt ").
+      where(SQL_COM.to_s).
+      where(SQL_COM_ANC.to_s).
       where(:ancestors => {:id => issue_id})
   end
 
@@ -121,6 +125,7 @@ module ProjectAndVersionValue
     proj = Project.find(proj_id)
     Issue.cross_project_scope(proj, "descendants").
       select("spent_on, SUM(hours) AS sum_hours").
+      where(SQL_COM.to_s).
       where(fixed_version_id: version_id).
       joins(:time_entries).
       group(:spent_on).
@@ -136,6 +141,7 @@ module ProjectAndVersionValue
   def assignee_costs(proj, assignee_id)
     Issue.cross_project_scope(proj, "descendants").
       select("spent_on, SUM(hours) AS sum_hours").
+      where(SQL_COM.to_s).
       where(assigned_to_id: assignee_id).
       joins(:time_entries).
       group(:spent_on).
@@ -151,6 +157,7 @@ module ProjectAndVersionValue
   def tracker_costs(proj, tracker_ids)
     Issue.cross_project_scope(proj, "descendants").
       select("spent_on, SUM(hours) AS sum_hours").
+      where(SQL_COM.to_s).
       where(tracker_id: tracker_ids).
       joins(:time_entries).
       group(:spent_on).
@@ -165,10 +172,11 @@ module ProjectAndVersionValue
     Issue.joins("JOIN #{Issue.table_name} ancestors" +
       " ON ancestors.root_id = #{Issue.table_name}.root_id" +
       " AND ancestors.lft <= #{Issue.table_name}.lft " +
-      " AND ancestors.rgt >= #{Issue.table_name}.rgt " +
-      " AND #{Issue.table_name}.start_date IS NOT NULL AND #{Issue.table_name}.due_date IS NOT NULL" +
-      " AND ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL").
+      " AND ancestors.rgt >= #{Issue.table_name}.rgt ").
       select("spent_on, SUM(hours) AS sum_hours").
+      where(SQL_COM.to_s).
+      where(SQL_COM_ANC.to_s).
+      where(:ancestors => {:id => issue_id}).
       joins(:time_entries).
       group(:spent_on).
       collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
@@ -182,6 +190,7 @@ module ProjectAndVersionValue
   def project_varsion_id_pair(proj)
     Issue.cross_project_scope(proj, "descendants").
       select("project_id, fixed_version_id, MIN(due_date) as due_date").
+      where(SQL_COM.to_s).
       where.not(fixed_version_id: nil).
       group(:project_id, :fixed_version_id).
       order("MIN(due_date)").
@@ -195,6 +204,7 @@ module ProjectAndVersionValue
   # @return [issue] assigned_to_id
   def project_assignee_id_pair(proj)
     Issue.cross_project_scope(proj, "descendants").
+      where(SQL_COM.to_s).
       select("assigned_to_id").
       group(:assigned_to_id).
       order(:assigned_to_id)
@@ -208,9 +218,7 @@ module ProjectAndVersionValue
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
     Issue.cross_project_scope(proj, "descendants").
-      includes(:fixed_version).
-      where("#{SQL_COM_FILTER} AND start_date <= ? AND (closed_on IS NULL OR closed_on > ?)", basis_date, basis_date.end_of_day).
-      references(:fixed_version).
-      where(SQL_COM.to_s)
+      where(SQL_COM.to_s).
+      where("start_date <= ? AND (closed_on IS NULL OR closed_on > ?)", basis_date, basis_date.end_of_day)
   end
 end
