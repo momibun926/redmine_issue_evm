@@ -11,12 +11,12 @@ module ProjectAndVersionValue
             " issues.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
 
   SQL_COM_ANC = "(ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL) " +
-	            " OR " +
-	            "(ancestors.start_date IS NOT NULL " +
-	            " AND " +
-	            " ancestors.due_date IS NULL " +
-	            " AND " +
-	            " ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
+	              " OR " +
+	              "(ancestors.start_date IS NOT NULL " +
+	              " AND " +
+	              " ancestors.due_date IS NULL " +
+	              " AND " +
+	              " ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
 
   # Get Issues of Baseline.(start date, due date, estimated hours)
   # When baseline_id is nil,latest baseline of project.

@@ -77,6 +77,7 @@ class EvmsController < ApplicationController
       # EVM optional (versions)
       # ##################################
       if @display_version
+        @version_evm = {}
         project_version_ids = project_varsion_id_pair @project
         unless project_version_ids.nil?
           project_version_ids.each do |proj_id, ver_id|
@@ -222,6 +223,7 @@ class EvmsController < ApplicationController
   end
 
   def find_parent_issues
-    Issue.where(project_id: @project.id, parent_id: nil)
+    Issue.where(project_id: @project.id).
+          where.not(parent_id: nil)
   end
 end
