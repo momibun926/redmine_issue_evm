@@ -48,8 +48,8 @@ class EvmsController < ApplicationController
       # assignee
       @display_evm_assignee = params[:display_evm_assignee]
       # tracker
-      @selectable_tracker = @project.trackers
       @display_evm_tracker = params[:display_evm_tracker]
+      @selectable_tracker = @project.trackers
       # parent issue
       @display_evm_parent_issue = params[:display_evm_parent_issue]
       @selectable_parent_issue = find_parent_issues
@@ -59,9 +59,9 @@ class EvmsController < ApplicationController
       # ##################################
       # Project(all versions)
       baselines = project_baseline @project, @baseline_id
-      issues = project_issues @project
+      issues = evm_issues @project
+      actual_cost = evm_costs @project
       @no_data = issues.blank?
-      actual_cost = project_costs @project
       # EVM of project
       @project_evm = IssueEvm.new baselines,
                                   issues,
@@ -81,17 +81,21 @@ class EvmsController < ApplicationController
         project_version_ids = project_varsion_id_pair @project
         unless project_version_ids.nil?
           project_version_ids.each do |proj_id, ver_id|
-            version_issue = version_issues proj_id,
-                                           ver_id
-            version_actual_cost = version_costs proj_id,
-                                                ver_id
+            proj = Project.find(proj_id)
+            condition = {fixed_version_id: ver_id}
+            # issues of version
+            version_issues = evm_issues proj,
+                                        condition
+            # spent time of version
+            version_actual_cost = evm_costs proj,
+                                            condition
             @version_evm[ver_id] = IssueEvm.new nil,
-                                                version_issue,
+                                                version_issues,
                                                 version_actual_cost,
                                                 basis_date: @basis_date,
                                                 forecast: nil,
                                                 etc_method: nil,
-                                                no_use_baseline: true,
+                                                no_use_baseline: @no_use_baseline,
                                                 working_hours: @working_hours,
                                                 exclude_holiday: @exclude_holiday,
                                                 region: @region
@@ -103,16 +107,17 @@ class EvmsController < ApplicationController
       # ##################################
       if @display_evm_assignee
         @assignee_evm = {}
-        # Get assignee id and name
+        # Get assignee ids
         project_assignee_ids = project_assignee_id_pair @project
         unless project_assignee_ids.nil?
           project_assignee_ids.each do |issue|
+            condition = {assigned_to_id: issue.assigned_to_id}
             # issues of assignee
-            assignee_issue = assignee_issues @project,
-                                             issue.assigned_to_id
+            assignee_issue = evm_issues @project,
+                                        condition
             # spent time of assignee
-            assignee_actual_cost = assignee_costs @project,
-                                                  issue.assigned_to_id
+            assignee_actual_cost = evm_costs @project,
+                                             condition
             @assignee_evm[issue.assigned_to_id] = IssueEvm.new nil,
                                                                assignee_issue,
                                                                assignee_actual_cost,
@@ -130,14 +135,19 @@ class EvmsController < ApplicationController
       # EVM optional (selected trackers)
       # ##################################
       if @display_evm_tracker
-        tracker_issues = tracker_issues @project, params[:selected_tracker_id]
-        tracker_actual_cost = tracker_costs @project, params[:selected_tracker_id]
+        condition = {tracker_id: params[:selected_tracker_id]}
+        # issues of trackers
+        tracker_issues = evm_issues @project,
+                                    condition
+        # spent time fo trackers
+        tracker_actual_cost = evm_costs @project,
+                                        condition
         @tracker_evm = IssueEvm.new baselines,
                                     tracker_issues,
                                     tracker_actual_cost,
                                     basis_date: @basis_date,
-                                    forecast: @forecast,
-                                    etc_method: @calcetc,
+                                    forecast: nil,
+                                    etc_method: nil,
                                     no_use_baseline: @no_use_baseline,
                                     working_hours: @working_hours,
                                     exclude_holiday: @exclude_holiday,
@@ -157,8 +167,8 @@ class EvmsController < ApplicationController
                                                               parent_issue,
                                                               parent_issue_actual_cost,
                                                               basis_date: @basis_date,
-                                                              forecast: @forecast,
-                                                              etc_method: @calcetc,
+                                                              forecast: nil,
+                                                              etc_method: nil,
                                                               no_use_baseline: @no_use_baseline,
                                                               working_hours: @working_hours,
                                                               exclude_holiday: @exclude_holiday,
@@ -217,13 +227,15 @@ class EvmsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
+  # use fo option area
   def find_evmbaselines
-    Evmbaseline.where(project_id: @project.id).order(created_on: :DESC)
+    Evmbaseline.where(project_id: @project.id).
+                order(created_on: :DESC)
   end
-
+  # use fo option area
   def find_parent_issues
     Issue.where(project_id: @project.id).
-          where.not(parent_id: nil)
+          where(parent_id: nil).
+          where("( rgt - lft ) > 1")
   end
 end
