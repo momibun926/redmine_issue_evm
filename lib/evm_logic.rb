@@ -15,6 +15,7 @@ module EvmLogic
     # @option options [bool] forecast forecast of option.
     # @option options [String] etc_method etc method of option.
     # @option options [bool] no_use_baseline no use baseline of option.
+    # @option options [bool] exclude_holiday Exclude holiday when calculate PV.
     # @option options [String] holiday region.
     def initialize(baselines, issues, costs, options = {})
       # calculationEVM options
@@ -193,21 +194,21 @@ module EvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] (BAC - EV) / CPI
     def etc(hours = 1)
-      if today_cpi(hours) == 0.0 || today_cr(hours) == 0.0
-        etc = 0.0
-      else
-        case @etc_method
-        when "method1"
-          div_value = 1.0
-        when "method2"
-          div_value = today_cpi(hours)
-        when "method3"
-          div_value = today_cr(hours)
-        else
-          div_value = today_cpi(hours)
-        end
-        etc = (bac(hours) - today_ev(hours)) / div_value
-      end
+      etc = if today_cpi(hours) == 0.0 || today_cr(hours) == 0.0
+              0.0
+            else
+              div_value = case @etc_method
+                            when "method1"
+                              1.0
+                            when "method2"
+                              today_cpi(hours)
+                            when "method3"
+                              today_cr(hours)
+                            else
+                              today_cpi(hours)
+                          end
+              (bac(hours) - today_ev(hours)) / div_value
+            end
       etc.round(1)
     end
 
@@ -250,9 +251,9 @@ module EvmLogic
     def tcpi(hours = 1)
       tcpi = if bac(hours) == 0.0
                0.0
-      else
+             else
                (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
-      end
+             end
       tcpi.round(1)
     end
 
@@ -372,33 +373,33 @@ module EvmLogic
     # @param [issue] issues target issues of EVM
       # @param [basis_date] basis date of option
     # @return [hash] EVM hash. Key:Date, Value:EV of each days
-      def calculate_earned_value(issues, basis_date)
-      ev = {}
-      ev[@basis_date] ||= 0.0
-      unless issues.nil?
-        issues.each do |issue|
-          # closed issue
-          if issue.closed?
-          	closed_date = issue.closed_on || issue.updated_on
-            dt = closed_date.to_time.to_date
-            ev[dt] += issue.estimated_hours.to_f unless ev[dt].nil?
-            ev[dt] ||= issue.estimated_hours.to_f
-          # progress issue
-            elsif issue.done_ratio.positive?
-            hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
-              # latest date of changed ratio
-              ratio_date_utc = Journal.where(journalized_id: issue.id,
-                                             journal_details: { prop_key: "done_ratio" }).
-                                       joins(:details).
-                                       maximum(:created_on)
-              # parent isssue is no journals
-              ratio_date = ratio_date_utc.to_time.to_date unless ratio_date_utc.nil?
-              ratio_date ||= basis_date
-              ev[ratio_date] += hours unless ev[ratio_date].nil?
-              ev[ratio_date] ||= hours
-          end
+    def calculate_earned_value(issues, basis_date)
+    ev = {}
+    ev[@basis_date] ||= 0.0
+    unless issues.nil?
+      issues.each do |issue|
+        # closed issue
+        if issue.closed?
+         	closed_date = issue.closed_on || issue.updated_on
+          dt = closed_date.to_time.to_date
+          ev[dt] += issue.estimated_hours.to_f unless ev[dt].nil?
+          ev[dt] ||= issue.estimated_hours.to_f
+        # progress issue
+        elsif issue.done_ratio.positive?
+          hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
+          # latest date of changed ratio
+          ratio_date_utc = Journal.where(journalized_id: issue.id,
+                                         journal_details: { prop_key: "done_ratio" }).
+                                   joins(:details).
+                                   maximum(:created_on)
+          # parent isssue is no journals
+          ratio_date = ratio_date_utc.to_time.to_date unless ratio_date_utc.nil?
+          ratio_date ||= basis_date
+          ev[ratio_date] += hours unless ev[ratio_date].nil?
+          ev[ratio_date] ||= hours
         end
       end
+    end
       calculate_earned_value = sort_and_sum_evm_hash ev
       calculate_earned_value.delete_if {|date, _value| date > @basis_date }
     end
@@ -432,7 +433,7 @@ module EvmLogic
       if evm_hash.blank?
         evm_hash[@basis_date] ||= 0.0
       end
-      sum_value = 0.0
+        sum_value = 0.0
         evm_hash.sort_by {|key, _val| key }.each do |date, value|
         sum_value += value
         temp_hash[date] = sum_value

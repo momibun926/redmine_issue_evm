@@ -3,41 +3,45 @@ module EvmsHelper
   # SPI color of CSS.
   #
   # @return [String] SPI color
-  def spi_color
-    value = ""
-    case @project_evm.today_spi
-    when (@limit_spi + 0.01..0.99)
-      value = 'class="indicator-orange"'
-    when (0.01..@limit_spi)
-      value = 'class="indicator-red"'
-    end
+  def spi_color(evm)
+    value = case evm.today_spi
+            when (@limit_spi + 0.01..0.99)
+              'class="indicator-orange"'
+            when (0.01..@limit_spi)
+              'class="indicator-red"'
+            else
+              ""
+            end
     value.html_safe
   end
   # CPI color of CSS.
   #
   # @return [String] CPI color
-  def cpi_color
-    value = ""
-    case @project_evm.today_cpi
-    when (@limit_cpi + 0.01..0.99)
-      value = 'class="indicator-orange"'
-    when (0.01..@limit_cpi)
-      value = 'class="indicator-red"'
-    end
+  def cpi_color(evm)
+    value = case evm.today_cpi
+            when (@limit_cpi + 0.01..0.99)
+              'class="indicator-orange"'
+            when (0.01..@limit_cpi)
+              'class="indicator-red"'
+            else
+              ""
+            end
     value.html_safe
   end
   # CR color of CSS.
   #
   # @return [String] CR color
-  def cr_color
+  def cr_color(evm)
     value = ""
-    if @project_evm.today_sv < 0.0
-      case @project_evm.today_cr
-      when (@limit_cr + 0.01..0.99)
-        value = 'class="indicator-orange"'
-      when (0.01..@limit_cr)
-        value = 'class="indicator-red"'
-      end
+    if evm.today_sv < 0.0
+      value = case evm.today_cr
+              when (@limit_cr + 0.01..0.99)
+                'class="indicator-orange"'
+              when (0.01..@limit_cr)
+                'class="indicator-red"'
+              else
+                ""
+              end
     end
     value.html_safe
   end
@@ -45,10 +49,10 @@ module EvmsHelper
   #
   # @return [String] project name, baseline subject
   def project_chart_name
-    if @baseline_id.nil?
-      @project.name
-    else
-      @project.name + "- " + @evmbaseline.find(@baseline_id).subject
+    name = if @baseline_id.nil?
+             @project.name
+           else
+             @project.name + "- " + @evmbaseline.find(@baseline_id).subject
     end
   end
   # Get project name
@@ -59,6 +63,18 @@ module EvmsHelper
     ver = Version.find(ver_id)
     pro = Project.find(ver.project_id)
     pro.name + " - " + ver.name
+  end
+  # Get selected trackers name
+  #
+  # @param [array] ids selected tracker ids
+  # @return [String] trackers name
+  def selected_trackers_name(ids)
+    selected = Tracker.select(:name).where(id: ids)
+    tracker_name = ""
+    selected.each do |trac|
+      tracker_name = tracker_name + trac.to_s + " "
+    end
+    tracker_name
   end
   # Get assignee name
   #

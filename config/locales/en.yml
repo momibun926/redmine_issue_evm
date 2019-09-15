@@ -28,9 +28,9 @@ en:
   # Main form
   title_evm_tab:  Track with EVM
   subtitle_evm_summary: Summary
-  subtitle_evm_summary_trackers: EVM of selected trackers
-  subtitle_evm_summary_assignee: EVM of assignees
-  subtitle_evm_summary_parent_issue: EVM of parent issue
+  subtitle_evm_summary_trackers: Selected trackers
+  subtitle_evm_summary_assignee: Assignees
+  subtitle_evm_summary_parent_issue: Parent issue
   subtitle_evm_graph_main: Charts
   subtitle_evm_incomplete_issues: Incomplete Issues
   subtitle_evm_graph_performance: Performance Cahrts
