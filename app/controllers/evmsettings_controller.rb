@@ -1,6 +1,5 @@
 # setting controller
 class EvmsettingsController < ApplicationController
-  unloadable
 
   # Before action
   before_action :find_project

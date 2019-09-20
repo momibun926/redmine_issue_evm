@@ -22,7 +22,7 @@ zh:
   label_limit_cpi: CPI阈值，必须小于0.99。
   label_limit_cr: CR阈值，必须小于0.99。
   label_exclude_holidays: 在PV计算中排除假期
-    label_region: Regions to get a holiday
+  label_region: Regions to get a holiday
   # Message
   messsage_delete_baseline: 确定删除基线？
   # Main form
@@ -30,6 +30,7 @@ zh:
   subtitle_evm_summary: 概览
   subtitle_evm_summary_trackers: EVM of selected trackers
   subtitle_evm_summary_assignee: EVM of assignees
+  subtitle_evm_summary_parent_issue: EVM of parent issue
   subtitle_evm_graph_main: 预估图表
   subtitle_evm_incomplete_issues: 未完成工作项列表
   subtitle_evm_graph_performance: 绩效指数图表
@@ -51,6 +52,8 @@ zh:
   label_display_other_evm : View of other EVM
   label_display_evm_assignee : View EVM of assignees
   label_display_evm_tracker : View EVM of selected trackers
+  label_display_evm_parent_issue : View EVM of selected parent issue
+  label_display_evm_parent_issue_attention : All related tickets must have start and end dates
   label_display_explanation: 在侧边栏上显示EVM相关名词的释义
   label_evmbaseline_plural: 基线
   label_ativity_message_new: 基线已建立。
@@ -84,6 +87,7 @@ zh:
   indicator_table_header_performance: 绩效指数
   indicator_table_header_forecast: 预测
   indicator_table_header_tracker: selected trackers
+  indicator_table_header_parent_issue: selected parent issue
   # Indicator table legend
   explanation_upper_row: 上面一行按小时计算。
   explanation_lower_row: 下面一行按天数计算。

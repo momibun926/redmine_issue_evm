@@ -30,6 +30,7 @@ ja:
   subtitle_evm_summary: サマリー
   subtitle_evm_summary_trackers: 選択したトラッカーのEVM
   subtitle_evm_summary_assignee: 担当ごとのEVM
+  subtitle_evm_summary_parent_issue: 親チケットのEVM
   subtitle_evm_graph_main: チャート
   subtitle_evm_incomplete_issues: 未完了のチケット
   subtitle_evm_graph_performance: パフォーマンス
@@ -49,8 +50,10 @@ ja:
   label_calc_method3: 悲観的
   label_display : 表示
   label_display_other_evm : その他のEVM表示
-  label_display_evm_assignee : 担当ごとのEVMを表示
-  label_display_evm_tracker : 選択したトラッカーでEVMを表示
+  label_display_evm_assignee : 担当毎
+  label_display_evm_tracker : 選択したトラッカー
+  label_display_evm_parent_issue : 選択した親チケット
+  label_display_evm_parent_issue_attention : 関連するすべてのチケットに開始日・終了日が入っていないと表示できません
   label_display_explanation: サイドバーにEVMの説明を表示
   label_evmbaseline_plural: ベースライン
   label_ativity_message_new: ベースラインが作成されました
@@ -84,6 +87,7 @@ ja:
   indicator_table_header_performance: 効率
   indicator_table_header_forecast: 予測
   indicator_table_header_tracker: 選択したトラッカー
+  indicator_table_header_parent_issue: 親チケット
   # Indicator table legend
   explanation_upper_row: 上段の値は時間
   explanation_lower_row: 下段の値は人日

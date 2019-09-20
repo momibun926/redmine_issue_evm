@@ -28,8 +28,9 @@ en:
   # Main form
   title_evm_tab:  Track with EVM
   subtitle_evm_summary: Summary
-  subtitle_evm_summary_trackers: EVM of selected trackers
-  subtitle_evm_summary_assignee: EVM of assignees
+  subtitle_evm_summary_trackers: Selected trackers
+  subtitle_evm_summary_assignee: Assignees
+  subtitle_evm_summary_parent_issue: Parent issue
   subtitle_evm_graph_main: Charts
   subtitle_evm_incomplete_issues: Incomplete Issues
   subtitle_evm_graph_performance: Performance Cahrts
@@ -49,8 +50,10 @@ en:
   label_calc_method3: Pessimistic
   label_display : Explanation
   label_display_other_evm : Other view of EVM
-  label_display_evm_assignee : View EVM of assignees
-  label_display_evm_tracker : View EVM of selected trackers
+  label_display_evm_assignee : Each assignees
+  label_display_evm_tracker : Selected trackers
+  label_display_evm_parent_issue : Selected parent issue
+  label_display_evm_parent_issue_attention : All related tickets must have start and end dates
   label_display_explanation: View explanation of EVM value to sidebar
   label_evmbaseline_plural: Baseline
   label_ativity_message_new: Baseline is created.
@@ -84,6 +87,7 @@ en:
   indicator_table_header_performance: Perfromance
   indicator_table_header_forecast: Forecast
   indicator_table_header_tracker: selected trackers
+  indicator_table_header_parent_issue: selected parent issue
   # Indicator table legend
   explanation_upper_row: Upper row is hours.
   explanation_lower_row: Lower row is days.

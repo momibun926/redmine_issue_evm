@@ -15,6 +15,7 @@ module EvmLogic
     # @option options [bool] forecast forecast of option.
     # @option options [String] etc_method etc method of option.
     # @option options [bool] no_use_baseline no use baseline of option.
+    # @option options [bool] exclude_holiday Exclude holiday when calculate PV.
     # @option options [String] holiday region.
     def initialize(baselines, issues, costs, options = {})
       # calculationEVM options
@@ -193,20 +194,20 @@ module EvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] (BAC - EV) / CPI
     def etc(hours = 1)
-      if today_cpi(hours) == 0.0 || today_cr(hours) == 0.0
-        etc = 0.0
+      etc = if today_cpi(hours) == 0.0 || today_cr(hours) == 0.0
+              0.0
       else
-        case @etc_method
+              div_value = case @etc_method
         when "method1"
-          div_value = 1.0
+                              1.0
         when "method2"
-          div_value = today_cpi(hours)
+                              today_cpi(hours)
         when "method3"
-          div_value = today_cr(hours)
+                              today_cr(hours)
         else
-          div_value = today_cpi(hours)
+                              today_cpi(hours)
         end
-        etc = (bac(hours) - today_ev(hours)) / div_value
+              (bac(hours) - today_ev(hours)) / div_value
       end
       etc.round(1)
     end

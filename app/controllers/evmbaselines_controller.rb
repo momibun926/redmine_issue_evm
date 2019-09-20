@@ -2,7 +2,6 @@ include ProjectAndVersionValue
 
 # baseline controller
 class EvmbaselinesController < ApplicationController
-  unloadable
 
   menu_item :issuevm
   before_action :find_project, :authorize
@@ -17,7 +16,7 @@ class EvmbaselinesController < ApplicationController
   #
   def new
     @evm_baselines = Evmbaseline.new
-    issues = project_issues @project
+    issues = evm_issues @project
     @start_date = issues.minimum(:start_date)
     @due_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
     @bac = issues.sum(:estimated_hours).to_f
@@ -57,7 +56,7 @@ class EvmbaselinesController < ApplicationController
     evm_baselines.author_id = User.current.id
     evm_baselines.updated_on = Time.now.utc
     # issues
-    issues = project_issues @project
+    issues = evm_issues @project
     issues.each do |issue|
       issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
       baseline_issues = EvmbaselineIssue.new(issue_id: issue.id,
@@ -100,13 +99,13 @@ class EvmbaselinesController < ApplicationController
 
   private
 
-    # find project object
-    #
-    def find_project
-      @project = Project.find(params[:project_id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
-    end
+  # find project object
+  #
+  def find_project
+    @project = Project.find(params[:project_id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
 
     # Strong parameter
     #

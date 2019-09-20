@@ -55,8 +55,10 @@
                           calcetc: @calcetc,
                           display_explanation: @display_explanation,
                           selectable_tracker: @selectable_tracker,
+                          selectable_parent_issue: @selectable_parent_issue,
                           display_evm_assignee: @display_evm_assignee,
-                          display_evm_tracker: @display_evm_tracker  } %>
+                          display_evm_tracker: @display_evm_tracker,
+                          display_evm_parent_issue: @display_evm_parent_issue } %>
           <div class="option-apply">
             <!-- Apply button -->
             <br>
@@ -107,7 +109,7 @@
       <% if @display_version %>
         <section>
           <h3><%= l(:subtitle_evm_graph_version) %></h3>
-          <% if @version_evm.empty? %>
+          <% if @version_evm.blank? %>
             <p class="nodata"><%= l(:label_no_data) %></p>
           <% else %>
             <% @version_evm.each do |ver_id, ver_evm| %>
@@ -145,7 +147,15 @@
     </section>
     <br />
   <% end %>
-
+  <!--Indicator value of parent issue -->
+  <% if @display_evm_parent_issue %>
+    <section>
+      <h3><%= l(:subtitle_evm_summary_parent_issue)%></h3>
+      <%= render partial: "/evms/measure_parent_issue",
+          locals: { parent_issue_evm: @parent_issue_evm } %>
+    </section>
+    <br />
+  <% end %>
   <!-- Incomplete issue list -->
   <% if @display_incomplete %>
     <br />

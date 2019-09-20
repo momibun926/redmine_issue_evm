@@ -1,7 +1,8 @@
 <table id="evm-indicator-option_value-table" border="1" bordercolor = "#bbb">
   <tr>
-    <th><%=l(:field_assigned_to)%></th>
-    <th>BAC(<%=l(:field_assigned_to)%>)</th>
+    <th>#</th>
+    <th><%=l(:field_subject)%></th>
+    <th>BAC</th>
     <th>Complete EV</th>
     <th>PV</th>
     <th>EV</th>
@@ -11,9 +12,10 @@
     <th>SPI</th>
     <th>CPI</th>
   </tr>
-  <% assignee_evm.each do |assignee_id, evm| %>
+  <% parent_issue_evm.each do |parent_issue_id, evm| %>
     <tr>
-      <td><%=assignee_name(assignee_id)%></td>
+      <td><%=parent_issue_link parent_issue_id%></td>
+      <td><%=parent_issue(parent_issue_id).subject%></td>
       <td><%=evm.bac%></td>
       <td><%=evm.complete_ev%> %</td>
       <td><%=evm.today_pv%></td>
