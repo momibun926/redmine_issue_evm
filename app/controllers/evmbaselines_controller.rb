@@ -99,13 +99,13 @@ class EvmbaselinesController < ApplicationController
 
   private
 
-  # find project object
-  #
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
+    # find project object
+    #
+    def find_project
+      @project = Project.find(params[:project_id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
+    end
 
     # Strong parameter
     #

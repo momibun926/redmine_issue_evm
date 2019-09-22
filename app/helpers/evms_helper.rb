@@ -6,11 +6,11 @@ module EvmsHelper
   def spi_color(evm)
     value = case evm.today_spi
     when (@limit_spi + 0.01..0.99)
-              'class="indicator-orange"'
+      'class="indicator-orange"'
     when (0.01..@limit_spi)
-              'class="indicator-red"'
-            else
-              ""
+      'class="indicator-red"'
+    else
+      ""
     end
     value.html_safe
   end
@@ -21,11 +21,11 @@ module EvmsHelper
   def cpi_color(evm)
     value = case evm.today_cpi
     when (@limit_cpi + 0.01..0.99)
-              'class="indicator-orange"'
+      'class="indicator-orange"'
     when (0.01..@limit_cpi)
-              'class="indicator-red"'
-            else
-              ""
+      'class="indicator-red"'
+    else
+      ""
     end
     value.html_safe
   end
@@ -38,11 +38,11 @@ module EvmsHelper
     if evm.today_sv < 0.0
       value = case evm.today_cr
       when (@limit_cr + 0.01..0.99)
-                'class="indicator-orange"'
+        'class="indicator-orange"'
       when (0.01..@limit_cr)
-                'class="indicator-red"'
-              else
-                ""
+        'class="indicator-red"'
+      else
+        ""
       end
     end
     value.html_safe
