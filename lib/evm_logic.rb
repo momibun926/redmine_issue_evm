@@ -35,7 +35,6 @@ module EvmLogic
       # max of date
       @issue_max_date = issues.maximum(:due_date)
       @issue_max_date ||= baselines.maximum(:due_date) unless baselines.nil?
-      @issue_max_date ||= issues.maximum(:effective_date)
       # PV-ACTUAL for chart
       @pv_actual_daily = calculate_planed_value issues
       @pv_actual = sort_and_sum_evm_hash @pv_actual_daily
