@@ -35,7 +35,6 @@ module EvmLogic
       # max of date
       @issue_max_date = issues.maximum(:due_date)
       @issue_max_date ||= baselines.maximum(:due_date) unless baselines.nil?
-      @issue_max_date ||= issues.maximum(:effective_date)
       # PV-ACTUAL for chart
       @pv_actual_daily = calculate_planed_value issues
       @pv_actual = sort_and_sum_evm_hash @pv_actual_daily
@@ -196,19 +195,19 @@ module EvmLogic
     def etc(hours = 1)
       etc = if today_cpi(hours) == 0.0 || today_cr(hours) == 0.0
               0.0
-      else
+            else
               div_value = case @etc_method
-        when "method1"
-                              1.0
-        when "method2"
-                              today_cpi(hours)
-        when "method3"
-                              today_cr(hours)
-        else
-                              today_cpi(hours)
-        end
+                          when "method1"
+                            1.0
+                          when "method2"
+                            today_cpi(hours)
+                          when "method3"
+                            today_cr(hours)
+                          else
+                            today_cpi(hours)
+                          end
               (bac(hours) - today_ev(hours)) / div_value
-      end
+            end
       etc.round(1)
     end
 
