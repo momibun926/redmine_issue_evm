@@ -90,6 +90,7 @@
     <% end %>
     <!-- version Chart -->
     <% if @display_version %>
+      <h3><%= l(:subtitle_evm_graph_version) %></h3>
       <% if @version_evm.blank? %>
         <p class="nodata"><%= l(:label_no_data) %></p>
       <% else %>
@@ -106,44 +107,27 @@
   <br />
   <!--Indicator value of tracker -->
   <% if @display_evm_tracker %>
-    <section>
-      <h3><%= l(:subtitle_evm_summary_trackers)%></h3>
-      <%= render partial: "/evms/measure_tracker",
-          locals: { tracker_evm: @tracker_evm } %>
-    </section>
-    <br />
+    <%= render partial: "/evms/measure_tracker",
+        locals: { tracker_evm: @tracker_evm } %>
   <% end %>
-
   <!--Indicator value of assignee -->
   <% if @display_evm_assignee %>
-    <section>
-      <h3><%= l(:subtitle_evm_summary_assignee)%></h3>
-      <%= render partial: "/evms/measure_assignee",
-          locals: { assignee_evm: @assignee_evm } %>
-    </section>
-    <br />
+    <%= render partial: "/evms/measure_assignee",
+        locals: { assignee_evm: @assignee_evm } %>
   <% end %>
   <!--Indicator value of parent issue -->
   <% if @display_evm_parent_issue %>
-    <section>
-      <h3><%= l(:subtitle_evm_summary_parent_issue)%></h3>
-      <%= render partial: "/evms/measure_parent_issue",
-          locals: { parent_issue_evm: @parent_issue_evm } %>
-    </section>
-    <br />
+    <%= render partial: "/evms/measure_parent_issue",
+        locals: { parent_issue_evm: @parent_issue_evm } %>
   <% end %>
   <!-- Incomplete issue list -->
   <% if @display_incomplete %>
-    <br />
-    <section>
-      <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
-      <% if @no_data_incomplete_issues %>
-        <p class="nodata"><%= l(:label_no_data) %></p>
-      <% else %>
-        <%= render partial: "/evms/incomplete_issue_list",
-            locals: { incomplete_issues: @incomplete_issues } %>
-      <% end %>
-    </section>
+    <% if @no_data_incomplete_issues %>
+      <p class="nodata"><%= l(:label_no_data) %></p>
+    <% else %>
+      <%= render partial: "/evms/incomplete_issue_list",
+          locals: { incomplete_issues: @incomplete_issues } %>
+    <% end %>
   <% end %>
 <!--end of print area-->
 </div>
