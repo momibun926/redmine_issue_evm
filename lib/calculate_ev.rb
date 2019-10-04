@@ -24,12 +24,11 @@ module EvmLogic
       @count_issues = issues.count
     end
     
-    # Today earned value
-    # EV by the specified date.
+    # Today's earned value
     #
     # @return [Numeric] EV value on basis date
     def today_value
-      ev = @cumulative_ev(@basis_date)
+      ev = @cumulative_ev[@basis_date]
     end
 
     # Task is finished?

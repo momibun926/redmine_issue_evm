@@ -32,12 +32,10 @@ module EvmLogic
       @cumulative_pv.values.max
     end
 
-    # Today planed value
-    # PV by the specified date.
+    # Today's planed value
     #
-    # @param [bool] no_use_baseline no use baseline?
     # @return [Numeric] PV on basis date or PV of baseline.
-    def today_value(no_use_baseline)
+    def today_value
       @cumulative_pv[@basis_date]
     end
 

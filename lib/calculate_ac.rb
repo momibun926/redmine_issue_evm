@@ -26,8 +26,7 @@ module EvmLogic
     # Basis date
     attr_reader :basis_date
 
-    # Actual cost
-    # The costs actually incurred for the work completed by the specified date.
+    # Today's Actual cost
     #
     # @return [Numeric] AC on basis date
     def today_ac
@@ -35,11 +34,10 @@ module EvmLogic
     end
 
     private
-      # Sort key value. key value is DATE.
-      # Assending date.
+      # Sort evm hash, Assending date.
       #
       # @param [hash] evm_hash target issues of EVM
-      # @return [hash] Sorted EVM hash. Key:time, Value:EVM value
+      # @return [hash] Sorted EVM hash. Key:date, Value:EVM value
       def sort_and_sum_evm_hash(evm_hash)
         temp_hash = {}
         sum_value = 0.0
