@@ -1,0 +1,60 @@
+<% html_title("Project tracking with EVM - parent issues ") %>
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "issue_evm",         plugin: "redmine_issue_evm" %>
+<% end %>
+<%= form_tag url_for(action: :index), method: :get, id: "query_form" do %>
+  <fieldset id="filters" class="collapsible collapsed">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+    <div style="display: none;">
+      <div class="option-col">
+        <p><%= l(:label_basis_date) %></p>
+        <%= date_field_tag("basis_date", @cfg_param[:basis_date], size: 10) %><%= calendar_for("basis_date") %>
+      </div>
+      <div class="option-col">
+        <%= select_tag :selected_parent_issue_id,
+            options_from_collection_for_select(@selectable_parent_issue, :id, :subject,
+                                               @cfg_param[:selected_parent_issue_id]),
+                                               {multiple: true, size: 5}%>
+      </div>
+      <div class="option-apply">
+        <!-- Apply button -->
+        <br>
+        <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>
+<section>
+  <h3><%= l(:subtitle_evm_summary_parent_issue)%></h3>
+  <table id="evm-indicator-option_value-table" border="1" bordercolor = "#bbb">
+    <tr>
+      <th>#</th>
+      <th><%=l(:field_subject)%></th>
+      <th>BAC</th>
+      <th>Complete EV</th>
+      <th>PV</th>
+      <th>EV</th>
+      <th>AC</th>
+      <th>SV</th>
+      <th>CV</th>
+      <th>SPI</th>
+      <th>CPI</th>
+    </tr>
+    <% @parent_issue_evm.each do |parent_issue_id, evm| %>
+      <tr>
+        <td><%=parent_issue_link parent_issue_id%></td>
+        <td><%=parent_issue(parent_issue_id).subject%></td>
+        <td><%=evm.bac%></td>
+        <td><%=evm.complete_ev%> %</td>
+        <td><%=evm.today_pv%></td>
+        <td><%=evm.today_ev%></td>
+        <td><%=evm.today_ac%></td>
+        <td><%=evm.today_sv%></td>
+        <td><%=evm.today_cv%></td>
+        <td <%=spi_color(evm)%>><%=evm.today_spi%></td>
+        <td <%=cpi_color(evm)%>><%=evm.today_cpi%></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+</section>

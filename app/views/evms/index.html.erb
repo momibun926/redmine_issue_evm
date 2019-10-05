@@ -18,7 +18,7 @@
 <% end %>
 <!-- contextual (Basline setting) -->
 <div class="contextual">
-  <%= link_to l(:label_other_evm_assignee), {controller: :evmassignees, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
+  <%= link_to l(:label_other_evm_parent_issues), {controller: :evmparentissues, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
   <%= link_to l(:label_baseline_set), {controller: :evmbaselines, action: :index, id: @project.id} , class: "icon icon-settings"%>
   <%= link_to l(:label_setting_set), {controller: :evmsettings, action: :edit, id: @project.id} , class: "icon icon-settings"%>
   <%= link_to "#", {id: "btn_print", class: "icon icon-print" } do l(:label_evm_print) end %>

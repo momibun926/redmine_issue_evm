@@ -27,7 +27,7 @@ module EvmLogic
                                 :exclude_holiday,
                                 :region)
       @basis_hours = options[:working_hours]
-      @basis_date = options[:basis_date]
+      @basis_date = options[:basis_date].to_date
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
       @holiday_exclude = options[:exclude_holiday]

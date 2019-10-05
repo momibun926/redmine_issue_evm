@@ -31,7 +31,7 @@ class EvmsController < ApplicationController
       @cfg_param[:limit_cpi] = emv_setting.threshold_cpi
       @cfg_param[:limit_cr] = emv_setting.threshold_cr
       # plugin setting holyday region
-      @cfg_param[:exclude_holiday] = emv_setting.threshold_cr
+      @cfg_param[:exclude_holiday] = emv_setting.exclude_holidays
       @cfg_param[:region] = emv_setting.region
       # ##################################
       # view options
@@ -168,7 +168,7 @@ class EvmsController < ApplicationController
                                                               basis_date: @cfg_param[:basis_date],
                                                               forecast: nil,
                                                               etc_method: nil,
-                                                              no_use_baseline: @cfg_param[:no_use_baseline],
+                                                              no_use_baseline: "True",
                                                               working_hours: @cfg_param[:working_hours],
                                                               exclude_holiday: @cfg_param[:exclude_holiday],
                                                               region: @cfg_param[:region]
