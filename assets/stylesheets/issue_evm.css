@@ -39,7 +39,7 @@
 #evm-indicator-option_value-table td,
 #evm-indicator-option_value-table th {
   min-width: 60px;
-  max-width: 150px;
+  max-width: 250px;
   padding: 2px;
   text-align: center;
 }

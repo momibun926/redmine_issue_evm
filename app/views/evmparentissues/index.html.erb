@@ -2,15 +2,21 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "issue_evm",         plugin: "redmine_issue_evm" %>
 <% end %>
+<!-- contextual (Basline setting) -->
+<div class="contextual">
+  <%= link_to l(:label_other_evm_parent_issues), {controller: :evms, action: :index, id: @project.id} , class: "icon icon-settings"%>
+</div>
+<h2><%= l(:title_evm_tab)%></h2>
 <%= form_tag url_for(action: :index), method: :get, id: "query_form" do %>
   <fieldset id="filters" class="collapsible collapsed">
     <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
     <div style="display: none;">
       <div class="option-col">
         <p><%= l(:label_basis_date) %></p>
-        <%= date_field_tag("basis_date", @cfg_param[:basis_date], size: 10) %><%= calendar_for("basis_date") %>
+        <%= date_field_tag("basis_date", @cfg_param[:basis_date], size: 8) %><%= calendar_for("basis_date") %>
       </div>
       <div class="option-col">
+        <p><%= l(:label_display_evm_parent_issue) %></p>
         <%= select_tag :selected_parent_issue_id,
             options_from_collection_for_select(@selectable_parent_issue, :id, :subject,
                                                @cfg_param[:selected_parent_issue_id]),
@@ -18,7 +24,6 @@
       </div>
       <div class="option-apply">
         <!-- Apply button -->
-        <br>
         <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
       </div>
     </div>
