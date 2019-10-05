@@ -10,6 +10,7 @@ zh:
   label_baseline_create: 新增基线
   label_baseline_version: 基线历史
   label_baseline_set: 基线管理
+  label_other_evm_assignee: Assignees EVM
   label_baseline_start_date: 起始日期
   label_baseline_due_date: 截止日期
   label_baseline_bac: BAC

@@ -10,6 +10,7 @@ en:
   label_baseline_create: New Baseline
   label_baseline_version: Baseline History
   label_baseline_set: Baseline setting
+  label_other_evm_assignee: Assignees EVM
   label_baseline_start_date: Start Date
   label_baseline_due_date: Due Sate
   label_baseline_bac: BAC

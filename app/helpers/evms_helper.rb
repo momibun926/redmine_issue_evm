@@ -5,9 +5,9 @@ module EvmsHelper
   # @return [String] SPI color
   def spi_color(evm)
     value = case evm.today_spi
-    when (@limit_spi + 0.01..0.99)
+    when (@cfg_param[:limit_spi] + 0.01..0.99)
       'class="indicator-orange"'
-    when (0.01..@limit_spi)
+    when (0.01..@cfg_param[:limit_spi])
       'class="indicator-red"'
     else
       ""
@@ -20,9 +20,9 @@ module EvmsHelper
   # @return [String] CPI color
   def cpi_color(evm)
     value = case evm.today_cpi
-    when (@limit_cpi + 0.01..0.99)
+    when (@cfg_param[:limit_cpi] + 0.01..0.99)
       'class="indicator-orange"'
-    when (0.01..@limit_cpi)
+    when (0.01..@cfg_param[:limit_cpi])
       'class="indicator-red"'
     else
       ""
@@ -37,9 +37,9 @@ module EvmsHelper
     value = ""
     if evm.today_sv < 0.0
       value = case evm.today_cr
-      when (@limit_cr + 0.01..0.99)
+      when (@cfg_param[:limit_cr] + 0.01..0.99)
         'class="indicator-orange"'
-      when (0.01..@limit_cr)
+      when (0.01..@cfg_param[:limit_cr])
         'class="indicator-red"'
       else
         ""

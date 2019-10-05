@@ -18,12 +18,13 @@
 <% end %>
 <!-- contextual (Basline setting) -->
 <div class="contextual">
+  <%= link_to l(:label_other_evm_assignee), {controller: :evmassignees, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
   <%= link_to l(:label_baseline_set), {controller: :evmbaselines, action: :index, id: @project.id} , class: "icon icon-settings"%>
   <%= link_to l(:label_setting_set), {controller: :evmsettings, action: :edit, id: @project.id} , class: "icon icon-settings"%>
   <%= link_to "#", {id: "btn_print", class: "icon icon-print" } do l(:label_evm_print) end %>
 </div>
 <!--Sidebar-->
-<% if @display_explanation %>
+<% if @cfg_param[:display_explanation] %>
   <% content_for :sidebar do %>
     <%= render partial: "/evms/explanation" %>
   <% end %>
@@ -42,21 +43,21 @@
           <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
           <div style="display: none;">
             <%= render partial: "/evms/view_option",
-                locals: { basis_date: @basis_date,
-                          no_use_baseline: @no_use_baseline,
+                locals: { basis_date: @cfg_param[:basis_date],
+                          no_use_baseline: @cfg_param[:no_use_baseline],
                           evmbaseline: @evmbaseline,
-                          baseline_id: @baseline_id,
-                          forecast: @forecast,
-                          display_version: @display_version,
-                          display_performance: @display_performance,
-                          display_incomplete: @display_incomplete,
-                          calcetc: @calcetc,
-                          display_explanation: @display_explanation,
+                          baseline_id: @cfg_param[:baseline_id],
+                          forecast: @cfg_param[:forecast],
+                          display_version: @cfg_param[:display_version],
+                          display_performance: @cfg_param[:display_performance],
+                          display_incomplete: @cfg_param[:display_incomplete],
+                          calcetc: @cfg_param[:calcetc],
+                          display_explanation: @cfg_param[:display_explanation],
                           selectable_tracker: @selectable_tracker,
                           selectable_parent_issue: @selectable_parent_issue,
-                          display_evm_assignee: @display_evm_assignee,
-                          display_evm_tracker: @display_evm_tracker,
-                          display_evm_parent_issue: @display_evm_parent_issue } %>
+                          display_evm_assignee: @cfg_param[:display_evm_assignee],
+                          display_evm_tracker: @cfg_param[:display_evm_tracker],
+                          display_evm_parent_issue: @cfg_param[:display_evm_parent_issue] } %>
           <div class="option-apply">
             <!-- Apply button -->
             <br>
@@ -70,10 +71,10 @@
     <!--Indicator value-->
     <%= render partial: "/evms/measure",
         locals: { project_evm: @project_evm,
-                  working_hours: @working_hours } %>
+                  working_hours: @cfg_param[:working_hours] } %>
     <!-- Main Chart -->
     <%= render partial: "/evms/project_chart_js",
-        locals: { basis_date: @basis_date,
+        locals: { basis_date: @cfg_param[:basis_date],
                   project_evm: @project_evm,
                   project_name: project_chart_name } %>
     <!-- Exports -->
@@ -82,46 +83,48 @@
     <% end %>
     <br>
     <!-- Performance Chart -->
-    <% if @display_performance %>
+    <% if @cfg_param[:display_performance] %>
       <%= render partial: "/evms/performance_chart_js",
-          locals: { basis_date: @basis_date,
+          locals: { basis_date: @cfg_param[:basis_date],
                     project_evm: @project_evm,
                     project_name: project_chart_name } %>
     <% end %>
     <!-- version Chart -->
-    <% if @display_version %>
+    <% if @cfg_param[:display_version] %>
       <h3><%= l(:subtitle_evm_graph_version) %></h3>
       <% if @version_evm.blank? %>
         <p class="nodata"><%= l(:label_no_data) %></p>
       <% else %>
         <% @version_evm.each do |ver_id, ver_evm| %>
+          <div id="evm-graph-lines-version-<%= ver_id %>">
             <%= render partial: "/evms/version_chart_js",
-              locals: { basis_date: @basis_date,
-                        version_evm: ver_evm,
-                        version: ver_id,
-                        version_name: version_chart_name(ver_id) } %>
+                locals: { basis_date: @cfg_param[:basis_date],
+                          version_evm: ver_evm,
+                          version: ver_id,
+                          version_name: version_chart_name(ver_id) } %>
+          </div>
         <% end %>
       <% end %>
     <% end %>
   <% end %>
   <br />
   <!--Indicator value of tracker -->
-  <% if @display_evm_tracker %>
+  <% if @cfg_param[:display_evm_tracker] %>
     <%= render partial: "/evms/measure_tracker",
         locals: { tracker_evm: @tracker_evm } %>
   <% end %>
   <!--Indicator value of assignee -->
-  <% if @display_evm_assignee %>
+  <% if @cfg_param[:display_evm_assignee] %>
     <%= render partial: "/evms/measure_assignee",
         locals: { assignee_evm: @assignee_evm } %>
   <% end %>
   <!--Indicator value of parent issue -->
-  <% if @display_evm_parent_issue %>
+  <% if @cfg_param[:display_evm_parent_issue] %>
     <%= render partial: "/evms/measure_parent_issue",
         locals: { parent_issue_evm: @parent_issue_evm } %>
   <% end %>
   <!-- Incomplete issue list -->
-  <% if @display_incomplete %>
+  <% if @cfg_param[:display_incomplete] %>
     <% if @no_data_incomplete_issues %>
       <p class="nodata"><%= l(:label_no_data) %></p>
     <% else %>

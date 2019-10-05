@@ -30,9 +30,9 @@ module ProjectAndVersionValue
     baselines = if baseline_id.nil?
                   Evmbaseline.where(project_id: project_id).
                               order(created_on: :DESC)
-    else
+                else
                   Evmbaseline.where(id: baseline_id)
-    end
+                end
     baselines.first.evmbaselineIssues
   end
 

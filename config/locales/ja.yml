@@ -10,6 +10,7 @@ ja:
   label_baseline_create: ベースラインの作成
   label_baseline_version: ベースライン履歴
   label_baseline_set: ベースライン設定
+  label_other_evm_assignee: 担当者別EVM
   label_baseline_start_date: 開始日
   label_baseline_due_date: 終了日
   label_baseline_bac: BAC
