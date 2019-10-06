@@ -124,6 +124,21 @@ module ProjectAndVersionValue
       order(:assigned_to_id)
   end
 
+  # Selectable assinee list.
+  # sort by assignee id.
+  #
+  # @param [project] proj project object
+  # @return [issue] assigned_to_id
+  def selectable_assignee_list(proj)
+    issues = project_assignee_id_pair proj
+    selectable_list = {}
+    issues.each do |issue|
+      assinee_name  = issue.assigned_to_id.nil? ? l(:no_assignee) : User.find(issue.assigned_to_id).name
+      selectable_list[assinee_name] = issue.assigned_to_id
+    end
+    selectable_list
+  end
+
   # Get imcomplete issuees on basis date.
   #
   # @note If the due date has not been entered, we will use the due date of the version

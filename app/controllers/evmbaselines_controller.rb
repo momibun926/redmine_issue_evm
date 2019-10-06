@@ -2,16 +2,17 @@ include ProjectAndVersionValue
 
 # baseline controller
 class EvmbaselinesController < ApplicationController
-
+  # menu
   menu_item :issuevm
+  # Before action
   before_action :find_project, :authorize
-
+  #
   # display baseline list
   #
   def index
     @evm_baselines = Evmbaseline.where(project_id: @project.id).order(created_on: :DESC)
   end
-
+  #
   # Create of baseline
   #
   def new
@@ -21,19 +22,19 @@ class EvmbaselinesController < ApplicationController
     @due_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
     @bac = issues.sum(:estimated_hours).to_f
   end
-
+  #
   # View of Baseline
   #
   def show
     @evm_baselines = Evmbaseline.find(params[:id])
   end
-
+  #
   # Edit view of Baseline
   #
   def edit
     @evm_baselines = Evmbaseline.find(params[:id])
   end
-
+  #
   # Update baselie
   #
   def update
@@ -46,7 +47,7 @@ class EvmbaselinesController < ApplicationController
       redirect_to action: :edit
     end
   end
-
+  #
   # Create baseline
   #
   def create
@@ -77,7 +78,7 @@ class EvmbaselinesController < ApplicationController
       redirect_to action: :new
     end
   end
-
+  #
   # Delete baseline
   #
   def destroy
@@ -98,7 +99,7 @@ class EvmbaselinesController < ApplicationController
   end
 
   private
-
+  #
     # find project object
     #
     def find_project
@@ -106,7 +107,7 @@ class EvmbaselinesController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       render_404
     end
-
+    #
     # Strong parameter
     #
     def evm_baseline_params

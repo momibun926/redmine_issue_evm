@@ -1,0 +1,7 @@
+<script>
+  var actualWeek = <%= basis_date.to_time.to_i* 1000 %>;
+  var graphTitleMain = <%= raw assignee_name.to_json %> ;
+  var assigneesChartData = <%= raw evm.chart_data.to_json %>;
+  var assigneesChartHtmlElement = "evm-graph-lines-assignees-<%= assignee_id %>";
+  drawAssigneeChart(assigneesChartData, assigneesChartHtmlElement, actualWeek, graphTitleMain);
+</script>

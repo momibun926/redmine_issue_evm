@@ -1,14 +1,13 @@
-<% html_title("Project tracking with EVM - parent issues ") %>
+<% html_title("Project tracking with EVM - versions ") %>
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "issue_evm",         plugin: "redmine_issue_evm" %>
   <%= javascript_include_tag "drawchart",      plugin: "redmine_issue_evm" %>
   <%= javascript_include_tag "highcharts.js",  plugin: "redmine_issue_evm" %>
 <% end %>
-<!-- contextual (Basline setting) -->
+<!-- contextual -->
 <div class="contextual">
-  <%= link_to l(:subtitle_evm_graph_version), {controller: :evmversions, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
   <%= link_to l(:subtitle_evm_summary_assignee), {controller: :evmassignees, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
-  <%= link_to l(:label_other_evm_parent_issues), {controller: :evms, action: :index, id: @project.id} , class: "icon icon-settings"%>
+  <%= link_to l(:subtitle_evm_summary_assignee), {controller: :evms, action: :index, id: @project.id} , class: "icon icon-settings"%>
 </div>
 <!--option -->
 <h2><%= l(:title_evm_tab)%></h2>
@@ -21,30 +20,21 @@
         <p><%= l(:label_basis_date) %></p>
         <%= date_field_tag("basis_date", @cfg_param[:basis_date], size: 8) %><%= calendar_for("basis_date") %>
       </div>
-      <!-- select parent issues -->
-      <div class="option-col">
-        <p><%= l(:label_display_evm_parent_issue) %></p>
-        <%= select_tag :selected_parent_issue_id,
-            options_from_collection_for_select(@selectable_parent_issue, :id, :subject,
-                                               @cfg_param[:selected_parent_issue_id]),
-                                               {multiple: true, size: 5}%>
-      </div>
-      <br>
       <!-- Apply button -->
       <div class="option-apply">
-        <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
+        <%= link_to "#", {onclick: "$(this).closest('form').submit()", class: "icon icon-checked" } do l(:button_apply) end %>
       </div>
     </div>
   </fieldset>
 <% end %>
 <!-- contents -->
 <section>
-  <% @parent_issue_evm.each do |parent_issue_id, evm| %>
-    <h3><%=parent_issue(parent_issue_id).subject%></h3>
+  <% @version_evm.each do |ver_id, evm| %>
+    <h3><%=version_chart_name(ver_id)%><br></h3>
+    <!-- EVM Summary -->
     <table id="evm-indicator-option_value-table" border="1" bordercolor = "#bbb">
       <tr>
-        <th>#</th>
-        <th>BAC</th>
+        <th>BAC%>)</th>
         <th>Complete EV</th>
         <th>PV</th>
         <th>EV</th>
@@ -55,7 +45,6 @@
         <th>CPI</th>
       </tr>
       <tr>
-        <td><%=parent_issue_link parent_issue_id%></td>
         <td><%=evm.bac%></td>
         <td><%=evm.complete_ev%> %</td>
         <td><%=evm.today_pv%></td>
@@ -69,12 +58,12 @@
     </table>
     <br>
     <!-- Charts -->
-    <div id="evm-graph-lines-parentissue-<%= parent_issue_id %>">
-      <%= render partial: "/evmparentissues/parentissues_chart_js",
+    <div id="evm-graph-lines-version-<%= ver_id %>">
+      <%= render partial: "/evmversions/version_chart_js",
           locals: { basis_date: @cfg_param[:basis_date],
-                    evm: evm,
-                    parent_issue_id: parent_issue_id,
-                    parent_issue_subject: parent_issue(parent_issue_id).subject } %>
-    </div>  
+                    version_evm: evm,
+                    version: ver_id,
+                    version_name: version_chart_name(ver_id) } %>
+    </div>
   <% end %>
 </section>

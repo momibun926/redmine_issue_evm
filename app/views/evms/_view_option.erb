@@ -2,6 +2,8 @@
   <p><%= l(:label_basis_date) %></p>
   <%= date_field_tag("basis_date", basis_date, size: 10) %><%= calendar_for("basis_date") %>
   <br>
+</div>
+<div class="option-col">
   <p><%= l(:label_basis) %></p>
   <%= check_box_tag :no_use_baseline,"true", no_use_baseline, onclick: "disableobject('evmbaseline_id', this.checked);"%>
   <%= label_tag l(:label_no_use_baseline) %>
@@ -10,34 +12,10 @@
                                        baseline_id),
                                        disabled: no_use_baseline %>
   <br>
+</div>
+<div class="option-col">
   <p><%= l(:label_display) %></p>
   <%= check_box_tag :display_explanation, "true", display_explanation %>
   <%= label_tag l(:label_display_explanation) %>
   <br>
-</div>
-<div class="option-col">
-  <p><%= l(:label_display_other_evm) %></p>
-  <div class="option-col">
-  <%= check_box_tag :display_evm_assignee, "true", display_evm_assignee %>
-  <%= label_tag l(:label_display_evm_assignee) %>
-  <br>
-  </div>
-  <div class="option-col">
-  <%= check_box_tag :display_evm_tracker, "true", display_evm_tracker %>
-  <%= label_tag l(:label_display_evm_tracker) %>
-  <br>
-  <%= select_tag :selected_tracker_id,
-      options_from_collection_for_select(selectable_tracker, :id, :name,
-                                         params[:selected_tracker_id]),
-                                         {multiple: true, size: 5}%>
-  </div>
-  <div class="option-col">
-    <%= check_box_tag :display_evm_parent_issue, "true", display_evm_parent_issue %>
-    <%= l(:label_display_evm_parent_issue) %>
-    <br>
-    <%= select_tag :selected_parent_issue_id,
-      options_from_collection_for_select(selectable_parent_issue, :id, :subject,
-                                         params[:selected_parent_issue_id]),
-                                         {multiple: true, size: 5}%>
-  </div>
 </div>
