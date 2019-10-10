@@ -1,0 +1,9 @@
+<div id="evm-graph-<%= id %>">
+  <script>
+    var actualWeek = <%= basis_date.to_time.to_i* 1000 %>;
+    var graphTitleMain = <%= raw tittle.to_json %> ;
+    var chartData = <%= raw evm.chart_data.to_json %>;
+    var chartHtmlElement = "evm-graph-<%= id %>";
+    drawOtherEvmChart(chartData, chartHtmlElement, actualWeek, graphTitleMain);
+  </script>
+</div>

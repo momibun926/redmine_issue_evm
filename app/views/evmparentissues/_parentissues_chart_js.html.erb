@@ -1,7 +1,0 @@
-<script>
-  var actualWeek = <%= basis_date.to_time.to_i* 1000 %>;
-  var graphTitleMain = <%= raw parent_issue_subject.to_json %> ;
-  var parentIssueChartData = <%= raw evm.chart_data.to_json %>;
-  var parentIssueChartHtmlElement = "evm-graph-lines-parentissue-<%= parent_issue_id %>";
-  drawParentIssueChart(parentIssueChartData, parentIssueChartHtmlElement, graphTitleMain);
-</script>

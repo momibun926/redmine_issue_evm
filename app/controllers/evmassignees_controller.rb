@@ -22,15 +22,15 @@ class EvmassigneesController < ApplicationController
     @cfg_param[:limit_cr] = emv_setting.threshold_cr
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
-    @cfg_param[:selected_assinee_id] = params[:selected_assinee_id]
+    @cfg_param[:selected_assignee_id] = params[:selected_assignee_id]
     # selectable assignee
     @selectable_assignees = selectable_assignee_list @project
     # ##################################
     # EVM optional (assignee)
     # ##################################
     @assignee_evm = {}
-    unless @cfg_param[:selected_assinee_id].nil?
-      @cfg_param[:selected_assinee_id].each do |id|
+    unless @cfg_param[:selected_assignee_id].nil?
+      @cfg_param[:selected_assignee_id].each do |id|
         condition = if id.blank? 
                       {assigned_to_id: nil}
                     else 

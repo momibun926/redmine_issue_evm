@@ -41,7 +41,7 @@ module EvmparentissuesHelper
   #
   # @param [numeric] issue_id parent issue id
   # @return [issue] parent issue object
-  def parent_issue(parent_issue_id)
-    Issue.find(parent_issue_id)
+  def parent_issue_subject(parent_issue_id)
+    Issue.find(parent_issue_id).subject
   end
 end

@@ -317,7 +317,7 @@ function drawPerformanceChart(dataToChart, placeholder, graphtitle){
       Highcharts.setOptions({global : {useUTC : false}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
-function drawAssigneeChart(dataToChart, placeholder, nowdate, graphtitle){
+function drawOtherEvmChart(dataToChart, placeholder, nowdate, graphtitle){
     var data = dataToChart;
     var chartOptions = {
             credits:{
