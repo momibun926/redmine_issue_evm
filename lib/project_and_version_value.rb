@@ -138,7 +138,25 @@ module ProjectAndVersionValue
     end
     selectable_list
   end
-
+  # Get pair of project id and fixed version id.
+  # sort by minimum due date of each version.
+  #
+  # @param [project] proj project object
+  # @return [Array] project_id, fixed_version_id
+  def selectable_version_list(proj)
+    Issue.cross_project_scope(proj, "descendants").
+      select("fixed_version_id, versions.name").
+      where(SQL_COM.to_s).
+      joins(:fixed_version).
+      where.not(fixed_version_id: nil).
+      group(:fixed_version_id, "versions.name")
+  end
+  # use fo option area
+  def selectable_parent_issues_list
+    Issue.where(project_id: @project.id).
+          where(parent_id: nil).
+          where("( rgt - lft ) > 1")
+  end
   # Get imcomplete issuees on basis date.
   #
   # @note If the due date has not been entered, we will use the due date of the version

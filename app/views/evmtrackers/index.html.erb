@@ -1,68 +1,27 @@
 <% html_title("Project tracking with EVM - Trackers ") %>
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag "issue_evm",         plugin: "redmine_issue_evm" %>
+<!-- add select option: trackers -->
+<% content_for :additional_option do %>
+  <!-- select trackers -->
+  <div class="option-col">
+    <p><%= l(:label_display_evm_tracker) %></p>
+    <%= select_tag :selected_tracker_id,
+        options_from_collection_for_select(@selectable_tracker, :id, :name,
+                                           @cfg_param[:selected_tracker_id]),
+                                           {multiple: true, size: 5}%>
+  </div>
 <% end %>
-<!-- contextual (Basline setting) -->
-<div class="contextual">
-  <%= link_to l(:subtitle_evm_graph_version), {controller: :evmversions, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
-  <%= link_to l(:subtitle_evm_summary_assignee), {controller: :evmassignees, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
-  <%= link_to l(:label_other_evm_parent_issues), {controller: :evms, action: :index, id: @project.id} , class: "icon icon-settings"%>
-</div>
-<!--option -->
-<h2><%= l(:title_evm_tab)%></h2>
-<%= form_tag url_for(action: :index), method: :get, id: "query_form" do %>
-  <fieldset id="filters" class="collapsible collapsed">
-    <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
-    <div style="display: none;">
-      <!-- basis date -->
-      <div class="option-col">
-        <p><%= l(:label_basis_date) %></p>
-        <%= date_field_tag("basis_date", @cfg_param[:basis_date], size: 8) %><%= calendar_for("basis_date") %>
-      </div>
-      <!-- select trackers -->
-      <div class="option-col">
-        <p><%= l(:label_display_evm_tracker) %></p>
-        <%= select_tag :selected_tracker_id,
-            options_from_collection_for_select(@selectable_tracker, :id, :name,
-                                               @cfg_param[:selected_tracker_id]),
-                                               {multiple: true, size: 5}%>
-      </div>
-      <br>
-      <!-- Apply button -->
-      <div class="option-apply">
-        <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
-      </div>
-    </div>
-  </fieldset>
-<% end %>
+<%= render partial: "/common/option_field"%>
 <!-- contents -->
 <section>
-  <h3><%= l(:subtitle_evm_summary_trackers)%></h3>
-  <table id="evm-indicator-option_value-table" border="1" bordercolor = "#bbb">
-    <tr>
-      <th><%=l(:label_display_evm_tracker)%></th>
-      <th>BAC(<%=l(:indicator_table_header_tracker)%>)</th>
-      <th>Complete EV</th>
-      <th>PV</th>
-      <th>EV</th>
-      <th>AC</th>
-      <th>SV</th>
-      <th>CV</th>
-      <th>SPI</th>
-      <th>CPI</th>
-    </tr>
-    <tr>
-      <td><%=selected_trackers_name(@cfg_param[:selected_tracker_id])%></td>
-      <td><%=@tracker_evm.bac%></td>
-      <td><%=@tracker_evm.complete_ev%> %</td>
-      <td><%=@tracker_evm.today_pv%></td>
-      <td><%=@tracker_evm.today_ev%></td>
-      <td><%=@tracker_evm.today_ac%></td>
-      <td><%=@tracker_evm.today_sv%></td>
-      <td><%=@tracker_evm.today_cv%></td>
-      <td <%=spi_color(@tracker_evm)%>><%=@tracker_evm.today_spi%></td>
-      <td <%=cpi_color(@tracker_evm)%>><%=@tracker_evm.today_cpi%></td>
-    </tr>
-  </table>
-  <br />
+  <% unless @cfg_param[:selected_tracker_id].nil? %>
+    <h3><%=selected_trackers_name(@cfg_param[:selected_tracker_id])%></h3>
+    <!-- EVN value -->
+    <%= render partial: "/common/basic_evm_value", locals: { evm: @tracker_evm} %>
+    <!-- Charts -->
+    <%= render partial: "/common/basic_evm_chart_js",
+        locals: { basis_date: @cfg_param[:basis_date],
+                  evm: @tracker_evm,
+                  id: "1",
+                  tittle: selected_trackers_name(@cfg_param[:selected_tracker_id]) } %>
+  <% end %>
 </section>

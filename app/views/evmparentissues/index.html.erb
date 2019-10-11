@@ -1,7 +1,6 @@
 <% html_title("Project tracking with EVM - parent issues ") %>
-<!-- add select option: selectable assignee -->
 <% content_for :additional_option do %>
-  <!-- select parent issues -->
+  <!-- selectable parent issues -->
   <div class="option-col">
     <p><%= l(:label_display_evm_parent_issue) %></p>
     <%= select_tag :selected_parent_issue_id,

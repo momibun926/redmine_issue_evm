@@ -1,6 +1,6 @@
 <% html_title("Project tracking with EVM - assignee issues ") %>
-<!-- add select option: selectable assignee -->
 <% content_for :additional_option do %>
+  <!-- selectable assignee -->
   <div class="option-col">
     <p><%= l(:subtitle_evm_summary_assignee) %></p>
     <%= select_tag :selected_assignee_id,

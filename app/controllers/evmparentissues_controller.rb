@@ -24,15 +24,16 @@ class EvmparentissuesController < ApplicationController
     @cfg_param[:basis_date] = params[:basis_date]
     @cfg_param[:selected_parent_issue_id] = params[:selected_parent_issue_id]
     #selectable parent issue
-    @selectable_parent_issue = parent_issues_list
-    # ##################################
-    # Selected parent issue EVM
-    # ##################################
+    @selectable_parent_issue = selectable_parent_issues_list
+    # EVM optional (parent issue)
     @parent_issue_evm = {}
     unless @cfg_param[:selected_parent_issue_id].nil?
       @cfg_param[:selected_parent_issue_id].each do |issue_id|
+        # issues of parent issue
         parent_issue = parent_issues issue_id
+        # spent time of parent issue
         parent_issue_actual_cost = parent_issue_costs issue_id
+        # create array of EVM
         @parent_issue_evm[issue_id] = IssueEvm.new nil,
                                              parent_issue,
                                              parent_issue_actual_cost,
@@ -53,11 +54,5 @@ class EvmparentissuesController < ApplicationController
       @project = Project.find(params[:project_id])
     rescue ActiveRecord::RecordNotFound
       render_404
-    end
-    # use fo option area
-    def parent_issues_list
-      Issue.where(project_id: @project.id).
-            where(parent_id: nil).
-            where("( rgt - lft ) > 1")
     end
 end

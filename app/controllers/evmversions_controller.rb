@@ -7,29 +7,29 @@ class EvmversionsController < ApplicationController
   # Before action
   before_action :find_project
   #
-  # 
+  # View of version
   #
   def index
+    # Get settings
     emv_setting = Evmsetting.find_by(project_id: @project.id)
     @cfg_param = {}
-    @cfg_param[:basis_date] = params[:basis_date]
-    @cfg_param[:selected_parent_issue_id] = params[:selected_parent_issue_id]
-
+    # Setting
     @cfg_param[:working_hours] = emv_setting.basis_hours
     @cfg_param[:exclude_holiday] = emv_setting.exclude_holidays
     @cfg_param[:region] = emv_setting.region
-
     @cfg_param[:limit_spi] = emv_setting.threshold_spi
     @cfg_param[:limit_cpi] = emv_setting.threshold_cpi
     @cfg_param[:limit_cr] = emv_setting.threshold_cr
-
-    # ##################################
+    # View options
+    @cfg_param[:basis_date] = params[:basis_date]
+    @cfg_param[:selected_version_id] = params[:selected_version_id]
+    #selectable version
+    @selectable_versions = selectable_version_list @project
     # EVM optional (assignee)
-    # ##################################
     @version_evm = {}
-    project_version_ids = project_varsion_id_pair @project
-    unless project_version_ids.nil?
-      project_version_ids.each do |proj_id, ver_id|
+    unless @cfg_param[:selected_version_id].nil?
+      @cfg_param[:selected_version_id].each do |ver_id|
+        proj_id = Version.find(ver_id).project_id
         proj = Project.find(proj_id)
         condition = {fixed_version_id: ver_id}
         # issues of version

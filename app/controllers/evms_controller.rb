@@ -44,14 +44,6 @@ class EvmsController < ApplicationController
       @evmbaseline = find_evmbaselines
       # evm explanation
       @cfg_param[:display_explanation] = params[:display_explanation]
-      # assignee
-      @cfg_param[:display_evm_assignee] = params[:display_evm_assignee]
-      # tracker
-      @cfg_param[:display_evm_tracker] = params[:display_evm_tracker]
-      @selectable_tracker = @project.trackers
-      # parent issue
-      @cfg_param[:display_evm_parent_issue] = params[:display_evm_parent_issue]
-      @selectable_parent_issue = find_parent_issues
 
       # ##################################
       # EVM
@@ -124,11 +116,5 @@ class EvmsController < ApplicationController
     def find_evmbaselines
       Evmbaseline.where(project_id: @project.id).
                   order(created_on: :DESC)
-    end
-    # use fo option area
-    def find_parent_issues
-      Issue.where(project_id: @project.id).
-            where(parent_id: nil).
-            where("( rgt - lft ) > 1")
     end
 end

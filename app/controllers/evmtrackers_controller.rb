@@ -24,9 +24,7 @@ class EvmtrackersController < ApplicationController
     @cfg_param[:basis_date] = params[:basis_date]
     @cfg_param[:selected_tracker_id] = params[:selected_tracker_id]
     @selectable_tracker = @project.trackers
-    # ##################################
     # EVM optional (selected trackers)
-    # ##################################
     condition = {tracker_id: params[:selected_tracker_id]}
     # issues of trackers
     tracker_issues = evm_issues @project, condition
