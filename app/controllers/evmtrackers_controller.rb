@@ -1,13 +1,9 @@
 include EvmLogic, ProjectAndVersionValue
 
 # evmasignee controller
-class EvmtrackersController < ApplicationController
-  # menu
-  menu_item :issuevm
-  # Before action
-  before_action :find_project
-  #
+class EvmtrackersController < BaseevmController
   # 
+  #
   #
   def index
     # Get settings
@@ -41,12 +37,4 @@ class EvmtrackersController < ApplicationController
                                 exclude_holiday: @cfg_param[:exclude_holiday],
                                 region: @cfg_param[:region]
   end
-
-  private
-    # find project object by params
-    def find_project
-      @project = Project.find(params[:project_id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
-    end
 end

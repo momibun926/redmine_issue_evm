@@ -1,11 +1,7 @@
 include EvmLogic, ProjectAndVersionValue
 
 # evmasignee controller
-class EvmversionsController < ApplicationController
-  # menu
-  menu_item :issuevm
-  # Before action
-  before_action :find_project
+class EvmversionsController < BaseevmController
   #
   # View of version
   #
@@ -50,12 +46,4 @@ class EvmversionsController < ApplicationController
       end
     end
   end
-  
-  private
-    # find project object by params
-    def find_project
-      @project = Project.find(params[:project_id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
-    end
 end

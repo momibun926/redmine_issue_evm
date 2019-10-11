@@ -1,89 +1,56 @@
 <% html_title("Project tracking with EVM") %>
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag "print",             plugin: "redmine_issue_evm" , media: "print" %>
-  <%= stylesheet_link_tag "issue_evm",         plugin: "redmine_issue_evm" %>
-  <%= javascript_include_tag "drawchart",      plugin: "redmine_issue_evm" %>
-  <%= javascript_include_tag "highcharts.js",  plugin: "redmine_issue_evm" %>
-  <%= javascript_include_tag "jPrintArea.js",  plugin: "redmine_issue_evm" %>
-  <script>
-    function disableobject( object, ischecked ) {
-      document.getElementById(object).disabled = ischecked;
-    }
-    $(function(){
-      $("#btn_print").click(function(){
-        $.jPrintArea("#printarea");
-      });
-    });
-  </script>
-<% end %>
-<!-- contextual (Basline setting) -->
-<div class="contextual">
-  <%= link_to l(:subtitle_evm_graph_version), {controller: :evmversions, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
-  <%= link_to l(:subtitle_evm_summary_assignee), {controller: :evmassignees, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
-  <%= link_to l(:subtitle_evm_summary_parent_issue), {controller: :evmparentissues, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
-  <%= link_to l(:subtitle_evm_summary_trackers), {controller: :evmtrackers, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-settings"%>
-  <%= link_to l(:label_baseline_set), {controller: :evmbaselines, action: :index, id: @project.id} , class: "icon icon-settings"%>
-  <%= link_to l(:label_setting_set), {controller: :evmsettings, action: :edit, id: @project.id} , class: "icon icon-settings"%>
-  <%= link_to "#", {id: "btn_print", class: "icon icon-print" } do l(:label_evm_print) end %>
-</div>
-<!--Sidebar-->
-<% if @cfg_param[:display_explanation] %>
-  <% content_for :sidebar do %>
-    <%= render partial: "/evms/explanation" %>
+<% if @no_data %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+  <!--Sidebar-->
+  <% if @cfg_param[:display_explanation] %>
+    <% content_for :sidebar do %>
+      <%= render partial: "/evms/explanation" %>
+    <% end %>
   <% end %>
-<% end %>
-<!--for print area-->
-<div id="printarea">
-  <!--Header-->
-  <h2><%= l(:title_evm_tab)%></h2>
-  <% if @no_data %>
-    <p class="nodata"><%= l(:label_no_data) %></p>
-  <% else %>
-    <!-- Option -->
-    <div id="noprintarea">
-      <%= form_tag url_for(action: :index), method: :get, id: "query_form" do %>
-        <fieldset id="filters" class="collapsible collapsed">
-          <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
-          <div style="display: none;">
-            <%= render partial: "/evms/view_option",
-                locals: { basis_date: @cfg_param[:basis_date],
-                          no_use_baseline: @cfg_param[:no_use_baseline],
-                          evmbaseline: @evmbaseline,
-                          baseline_id: @cfg_param[:baseline_id],
-                          display_incomplete: @cfg_param[:display_incomplete],
-                          calcetc: @cfg_param[:calcetc],
-                          display_explanation: @cfg_param[:display_explanation] } %>
-          <div class="option-apply">
-            <!-- Apply button -->
-            <br>
-            <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
-          </div>
-          </div>
-        </fieldset>
-      <% end %>
-    <!--end of no print area-->
+  <% content_for :additional_option do %>
+    <!-- calculate use baseline -->
+    <div class="option-col">
+      <p><%= l(:label_baseline_use) %></p>
+      <%= check_box_tag :no_use_baseline,"true",
+                        @cfg_param[:no_use_baseline],
+                        onclick: "disableobject('evmbaseline_id', this.checked);"%>
+      <%= label_tag l(:label_no_use_baseline) %>
+      <%= select_tag :evmbaseline_id,
+                      options_from_collection_for_select(@evmbaseline, :id, :subject,
+                                                         @cfg_param[:baseline_id]),
+                                                         disabled: @cfg_param[:no_use_baseline] %>
     </div>
-    <!--Indicator value-->
-    <%= render partial: "/evms/measure",
-        locals: { project_evm: @project_evm,
-                  working_hours: @cfg_param[:working_hours] } %>
-    <!-- Main Chart -->
-    <%= render partial: "/evms/project_chart_js",
+    <!-- explanation evm -->
+    <div class="option-col">
+      <p><%= l(:label_explanation) %></p>
+      <%= check_box_tag :display_explanation, "true", @cfg_param[:display_explanation] %>
+      <%= label_tag l(:label_display_explanation) %>
+    </div>
+  <% end %>
+  <%= render partial: "/common/option_field"%>
+  <!--Indicator value-->
+  <%= render partial: "/evms/measure",
+      locals: { project_evm: @project_evm,
+                working_hours: @cfg_param[:working_hours] } %>
+  <!-- Exports -->
+  <% other_formats_links do |f| %>
+    <%= f.link_to 'CSV', :url => {:action => 'index'} %>
+  <% end %>
+  <!-- Main Chart -->
+  <h3><%= l(:subtitle_evm_chart_main) %></h3>
+  <%= render partial: "/evms/project_chart_js",
+      locals: { basis_date: @cfg_param[:basis_date],
+                project_evm: @project_evm,
+                project_name: project_chart_name } %>
+  <br>
+  <!-- Performance Chart -->
+  <% if @cfg_param[:display_performance] %>
+    <h3><%= l(:subtitle_evm_chart_performance) %></h3>
+    <%= render partial: "/evms/performance_chart_js",
         locals: { basis_date: @cfg_param[:basis_date],
                   project_evm: @project_evm,
                   project_name: project_chart_name } %>
-    <!-- Exports -->
-    <% other_formats_links do |f| %>
-      <%= f.link_to 'CSV', :url => {:action => 'index'} %>
-    <% end %>
-    <br>
-    <!-- Performance Chart -->
-    <% if @cfg_param[:display_performance] %>
-      <%= render partial: "/evms/performance_chart_js",
-          locals: { basis_date: @cfg_param[:basis_date],
-                    project_evm: @project_evm,
-                    project_name: project_chart_name } %>
-    <% end %>
   <% end %>
   <!-- Incomplete issue list -->
   <% if @cfg_param[:display_incomplete] %>
@@ -94,5 +61,4 @@
           locals: { incomplete_issues: @incomplete_issues } %>
     <% end %>
   <% end %>
-<!--end of print area-->
-</div>
+<% end %>

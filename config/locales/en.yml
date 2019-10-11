@@ -1,17 +1,56 @@
-﻿# English strings go here for Rails i18n
-en:
-  # Setting Tab
-  label_setting_create: Create EVM setting
-  label_setting_edit: Edit EVM setting
-  label_setting_set: EVM setting
+﻿en:
+  # main title
+  title_evm_tab: Track with EVM
+
+  # contextial menu
+  label_nav_main: Main
+  label_nav_version: Versions
+  label_nav_assignee: Assignees
+  label_nav_parent_issue: Parent issues
+  label_nav_tracker: Trackers
+  label_nav_baseline_setting: Baseline setting
+  label_nav_evm_setting: Common setting
+  
+  # Main page
+  subtitle_evm_summary: Summary
+  subtitle_evm_incomplete_issues: Incomplete Issues
+  subtitle_evm_chart_main: EVM Charts
+  subtitle_evm_chart_performance: Performance Charts
+
+  # Indicator table header
+  indicator_table_header_date: Basis date
+  indicator_table_header_today: Basis date value
+  indicator_table_header_difference: Difference
+  indicator_table_header_performance: Perfromance
+  indicator_table_header_forecast: Forecast
+
+  # Indicator table legend
+  explanation_upper_row: Upper row is hours.
+  explanation_lower_row: Lower row is days.
+  
+  # Option - common
+  label_basis_date: Basis date
+  # Option - main
+  label_baseline_use: Use baseline for EVM value
+  label_no_use_baseline: Not use
+  label_explanation : Explanation
+  label_display_explanation: View explanation of EVM value to sidebar
+  # Option - parent issue
+  label_select_parent_issue : Select parent issue
+  # Option - trackers
+  label_select_trackers: Select trackers
+  # Option - assignees
+  label_select_assignee: Select assignees
+  # Option - versions
+  label_select_version: Select versions
+
+  # baseline page
   label_baseline: Baseline Name
   label_baseline_show: Show Baseline
   label_baseline_edit: Edit Baseline
   label_baseline_create: New Baseline
   label_baseline_version: Baseline History
   label_baseline_set: Baseline setting
-  label_other_evm_assignee: Assignees EVM
-  label_other_evm_parent_issues: Parent issues EVM
   label_baseline_start_date: Start Date
   label_baseline_due_date: Due Sate
   label_baseline_bac: BAC
@@ -19,53 +58,40 @@ en:
   label_current_baseline: Latest
   label_old_baseline: old
   label_latest_baseline: View EVM
+  
+  # common setting page
+  label_setting_create: Create EVM setting
+  label_setting_edit: Edit EVM setting
+  label_setting_set: EVM setting
   label_basis_hours_of_day: Basis hours of day
+  label_evm_graph: Chart
   label_limit_spi: SPI threshold.
   label_limit_cpi: CPI threshold.
   label_limit_cr: CR threshold.
   label_exclude_holidays: Exclude holidays and weekend in PV calculation.
   label_region: Regions to get a holiday
-  # Message
-  messsage_delete_baseline: Are you sure?
-  # Main form
-  title_evm_tab:  Track with EVM
-  subtitle_evm_summary: Summary
-  subtitle_evm_summary_trackers: Selected trackers
-  subtitle_evm_summary_assignee: Assignees
-  subtitle_evm_summary_parent_issue: Parent issue
-  subtitle_evm_graph_main: Charts
-  subtitle_evm_incomplete_issues: Incomplete Issues
-  subtitle_evm_graph_performance: Performance Cahrts
-  subtitle_evm_graph_version: Version Charts
-  # Option
-  label_basis_date: Basis date
-  label_basis: Use baseline　for EVM value
-  label_no_use_baseline: Not use
-  label_graph: Chart
-  label_forecast: Forecast
-  label_display_version: Version
-  label_display_performance: Performance
   label_display_incomplete: Incomplete Issues
+  label_display_performance: Performance
+  label_forecast: Forecast
   label_calculate : ETC calculation method
   label_calc_method1: Optimistic
   label_calc_method2: Normal
   label_calc_method3: Pessimistic
-  label_display : Explanation
-  label_display_other_evm : Other view of EVM
-  label_display_evm_assignee : Each assignees
-  label_display_evm_tracker : Selected trackers
-  label_display_evm_parent_issue : Selected parent issue
-  label_display_evm_parent_issue_attention : All related tickets must have start and end dates
-  label_display_explanation: View explanation of EVM value to sidebar
+
+  # Message
+  messsage_delete_baseline: Are you sure?
+  
+  # Activity page
   label_evmbaseline_plural: Baseline
   label_ativity_message_new: Baseline is created.
   label_ativity_message_edit: Baseline is updated.
-  label_evm_print: Print
+
   # Explanation title
   explanation_basis: Basis
   explanation_difference: Difference
   explanation_performance: Performance
   explanation_forecast: Forecast
+
   # Explanation
   explanation_bac: Total budget allocated to the project.
   explanation_pv: Total cost of the work scheduled/planned as of a reporting date.
@@ -82,25 +108,18 @@ en:
   explanation_vac: The variance on the total budget at the end of the project. BAC－EAC
   explanation_difference_end_date: Difference of plan at the end of day and forecast end of day.
   explanation_tcpi: Showing the efficiency at which the resources on the project should be utilized for the remainder of the project.
-  # Indicator table header
-  indicator_table_header_date: Basis date
-  indicator_table_header_today: Basis date value
-  indicator_table_header_difference: Difference
-  indicator_table_header_performance: Perfromance
-  indicator_table_header_forecast: Forecast
-  indicator_table_header_tracker: selected trackers
-  indicator_table_header_parent_issue: selected parent issue
-  # Indicator table legend
-  explanation_upper_row: Upper row is hours.
-  explanation_lower_row: Lower row is days.
+  
   # Permission
   project_module_Issuevm: EVM
   permission_view_evms: View EVM
   permission_manage_evmbaselines: Edit Baseline
   permission_view_evmbaselines: View Baseline
+  
   # Tab Display
   tab_display_name: EVM
+ 
   # incomplete_issue
   incomplete_issue_parent_id: Parent#
+  
   # EVM of assignee
   no_assignee: no assigned

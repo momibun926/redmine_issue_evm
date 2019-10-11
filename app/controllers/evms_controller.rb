@@ -1,14 +1,10 @@
 include EvmLogic, ProjectAndVersionValue
 
 # evm controller
-class EvmsController < ApplicationController
-
-  # menu
-  menu_item :issuevm
-
-  # Before action
+class EvmsController < BaseevmController
+  # Before action (override)
   before_action :find_project, :authorize
-
+  #
   # View of EVM
   #
   def index
@@ -21,7 +17,6 @@ class EvmsController < ApplicationController
       # ##################################
       # plugin setting chart
       @cfg_param[:forecast] = emv_setting.view_forecast
-      @cfg_param[:display_version] = emv_setting.view_version
       @cfg_param[:display_performance] = emv_setting.view_performance
       @cfg_param[:display_incomplete] = emv_setting.view_issuelist
       # plugin setting calculation evm
@@ -89,11 +84,15 @@ class EvmsController < ApplicationController
   end
 
   private
+    #
     # default basis date
+    #
     def default_basis_date
         params[:basis_date].nil? ? Time.zone.today : params[:basis_date].to_date
     end
+    #
     # default baseline. latest baseline
+    #
     def default_baseline_id
       if params[:evmbaseline_id].nil?
         @evmbaseline.blank? ? nil : @evmbaseline.first.id
@@ -101,18 +100,15 @@ class EvmsController < ApplicationController
         params[:evmbaseline_id]
       end
     end
-    # view option.
+    #
     # use baseline
+    #
     def default_no_use_baseline
       @evmbaseline.blank? ? "ture" : params[:no_use_baseline]
     end
-
-    def find_project
-      @project = Project.find(params[:project_id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
-    end
+    #
     # use fo option area
+    #
     def find_evmbaselines
       Evmbaseline.where(project_id: @project.id).
                   order(created_on: :DESC)

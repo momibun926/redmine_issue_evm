@@ -1,9 +1,12 @@
 <% html_title("Project tracking with EVM - Trackers ") %>
-<!-- add select option: trackers -->
+<!-- sunb title -->
+<% content_for :title_sub do %>
+  <%= l(:label_nav_tracker) %>
+<% end %>
 <% content_for :additional_option do %>
   <!-- select trackers -->
   <div class="option-col">
-    <p><%= l(:label_display_evm_tracker) %></p>
+    <p><%= l(:label_select_trackers) %></p>
     <%= select_tag :selected_tracker_id,
         options_from_collection_for_select(@selectable_tracker, :id, :name,
                                            @cfg_param[:selected_tracker_id]),

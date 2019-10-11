@@ -1,106 +1,126 @@
 ﻿# chinese translation
 zh:
-  # Setting Tab
-  label_setting_create: 创建EVM设置
-  label_setting_edit: 编辑EVM设置
-  label_setting_set: EVM设置
-  label_baseline: 基线
-  label_baseline_show: 显示基线
-  label_baseline_edit: 编辑基线
-  label_baseline_create: 新增基线
-  label_baseline_version: 基线历史
-  label_baseline_set: 基线管理
-  label_other_evm_assignee: Assignees EVM
-  label_other_evm_parent_issues: Parent issues EVM
-  label_baseline_start_date: 起始日期
-  label_baseline_due_date: 截止日期
-  label_baseline_bac: BAC
-  label_created_date: 创建于
-  label_current_baseline: 最近
-  label_old_baseline: 过去
-  label_latest_baseline: 使用最新的基线计算
-  label_basis_hours_of_day: 基准工时/日
-  label_limit_spi: SPI阈值，必须小于0.99。
-  label_limit_cpi: CPI阈值，必须小于0.99。
-  label_limit_cr: CR阈值，必须小于0.99。
-  label_exclude_holidays: 在PV计算中排除假期
-  label_region: Regions to get a holiday
-  # Message
-  messsage_delete_baseline: 确定删除基线？
-  # Main form
+  # main title
   title_evm_tab: Track with EVM
-  subtitle_evm_summary: 概览
-  subtitle_evm_summary_trackers: EVM of selected trackers
-  subtitle_evm_summary_assignee: EVM of assignees
-  subtitle_evm_summary_parent_issue: EVM of parent issue
-  subtitle_evm_graph_main: 预估图表
-  subtitle_evm_incomplete_issues: 未完成工作项列表
-  subtitle_evm_graph_performance: 绩效指数图表
-  subtitle_evm_graph_version: 版本EVM图表
-  # Option
-  label_basis_date: 基准日期
-  label_basis: 使用基线计算EVM
-  label_no_use_baseline: 不使用
-  label_graph: 图表
-  label_forecast: 预估图表
-  label_display_version: 版本EVM图表
-  label_display_performance: 绩效指数图表
-  label_display_incomplete: 未完成工作项列表
-  label_calculate : ETC计算方法
-  label_calc_method1: 乐观
-  label_calc_method2: 常规
-  label_calc_method3: 悲观
-  label_display : EVM相关名词说明
-  label_display_other_evm : View of other EVM
-  label_display_evm_assignee : View EVM of assignees
-  label_display_evm_tracker : View EVM of selected trackers
-  label_display_evm_parent_issue : View EVM of selected parent issue
-  label_display_evm_parent_issue_attention : All related tickets must have start and end dates
-  label_display_explanation: 在侧边栏上显示EVM相关名词的释义
-  label_evmbaseline_plural: 基线
-  label_ativity_message_new: 基线已建立。
-  label_ativity_message_edit: 基线已更新。
-  label_evm_print: 打印
-  # Explanation title
-  explanation_basis: 基准
-  explanation_difference: 差异
-  explanation_performance: 绩效
-  explanation_forecast: 预测
-  # Explanation
-  explanation_bac: Budget cost At Completion，完工预算：(BAC)全部工作的预算是多少？不改变成本基准，BAC就不会发生变化。
-  explanation_pv: Planned Value，计划值：(PV)应该完成多少工作？
-  explanation_ev: Earned Value，挣值：(EV)完成了多少预算工作？
-  explanation_ac: Actual Cost，实际成本：(AC)完成工作的实际成本是多少？这里成本指代工作时间
-  explanation_sv: Schedule Variance，进度偏差：(SV)是指已完工程实际时间和已完工程计划时间之间的差异。当SV<0时，表示进度拖延；当SV=0时，表示实际与计划相符。当SV>0时，表示进度提前。计算公式：SV = EV-PV。
-  explanation_cv: Cost Variance，成本偏差：当CV<0时，表示项目运行超出预算费用；当CV>0时，表示项目运行实际费用没有超出预算费用。此处费用用时间标识。计算公式：CV = EV-AC。
-  explanation_spi: Schedule Performance Index，进度绩效指数：SPI>1说明进度超前；SPI<1说明进度延迟。计算公式：SPI = EV/PV。
-  explanation_cpi: Cost Performance Index，成本绩效指数：CPI<1时，表示超支，即实际费用高于预算费用；CPI>1时，表示节支，即实际费用低于预算费用。计算公式：CPI = EV/AC。
-  explanation_cr: Critical Ratio，关键比率：(CR)。当CR在0.9-1.2之间，表示项目进展正常，偏差可以接受；CR在0.8-0.9或1.2-1.3之间，表示需要对项目进展进行检查，项目偏差需要纠正；CR在1.3以上或0.8以下，表示需要对项目立即采取行动，项目偏差已经严重失控。计算公式：CR = SPI * CPI。
-  explanation_complete: 完成率。计算公式：Complete = EV/BAC。
-  explanation_eac: Estimate At Completion，完工估算：(EAC)是根据项目绩效和风险量化对项目总成本的预测。计算公式：EAC = AC＋ETC。
-  explanation_etc: Estimate To Completion，完工尚需估算：(ETC)是指剩余工作在当前的预测。计算公式：ETC = (BAC－EV)/CPI。
-  explanation_vac: Variance At Completion，完工偏差(VAC)。当VAC>0时，成本有节余；当VAC<0时，成本超支。计算公式：VAC = BAC－EAC。
-  explanation_difference_end_date: Delay，延期：是指计划完成日期和预估完成日期的差异(天数)
-  explanation_tcpi: To Complete Performance Index，完工尚需绩效指数：是指为了在既定的预算内完工（如BAC或EAC），未来实施剩余工作必须达到的成本绩效指标（预测值）。当TCPI<1时，说明生产力水平符合或超过预期；若TCPI>1，则应提高生产力(EV)。TCPI有两种计算公式。公式1-TCPI按照原定预算BAC完成：TCPI = (BAC–EV)/(BAC–AC)；公式2-TCPI按照新预算EAC完成：TCPI = (BAC–EV)/(EAC–AC)。
+
+  # contextial menu
+  label_nav_main: Main
+  label_nav_version: Versions
+  label_nav_assignee: Assignees
+  label_nav_parent_issue: Parent issues
+  label_nav_tracker: Trackers
+  label_nav_baseline_setting: Baseline setting
+  label_nav_evm_setting: Common setting
+  
+  # Main page
+  subtitle_evm_summary: Summary
+  subtitle_evm_incomplete_issues: Incomplete Issues
+  subtitle_evm_chart_main: EVM Charts
+  subtitle_evm_chart_performance: Performance Charts
+
   # Indicator table header
-  indicator_table_header_date: 基准日期
-  indicator_table_header_today: 基准当日指标
-  indicator_table_header_difference: 差异
-  indicator_table_header_performance: 绩效指数
-  indicator_table_header_forecast: 预测
-  indicator_table_header_tracker: selected trackers
-  indicator_table_header_parent_issue: selected parent issue
+  indicator_table_header_date: Basis date
+  indicator_table_header_today: Basis date value
+  indicator_table_header_difference: Difference
+  indicator_table_header_performance: Perfromance
+  indicator_table_header_forecast: Forecast
+
   # Indicator table legend
-  explanation_upper_row: 上面一行按小时计算。
-  explanation_lower_row: 下面一行按天数计算。
+  explanation_upper_row: Upper row is hours.
+  explanation_lower_row: Lower row is days.
+  
+  # Option - common
+  label_basis_date: Basis date
+  # Option - main
+  label_baseline_use: Use baseline for EVM value
+  label_no_use_baseline: Not use
+  label_explanation : Explanation
+  label_display_explanation: View explanation of EVM value to sidebar
+  # Option - parent issue
+  label_select_parent_issue : Select parent issue
+  # Option - trackers
+  label_select_trackers: Select trackers
+  # Option - assignees
+  label_select_assignee: Select assignees
+  # Option - versions
+  label_select_version: Select versions
+
+  # baseline page
+  label_baseline: Baseline Name
+  label_baseline_show: Show Baseline
+  label_baseline_edit: Edit Baseline
+  label_baseline_create: New Baseline
+  label_baseline_version: Baseline History
+  label_baseline_set: Baseline setting
+  label_baseline_start_date: Start Date
+  label_baseline_due_date: Due Sate
+  label_baseline_bac: BAC
+  label_created_date: Created on
+  label_current_baseline: Latest
+  label_old_baseline: old
+  label_latest_baseline: View EVM
+  
+  # common setting page
+  label_setting_create: Create EVM setting
+  label_setting_edit: Edit EVM setting
+  label_setting_set: EVM setting
+  label_basis_hours_of_day: Basis hours of day
+  label_evm_graph: Chart
+  label_limit_spi: SPI threshold.
+  label_limit_cpi: CPI threshold.
+  label_limit_cr: CR threshold.
+  label_exclude_holidays: Exclude holidays and weekend in PV calculation.
+  label_region: Regions to get a holiday
+  label_display_incomplete: Incomplete Issues
+  label_display_performance: Performance
+  label_forecast: Forecast
+  label_calculate : ETC calculation method
+  label_calc_method1: Optimistic
+  label_calc_method2: Normal
+  label_calc_method3: Pessimistic
+
+  # Message
+  messsage_delete_baseline: Are you sure?
+  
+  # Activity page
+  label_evmbaseline_plural: Baseline
+  label_ativity_message_new: Baseline is created.
+  label_ativity_message_edit: Baseline is updated.
+
+  # Explanation title
+  explanation_basis: Basis
+  explanation_difference: Difference
+  explanation_performance: Performance
+  explanation_forecast: Forecast
+
+  # Explanation
+  explanation_bac: Total budget allocated to the project.
+  explanation_pv: Total cost of the work scheduled/planned as of a reporting date.
+  explanation_ev: Total cost of the work completed/performed as of a reporting date. When the progress rate is set, recorded on change date.
+  explanation_ac: Total cost taken to complete the work as of a reporting date.
+  explanation_sv: Positive Schedule Variance Indicates we are ahead of schedule. Negative Schedule Variance Indicates we are behind of schedule.
+  explanation_cv: Positive Cost Variance Indicates the project is under budget. Negative Cost Variance Indicates the project is over budget.
+  explanation_spi: Above 1 indicates project team is very efficient in utilizing the time allocated to the project. Below 1 indicates project team is less efficient in utilizing the time allocated to the project.
+  explanation_cpi: Above 1 indicates efficiency in utilizing the resources allocated to the project is good. Below 1 indicates efficiency in utilizing the resources allocated to the project is not good.
+  explanation_cr: Project performance. SPI * CPI
+  explanation_complete: The percentage of work which was planned to be completed by the Reporting Date.
+  explanation_eac: Estimate At Completion (EAC) is the estimated cost of the project at the end of the project.
+  explanation_etc: The estimated cost required to complete the remainder of the project. (BAC－EV) / CPI
+  explanation_vac: The variance on the total budget at the end of the project. BAC－EAC
+  explanation_difference_end_date: Difference of plan at the end of day and forecast end of day.
+  explanation_tcpi: Showing the efficiency at which the resources on the project should be utilized for the remainder of the project.
+  
   # Permission
   project_module_Issuevm: EVM
-  permission_view_evms: 查看EVM
-  permission_manage_evmbaselines: 编辑基线
-  permission_view_evmbaselines: 查看基线
+  permission_view_evms: View EVM
+  permission_manage_evmbaselines: Edit Baseline
+  permission_view_evmbaselines: View Baseline
+  
   # Tab Display
   tab_display_name: EVM
+ 
   # incomplete_issue
-  incomplete_issue_parent_id: 父任务#
+  incomplete_issue_parent_id: Parent#
+  
   # EVM of assignee
-  no_assignee: 没有负责人
+  no_assignee: no assigned

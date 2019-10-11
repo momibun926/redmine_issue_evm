@@ -1,8 +1,12 @@
 <% html_title("Project tracking with EVM - assignee issues ") %>
+<!-- sunb title -->
+<% content_for :title_sub do %>
+  <%= l(:label_nav_assignee) %>
+<% end %>
 <% content_for :additional_option do %>
   <!-- selectable assignee -->
   <div class="option-col">
-    <p><%= l(:subtitle_evm_summary_assignee) %></p>
+    <p><%= l(:label_select_assignee) %></p>
     <%= select_tag :selected_assignee_id,
         options_for_select(@selectable_assignees,
                            @cfg_param[:selected_assignee_id]),

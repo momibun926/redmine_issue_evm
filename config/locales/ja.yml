@@ -1,71 +1,98 @@
 ﻿# japanease translation
 ja:
-  # Setting Tab
-  label_setting_create: EVM設定の作成
-  label_setting_edit: EVM設定の編集
-  label_setting_set: EVM設定
-  label_baseline: ベースライン
-  label_baseline_show: ベースラインの照会
+  # main title
+  title_evm_tab: Track with EVM
+
+  # contextial menu
+  label_nav_main: メイン
+  label_nav_version: バージョン別
+  label_nav_assignee: 担当者別
+  label_nav_parent_issue: 親チケット別
+  label_nav_tracker: トラッカー別
+  label_nav_baseline_setting: ベースラインの設定
+  label_nav_evm_setting: 共通設定
+  
+  # Main page
+  subtitle_evm_summary: サマリー
+  subtitle_evm_incomplete_issues: 未完了チケット
+  subtitle_evm_chart_main: EVMチャート
+  subtitle_evm_chart_performance: パフォーマンスチャート
+
+  # Indicator table header
+  indicator_table_header_date: 基準日
+  indicator_table_header_today: 基準日の指標
+  indicator_table_header_difference: 差異
+  indicator_table_header_performance: 効率
+  indicator_table_header_forecast: 予測
+
+  # Indicator table legend
+  explanation_upper_row: 上段は時間.
+  explanation_lower_row: 下段は日数.
+  
+  # Option - common
+  label_basis_date: 基準日
+  # Option - main
+  label_baseline_use: ベースラインの利用
+  label_no_use_baseline: ベースラインを使用しない
+  label_explanation : EVM値の説明
+  label_display_explanation: EVM値の説明をサイドバーに表示する
+  # Option - parent issue
+  label_select_parent_issue : 親チケットの選択
+  # Option - trackers
+  label_select_trackers: トラッカーの選択
+  # Option - assignees
+  label_select_assignee: 担当者の選択
+  # Option - versions
+  label_select_version: Versionの選択
+
+  # baseline page
+  label_baseline: ベースライン名
+  label_baseline_show: ベースラインの表示
   label_baseline_edit: ベースラインの編集
   label_baseline_create: ベースラインの作成
-  label_baseline_version: ベースライン履歴
-  label_baseline_set: ベースライン設定
-  label_other_evm_assignee: 担当者別EVM
-  label_other_evm_parent_issues: Parent issues EVM
+  label_baseline_version: ベースラインの履歴
+  label_baseline_set: ベースラインの設定
   label_baseline_start_date: 開始日
-  label_baseline_due_date: 終了日
+  label_baseline_due_date: 期限
   label_baseline_bac: BAC
-  label_created_date: 作成日
+  label_created_date: 作成日時
   label_current_baseline: 最新
-  label_old_baseline: 過去
-  label_latest_baseline: 最新のベースラインで表示
+  label_old_baseline: old
+  label_latest_baseline: View EVM
+  
+  # common setting page
+  label_setting_create: EVM共通設定の作成
+  label_setting_edit: EVM共通設定の編集
+  label_setting_set: EVM設定
   label_basis_hours_of_day: 一日の基準時間
+  label_evm_graph: チャート
   label_limit_spi: SPIの閾値
   label_limit_cpi: CPIの閾値
   label_limit_cr: CRの閾値
-  label_exclude_holidays: PVを計算するのに週末と休日を含めない.
-  label_region: 休日を取得する地域
-  # Message
-  messsage_delete_baseline: 本当に削除しますか？
-  # Main form
-  title_evm_tab: Track with EVM
-  subtitle_evm_summary: サマリー
-  subtitle_evm_summary_trackers: 選択したトラッカーのEVM
-  subtitle_evm_summary_assignee: 担当ごとのEVM
-  subtitle_evm_summary_parent_issue: 親チケットのEVM
-  subtitle_evm_graph_main: チャート
-  subtitle_evm_incomplete_issues: 未完了のチケット
-  subtitle_evm_graph_performance: パフォーマンス
-  subtitle_evm_graph_version: バージョン
-  # Option
-  label_basis_date: 基準日
-  label_basis: ベースラインを使用してEVM値を計算
-  label_no_use_baseline: 使用しない
-  label_graph: チャート表示
-  label_forecast: 予測値の表示
-  label_display_version: バージョンの表示
-  label_display_performance: パフォーマンス指標の表示
+  label_exclude_holidays: PVの計算時に休日、祝日を除外する.
+  label_region: 休日の設定
   label_display_incomplete: 未完了チケットの表示
+  label_display_performance: パフォーマンスチャートの表示
+  label_forecast: 予測
   label_calculate : ETCの計算方法
   label_calc_method1: 楽観的
-  label_calc_method2: 通常
+  label_calc_method2: 普通
   label_calc_method3: 悲観的
-  label_display : 表示
-  label_display_other_evm : その他のEVM表示
-  label_display_evm_assignee : 担当毎
-  label_display_evm_tracker : 選択したトラッカー
-  label_display_evm_parent_issue : 選択した親チケット
-  label_display_evm_parent_issue_attention : 関連するすべてのチケットに開始日・終了日が入っていないと表示できません
-  label_display_explanation: サイドバーにEVMの説明を表示
+
+  # Message
+  messsage_delete_baseline: 本当に削除してもよろしいですか?
+  
+  # Activity page
   label_evmbaseline_plural: ベースライン
   label_ativity_message_new: ベースラインが作成されました
-  label_ativity_message_edit: ベースラインが更新されました
-  label_evm_print: 印刷
+  label_ativity_message_edit: ベースラインの説明が更新されました
+
   # Explanation title
   explanation_basis: 基本
   explanation_difference: 差異
-  explanation_performance: パフォーマンス
-  explanation_forecast: 予測値
+  explanation_performance: 効率
+  explanation_forecast: 予測
+
   # Explanation
   explanation_bac: 完成時総予算：プロジェクトのチケットの総予定工数
   explanation_pv: 今日までのチケットの予定工数
@@ -82,25 +109,18 @@ ja:
   explanation_vac: プロジェクト完了時コのスト差異(BAC－EAC)：マイナスはコスト超過
   explanation_difference_end_date: 予定完了日と完了予想日の差(日数)
   explanation_tcpi: 残作業効率指数((BAC-EV)/(BAC-AC))：残作業を達成するために、どれくらいの生産性が必要か？：1以上は生産性を高める必要あり。
-  # Indicator table header
-  indicator_table_header_date: 基準日
-  indicator_table_header_today: 基準日の指標
-  indicator_table_header_difference: 差異
-  indicator_table_header_performance: 効率
-  indicator_table_header_forecast: 予測
-  indicator_table_header_tracker: 選択したトラッカー
-  indicator_table_header_parent_issue: 親チケット
-  # Indicator table legend
-  explanation_upper_row: 上段の値は時間
-  explanation_lower_row: 下段の値は人日
+
   # Permission
   project_module_Issuevm: EVM
   permission_view_evms: EVMプラグインタブの表示
   permission_manage_evmbaselines: ベースラインの設定
   permission_view_evmbaselines: ベースラインの一覧表示
+  
   # Tab Display
   tab_display_name: EVM
+ 
   # incomplete_issue
   incomplete_issue_parent_id: 親チケット#
+  
   # EVM of assignee
-  no_assignee: 担当なし
+  no_assignee: 担当者なし

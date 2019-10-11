@@ -1,11 +1,7 @@
 include ProjectAndVersionValue
 
 # baseline controller
-class EvmbaselinesController < ApplicationController
-  # menu
-  menu_item :issuevm
-  # Before action
-  before_action :find_project, :authorize
+class EvmbaselinesController < BaseevmController
   #
   # display baseline list
   #
@@ -99,14 +95,6 @@ class EvmbaselinesController < ApplicationController
   end
 
   private
-  #
-    # find project object
-    #
-    def find_project
-      @project = Project.find(params[:project_id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
-    end
     #
     # Strong parameter
     #

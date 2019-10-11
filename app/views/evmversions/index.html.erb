@@ -1,8 +1,12 @@
 <% html_title("Project tracking with EVM - versions ") %>
+<!-- sunb title -->
+<% content_for :title_sub do %>
+  <%= l(:label_nav_version) %>
+<% end %>
 <% content_for :additional_option do %>
   <!-- selectable version -->
   <div class="option-col">
-    <p><%= l(:label_display_evm_parent_issue) %></p>
+    <p><%= l(:label_select_version) %></p>
     <%= select_tag :selected_version_id,
         options_from_collection_for_select(@selectable_versions, :fixed_version_id, :name,
                                            @cfg_param[:selected_version_id]),
