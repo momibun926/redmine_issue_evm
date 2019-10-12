@@ -1,5 +1,3 @@
-include ProjectAndVersionValue
-
 # baseline controller
 class EvmbaselinesController < BaseevmController
   #

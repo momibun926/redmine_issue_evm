@@ -1,40 +1,19 @@
-include EvmLogic, ProjectAndVersionValue
-
 # evm controller
 class EvmsController < BaseevmController
   # Before action (override)
-  before_action :find_project, :authorize
+  before_action :authorize
   #
   # View of EVM
   #
   def index
-    # check view setting
-    emv_setting = Evmsetting.find_by(project_id: @project.id)
-    if emv_setting.present?
-      @cfg_param = {}
-      # ##################################
-      # saved settings
-      # ##################################
-      # plugin setting chart
-      @cfg_param[:forecast] = emv_setting.view_forecast
-      @cfg_param[:display_performance] = emv_setting.view_performance
-      @cfg_param[:display_incomplete] = emv_setting.view_issuelist
-      # plugin setting calculation evm
-      @cfg_param[:calcetc] = emv_setting.etc_method
-      @cfg_param[:working_hours] = emv_setting.basis_hours
-      @cfg_param[:limit_spi] = emv_setting.threshold_spi
-      @cfg_param[:limit_cpi] = emv_setting.threshold_cpi
-      @cfg_param[:limit_cr] = emv_setting.threshold_cr
-      # plugin setting holyday region
-      @cfg_param[:exclude_holiday] = emv_setting.exclude_holidays
-      @cfg_param[:region] = emv_setting.region
+    if @emv_setting.present?
       # ##################################
       # view options
       # ##################################
       # Basis date of calculate
       @cfg_param[:basis_date] = default_basis_date
       # baseline
-      @cfg_param[:no_use_baseline] = default_no_use_baseline
+      @cfg_param[:no_use_baseline] = params[:no_use_baseline]
       @cfg_param[:baseline_id] = default_baseline_id
       @evmbaseline = find_evmbaselines
       # evm explanation
@@ -49,16 +28,10 @@ class EvmsController < BaseevmController
       actual_cost = evm_costs @project
       @no_data = issues.blank?
       # EVM of project
-      @project_evm = IssueEvm.new baselines,
-                                  issues,
-                                  actual_cost,
-                                  basis_date: @cfg_param[:basis_date] ,
-                                  forecast: @cfg_param[:forecast],
-                                  etc_method: @cfg_param[:calcetc],
-                                  no_use_baseline: @cfg_param[:no_use_baseline],
-                                  working_hours: @cfg_param[:working_hours],
-                                  exclude_holiday: @cfg_param[:exclude_holiday],
-                                  region: @cfg_param[:region]
+      @project_evm = CalculateEvm.new baselines,
+                                      issues,
+                                      actual_cost,
+                                      @cfg_param
       # ##################################
       # incomplete issues
       # ##################################
@@ -99,12 +72,6 @@ class EvmsController < BaseevmController
       else
         params[:evmbaseline_id]
       end
-    end
-    #
-    # use baseline
-    #
-    def default_no_use_baseline
-      @evmbaseline.blank? ? "ture" : params[:no_use_baseline]
     end
     #
     # use fo option area

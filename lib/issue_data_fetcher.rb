@@ -1,6 +1,4 @@
-# Get data of Calculation EVM
-#
-module ProjectAndVersionValue
+module IssueDataFetcher
   # Calculation common condition of issue"s select
   SQL_COM = "(issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL) " +
             " OR " +

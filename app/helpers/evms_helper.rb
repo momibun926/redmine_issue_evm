@@ -55,6 +55,49 @@ module EvmsHelper
       @project.name + "- " + @evmbaseline.find(@baseline_id).subject
     end
   end
+  # Get assignee name
+  #
+  # @param [numeric] assignee_id assignee id
+  # @return [String] assignee name, assignee name. "no assigned" if not assigned.
+  def assignee_name(assignee_id)
+    assignee_id.blank? ? l(:no_assignee) : User.find(assignee_id).name
+  end
+  # Get parent issue link
+  #
+  # @param [numeric] issue_id parent issue id
+  # @return [issue] parent issue link
+  def parent_issue_link(parent_issue_id)
+    parent_issue = Issue.find(parent_issue_id)
+    link_to(parent_issue_id, issue_path(parent_issue))
+  end
+  # Get parent issue
+  #
+  # @param [numeric] issue_id parent issue id
+  # @return [issue] parent issue object
+  def parent_issue_subject(parent_issue_id)
+    Issue.find(parent_issue_id).subject
+  end
+  # Get selected trackers name
+  #
+  # @param [array] ids selected tracker ids
+  # @return [String] trackers name
+  def selected_trackers_name(ids)
+    selected = Tracker.select(:name).where(id: ids)
+    tracker_name = ""
+    selected.each do |trac|
+      tracker_name = tracker_name + trac.to_s + " "
+    end
+    tracker_name
+  end
+  # Get project name
+  #
+  # @param [numeric] ver_id fixed version id
+  # @return [String] project name, baseline subject
+  def version_chart_name(ver_id)
+    ver = Version.find(ver_id)
+    pro = Project.find(ver.project_id)
+    pro.name + " - " + ver.name
+  end
   # Get local date time
   #
   # @param [datetime] bldatetime updated or created datetime

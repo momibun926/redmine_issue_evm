@@ -1,9 +1,9 @@
 # Calculation EVM module
-module EvmLogic
+module CalculateEvmLogic
 
   # Calculation EVM class.
   # Calculate EVM and create data for chart
-  class IssueEvm
+  class CalculateEvm
     # Constractor
     #
     # @param [evmbaseline] baselines selected baseline.
@@ -18,14 +18,6 @@ module EvmLogic
     # @option options [bool] exclude_holiday Exclude holiday when calculate PV.
     # @option options [String] holiday region.
     def initialize(baselines, issues, costs, options = {})
-      # calculationEVM options
-      options.assert_valid_keys(:working_hours,
-                                :basis_date,
-                                :forecast,
-                                :etc_method,
-                                :no_use_baseline,
-                                :exclude_holiday,
-                                :region)
       @basis_hours = options[:working_hours]
       @basis_date = options[:basis_date].to_date
       @forecast = options[:forecast]
@@ -42,7 +34,12 @@ module EvmLogic
       @pv_baseline_daily = calculate_planed_value baselines
       @pv_baseline = sort_and_sum_evm_hash @pv_baseline_daily
       # PV
-      @pv = options[:no_use_baseline] ? @pv_actual : @pv_baseline
+      @no_use_baseline = if baselines.nil?
+                           "true"
+                         else
+                           options[:no_use_baseline]
+                        end                
+      @pv = @no_use_baseline ? @pv_actual : @pv_baseline
       # EV
       @ev = calculate_earned_value issues, @basis_date
       # AC
