@@ -5,7 +5,7 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-5.0.0
+4.5.0
 
 ## Compatibility
 Redmine 4.0.0 and above
@@ -112,7 +112,7 @@ PV: Dividing estimated time: 24hours by 3 days (from start date to due date)
 Based on these data, EVM and chart are created.
 
 # Chart
-3 types of charts can be displayed.
+2 types of charts can be displayed.
 Charts are displayed using HigthChart. See below for license.
 It is a license that can not be used for commercial purposes.
 https://creativecommons.org/licenses/by-nc/3.0/
