@@ -1,9 +1,16 @@
 # Calculation EVM module
 module CalculateEvmLogic
 
-  # Calculation EVM class.
-  # Spent time of target issues.
-  class CalculateAc
+  # Calculation AC class.
+  # AC calculate Spent time of pv issues.
+  # 
+  class CalculateAc < BaseCalculateEvm
+    # overdue?
+    attr_reader :overdue
+    # min date of spent time (exclude basis date)
+    attr_reader :min_date
+    # max date of spent time (exclude basis date)
+    attr_reader :max_date
     # Constractor
     #
     # @param [date] basis_date basis date.
@@ -22,30 +29,12 @@ module CalculateEvmLogic
       # addup AC
       @cumulative_ac = sort_and_sum_evm_hash @daily_ac
     end
-
-    # Basis date
-    attr_reader :basis_date
-
     # Today's Actual cost
     #
     # @return [Numeric] AC on basis date
     def today_ac
       @cumulative_ac[@basis_date]
     end
-
-    private
-      # Sort evm hash, Assending date.
-      #
-      # @param [hash] evm_hash target issues of EVM
-      # @return [hash] Sorted EVM hash. Key:date, Value:EVM value
-      def sort_and_sum_evm_hash(evm_hash)
-        temp_hash = {}
-        sum_value = 0.0
-        evm_hash.sort_by {|key, _val| key }.each do |date, value|
-          sum_value += value
-          temp_hash[date] = sum_value
-        end
-        temp_hash
-      end
   end
+
 end

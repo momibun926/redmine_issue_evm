@@ -2,7 +2,15 @@
 module CalculateEvmLogic
 
   # Calculation EV class.
-  class CalculateEv
+  # EV calculate estimate time of finished issue 
+  # 
+  class CalculateEv < BaseCalculateEvm
+    # finished? True:task is finished false:unfinished
+    attr_reader :finished
+    # min date of spent time (exclude basis date)
+    attr_reader :min_date
+    # max date of spent time (exclude basis date)
+    attr_reader :max_date
     # Constractor
     #
     # @param [date] basis_date basis date.
@@ -21,25 +29,17 @@ module CalculateEvmLogic
       # addup EV
       @cumulative_ev = sort_and_sum_evm_hash @daily_ev
       # total issues
-      @count_issues = issues.count
+      @issue_count = issues.count 
+      @finished = (  @issue_count == @unfinished_issue_count )
     end
-    
     # Today's earned value
     #
     # @return [Numeric] EV value on basis date
     def today_value
-      ev = @cumulative_ev[@basis_date]
-    end
-
-    # Task is finished?
-    #
-    # @return [bool] task is finished?
-    def finished
-      @count_issues == unfinished_issue_count
+      @cumulative_ev[@basis_date]
     end
 
     private
-
       # Calculate EV.
       # Closed date or Date of ratio was set.
       #
@@ -48,7 +48,7 @@ module CalculateEvmLogic
       # @return [hash] EV hash. Key:Date, Value:EV of each days
       def calculate_earned_value(issues, basis_date)
         ev = {}
-        unfinished_issue_count = 0
+        @unfinished_issue_count = 0
         unless issues.nil?
           issues.each do |issue|
             # closed issue
@@ -57,7 +57,7 @@ module CalculateEvmLogic
               dt = closed_date.to_time.to_date
               ev[dt] += issue.estimated_hours.to_f unless ev[dt].nil?
               ev[dt] ||= issue.estimated_hours.to_f
-              unfinished_issue_count += 1
+              @unfinished_issue_count += 1
             # progress issue
             elsif issue.done_ratio.positive?
               hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
@@ -75,23 +75,6 @@ module CalculateEvmLogic
           end
         end
       end
-
-      # Sort key value. key value is DATE.
-      # Assending date.
-      #
-      # @param [hash] evm_hash target issues of EVM
-      # @return [hash] Sorted EVM hash. Key:time, Value:EVM value
-      def sort_and_sum_evm_hash(evm_hash)
-        temp_hash = {}
-        if evm_hash.blank?
-          evm_hash[@basis_date] ||= 0.0
-        end
-        sum_value = 0.0
-        evm_hash.sort_by {|key, _val| key }.each do |date, value|
-          sum_value += value
-          temp_hash[date] = sum_value
-        end
-        temp_hash
-      end
   end
+
 end

@@ -2,7 +2,15 @@
 module CalculateEvmLogic
 
   # Calculation PV class.
-  class CalculatePv
+  # PV calculate estimate hours of issues.
+  #
+  class CalculatePv < BaseCalculateEvm
+    # overdue?
+    attr_reader :overdue
+    # start date (exclude basis date)
+    attr_reader :start_date
+    # due date (exclude basis date)
+    attr_reader :due_date
     # Constractor
     #
     # @param [date] basis_date basis date.
@@ -23,15 +31,13 @@ module CalculateEvmLogic
       # addup PV
       @cumulative_pv = sort_and_sum_evm_hash @daily_pv
     end
-
-    # Badget at completion.=
+    # Badget at completion
     # Total estimate hours of issues.
     #
     # @return [Numeric] BAC
     def bac
       @cumulative_pv.values.max
     end
-
     # Today's planed value
     #
     # @return [Numeric] PV on basis date or PV of baseline.
@@ -62,20 +68,6 @@ module CalculateEvmLogic
         end
         temp_pv
       end
-      # Sort key value. key value is DATE.
-      # Assending date.
-      #
-      # @param [hash] evm_hash target issues of EVM
-      # @return [hash] Sorted EVM hash. Key:time, Value:EVM value
-      def sort_and_sum_evm_hash(evm_hash)
-        temp_hash = {}
-        sum_value = 0.0
-        evm_hash.sort_by {|key, _val| key }.each do |date, value|
-          sum_value += value
-          temp_hash[date] = sum_value
-        end
-        temp_hash
-      end
       # Estimated time per day.
       #
       # @param [Numeric] estimated_hours estimated hours
@@ -99,4 +91,5 @@ module CalculateEvmLogic
                        end
       end
   end
+
 end
