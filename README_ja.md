@@ -5,7 +5,7 @@
 チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。期日が入力されず、ヴァージョンの期日がある場合は、期日としてヴァージョンの期日を利用します。
 
 ## バージョン
-4.4.0
+4.5.0
 
 ## 動作環境
 Redmine 4.0.0 以上
@@ -28,14 +28,13 @@ Redmine 4.0.0 以上
 * EVM値の説明を表示
 * EVM値を計算する基準日の変更
 * パフォーマンス(SPI,CPI,CR)のチャート表示
-* ヴァージョンごとのEVMチャート表示
 * プロジェクト完了予測
 * ベースラインもしくは、すべてのチケットをもとにしたEVMの計算
-* 担当者ごと、トラッカーを選択してEVM値を計算
+* 担当者別、バージョン別、親チケット別、トラッカー別でEVMを表示（画面サンプル参照）
 * 基準日を元に未完了であるチケットを表示します
 
 ## 稼働日について
-1. 週末、休日は除外します
+1. 週末、休日は除外します。（ただしEVM設定で除外しない選択もできます）
 2. もしチケットの期間が、週末、休日のみの場合は、すべて稼働日とします
 3. holidays gem　を使っています。地域はプラグイン設定ページで行います。(管理->プラグイン)
 
@@ -61,9 +60,6 @@ Redmine 4.0.0 以上
 |--------------------|--------------------|---------------|-----------|----------------|
 |May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days     |4 hours         |
 
-## 印刷
-最新のブラウザをお使いの場合には、ブラウザの印刷機能をお使いください。印刷可能なのは、サマリー、チャート(メイン)、未完了チケットのみです。
-
 # EVM値の計算
 各チケット毎に以下の情報を使ってEVM値を計算して集計しています。EVMを表示するプロジェクト(子孫プロジェクト含む)内の、以下のすべての項目に入力があるチケットが計算対象です。
 
@@ -75,11 +71,13 @@ Redmine 4.0.0 以上
 Redmine3.1から親チケットの予定工数が入力可能になったので、チケットの親子関係に関係なくチケット毎にPV,EVを算出しています。
 
 * PV : 開始日、期日、予定工数を利用して、PVを計算します。日毎の工数を計算しています。
-* EV : チケットをCLOSEした日に、予定工数をEVとして計算しています。進捗率が設定されている場合は、進捗理とをセットした日に予定工数*進捗率で計算しています。
+* EV : チケットをCLOSEした日に、予定工数をEVとして計算しています。進捗率が設定されている場合は、進捗理とをセットした日に予定工数に進捗率をかけて計算しています。
 * AC : PVの計算に使われているチケットの作業時間を使って、ACを計算しています。
 
-#### EVMの計算例
+
+**EVMの計算例**
 開始日:2015/08/01,期日:2015/08/03,予定工数:24.0時間のチケットを作成。この時点では、PVのみが有効。PVは日毎のPVから累積値を計算しています。チケットが完了していないので、EVは計算されません。
+
 * PV -> 8/1:8.0時間 8/2:8.0時間 8/3:8.0時間　(24時間を3日で割って日毎のPVを計算)
 * EV -> 0
 * AC -> 0
@@ -168,21 +166,30 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 
 # 画面サンプル
 **全体**
-![evm sample screenshot](./images/screenshot01.png "overview")
+![evm sample screenshot](./images/screenshot_main.png "overview")
+
+**担当別**
+![evm sample screenshot](./images/screenshot_assignee.png "assgnees")
+
+**親チケット別**
+![evm sample screenshot](./images/screenshot_parent_issue.png "assgnees")
+
+**トラッカー別**
+![evm sample screenshot](./images/screenshot_tracker.png "assgnees")
 
 **ベースラインの作成**
-![evm sample screenshot](./images/screenshot02.png "create new baseline")
+![evm sample screenshot](./images/screenshot_new_baseline.png "New baseline")
 
 **ベースラインの履歴**
-![evm sample screenshot](./images/screenshot03.png "History of baseline")
+![evm sample screenshot](./images/screenshot_history_baseline.png "History")
 
 **プラグイン全体の設定**
-![evm sample screenshot](./images/screenshot04.png "plugin　setting")
+![evm sample screenshot](./images/screenshot_common_setting.png "plugin　setting")
 
 # 開発環境
-*  Redmine version                4.0.0.stable
-*  Ruby version                   2.3.3-p222 (2016-11-21) [i386-mingw32]
-*  Rails version                  5.2.2
+*  Redmine version                4.0.4.stable
+*  Ruby version                   2.5.5-p157 (2019-03-15) [x64-mingw32]
+*  Rails version                  5.2.3
 *  Environment                    production
 *  Database adapter               Mysql2
 *  Mailer queue                   ActiveJob::QueueAdapters::AsyncAdapter

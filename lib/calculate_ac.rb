@@ -1,5 +1,5 @@
 # Calculation EVM module
-module EvmLogic
+module CalculateEvmLogic
 
   # Calculation EVM class.
   # Spent time of target issues.
@@ -7,7 +7,7 @@ module EvmLogic
     # Constractor
     #
     # @param [date] basis_date basis date.
-    # @param [costs] issues culculation of AC.
+    # @param [costs] costs culculation of AC.
     def initialize(basis_date, costs)
       # basis date
       @basis_date = basis_date

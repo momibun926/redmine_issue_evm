@@ -1,7 +1,15 @@
-# evmasignee controller
+# Parent issues controller.
+# This controller provide sssignee evm view.
+#
+# 1. selectable list for parent issue view
+# 2. calculate EVM each selected assignees
+# 
 class EvmparentissuesController < BaseevmController
-  #
-  # View of parent issues of EVM
+  # index for parent issue EVM view.
+  # 
+  # 1. set options of view request
+  # 2. get selectable list
+  # 3. calculate EVM
   #
   def index
     # View options
@@ -13,7 +21,7 @@ class EvmparentissuesController < BaseevmController
     @cfg_param[:display_incomplete] = "False"
     #selectable parent issue
     @selectable_parent_issue = selectable_parent_issues_list
-    # EVM optional (parent issue)
+    # calculate EVM (parent issue)
     @parent_issue_evm = {}
     unless @cfg_param[:selected_parent_issue_id].nil?
       @cfg_param[:selected_parent_issue_id].each do |issue_id|

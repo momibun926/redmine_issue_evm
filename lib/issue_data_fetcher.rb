@@ -15,25 +15,6 @@ module IssueDataFetcher
                 " ancestors.due_date IS NULL " +
                 " AND " +
                 " ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
-
-  # Get Issues of Baseline.(start date, due date, estimated hours)
-  # When baseline_id is nil,latest baseline of project.
-  #
-  # @param [numeric] project_id project id
-  # @param [numeric] baseline_id baseline id
-  # @return [EvmBaseline] evmbaselines
-  def project_baseline(project_id, baseline_id)
-    baselines = {}
-    return unless Evmbaseline.exists?(project_id: project_id)
-    baselines = if baseline_id.nil?
-                  Evmbaseline.where(project_id: project_id).
-                              order(created_on: :DESC)
-                else
-                  Evmbaseline.where(id: baseline_id)
-                end
-    baselines.first.evmbaselineIssues
-  end
-
   # Get issues of EVM for PV and EV.
   # Include descendants project.require inputted start date and due date.
   # for use calculate PV and EV.
@@ -114,7 +95,7 @@ module IssueDataFetcher
   #
   # @param [project] proj project object
   # @return [issue] assigned_to_id
-  def project_assignee_id_pair(proj)
+  def assignee_ids(proj)
     Issue.cross_project_scope(proj, "descendants").
       select(:assigned_to_id).
       where(SQL_COM.to_s).
@@ -128,7 +109,7 @@ module IssueDataFetcher
   # @param [project] proj project object
   # @return [issue] assigned_to_id
   def selectable_assignee_list(proj)
-    issues = project_assignee_id_pair proj
+    issues = assignee_ids proj
     selectable_list = {}
     issues.each do |issue|
       assinee_name  = issue.assigned_to_id.nil? ? l(:no_assignee) : User.find(issue.assigned_to_id).name

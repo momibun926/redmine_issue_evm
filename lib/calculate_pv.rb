@@ -1,5 +1,5 @@
 # Calculation EVM module
-module EvmLogic
+module CalculateEvmLogic
 
   # Calculation PV class.
   class CalculatePv

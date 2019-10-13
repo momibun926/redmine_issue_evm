@@ -1,12 +1,14 @@
-# baseline controller
+# Baseline controller.
+# This controller provide baseline model.
+#
+# 1. index, new, show, edit, update, create, destroy
+#
 class EvmbaselinesController < BaseevmController
-  #
   # display baseline list
   #
   def index
     @evm_baselines = Evmbaseline.where(project_id: @project.id).order(created_on: :DESC)
   end
-  #
   # Create of baseline
   #
   def new
@@ -16,19 +18,16 @@ class EvmbaselinesController < BaseevmController
     @due_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
     @bac = issues.sum(:estimated_hours).to_f
   end
-  #
   # View of Baseline
   #
   def show
     @evm_baselines = Evmbaseline.find(params[:id])
   end
-  #
   # Edit view of Baseline
   #
   def edit
     @evm_baselines = Evmbaseline.find(params[:id])
   end
-  #
   # Update baselie
   #
   def update
@@ -41,7 +40,6 @@ class EvmbaselinesController < BaseevmController
       redirect_to action: :edit
     end
   end
-  #
   # Create baseline
   #
   def create
@@ -72,7 +70,6 @@ class EvmbaselinesController < BaseevmController
       redirect_to action: :new
     end
   end
-  #
   # Delete baseline
   #
   def destroy

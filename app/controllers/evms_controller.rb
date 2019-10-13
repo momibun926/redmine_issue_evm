@@ -1,47 +1,53 @@
-# evm controller
+# EVM controller.
+# This controller provide main evm view.
+#
+# 1. before action (override)
+# 2. selectable list for baseline
+# 3. calculate EVM all projects include desendant
+# 4. incomplete issues
+# 5. export to CSV
+#
 class EvmsController < BaseevmController
   # Before action (override)
   before_action :authorize
-  #
-  # View of EVM
+  # View of main page.
+  # If the settings are not entry, go to the settings page.
+  # 
+  # 1. set options of view request
+  # 2. get selectable list(baseline)
+  # 3. calculate EVM
+  # 4. fetch incomplete issues
+  # 5. export CSV
   #
   def index
     if @emv_setting.present?
-      # ##################################
-      # view options
-      # ##################################
       # Basis date of calculate
       @cfg_param[:basis_date] = default_basis_date
       # baseline
       @cfg_param[:no_use_baseline] = params[:no_use_baseline]
       @cfg_param[:baseline_id] = default_baseline_id
-      @evmbaseline = find_evmbaselines
+      @evmbaseline = selectable_baseline_list @project
       # evm explanation
       @cfg_param[:display_explanation] = params[:display_explanation]
 
-      # ##################################
-      # EVM
-      # ##################################
-      # Project(all versions)
+      # baseline
       baselines = project_baseline @project, @cfg_param[:baseline_id]
+      # issues of project include disendants
       issues = evm_issues @project
+      # spent time of project include disendants
       actual_cost = evm_costs @project
       @no_data = issues.blank?
-      # EVM of project
+      # calculate EVM
       @project_evm = CalculateEvm.new baselines,
                                       issues,
                                       actual_cost,
                                       @cfg_param
-      # ##################################
       # incomplete issues
-      # ##################################
       if @cfg_param[:display_incomplete]
         @incomplete_issues = incomplete_project_issues @project, @cfg_param[:basis_date] 
         @no_data_incomplete_issues = @incomplete_issues.blank?
       end
-      # ##################################
       # export
-      # ##################################
       respond_to do |format|
         format.html
         format.csv do
@@ -57,13 +63,11 @@ class EvmsController < BaseevmController
   end
 
   private
-    #
     # default basis date
     #
     def default_basis_date
         params[:basis_date].nil? ? Time.zone.today : params[:basis_date].to_date
     end
-    #
     # default baseline. latest baseline
     #
     def default_baseline_id
@@ -72,12 +76,5 @@ class EvmsController < BaseevmController
       else
         params[:evmbaseline_id]
       end
-    end
-    #
-    # use fo option area
-    #
-    def find_evmbaselines
-      Evmbaseline.where(project_id: @project.id).
-                  order(created_on: :DESC)
     end
 end

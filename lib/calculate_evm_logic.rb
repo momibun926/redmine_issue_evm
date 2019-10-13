@@ -18,12 +18,12 @@ module CalculateEvmLogic
     # @option options [bool] exclude_holiday Exclude holiday when calculate PV.
     # @option options [String] holiday region.
     def initialize(baselines, issues, costs, options = {})
-      @basis_hours = options[:working_hours]
+      @working_hours = options[:working_hours]
       @basis_date = options[:basis_date].to_date
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
-      @holiday_exclude = options[:exclude_holiday]
-      @holiday_region = options[:region]
+      @exclude_holiday = options[:exclude_holiday]
+      @region = options[:region]
       # max of date
       @issue_max_date = issues.maximum(:due_date)
       @issue_max_date ||= baselines.maximum(:due_date) unless baselines.nil?
@@ -56,7 +56,7 @@ module CalculateEvmLogic
           evm_hash.delete_if {|date, _value| date > delete_basis_date }
         end
         # when project is finished, forecast is disable.
-        @forecast = false
+        @forecast = "false"
       end
       # To calculate the EVM value
       pv_value_date = @pv.select {|k| k <= @basis_date }
@@ -234,7 +234,7 @@ module CalculateEvmLogic
     #
     # @return [numeric] delay days
     def delay
-      (forecast_finish_date(@basis_hours) - @pv.keys.max).to_i
+      (forecast_finish_date(@working_hours) - @pv.keys.max).to_i
     end
 
     # To Complete Cost Performance Indicator
@@ -275,10 +275,10 @@ module CalculateEvmLogic
                          chart_maximum_date => eac }
         chart_data[:eac_top_line] = convert_to_chart(eac_top_line)
         actual_cost_forecast = { @basis_date => today_ac,
-                                 forecast_finish_date(@basis_hours) => eac }
+                                 forecast_finish_date(@working_hours) => eac }
         chart_data[:actual_cost_forecast] = convert_to_chart(actual_cost_forecast)
         earned_value_forecast = { @basis_date => today_ev,
-                                  forecast_finish_date(@basis_hours) => bac }
+                                  forecast_finish_date(@working_hours) => bac }
         chart_data[:earned_value_forecast] = convert_to_chart(earned_value_forecast)
       end
       chart_data
@@ -367,7 +367,7 @@ module CalculateEvmLogic
       # Closed date or Date of ratio was set.
       #
       # @param [issue] issues target issues of EVM
-      # @param [basis_date] basis date of option
+      # @param [date] basis_date basis date of option
       # @return [hash] EVM hash. Key:Date, Value:EV of each days
       def calculate_earned_value(issues, basis_date)
         ev = {}
@@ -453,8 +453,8 @@ module CalculateEvmLogic
       # @return [Array] working days
       def working_days(start_date, end_date)
         issue_days = (start_date..end_date).to_a
-        working_days = if @holiday_exclude
-                         working_days = issue_days.reject {|e| e.wday == 0 || e.wday == 6 || e.holiday?(@holiday_region) }
+        working_days = if @exclude_holiday
+                         working_days = issue_days.reject {|e| e.wday == 0 || e.wday == 6 || e.holiday?(@region) }
                          working_days.length.zero? ? issue_days : working_days
                        else
                          issue_days
@@ -477,14 +477,14 @@ module CalculateEvmLogic
         [@pv.keys.max,
          @ev.keys.max,
          @ac.keys.max,
-         forecast_finish_date(@basis_hours)].max
+         forecast_finish_date(@working_hours)].max
       end
 
       # End of project day.(forecast)
       #
-      # @param [numeric] basis_hours hours of per day is plugin setting
+      # @param [numeric] working_hours hours of per day is plugin setting
       # @return [date] End of project date
-      def forecast_finish_date(basis_hours)
+      def forecast_finish_date(working_hours)
         # already finished project
         if complete_ev == 100.0
           @ev.keys.max
@@ -496,13 +496,13 @@ module CalculateEvmLogic
           @basis_date + rest_days(@pv[@pv.keys.max],
                                   @ev[@ev.keys.max],
                                   today_spi,
-                                  basis_hours)
+                                  working_hours)
         # Before completion schedule date
         else
           @pv.keys.max + rest_days(today_pv,
                                    today_ev,
                                    today_spi,
-                                   basis_hours)
+                                   working_hours)
         end
       end
 
@@ -511,10 +511,10 @@ module CalculateEvmLogic
       # @param [numeric] pv pv
       # @param [numeric] ev ev
       # @param [numeric] spi spi
-      # @param [numeric] basis_hours hours of per day is plugin setting
+      # @param [numeric] working_hours hours of per day is plugin setting
       # @return [date] rest days
-      def rest_days(pv, ev, spi, basis_hours)
-        ((pv - ev) / spi / basis_hours).round(0)
+      def rest_days(pv, ev, spi, working_hours)
+        ((pv - ev) / spi / working_hours).round(0)
       end
 
       # EVM value of Each date. for performance chart.

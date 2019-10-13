@@ -1,5 +1,5 @@
 # Calculation EVM module
-module EvmLogic
+module CalculateEvmLogic
 
   # Calculation EV class.
   class CalculateEv
@@ -44,7 +44,7 @@ module EvmLogic
       # Closed date or Date of ratio was set.
       #
       # @param [issue] issues target issues of EVM
-      # @param [basis_date] basis date of option
+      # @param [date] basis_date basis date of option
       # @return [hash] EV hash. Key:Date, Value:EV of each days
       def calculate_earned_value(issues, basis_date)
         ev = {}

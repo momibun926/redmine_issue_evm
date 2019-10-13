@@ -1,6 +1,15 @@
-# evmasignee controller
+# Asignee controller.
+# This controller provide assignee evm view.
+#
+# 1. selectable list for assignee view
+# 2. calculate EVM each selected assignees
+# 
 class EvmassigneesController < BaseevmController
-  # index
+  # index for assignee EVM view.
+  # 
+  # 1. set options of view request
+  # 2. get selectable list
+  # 3. calculate EVM
   #
   def index
     # View options
@@ -12,7 +21,7 @@ class EvmassigneesController < BaseevmController
     @cfg_param[:display_incomplete] = "False"
     # selectable assignee
     @selectable_assignees = selectable_assignee_list @project
-    # EVM optional (assignee)
+    # calculate EVM (assignee)
     @assignee_evm = {}
     unless @cfg_param[:selected_assignee_id].nil?
       @cfg_param[:selected_assignee_id].each do |id|
@@ -22,15 +31,14 @@ class EvmassigneesController < BaseevmController
                       {assigned_to_id: id}
                     end
         # issues of assignee
-        assignee_issue = evm_issues @project,
-                                    condition
+        assignee_issue = evm_issues @project, condition
         # spent time of assignee
-        assignee_actual_cost = evm_costs @project,
-                                         condition
+        assignee_actual_cost = evm_costs @project, condition
+        # calculate EVM
         @assignee_evm[id] = CalculateEvm.new nil,
-                                         assignee_issue,
-                                         assignee_actual_cost,
-                                         @cfg_param
+                                             assignee_issue,
+                                             assignee_actual_cost,
+                                             @cfg_param
       end
     end
   end

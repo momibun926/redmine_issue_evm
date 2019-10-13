@@ -1,7 +1,15 @@
-# evmasignee controller
+# Version controller.
+# This controller provide version evm view.
+#
+# 1. selectable list for assignee view
+# 2. calculate EVM each selected assignees
+# 
 class EvmversionsController < BaseevmController
-  #
-  # View of version
+  # index for version EVM view.
+  # 
+  # 1. set options of view request
+  # 2. get selectable list
+  # 3. calculate EVM
   #
   def index
     # View options
@@ -11,9 +19,9 @@ class EvmversionsController < BaseevmController
     @cfg_param[:forecast] = "False"
     @cfg_param[:display_performance] = "False"
     @cfg_param[:display_incomplete] = "False"
-    #selectable version
+    # selectable version
     @selectable_versions = selectable_version_list @project
-    # EVM optional (assignee)
+    # calculate EVM (version)
     @version_evm = {}
     unless @cfg_param[:selected_version_id].nil?
       @cfg_param[:selected_version_id].each do |ver_id|
@@ -24,7 +32,7 @@ class EvmversionsController < BaseevmController
         version_issues = evm_issues proj, condition
         # spent time of version
         version_actual_cost = evm_costs proj, condition
-        # create array of EVM
+        # calculate EVM
         @version_evm[ver_id] = CalculateEvm.new nil,
                                                 version_issues,
                                                 version_actual_cost,

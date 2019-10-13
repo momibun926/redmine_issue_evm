@@ -1,4 +1,6 @@
-# evms helper
+# evms helper.
+# this helper is common helper. called other helpers.
+# 
 module EvmsHelper
   # SPI color of CSS.
   #
@@ -64,7 +66,7 @@ module EvmsHelper
   end
   # Get parent issue link
   #
-  # @param [numeric] issue_id parent issue id
+  # @param [numeric] parent_issue_id parent issue id
   # @return [issue] parent issue link
   def parent_issue_link(parent_issue_id)
     parent_issue = Issue.find(parent_issue_id)
@@ -72,7 +74,7 @@ module EvmsHelper
   end
   # Get parent issue
   #
-  # @param [numeric] issue_id parent issue id
+  # @param [numeric] parent_issue_id parent issue id
   # @return [issue] parent issue object
   def parent_issue_subject(parent_issue_id)
     Issue.find(parent_issue_id).subject
