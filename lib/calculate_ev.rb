@@ -1,3 +1,5 @@
+require "base_calculate"
+
 # Calculation EVM module
 module CalculateEvmLogic
 
@@ -11,6 +13,10 @@ module CalculateEvmLogic
     attr_reader :min_date
     # max date of spent time (exclude basis date)
     attr_reader :max_date
+    #
+    attr_reader :daily_ev
+    #
+    attr_reader :cumulative_ev
     # Constractor
     #
     # @param [date] basis_date basis date.
@@ -21,16 +27,19 @@ module CalculateEvmLogic
       # daily EV
       @daily_ev = calculate_earned_value issues, basis_date
       # minimum start date
+      # if no data, set basis date       
       @min_date = @daily_ev.keys.min
+      @min_date ||= basis_date
       # maximum due date
+      # if no data, set basis date       
       @max_date = @daily_ev.keys.max
+      @max_date ||= basis_date
       # basis date
-      @daily_ac[@basis_date] ||= 0.0
+      @daily_ev[@basis_date] ||= 0.0
       # addup EV
       @cumulative_ev = sort_and_sum_evm_hash @daily_ev
       # total issues
-      @issue_count = issues.count 
-      @finished = (  @issue_count == @unfinished_issue_count )
+      @finished = (@unfinished_issue_count == @unfinished_issue_count)
     end
     # Today's earned value
     #
@@ -47,7 +56,8 @@ module CalculateEvmLogic
       # @param [date] basis_date basis date of option
       # @return [hash] EV hash. Key:Date, Value:EV of each days
       def calculate_earned_value(issues, basis_date)
-        ev = {}
+        temp_ev = {}
+        @finished_issue_count = 0
         @unfinished_issue_count = 0
         unless issues.nil?
           issues.each do |issue|
@@ -55,9 +65,9 @@ module CalculateEvmLogic
             if issue.closed?
               closed_date = issue.closed_on || issue.updated_on
               dt = closed_date.to_time.to_date
-              ev[dt] += issue.estimated_hours.to_f unless ev[dt].nil?
-              ev[dt] ||= issue.estimated_hours.to_f
-              @unfinished_issue_count += 1
+              temp_ev[dt] += issue.estimated_hours.to_f unless temp_ev[dt].nil?
+              temp_ev[dt] ||= issue.estimated_hours.to_f
+              @finished_issue_count += 1
             # progress issue
             elsif issue.done_ratio.positive?
               hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
@@ -69,11 +79,13 @@ module CalculateEvmLogic
               # parent isssue is no journals
               ratio_date = ratio_date_utc.to_time.to_date unless ratio_date_utc.nil?
               ratio_date ||= basis_date
-              ev[ratio_date] += hours unless ev[ratio_date].nil?
-              ev[ratio_date] ||= hours
+              temp_ev[ratio_date] += hours unless temp_ev[ratio_date].nil?
+              temp_ev[ratio_date] ||= hours
             end
+            @unfinished_issue_count += 1
           end
         end
+        temp_ev
       end
   end
 

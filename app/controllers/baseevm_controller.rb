@@ -9,6 +9,7 @@ class BaseevmController < ApplicationController
   include IssueDataFetcher
   include BaselineDataFetcher
   include CalculateEvmLogic
+  include ChartDataMaker
   # menu
   menu_item :issuevm
   # Before action

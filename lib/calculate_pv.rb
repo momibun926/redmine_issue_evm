@@ -1,3 +1,5 @@
+require "base_calculate"
+
 # Calculation EVM module
 module CalculateEvmLogic
 
@@ -11,13 +13,20 @@ module CalculateEvmLogic
     attr_reader :start_date
     # due date (exclude basis date)
     attr_reader :due_date
+    #
+    attr_reader :daily_pv
+    #
+    attr_reader :cumulative_pv
     # Constractor
     #
     # @param [date] basis_date basis date.
     # @param [issue] issues for culculation of PV.
-    def initialize(basis_date, issues)
+    # @param [string] region setting region use calculation working days.
+    def initialize(basis_date, issues, region)
       # basis date
       @basis_date = basis_date
+      # region
+      @region = region
       # daily PV
       @daily_pv = calculate_planed_value issues
       # planed start date
@@ -25,7 +34,7 @@ module CalculateEvmLogic
       # planed due date
       @due_date = @daily_pv.keys.max
       # overdue?
-      @overdue = @basis_date > @daily_pv.keys.max 
+      @overdue = @basis_date > @due_date
       # basis date
       @daily_pv[@basis_date] ||= 0.0
       # addup PV
@@ -84,7 +93,7 @@ module CalculateEvmLogic
       def working_days(start_date, end_date)
         issue_days = (start_date..end_date).to_a
         working_days = if @holiday_exclude
-                         working_days = issue_days.reject {|e| e.wday == 0 || e.wday == 6 || e.holiday?(@holiday_region) }
+                         working_days = issue_days.reject {|e| e.wday == 0 || e.wday == 6 || e.holiday?(@region) }
                          working_days.length.zero? ? issue_days : working_days
                        else
                          issue_days

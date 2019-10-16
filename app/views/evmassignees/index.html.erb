@@ -20,10 +20,11 @@
     <h3><%=assignee_name(assignee_id)%></h3>
     <!-- EVN value -->
     <%= render partial: "/common/basic_evm_value", locals: { evm: evm} %>
+    <br>
     <!-- Charts -->
     <%= render partial: "/common/basic_evm_chart_js",
         locals: { basis_date: @cfg_param[:basis_date],
-                  evm: evm,
+                  chart_data: @assignee_evm_chart[assignee_id],
                   id: assignee_id,
                   tittle: assignee_name(assignee_id) } %>
   <% end %>

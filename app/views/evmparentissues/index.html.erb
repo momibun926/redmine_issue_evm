@@ -24,7 +24,7 @@
     <!-- Charts -->
     <%= render partial: "/common/basic_evm_chart_js",
         locals: { basis_date: @cfg_param[:basis_date],
-                  evm: evm,
+                  chart_data: @parent_issue_evm_chart[parent_issue_id],
                   id: parent_issue_id,
                   tittle: parent_issue_subject(parent_issue_id) } %>
   <% end %>

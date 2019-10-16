@@ -1,3 +1,5 @@
+require "base_calculate"
+
 # Calculation EVM module
 module CalculateEvmLogic
 
@@ -5,12 +7,14 @@ module CalculateEvmLogic
   # AC calculate Spent time of pv issues.
   # 
   class CalculateAc < BaseCalculateEvm
-    # overdue?
-    attr_reader :overdue
     # min date of spent time (exclude basis date)
     attr_reader :min_date
     # max date of spent time (exclude basis date)
     attr_reader :max_date
+    #
+    attr_reader :daily_ac
+    #
+    attr_reader :cumulative_ac
     # Constractor
     #
     # @param [date] basis_date basis date.
@@ -21,9 +25,13 @@ module CalculateEvmLogic
       # daily AC
       @daily_ac = Hash[costs]
       # minimum first date
+      # if no data, set basis date       
       @min_date = @daily_ac.keys.min
+      @min_date ||= basis_date
       # maximum last date
+      # if no data, set basis date 
       @max_date = @daily_ac.keys.max
+      @max_date ||= basis_date
       # basis date
       @daily_ac[@basis_date] ||= 0.0
       # addup AC
@@ -32,7 +40,7 @@ module CalculateEvmLogic
     # Today's Actual cost
     #
     # @return [Numeric] AC on basis date
-    def today_ac
+    def today_value
       @cumulative_ac[@basis_date]
     end
   end

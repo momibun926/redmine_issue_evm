@@ -23,6 +23,7 @@ class EvmparentissuesController < BaseevmController
     @selectable_parent_issue = selectable_parent_issues_list
     # calculate EVM (parent issue)
     @parent_issue_evm = {}
+    @parent_issue_evm_chart = {}
     unless @cfg_param[:selected_parent_issue_id].nil?
       @cfg_param[:selected_parent_issue_id].each do |issue_id|
         # issues of parent issue
@@ -34,6 +35,8 @@ class EvmparentissuesController < BaseevmController
                                                        parent_issue,
                                                        parent_issue_actual_cost,
                                                        @cfg_param
+        # create chart data
+        @parent_issue_evm_chart[issue_id] = chart_data @parent_issue_evm[issue_id]
       end
     end
   end

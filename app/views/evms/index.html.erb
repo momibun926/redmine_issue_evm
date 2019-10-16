@@ -41,7 +41,7 @@
   <h3><%= l(:subtitle_evm_chart_main) %></h3>
   <%= render partial: "/evms/project_chart_js",
       locals: { basis_date: @cfg_param[:basis_date],
-                project_evm: @project_evm,
+                chart_data: @evm_chart_data,
                 project_name: project_chart_name } %>
   <br>
   <!-- Performance Chart -->
@@ -49,7 +49,7 @@
     <h3><%= l(:subtitle_evm_chart_performance) %></h3>
     <%= render partial: "/evms/performance_chart_js",
         locals: { basis_date: @cfg_param[:basis_date],
-                  project_evm: @project_evm,
+                  performance_chart_data: @performance_chart_data,
                   project_name: project_chart_name } %>
   <% end %>
   <!-- Incomplete issue list -->

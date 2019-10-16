@@ -23,6 +23,7 @@ class EvmassigneesController < BaseevmController
     @selectable_assignees = selectable_assignee_list @project
     # calculate EVM (assignee)
     @assignee_evm = {}
+    @assignee_evm_chart = {}
     unless @cfg_param[:selected_assignee_id].nil?
       @cfg_param[:selected_assignee_id].each do |id|
         condition = if id.blank? 
@@ -39,6 +40,8 @@ class EvmassigneesController < BaseevmController
                                              assignee_issue,
                                              assignee_actual_cost,
                                              @cfg_param
+        # create chart data
+        @assignee_evm_chart[id] = chart_data @assignee_evm[id] 
       end
     end
   end

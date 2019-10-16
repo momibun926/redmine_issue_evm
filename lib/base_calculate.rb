@@ -5,7 +5,6 @@ module CalculateEvmLogic
   # This class is base class of calculate AC, EV, PV(issues, baseline)
   #
   class BaseCalculateEvm
-
     # Basis date
     attr_reader :basis_date
 
@@ -24,4 +23,5 @@ module CalculateEvmLogic
         temp_hash
       end
   end
+  
 end

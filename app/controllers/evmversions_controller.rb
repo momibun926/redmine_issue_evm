@@ -23,6 +23,7 @@ class EvmversionsController < BaseevmController
     @selectable_versions = selectable_version_list @project
     # calculate EVM (version)
     @version_evm = {}
+    @version_evm_chart = {}
     unless @cfg_param[:selected_version_id].nil?
       @cfg_param[:selected_version_id].each do |ver_id|
         proj_id = Version.find(ver_id).project_id
@@ -37,6 +38,8 @@ class EvmversionsController < BaseevmController
                                                 version_issues,
                                                 version_actual_cost,
                                                 @cfg_param
+        # create chart data
+        @version_evm_chart[ver_id] = chart_data @version_evm[ver_id]
       end
     end
   end

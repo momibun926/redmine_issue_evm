@@ -20,16 +20,21 @@ class EvmtrackersController < BaseevmController
     @cfg_param[:display_performance] = "False"
     @cfg_param[:display_incomplete] = "False"
     # selectable tracker    
-    @selectable_tracker = @project.trackers
+    @selectable_tracker = selectable_tracker_list @project
     # calculate EVM (tracker)
     condition = {tracker_id: params[:selected_tracker_id]}
     # issues of trackers
     tracker_issues = evm_issues @project, condition
     # spent time fo trackers
     tracker_actual_cost = evm_costs @project, condition
-    @tracker_evm = CalculateEvm.new nil,
-                                    tracker_issues,
-                                    tracker_actual_cost,
-                                    @cfg_param
+    # calculate EVM
+    unless tracker_issues.blank?
+      @tracker_evm = CalculateEvm.new nil,
+                                      tracker_issues,
+                                      tracker_actual_cost,
+                                      @cfg_param
+      # create chart data
+      @tracker_evm_chart = chart_data @tracker_evm
+    end
   end
 end

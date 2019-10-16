@@ -1,4 +1,9 @@
+# Issue data fetcher
+# This module is a function to collect ISSUE records necessary to calculate EVM
+# It also collects a selectable list that is optionally specified
+#
 module IssueDataFetcher
+
   # Calculation common condition of issue"s select
   SQL_COM = "(issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL) " +
             " OR " +
@@ -7,7 +12,6 @@ module IssueDataFetcher
             " issues.due_date IS NULL " +
             " AND " +
             " issues.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
-
   SQL_COM_ANC = "(ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL) " +
                 " OR " +
                 "(ancestors.start_date IS NOT NULL " +
@@ -28,8 +32,7 @@ module IssueDataFetcher
       where(SQL_COM.to_s).
       where(condition)
   end
-
-  # Get descendants issues
+  # Get descendants parent issue
   #
   # @param [numeric] issue_id selected issue
   # @return [issue] descendants issues
@@ -42,7 +45,6 @@ module IssueDataFetcher
       where(SQL_COM_ANC.to_s).
       where(:ancestors => {:id => issue_id})
   end
-
   # Get spent time of project.
   # Include descendants project.require inputted start date and due date.
   #
@@ -57,8 +59,7 @@ module IssueDataFetcher
       group(:spent_on).
       collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
   end
-
-  # Get spent time of descendants issues
+  # Get spent time of parent issue
   #
   # @param [numeric] issue_id selected issue
   # @return [Array] Two column,spent_on,sum of hours
@@ -75,7 +76,6 @@ module IssueDataFetcher
       group(:spent_on).
       collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
   end
-
   # Get pair of project id and fixed version id.
   # sort by minimum due date of each version.
   #
@@ -89,7 +89,6 @@ module IssueDataFetcher
       group(:project_id, :fixed_version_id).
       collect {|issue| [issue.project_id, issue.fixed_version_id] }
   end
-
   # Get assinee ids in project.
   # sort by assignee id.
   #
@@ -102,7 +101,6 @@ module IssueDataFetcher
       group(:assigned_to_id).
       order(:assigned_to_id)
   end
-
   # Selectable assinee list.
   # sort by assignee id.
   #
@@ -117,20 +115,33 @@ module IssueDataFetcher
     end
     selectable_list
   end
-  # Get pair of project id and fixed version id.
-  # sort by minimum due date of each version.
+  # Selectable version list.
   #
   # @param [project] proj project object
-  # @return [Array] project_id, fixed_version_id
+  # @return [Array] fixed_version_id, versions.name
   def selectable_version_list(proj)
     Issue.cross_project_scope(proj, "descendants").
-      select("fixed_version_id, versions.name").
+      select(:fixed_version_id, "versions.name").
       where(SQL_COM.to_s).
       joins(:fixed_version).
       where.not(fixed_version_id: nil).
       group(:fixed_version_id, "versions.name")
   end
-  # use fo option area
+  # Selectable tracker list 
+  #
+  # @param [project] proj project object
+  # @return [Array] tracker_id, name
+  def selectable_tracker_list(proj)
+    Issue.cross_project_scope(proj, "descendants").
+      select(:tracker_id, "trackers.name").
+      where(SQL_COM.to_s).
+      joins(:tracker).
+      group(:tracker_id, "trackers.name")
+  end
+  # Selectable parent issue list 
+  #
+  # @param [project] proj project object
+  # @return [issue] parent issues
   def selectable_parent_issues_list
     Issue.where(project_id: @project.id).
           where(parent_id: nil).
@@ -148,4 +159,5 @@ module IssueDataFetcher
       where("start_date <= ? AND (closed_on IS NULL OR closed_on > ?)",
             basis_date, basis_date.end_of_day)
   end
+
 end

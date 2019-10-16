@@ -8,7 +8,7 @@
   <div class="option-col">
     <p><%= l(:label_select_trackers) %></p>
     <%= select_tag :selected_tracker_id,
-        options_from_collection_for_select(@selectable_tracker, :id, :name,
+        options_from_collection_for_select(@selectable_tracker, :tracker_id, :name,
                                            @cfg_param[:selected_tracker_id]),
                                            {multiple: true, size: 5}%>
   </div>
@@ -20,10 +20,11 @@
     <h3><%=selected_trackers_name(@cfg_param[:selected_tracker_id])%></h3>
     <!-- EVN value -->
     <%= render partial: "/common/basic_evm_value", locals: { evm: @tracker_evm} %>
+    <br>
     <!-- Charts -->
     <%= render partial: "/common/basic_evm_chart_js",
         locals: { basis_date: @cfg_param[:basis_date],
-                  evm: @tracker_evm,
+                  chart_data: @tracker_evm_chart,
                   id: "1",
                   tittle: selected_trackers_name(@cfg_param[:selected_tracker_id]) } %>
   <% end %>

@@ -42,6 +42,10 @@ class EvmsController < BaseevmController
                                       issues,
                                       actual_cost,
                                       @cfg_param
+      # create chart data
+      @evm_chart_data = chart_data @project_evm 
+      # create performance chart data
+      @performance_chart_data = performance_chart_data @project_evm 
       # incomplete issues
       if @cfg_param[:display_incomplete]
         @incomplete_issues = incomplete_project_issues @project, @cfg_param[:basis_date] 
