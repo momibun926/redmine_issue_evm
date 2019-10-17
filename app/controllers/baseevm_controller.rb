@@ -10,12 +10,14 @@ class BaseevmController < ApplicationController
   include BaselineDataFetcher
   include CalculateEvmLogic
   include ChartDataMaker
+  
   # menu
   menu_item :issuevm
   # Before action
   before_action :find_project ,:find_common_setting
  
   private
+    
     # find common setting
     #
     def find_common_setting
@@ -39,6 +41,7 @@ class BaseevmController < ApplicationController
         @cfg_param[:region] = @emv_setting.region
       end    
     end
+    
     # find project object
     #
     def find_project

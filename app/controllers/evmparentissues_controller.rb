@@ -5,6 +5,7 @@
 # 2. calculate EVM each selected assignees
 # 
 class EvmparentissuesController < BaseevmController
+  
   # index for parent issue EVM view.
   # 
   # 1. set options of view request
@@ -40,4 +41,5 @@ class EvmparentissuesController < BaseevmController
       end
     end
   end
+
 end

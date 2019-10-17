@@ -6,6 +6,7 @@
 # 3. create chart data
 # 
 class EvmassigneesController < BaseevmController
+  
   # index for assignee EVM view.
   # 
   # 1. set options of view request
@@ -46,4 +47,5 @@ class EvmassigneesController < BaseevmController
       end
     end
   end
+
 end

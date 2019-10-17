@@ -7,6 +7,7 @@ module CalculateEvmLogic
   # EV calculate estimate time of finished issue 
   # 
   class CalculateEv < BaseCalculateEvm
+    
     # min date of spent time (exclude basis date)
     attr_reader :min_date
     # max date of spent time (exclude basis date)
@@ -18,6 +19,7 @@ module CalculateEvmLogic
     # satate
     # progress: task is progress, finished: task is all completed.
     attr_reader :state
+    
     # Constractor
     #
     # @param [date] basis_date basis date.
@@ -29,19 +31,18 @@ module CalculateEvmLogic
       @daily_ev = calculate_earned_value issues, basis_date
       # minimum start date
       # if no data, set basis date       
-      @min_date = @daily_ev.keys.min
-      @min_date ||= basis_date
+      @min_date = @daily_ev.keys.min || @basis_date
       # maximum due date
       # if no data, set basis date       
-      @max_date = @daily_ev.keys.max
-      @max_date ||= basis_date
+      @max_date = @daily_ev.keys.max || @basis_date
+      # check state
+      @state = check_state
       # basis date
       @daily_ev[@basis_date] ||= 0.0
       # addup EV
       @cumulative_ev = sort_and_sum_evm_hash @daily_ev
-      # chaeck state
-      @state = check_state
     end
+    
     # Today's earned value
     #
     # @return [Numeric] EV value on basis date
@@ -50,6 +51,7 @@ module CalculateEvmLogic
     end
 
     private
+      
       # Calculate EV.
       # Closed date or Date of ratio was set.
       #
@@ -88,6 +90,7 @@ module CalculateEvmLogic
         end
         temp_ev
       end
+      
       # state on basis date
       #
       # @return [String] state of plan on basis date
@@ -102,6 +105,7 @@ module CalculateEvmLogic
                    :NA
                  end
       end
+  
   end
 
 end

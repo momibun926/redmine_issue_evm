@@ -1,4 +1,5 @@
 module BaselineDataFetcher
+
   # Get Issues of Baseline.(start date, due date, estimated hours)
   # When baseline_id is nil,latest baseline of project.
   #
@@ -16,6 +17,7 @@ module BaselineDataFetcher
                 end
     baselines.first.evmbaselineIssues
   end
+
   # get selectable list of baseline
   #
   # @param [numeric] porject porject object
@@ -24,4 +26,5 @@ module BaselineDataFetcher
     Evmbaseline.where(project_id: porject.id).
                 order(created_on: :DESC)
   end
+
 end

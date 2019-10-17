@@ -8,8 +8,10 @@
 # 5. export to CSV
 #
 class EvmsController < BaseevmController
+  
   # Before action (override)
   before_action :authorize
+  
   # View of main page.
   # If the settings are not entry, go to the settings page.
   # 
@@ -66,11 +68,13 @@ class EvmsController < BaseevmController
   end
 
   private
+    
     # default basis date
     #
     def default_basis_date
         params[:basis_date].nil? ? Time.zone.today : params[:basis_date].to_date
     end
+    
     # default baseline. latest baseline
     #
     def default_baseline_id
@@ -80,4 +84,5 @@ class EvmsController < BaseevmController
         params[:evmbaseline_id]
       end
     end
+
 end

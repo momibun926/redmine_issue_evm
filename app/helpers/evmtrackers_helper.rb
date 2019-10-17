@@ -1,6 +1,7 @@
 # evms helper
 module EvmtrackersHelper
   include CommonHelper
+  
   # Get selected trackers name
   #
   # @param [array] ids selected tracker ids

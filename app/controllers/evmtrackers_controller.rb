@@ -5,6 +5,7 @@
 # 2. calculate EVM each selected trackers
 # 
 class EvmtrackersController < BaseevmController
+  
   # index for tracker EVM view.
   # 
   # 1. set options of view request
@@ -37,4 +38,5 @@ class EvmtrackersController < BaseevmController
       @tracker_evm_chart = chart_data @tracker_evm
     end
   end
+
 end

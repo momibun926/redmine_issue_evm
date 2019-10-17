@@ -2,6 +2,7 @@
 # this helper is common helper. called other helpers.
 # 
 module CommonHelper
+  
   # SPI color of CSS.
   #
   # @return [String] SPI color
@@ -16,6 +17,7 @@ module CommonHelper
     end
     value.html_safe
   end
+  
   # CPI color of CSS.
   #
   # @return [String] CPI color
@@ -30,6 +32,7 @@ module CommonHelper
     end
     value.html_safe
   end
+  
   # CR color of CSS.
   #
   # @return [String] CR color
@@ -47,6 +50,7 @@ module CommonHelper
     end
     value.html_safe
   end
+  
   # Get local date time
   #
   # @param [datetime] bldatetime updated or created datetime
@@ -54,4 +58,5 @@ module CommonHelper
   def local_date(bldatetime)
     bldatetime.localtime.strftime("%Y-%m-%d %H:%M:%S") if bldatetime.present?
   end
+
 end

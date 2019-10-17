@@ -19,6 +19,7 @@ module IssueDataFetcher
                 " ancestors.due_date IS NULL " +
                 " AND " +
                 " ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
+  
   # Get issues of EVM for PV and EV.
   # Include descendants project.require inputted start date and due date.
   # for use calculate PV and EV.
@@ -32,6 +33,7 @@ module IssueDataFetcher
       where(SQL_COM.to_s).
       where(condition)
   end
+  
   # Get descendants parent issue
   #
   # @param [numeric] issue_id selected issue
@@ -45,6 +47,7 @@ module IssueDataFetcher
       where(SQL_COM_ANC.to_s).
       where(:ancestors => {:id => issue_id})
   end
+  
   # Get spent time of project.
   # Include descendants project.require inputted start date and due date.
   #
@@ -59,6 +62,7 @@ module IssueDataFetcher
       group(:spent_on).
       collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
   end
+  
   # Get spent time of parent issue
   #
   # @param [numeric] issue_id selected issue
@@ -76,6 +80,7 @@ module IssueDataFetcher
       group(:spent_on).
       collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
   end
+  
   # Get pair of project id and fixed version id.
   # sort by minimum due date of each version.
   #
@@ -89,6 +94,7 @@ module IssueDataFetcher
       group(:project_id, :fixed_version_id).
       collect {|issue| [issue.project_id, issue.fixed_version_id] }
   end
+  
   # Get assinee ids in project.
   # sort by assignee id.
   #
@@ -101,6 +107,7 @@ module IssueDataFetcher
       group(:assigned_to_id).
       order(:assigned_to_id)
   end
+  
   # Selectable assinee list.
   # sort by assignee id.
   #
@@ -115,6 +122,7 @@ module IssueDataFetcher
     end
     selectable_list
   end
+  
   # Selectable version list.
   #
   # @param [project] proj project object
@@ -127,6 +135,7 @@ module IssueDataFetcher
       where.not(fixed_version_id: nil).
       group(:fixed_version_id, "versions.name")
   end
+  
   # Selectable tracker list 
   #
   # @param [project] proj project object
@@ -138,6 +147,7 @@ module IssueDataFetcher
       joins(:tracker).
       group(:tracker_id, "trackers.name")
   end
+  
   # Selectable parent issue list 
   #
   # @param [project] proj project object
@@ -147,6 +157,7 @@ module IssueDataFetcher
           where(parent_id: nil).
           where("( rgt - lft ) > 1")
   end
+  
   # Get imcomplete issuees on basis date.
   #
   # @note If the due date has not been entered, we will use the due date of the version

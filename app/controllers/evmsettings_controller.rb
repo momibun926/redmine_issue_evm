@@ -1,16 +1,19 @@
 # setting controller
 class EvmsettingsController < BaseevmController
+  
   # New setting
   #
   def new
     @evm_settings = Evmsetting.new
   end
+  
   # Edit setting
   #
   def edit
     @evm_settings = Evmsetting.find_by(project_id: @project.id)
     @update_user = User.find(@evm_settings.user_id)
   end
+  
   # Update baselie
   #
   def update
@@ -25,6 +28,7 @@ class EvmsettingsController < BaseevmController
       render "edit"
     end
   end
+  
   # Create evm setting
   #
   def create
@@ -41,6 +45,7 @@ class EvmsettingsController < BaseevmController
   end
 
   private
+    
     # Strong parameter
     #
     def evm_setting_params
@@ -56,4 +61,5 @@ class EvmsettingsController < BaseevmController
                                          :threshold_cpi,
                                          :threshold_cr)
     end
+
 end

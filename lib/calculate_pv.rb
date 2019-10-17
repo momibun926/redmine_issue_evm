@@ -7,6 +7,7 @@ module CalculateEvmLogic
   # PV calculate estimate hours of issues.
   #
   class CalculatePv < BaseCalculateEvm
+    
     # start date (exclude basis date)
     attr_reader :start_date
     # due date (exclude basis date)
@@ -16,7 +17,9 @@ module CalculateEvmLogic
     # cumulative PV by date
     attr_reader :cumulative_pv
     # state on basis date
+    # overdue: basis date is overdue, before_plan: basis date is before start date 
     attr_reader :state
+    
     # Constractor
     #
     # @param [date] basis_date basis date.
@@ -30,11 +33,9 @@ module CalculateEvmLogic
       # daily PV
       @daily_pv = calculate_planed_value issues
       # planed start date
-      @start_date = @daily_pv.keys.min
-      @start_date ||= @basis_date
+      @start_date = @daily_pv.keys.min || @basis_date
       # planed due date
-      @due_date = @daily_pv.keys.max
-      @due_date ||= @basis_date
+      @due_date = @daily_pv.keys.max || @basis_date
       # state
       @state = check_state
       # basis date
@@ -42,6 +43,7 @@ module CalculateEvmLogic
       # addup PV
       @cumulative_pv = sort_and_sum_evm_hash @daily_pv
     end
+    
     # Badget at completion
     # Total estimate hours of issues.
     #
@@ -49,6 +51,7 @@ module CalculateEvmLogic
     def bac
       @cumulative_pv.values.max
     end
+    
     # Today's planed value
     #
     # @return [Numeric] PV on basis date or PV of baseline.
@@ -57,6 +60,7 @@ module CalculateEvmLogic
     end
 
     private
+      
       # Calculate PV.
       # if due date is nil , set varsion due date.
       # 
@@ -79,6 +83,7 @@ module CalculateEvmLogic
         end
         temp_pv
       end
+      
       # Estimated time per day.
       #
       # @param [Numeric] estimated_hours estimated hours
@@ -86,6 +91,7 @@ module CalculateEvmLogic
       def issue_hours_per_day(estimated_hours, days)
         (estimated_hours || 0.0) / days
       end
+      
       # working days.
       # exclude weekends and holiday.
       #
@@ -101,6 +107,7 @@ module CalculateEvmLogic
                          issue_days
                        end
       end
+      
       # state on basis date
       #
       # @return [String] state of plan on basis date
@@ -113,6 +120,7 @@ module CalculateEvmLogic
                    :working
                  end
       end
+  
   end
 
 end

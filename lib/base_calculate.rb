@@ -5,10 +5,12 @@ module CalculateEvmLogic
   # This class is base class of calculate AC, EV, PV(issues, baseline)
   #
   class BaseCalculateEvm
+    
     # Basis date
     attr_reader :basis_date
 
     private
+      
       # Sort evm hash, Assending date.
       #
       # @param [hash] evm_hash target issues of EVM
@@ -22,6 +24,7 @@ module CalculateEvmLogic
         end
         temp_hash
       end
+      
   end
   
 end

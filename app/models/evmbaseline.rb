@@ -6,24 +6,28 @@ class Evmbaseline < ActiveRecord::Base
   has_many :evmbaselineIssues, dependent: :delete_all
   # Validate
   validates :subject, presence: true
+  
   # Minimum start date of baseline.
   #
   # @return [date] minimum of start date
   def minimum_start_date
     evmbaselineIssues.minimum(:start_date)
   end
+  
   # maximum due date of baseline.
   #
   # @return [date] maximum of due date
   def maximum_due_date
     evmbaselineIssues.maximum(:due_date)
   end
+  
   # BAC of baseline.
   #
   # @return [numeric] BAC of baseline
   def bac
     evmbaselineIssues.sum(:estimated_hours).round(1)
   end
+  
   # for activity page.
   acts_as_event title: Proc.new {|o| l(:title_evm_tab) + " : " +
                                       o.subject + " : " +
@@ -45,4 +49,5 @@ class Evmbaseline < ActiveRecord::Base
   # scope
   scope :visible,
     lambda {|*args| joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args))}
+
 end

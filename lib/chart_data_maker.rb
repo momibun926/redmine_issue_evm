@@ -46,6 +46,7 @@ module ChartDataMaker
     end
     chart_data
   end
+  
   # Create data for display performance chart.
   #
   # @return [hash] data for performance chart
@@ -82,6 +83,7 @@ module ChartDataMaker
     converted = Hash[data.map {|k, v| [k.to_time(:local).to_i * 1000, v] }]
     converted.to_a
   end
+  
   # EVM value of Each date. for performance chart.
   #
   # @param [hash] evm_hash EVM hash
