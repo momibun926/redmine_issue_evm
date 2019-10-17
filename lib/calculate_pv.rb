@@ -31,8 +31,10 @@ module CalculateEvmLogic
       @daily_pv = calculate_planed_value issues
       # planed start date
       @start_date = @daily_pv.keys.min
+      @start_date ||= @basis_date
       # planed due date
       @due_date = @daily_pv.keys.max
+      @due_date ||= @basis_date
       # state
       @state = check_state
       # basis date
