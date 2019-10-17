@@ -90,7 +90,6 @@ class EvmbaselinesController < BaseevmController
   end
 
   private
-    #
     # Strong parameter
     #
     def evm_baseline_params

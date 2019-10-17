@@ -3,6 +3,11 @@
   <%= javascript_include_tag "drawchart",      plugin: "redmine_issue_evm" %>
   <%= javascript_include_tag "highcharts.js",  plugin: "redmine_issue_evm" %>
 <% end %>
+<script>
+  function disableobject( object, ischecked ) {
+    document.getElementById(object).disabled = ischecked;
+  }
+</script>
 <!-- contextual (Basline setting) -->
 <div class="contextual">
   <%= link_to l(:label_nav_main), {controller: :evms, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-main-evm"%>

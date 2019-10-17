@@ -29,7 +29,6 @@ class EvmsController < BaseevmController
       @evmbaseline = selectable_baseline_list @project
       # evm explanation
       @cfg_param[:display_explanation] = params[:display_explanation]
-
       # baseline
       baselines = project_baseline @project, @cfg_param[:baseline_id]
       # issues of project include disendants

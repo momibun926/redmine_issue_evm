@@ -15,10 +15,10 @@ class EvmparentissuesController < BaseevmController
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
     @cfg_param[:selected_parent_issue_id] = params[:selected_parent_issue_id]
-    @cfg_param[:no_use_baseline] = "True"
-    @cfg_param[:forecast] = "False"
-    @cfg_param[:display_performance] = "False"
-    @cfg_param[:display_incomplete] = "False"
+    @cfg_param[:no_use_baseline] = "true"
+    @cfg_param[:forecast] = "false"
+    @cfg_param[:display_performance] = "false"
+    @cfg_param[:display_incomplete] = "false"
     #selectable parent issue
     @selectable_parent_issue = selectable_parent_issues_list
     # calculate EVM (parent issue)

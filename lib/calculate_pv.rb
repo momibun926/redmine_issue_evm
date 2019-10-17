@@ -7,16 +7,16 @@ module CalculateEvmLogic
   # PV calculate estimate hours of issues.
   #
   class CalculatePv < BaseCalculateEvm
-    # overdue?
-    attr_reader :overdue
     # start date (exclude basis date)
     attr_reader :start_date
     # due date (exclude basis date)
     attr_reader :due_date
-    #
+    # daily PV
     attr_reader :daily_pv
-    #
+    # cumulative PV by date
     attr_reader :cumulative_pv
+    # state on basis date
+    attr_reader :state
     # Constractor
     #
     # @param [date] basis_date basis date.
@@ -33,8 +33,8 @@ module CalculateEvmLogic
       @start_date = @daily_pv.keys.min
       # planed due date
       @due_date = @daily_pv.keys.max
-      # overdue?
-      @overdue = @basis_date > @due_date
+      # state
+      @state = check_state
       # basis date
       @daily_pv[@basis_date] ||= 0.0
       # addup PV
@@ -98,6 +98,18 @@ module CalculateEvmLogic
                        else
                          issue_days
                        end
+      end
+      # state on basis date
+      #
+      # @return [String] state of plan on basis date
+      def check_state
+        @state = if @due_date < @basis_date
+                   :overdue
+                 elsif @basis_date < @start_date
+                   :before_plan
+                 else
+                   :working
+                 end
       end
   end
 

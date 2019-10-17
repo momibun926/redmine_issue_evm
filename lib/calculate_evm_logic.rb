@@ -12,14 +12,14 @@ module CalculateEvmLogic
     attr_reader :basis_date
     # calculation PV class ojbject, basis
     attr_reader :pv
-    # calculation PV class ojbject
-    attr_reader :calc_pv
+    # calculation PV(actual) class ojbject
+    attr_reader :pv_actual
     # calculation PV(baseline) class ojbject
-    attr_reader :calc_bl
+    attr_reader :pv_baseline
     # calculation EV class ojbject
-    attr_reader :calc_ev
+    attr_reader :ev
     # calculation AC class ojbject
-    attr_reader :calc_ac
+    attr_reader :ac
     # forecast
     attr_reader :forecast
     # Constractor
@@ -49,16 +49,14 @@ module CalculateEvmLogic
                            options[:no_use_baseline]
                         end                
       # create pv, ev, ac, bl object
-      @calc_bl = CalculatePv.new @basis_date, baselines, @region unless baselines.nil?
-      @calc_pv = CalculatePv.new @basis_date, issues, @region
-      @calc_ev = CalculateEv.new @basis_date, issues
-      @calc_ac = CalculateAc.new @basis_date, costs
-      # PV
-      @pv = @no_use_baseline ? @calc_pv : @calc_bl
+      @pv_baseline = CalculatePv.new @basis_date, baselines, @region unless baselines.nil?
+      @pv_actual = CalculatePv.new @basis_date, issues, @region
       # EV
-      @ev = @calc_ev
+      @ev = CalculateEv.new @basis_date, issues
       # AC
-      @ac = @calc_ac
+      @ac = CalculateAc.new @basis_date, costs
+      # PV
+      @pv = @no_use_baseline ? @pv_actual : @pv_baseline
     end
     # Badget at completion.
     # Total hours of issues.
@@ -69,7 +67,6 @@ module CalculateEvmLogic
       bac = @pv.bac / hours
       bac.round(1)
     end
-
     # CompleteEV
     #
     # @param [Numeric] hours hours per day
@@ -82,7 +79,6 @@ module CalculateEvmLogic
                     end
       complete_ev.round(1)
     end
-
     # Planed value
     # The work scheduled to be completed by a specified date.
     #
@@ -92,7 +88,6 @@ module CalculateEvmLogic
       pv = @pv.today_value / hours
       pv.round(1)
     end
-
     # Earned value
     # The work actually completed by the specified date;.
     #
@@ -102,7 +97,6 @@ module CalculateEvmLogic
       ev = @ev.today_value / hours
       ev.round(1)
     end
-
     # Actual cost
     # The costs actually incurred for the work completed by the specified date.
     #
@@ -112,7 +106,6 @@ module CalculateEvmLogic
       ac = @ac.today_value / hours
       ac.round(1)
     end
-
     # Scedule variance
     # How much ahead or behind the schedule a project is running.
     #
@@ -122,7 +115,6 @@ module CalculateEvmLogic
       sv = today_ev(hours) - today_pv(hours)
       sv.round(1)
     end
-
     # Cost variance
     # Cost Variance (CV) is a very important factor to measure project performance.
     # CV indicates how much over - or under-budget the project is.
@@ -133,7 +125,6 @@ module CalculateEvmLogic
       cv = today_ev(hours) - today_ac(hours)
       cv.round(1)
     end
-
     # Schedule Performance Indicator
     # Schedule Performance Indicator (SPI) is an index showing
     # the efficiency of the time utilized on the project.
@@ -148,7 +139,6 @@ module CalculateEvmLogic
             end
       spi.round(2)
     end
-
     # Cost Performance Indicator
     # Cost Performance Indicator (CPI) is an index showing
     # the efficiency of the utilization of the resources on the project.
@@ -163,7 +153,6 @@ module CalculateEvmLogic
             end
       cpi.round(2)
     end
-
     # Critical ratio
     #
     # @param [Numeric] hours hours per day
@@ -172,7 +161,6 @@ module CalculateEvmLogic
       cr = today_spi(hours) * today_cpi(hours)
       cr.round(2)
     end
-
     # Estimate to Complete
     # Estimate to Complete (ETC) is the estimated cost required
     # to complete the remainder of the project.
@@ -197,7 +185,6 @@ module CalculateEvmLogic
             end
       etc.round(1)
     end
-
     # Estimate at Completion
     # Estimate at Completion (EAC) is the estimated cost of the project
     # at the end of the project.
@@ -208,7 +195,6 @@ module CalculateEvmLogic
       eac = today_ac(hours) + etc(hours)
       eac.round(1)
     end
-
     # Variance at Completion
     # Variance at completion (VAC) is the variance
     # on the total budget at the end of the project.
@@ -219,14 +205,12 @@ module CalculateEvmLogic
       vac = bac(hours) - eac(hours)
       vac.round(1)
     end
-
     # forecast date (Delay)
     #
     # @return [numeric] delay days
     def delay
       (forecast_finish_date - @pv.due_date).to_i
     end
-
     # To Complete Cost Performance Indicator
     # To Complete Cost Performance Indicator (TCPI) is an index showing
     # the efficiency at which the resources on the project should be utilized

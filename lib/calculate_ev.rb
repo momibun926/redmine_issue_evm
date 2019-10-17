@@ -7,16 +7,17 @@ module CalculateEvmLogic
   # EV calculate estimate time of finished issue 
   # 
   class CalculateEv < BaseCalculateEvm
-    # finished? True:task is finished false:unfinished
-    attr_reader :finished
     # min date of spent time (exclude basis date)
     attr_reader :min_date
     # max date of spent time (exclude basis date)
     attr_reader :max_date
-    #
+    # daily EV
     attr_reader :daily_ev
-    #
+    # cumulative EV by date
     attr_reader :cumulative_ev
+    # satate
+    # progress: task is progress, finished: task is all completed.
+    attr_reader :state
     # Constractor
     #
     # @param [date] basis_date basis date.
@@ -38,8 +39,8 @@ module CalculateEvmLogic
       @daily_ev[@basis_date] ||= 0.0
       # addup EV
       @cumulative_ev = sort_and_sum_evm_hash @daily_ev
-      # total issues
-      @finished = (@unfinished_issue_count == @unfinished_issue_count)
+      # chaeck state
+      @state = check_state
     end
     # Today's earned value
     #
@@ -58,7 +59,7 @@ module CalculateEvmLogic
       def calculate_earned_value(issues, basis_date)
         temp_ev = {}
         @finished_issue_count = 0
-        @unfinished_issue_count = 0
+        @issue_count = 0
         unless issues.nil?
           issues.each do |issue|
             # closed issue
@@ -82,10 +83,24 @@ module CalculateEvmLogic
               temp_ev[ratio_date] += hours unless temp_ev[ratio_date].nil?
               temp_ev[ratio_date] ||= hours
             end
-            @unfinished_issue_count += 1
+            @issue_count += 1
           end
         end
         temp_ev
+      end
+      # state on basis date
+      #
+      # @return [String] state of plan on basis date
+      def check_state
+        @state = if @finished_issue_count < @issue_count
+                   :progress
+                 elsif @issue_count == 0
+                   :no_work
+                 elsif @finished_issue_count == @issue_count
+                   :finished
+                 else
+                   :NA
+                 end
       end
   end
 

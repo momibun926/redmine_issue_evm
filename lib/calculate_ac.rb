@@ -11,9 +11,9 @@ module CalculateEvmLogic
     attr_reader :min_date
     # max date of spent time (exclude basis date)
     attr_reader :max_date
-    #
+    # daily AC
     attr_reader :daily_ac
-    #
+    # cumulative EV by date
     attr_reader :cumulative_ac
     # Constractor
     #

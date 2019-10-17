@@ -7,28 +7,28 @@ module ChartDataMaker
   # @return [hash] chart data
   def chart_data(evm)
     # overdue?
-    if evm.calc_pv.overdue
-      planned_value = evm.calc_pv.cumulative_pv.select {|date, _value| date < evm.basis_date }
+    if evm.pv_actual.state.equal?(:overdue)
+      planned_value = evm.pv_actual.cumulative_pv.select {|date, _value| date < evm.basis_date }
     else
-      planned_value = evm.calc_pv.cumulative_pv
+      planned_value = evm.pv_actual.cumulative_pv
     end
-    if evm.calc_bl.nil?
+    if evm.pv_baseline.nil?
     else
-      if evm.calc_bl.overdue
-        baseline_value = evm.calc_bl.cumulative_pv.select {|date, _value| date < evm.basis_date }
+      if evm.pv_baseline.state.equal?(:overdue)
+        baseline_value = evm.pv_baseline.cumulative_pv.select {|date, _value| date < evm.basis_date }
       else
-        baseline_value = evm.calc_bl.cumulative_pv
+        baseline_value = evm.pv_baseline.cumulative_pv
       end
     end
     chart_data = {}
     chart_data[:planned_value] = convert_to_chart planned_value
-    chart_data[:actual_cost] = convert_to_chart evm.calc_ac.cumulative_ac
-    chart_data[:earned_value] = convert_to_chart evm.calc_ev.cumulative_ev
-    chart_data[:baseline_value] = convert_to_chart baseline_value unless evm.calc_bl.nil?
+    chart_data[:actual_cost] = convert_to_chart evm.ac.cumulative_ac
+    chart_data[:earned_value] = convert_to_chart evm.ev.cumulative_ev
+    chart_data[:baseline_value] = convert_to_chart baseline_value unless evm.pv_baseline.nil?
     chart_data[:planned_value_daily] = convert_to_chart evm.pv.daily_pv
     # for chart
-    chart_minimum_date = [evm.pv.start_date, evm.calc_ev.min_date, evm.calc_ac.min_date].min
-    chart_maximum_date = [evm.pv.due_date, evm.calc_ev.max_date, evm.calc_ac.max_date, evm.forecast_finish_date].max
+    chart_minimum_date = [evm.pv.start_date, evm.ev.min_date, evm.ac.min_date].min
+    chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date, evm.forecast_finish_date].max
     # forecast
     if evm.forecast
       bac_top_line = { chart_minimum_date => evm.bac,
@@ -51,8 +51,8 @@ module ChartDataMaker
   # @return [hash] data for performance chart
   def performance_chart_data(evm)
     chart_data = {}
-    new_ev = complement_evm_value evm.calc_ev.cumulative_ev
-    new_ac = complement_evm_value evm.calc_ac.cumulative_ac
+    new_ev = complement_evm_value evm.ev.cumulative_ev
+    new_ac = complement_evm_value evm.ac.cumulative_ac
     new_pv = complement_evm_value evm.pv.cumulative_pv
     performance_min_date = [new_ev.keys.min,
                             new_ac.keys.min,

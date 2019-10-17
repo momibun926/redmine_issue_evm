@@ -15,10 +15,10 @@ class EvmtrackersController < BaseevmController
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
     @cfg_param[:selected_tracker_id] = params[:selected_tracker_id]
-    @cfg_param[:no_use_baseline] = "True"
-    @cfg_param[:forecast] = "False"
-    @cfg_param[:display_performance] = "False"
-    @cfg_param[:display_incomplete] = "False"
+    @cfg_param[:no_use_baseline] = "true"
+    @cfg_param[:forecast] = "false"
+    @cfg_param[:display_performance] = "false"
+    @cfg_param[:display_incomplete] = "false"
     # selectable tracker    
     @selectable_tracker = selectable_tracker_list @project
     # calculate EVM (tracker)
