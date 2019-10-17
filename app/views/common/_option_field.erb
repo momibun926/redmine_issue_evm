@@ -1,0 +1,42 @@
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "issue_evm",         plugin: "redmine_issue_evm" %>
+  <%= javascript_include_tag "drawchart",      plugin: "redmine_issue_evm" %>
+  <%= javascript_include_tag "highcharts.js",  plugin: "redmine_issue_evm" %>
+<% end %>
+<script>
+  function disableobject( object, ischecked ) {
+    document.getElementById(object).disabled = ischecked;
+  }
+</script>
+<!-- contextual (Basline setting) -->
+<div class="contextual">
+  <%= link_to l(:label_nav_main), {controller: :evms, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-main-evm"%>
+  <%= link_to l(:label_nav_version), {controller: :evmversions, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-version-evm"%>
+  <%= link_to l(:label_nav_assignee), {controller: :evmassignees, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-assignee-evm"%>
+  <%= link_to l(:label_nav_parent_issue), {controller: :evmparentissues, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-parent-issue-evm"%>
+  <%= link_to l(:label_nav_tracker), {controller: :evmtrackers, action: :index, id: @project.id, params: @cfg_param} , class: "icon icon-tracker-evm"%>
+  <%= link_to l(:label_nav_baseline_setting), {controller: :evmbaselines, action: :index, id: @project.id} , class: "icon icon-settings"%>
+  <%= link_to l(:label_nav_evm_setting), {controller: :evmsettings, action: :edit, id: @project.id} , class: "icon icon-settings"%>
+</div>
+<!--option -->
+<h2><%= l(:title_evm_tab)%></h2>
+<h3><%= yield :title_sub %></h3>
+<%= form_tag url_for(action: :index), method: :get, id: "query_form" do %>
+  <fieldset id="filters" class="collapsible collapsed">
+    <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+    <div style="display: none;">
+      <!-- basis date -->
+      <div class="option-col">
+        <p><%= l(:label_basis_date) %></p>
+        <%= date_field_tag("basis_date", @cfg_param[:basis_date], size: 8) %><%= calendar_for("basis_date") %>
+      </div>
+      <%= yield :additional_option %>
+      <!-- Apply button -->
+      <div class="option-apply">
+        <br>
+        <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
+        <br>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

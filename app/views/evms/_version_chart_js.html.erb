@@ -1,7 +1,0 @@
-<script>
-  var actualWeek = <%= basis_date.to_time.to_i* 1000 %>;
-  var graphTitleMain = <%= raw version_name.to_json %> ;
-  var versionChartData = <%= raw version_evm.chart_data.to_json %>;
-  var verisonChartHtmlElement = "evm-graph-lines-version-" + <%= version %>;
-  drawVersionChart(versionChartData, verisonChartHtmlElement, actualWeek, graphTitleMain);
-</script>

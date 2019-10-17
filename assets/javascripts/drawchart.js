@@ -132,7 +132,98 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
       Highcharts.setOptions({global : {useUTC : false}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
-function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
+function drawPerformanceChart(dataToChart, placeholder, graphtitle){
+    var data = dataToChart;
+    var chartOptions = {
+            credits:{
+                enabled: false
+            },
+            chart:{
+                renderTo: placeholder,
+                type: 'line',
+                zoomType: 'xy'
+            },
+            title:{
+                text: graphtitle,
+                align: 'left'
+            },
+            xAxis:{
+                type: 'datetime',
+                dateTimeLabelFormats:{
+                    day: '%m-%d',
+                    week: '%Y-%m-%d',
+                    month: '%Y-%m-%d',
+                    year: '%Y'
+                },
+                minTickInterval: 24 * 3600 * 1000,
+                tickmarkPlacement: 'on'
+            },
+            yAxis:{
+                min: 0,
+                minorGridLineWidth: 0,
+                minorTickInterval: 'auto',
+                minorTickLength: 10,
+                minorTickWidth: 1,
+                plotLines:[{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }],
+                plotBands: [{
+                    from: 0.9,
+                    to: 1.1,
+                    color: 'rgba(68, 170, 213, 0.1)',
+                    label:{
+                        style:{color: '#606060'}
+                    }
+                }]
+            },
+            tooltip:{
+                valueDecimals: 2,
+                crosshairs: true,
+                shared: true
+            },
+            plotOptions:{
+                line: {
+                    lineWidth: 2,
+                    states: {
+                        hover: {
+                            lineWidth: 3
+                        }
+                    },
+                    marker: {
+                        enabled: false
+                    }
+                }
+            },
+            legend:{
+                align: 'center',
+                verticalAlign: 'bottom',
+                borderWidth: 0,
+                itemDistance: 50
+            },
+            series:[
+                {
+                    name: 'SPI',
+                    color: '#8cc63f',
+                    data: data.spi
+                },
+                {
+                    name: 'CPI',
+                    color: '#fcb040',
+                    data: data.cpi
+                },
+                {
+                    name: 'CR',
+                    color: '#a80909',
+                    data: data.cr
+                }
+            ]
+      };
+      Highcharts.setOptions({global : {useUTC : false}});
+      var lg1 = new Highcharts.Chart(chartOptions);
+}
+function drawOtherEvmChart(dataToChart, placeholder, nowdate, graphtitle){
     var data = dataToChart;
     var chartOptions = {
             credits:{
@@ -226,94 +317,4 @@ function drawVersionChart(dataToChart, placeholder, nowdate, graphtitle){
       Highcharts.setOptions({global : {useUTC : false}});
       var lg1 = new Highcharts.Chart(chartOptions);
 }
-function drawPerformanceChart(dataToChart, placeholder, graphtitle){
-    var data = dataToChart;
-    var chartOptions = {
-            credits:{
-                enabled: false
-            },
-            chart:{
-                renderTo: placeholder,
-                type: 'line',
-                zoomType: 'xy'
-            },
-            title:{
-                text: graphtitle,
-                align: 'left'
-            },
-            xAxis:{
-                type: 'datetime',
-                dateTimeLabelFormats:{
-                    day: '%m-%d',
-                    week: '%Y-%m-%d',
-                    month: '%Y-%m-%d',
-                    year: '%Y'
-                },
-                minTickInterval: 24 * 3600 * 1000,
-                tickmarkPlacement: 'on'
-            },
-            yAxis:{
-                min: 0,
-                minorGridLineWidth: 0,
-                minorTickInterval: 'auto',
-                minorTickLength: 10,
-                minorTickWidth: 1,
-                plotLines:[{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }],
-                plotBands: [{
-                    from: 0.9,
-                    to: 1.1,
-                    color: 'rgba(68, 170, 213, 0.1)',
-                    label:{
-                        style:{color: '#606060'}
-                    }
-                }]
-            },
-            tooltip:{
-                valueDecimals: 2,
-                crosshairs: true,
-                shared: true
-            },
-            plotOptions:{
-                line: {
-                    lineWidth: 2,
-                    states: {
-                        hover: {
-                            lineWidth: 3
-                        }
-                    },
-                    marker: {
-                        enabled: false
-                    }
-                }
-            },
-            legend:{
-                align: 'center',
-                verticalAlign: 'bottom',
-                borderWidth: 0,
-                itemDistance: 50
-            },
-            series:[
-                {
-                    name: 'SPI',
-                    color: '#8cc63f',
-                    data: data.spi
-                },
-                {
-                    name: 'CPI',
-                    color: '#fcb040',
-                    data: data.cpi
-                },
-                {
-                    name: 'CR',
-                    color: '#a80909',
-                    data: data.cr
-                }
-            ]
-      };
-      Highcharts.setOptions({global : {useUTC : false}});
-      var lg1 = new Highcharts.Chart(chartOptions);
-}
+

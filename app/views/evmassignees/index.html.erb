@@ -1,0 +1,31 @@
+<% html_title("Project tracking with EVM - assignee issues ") %>
+<!-- sunb title -->
+<% content_for :title_sub do %>
+  <%= l(:label_nav_assignee) %>
+<% end %>
+<% content_for :additional_option do %>
+  <!-- selectable assignee -->
+  <div class="option-col">
+    <p><%= l(:label_select_assignee) %></p>
+    <%= select_tag :selected_assignee_id,
+        options_for_select(@selectable_assignees,
+                           @cfg_param[:selected_assignee_id]),
+                           {multiple: true, size: 5}%>
+  </div>
+<% end %>
+<%= render partial: "/common/option_field"%>
+<!-- contents -->
+<section>
+  <% @assignee_evm.each do |assignee_id, evm| %>
+    <h3><%=assignee_name(assignee_id)%></h3>
+    <!-- EVN value -->
+    <%= render partial: "/common/basic_evm_value", locals: { evm: evm} %>
+    <br>
+    <!-- Charts -->
+    <%= render partial: "/common/basic_evm_chart_js",
+        locals: { basis_date: @cfg_param[:basis_date],
+                  chart_data: @assignee_evm_chart[assignee_id],
+                  id: assignee_id,
+                  tittle: assignee_name(assignee_id) } %>
+  <% end %>
+</section>

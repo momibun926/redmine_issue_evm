@@ -1,22 +1,16 @@
 # setting controller
-class EvmsettingsController < ApplicationController
-
-  # Before action
-  before_action :find_project
-
+class EvmsettingsController < BaseevmController
   # New setting
   #
   def new
     @evm_settings = Evmsetting.new
   end
-
   # Edit setting
   #
   def edit
     @evm_settings = Evmsetting.find_by(project_id: @project.id)
     @update_user = User.find(@evm_settings.user_id)
   end
-
   # Update baselie
   #
   def update
@@ -31,7 +25,6 @@ class EvmsettingsController < ApplicationController
       render "edit"
     end
   end
-
   # Create evm setting
   #
   def create
@@ -48,15 +41,6 @@ class EvmsettingsController < ApplicationController
   end
 
   private
-
-    # find project object
-    #
-    def find_project
-      @project = Project.find(params[:project_id])
-    rescue ActiveRecord::RecordNotFound
-      render_404
-    end
-
     # Strong parameter
     #
     def evm_setting_params

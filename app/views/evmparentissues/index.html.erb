@@ -1,0 +1,31 @@
+<% html_title("Project tracking with EVM - parent issues ") %>
+<!-- sub title -->
+<% content_for :title_sub do %>
+  <%= l(:label_nav_parent_issue) %>
+<% end %>
+<% content_for :additional_option do %>
+  <!-- selectable parent issues -->
+  <div class="option-col">
+    <p><%= l(:label_select_parent_issue) %></p>
+    <%= select_tag :selected_parent_issue_id,
+        options_from_collection_for_select(@selectable_parent_issue, :id, :subject,
+                                           @cfg_param[:selected_parent_issue_id]),
+                                           {multiple: true, size: 5}%>
+  </div>
+<% end %>
+<%= render partial: "/common/option_field"%>
+<!-- contents -->
+<section>
+  <% @parent_issue_evm.each do |parent_issue_id, evm| %>
+    <h3><%= parent_issue_link(parent_issue_id) %> <%=parent_issue_subject(parent_issue_id)%></h3>
+    <!-- EVN value -->
+    <%= render partial: "/common/basic_evm_value", locals: { evm: evm} %>
+    <br>
+    <!-- Charts -->
+    <%= render partial: "/common/basic_evm_chart_js",
+        locals: { basis_date: @cfg_param[:basis_date],
+                  chart_data: @parent_issue_evm_chart[parent_issue_id],
+                  id: parent_issue_id,
+                  tittle: parent_issue_subject(parent_issue_id) } %>
+  <% end %>
+</section>

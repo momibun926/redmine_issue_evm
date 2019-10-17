@@ -1,6 +1,9 @@
-# Get data of Calculation EVM
+# Issue data fetcher
+# This module is a function to collect ISSUE records necessary to calculate EVM
+# It also collects a selectable list that is optionally specified
 #
-module ProjectAndVersionValue
+module IssueDataFetcher
+
   # Calculation common condition of issue"s select
   SQL_COM = "(issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL) " +
             " OR " +
@@ -9,7 +12,6 @@ module ProjectAndVersionValue
             " issues.due_date IS NULL " +
             " AND " +
             " issues.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
-
   SQL_COM_ANC = "(ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL) " +
                 " OR " +
                 "(ancestors.start_date IS NOT NULL " +
@@ -17,25 +19,6 @@ module ProjectAndVersionValue
                 " ancestors.due_date IS NULL " +
                 " AND " +
                 " ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
-
-  # Get Issues of Baseline.(start date, due date, estimated hours)
-  # When baseline_id is nil,latest baseline of project.
-  #
-  # @param [numeric] project_id project id
-  # @param [numeric] baseline_id baseline id
-  # @return [EvmBaseline] evmbaselines
-  def project_baseline(project_id, baseline_id)
-    baselines = {}
-    return unless Evmbaseline.exists?(project_id: project_id)
-    baselines = if baseline_id.nil?
-                  Evmbaseline.where(project_id: project_id).
-                              order(created_on: :DESC)
-    else
-                  Evmbaseline.where(id: baseline_id)
-    end
-    baselines.first.evmbaselineIssues
-  end
-
   # Get issues of EVM for PV and EV.
   # Include descendants project.require inputted start date and due date.
   # for use calculate PV and EV.
@@ -49,8 +32,7 @@ module ProjectAndVersionValue
       where(SQL_COM.to_s).
       where(condition)
   end
-
-  # Get descendants issues
+  # Get descendants parent issue
   #
   # @param [numeric] issue_id selected issue
   # @return [issue] descendants issues
@@ -63,7 +45,6 @@ module ProjectAndVersionValue
       where(SQL_COM_ANC.to_s).
       where(:ancestors => {:id => issue_id})
   end
-
   # Get spent time of project.
   # Include descendants project.require inputted start date and due date.
   #
@@ -78,8 +59,7 @@ module ProjectAndVersionValue
       group(:spent_on).
       collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
   end
-
-  # Get spent time of descendants issues
+  # Get spent time of parent issue
   #
   # @param [numeric] issue_id selected issue
   # @return [Array] Two column,spent_on,sum of hours
@@ -96,7 +76,6 @@ module ProjectAndVersionValue
       group(:spent_on).
       collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
   end
-
   # Get pair of project id and fixed version id.
   # sort by minimum due date of each version.
   #
@@ -110,20 +89,64 @@ module ProjectAndVersionValue
       group(:project_id, :fixed_version_id).
       collect {|issue| [issue.project_id, issue.fixed_version_id] }
   end
-
   # Get assinee ids in project.
   # sort by assignee id.
   #
   # @param [project] proj project object
   # @return [issue] assigned_to_id
-  def project_assignee_id_pair(proj)
+  def assignee_ids(proj)
     Issue.cross_project_scope(proj, "descendants").
       select(:assigned_to_id).
       where(SQL_COM.to_s).
       group(:assigned_to_id).
       order(:assigned_to_id)
   end
-
+  # Selectable assinee list.
+  # sort by assignee id.
+  #
+  # @param [project] proj project object
+  # @return [issue] assigned_to_id
+  def selectable_assignee_list(proj)
+    issues = assignee_ids proj
+    selectable_list = {}
+    issues.each do |issue|
+      assinee_name  = issue.assigned_to_id.nil? ? l(:no_assignee) : User.find(issue.assigned_to_id).name
+      selectable_list[assinee_name] = issue.assigned_to_id
+    end
+    selectable_list
+  end
+  # Selectable version list.
+  #
+  # @param [project] proj project object
+  # @return [Array] fixed_version_id, versions.name
+  def selectable_version_list(proj)
+    Issue.cross_project_scope(proj, "descendants").
+      select(:fixed_version_id, "versions.name").
+      where(SQL_COM.to_s).
+      joins(:fixed_version).
+      where.not(fixed_version_id: nil).
+      group(:fixed_version_id, "versions.name")
+  end
+  # Selectable tracker list 
+  #
+  # @param [project] proj project object
+  # @return [Array] tracker_id, name
+  def selectable_tracker_list(proj)
+    Issue.cross_project_scope(proj, "descendants").
+      select(:tracker_id, "trackers.name").
+      where(SQL_COM.to_s).
+      joins(:tracker).
+      group(:tracker_id, "trackers.name")
+  end
+  # Selectable parent issue list 
+  #
+  # @param [project] proj project object
+  # @return [issue] parent issues
+  def selectable_parent_issues_list
+    Issue.where(project_id: @project.id).
+          where(parent_id: nil).
+          where("( rgt - lft ) > 1")
+  end
   # Get imcomplete issuees on basis date.
   #
   # @note If the due date has not been entered, we will use the due date of the version
@@ -136,4 +159,5 @@ module ProjectAndVersionValue
       where("start_date <= ? AND (closed_on IS NULL OR closed_on > ?)",
             basis_date, basis_date.end_of_day)
   end
+
 end
