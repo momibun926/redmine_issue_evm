@@ -285,7 +285,10 @@ module CalculateEvmLogic
                                               @ev.cumulative_ev[@ev.max_date],
                                               today_spi,
                                               @working_hours)
-                    # Before completion schedule date
+                    # before schedule date
+                    elsif @basis_date < @pv.start_date
+                      @basis_date
+                    # After completion schedule date
                     else
                       @pv.due_date + rest_days(today_pv,
                                                today_ev,
