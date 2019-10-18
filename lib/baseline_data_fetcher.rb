@@ -8,6 +8,7 @@ module BaselineDataFetcher
   def project_baseline(project_id, baseline_id)
     baselines = {}
     return unless Evmbaseline.exists?(project_id: project_id)
+    
     baselines = if baseline_id.nil?
                   Evmbaseline.where(project_id: project_id).
                               order(created_on: :DESC)
@@ -16,6 +17,7 @@ module BaselineDataFetcher
                 end
     baselines.first.evmbaselineIssues
   end
+
   # get selectable list of baseline
   #
   # @param [numeric] porject porject object

@@ -1,21 +1,27 @@
 # Chart data maker
 module ChartDataMaker
-
   # Create data for display chart.
+  #
+  # 1. basis EVM data for chart
+  # 2. You chseck forecast option is on, add follows data
+  # * BAC top line
+  # * EAC top line
+  # * forecast AC (forecast finish date)
+  # * forecast EV (forecast finish date)
   #
   # @param [object] evm calculation EVN object
   # @return [hash] chart data
-  def chart_data(evm)
+  def evm_chart_data(evm)
     # overdue?
     if evm.pv_actual.state.equal?(:overdue)
-      planned_value = evm.pv_actual.cumulative_pv.select {|date, _value| date < evm.basis_date }
+      planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date < evm.basis_date }
     else
       planned_value = evm.pv_actual.cumulative_pv
     end
     if evm.pv_baseline.nil?
     else
       if evm.pv_baseline.state.equal?(:overdue)
-        baseline_value = evm.pv_baseline.cumulative_pv.select {|date, _value| date < evm.basis_date }
+        baseline_value = evm.pv_baseline.cumulative_pv.select { |date, _value| date < evm.basis_date }
       else
         baseline_value = evm.pv_baseline.cumulative_pv
       end
@@ -26,26 +32,35 @@ module ChartDataMaker
     chart_data[:earned_value] = convert_to_chart evm.ev.cumulative_ev
     chart_data[:baseline_value] = convert_to_chart baseline_value unless evm.pv_baseline.nil?
     chart_data[:planned_value_daily] = convert_to_chart evm.pv.daily_pv
-    # for chart
-    chart_minimum_date = [evm.pv.start_date, evm.ev.min_date, evm.ac.min_date].min
-    chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date, evm.forecast_finish_date].max
     # forecast
     if evm.forecast
-      bac_top_line = { chart_minimum_date => evm.bac,
-                       chart_maximum_date => evm.bac }
-      chart_data[:bac_top_line] = convert_to_chart(bac_top_line)
-      eac_top_line = { chart_minimum_date => evm.eac,
-                       chart_maximum_date => evm.eac }
-      chart_data[:eac_top_line] = convert_to_chart(eac_top_line)
-      actual_cost_forecast = { evm.basis_date => evm.today_ac,
-                               evm.forecast_finish_date => evm.eac }
-      chart_data[:actual_cost_forecast] = convert_to_chart(actual_cost_forecast)
-      earned_value_forecast = { evm.basis_date => evm.today_ev,
-                                evm.forecast_finish_date => evm.bac }
-      chart_data[:earned_value_forecast] = convert_to_chart(earned_value_forecast)
+      # for chart
+      chart_minimum_date = [evm.pv.start_date, evm.ev.min_date, evm.ac.min_date].min
+      chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date, evm.forecast_finish_date].max
+      # top line of BAC
+      bac_top_line = {}
+      bac_top_line[chart_minimum_date] = evm.bac
+      bac_top_line[chart_maximum_date] = evm.bac
+      chart_data[:bac_top_line] = convert_to_chart bac_top_line
+      # top line of EAC
+      eac_top_line = {}
+      eac_top_line[chart_minimum_date] = evm.eac
+      eac_top_line[chart_maximum_date] = evm.eac
+      chart_data[:eac_top_line] = convert_to_chart eac_top_line
+      # forecast line of AC
+      actual_cost_forecast = {}
+      actual_cost_forecast[evm.basis_date] = evm.today_ac
+      actual_cost_forecast[evm.forecast_finish_date] = evm.eac
+      chart_data[:actual_cost_forecast] = convert_to_chart actual_cost_forecast
+      # forecast line of EV
+      earned_value_forecast = {}
+      earned_value_forecast[evm.basis_date] = evm.today_ev
+      earned_value_forecast[evm.forecast_finish_date] = evm.bac 
+      chart_data[:earned_value_forecast] = convert_to_chart earned_value_forecast
     end
     chart_data
   end
+
   # Create data for display performance chart.
   #
   # @return [hash] data for performance chart
@@ -79,9 +94,10 @@ module ChartDataMaker
   # @param [hash] data target issues of EVM
   # @return [array] EVM hash. Key:time, Value:EVM value
   def convert_to_chart(data)
-    converted = Hash[data.map {|k, v| [k.to_time(:local).to_i * 1000, v] }]
+    converted = Hash[data.map { |k, v| [k.to_time(:local).to_i * 1000, v] }]
     converted.to_a
   end
+
   # EVM value of Each date. for performance chart.
   #
   # @param [hash] evm_hash EVM hash
@@ -106,6 +122,5 @@ module ChartDataMaker
       temp[date] = value
     end
     temp
-  end  
-
+  end
 end

@@ -10,7 +10,7 @@
     <%= select_tag :selected_assignee_id,
         options_for_select(@selectable_assignees,
                            @cfg_param[:selected_assignee_id]),
-                           {multiple: true, size: 5}%>
+                           { multiple: true, size: 5 }%>
   </div>
 <% end %>
 <%= render partial: "/common/option_field"%>
@@ -19,7 +19,7 @@
   <% @assignee_evm.each do |assignee_id, evm| %>
     <h3><%=assignee_name(assignee_id)%></h3>
     <!-- EVN value -->
-    <%= render partial: "/common/basic_evm_value", locals: { evm: evm} %>
+    <%= render partial: "/common/basic_evm_value", locals: { evm: evm } %>
     <br>
     <!-- Charts -->
     <%= render partial: "/common/basic_evm_chart_js",

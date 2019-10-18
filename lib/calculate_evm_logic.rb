@@ -1,10 +1,9 @@
-require "calculate_pv"
-require "calculate_ev"
-require "calculate_ac"
+require 'calculate_pv'
+require 'calculate_ev'
+require 'calculate_ac'
 
 # Calculation EVM module
 module CalculateEvmLogic
-
   # Calculation EVM class.
   # Calculate EVM and create data for chart
   class CalculateEvm
@@ -22,6 +21,7 @@ module CalculateEvmLogic
     attr_reader :ac
     # forecast
     attr_reader :forecast
+
     # Constractor
     #
     # @param [evmbaseline] baselines selected baseline.
@@ -44,10 +44,10 @@ module CalculateEvmLogic
       @exclude_holiday = options[:exclude_holiday]
       @region = options[:region]
       @no_use_baseline = if baselines.nil?
-                           "true"
+                           'true'
                          else
                            options[:no_use_baseline]
-                        end                
+                         end                
       # create pv, ev, ac, bl object
       @pv_baseline = CalculatePv.new @basis_date, baselines, @region unless baselines.nil?
       @pv_actual = CalculatePv.new @basis_date, issues, @region
@@ -58,6 +58,7 @@ module CalculateEvmLogic
       # PV
       @pv = @no_use_baseline ? @pv_actual : @pv_baseline
     end
+
     # Badget at completion.
     # Total hours of issues.
     #
@@ -67,6 +68,7 @@ module CalculateEvmLogic
       bac = @pv.bac / hours
       bac.round(1)
     end
+
     # CompleteEV
     #
     # @param [Numeric] hours hours per day
@@ -79,6 +81,7 @@ module CalculateEvmLogic
                     end
       complete_ev.round(1)
     end
+
     # Planed value
     # The work scheduled to be completed by a specified date.
     #
@@ -88,6 +91,7 @@ module CalculateEvmLogic
       pv = @pv.today_value / hours
       pv.round(1)
     end
+
     # Earned value
     # The work actually completed by the specified date;.
     #
@@ -97,6 +101,7 @@ module CalculateEvmLogic
       ev = @ev.today_value / hours
       ev.round(1)
     end
+
     # Actual cost
     # The costs actually incurred for the work completed by the specified date.
     #
@@ -106,6 +111,7 @@ module CalculateEvmLogic
       ac = @ac.today_value / hours
       ac.round(1)
     end
+
     # Scedule variance
     # How much ahead or behind the schedule a project is running.
     #
@@ -115,6 +121,7 @@ module CalculateEvmLogic
       sv = today_ev(hours) - today_pv(hours)
       sv.round(1)
     end
+
     # Cost variance
     # Cost Variance (CV) is a very important factor to measure project performance.
     # CV indicates how much over - or under-budget the project is.
@@ -125,6 +132,7 @@ module CalculateEvmLogic
       cv = today_ev(hours) - today_ac(hours)
       cv.round(1)
     end
+
     # Schedule Performance Indicator
     # Schedule Performance Indicator (SPI) is an index showing
     # the efficiency of the time utilized on the project.
@@ -139,6 +147,7 @@ module CalculateEvmLogic
             end
       spi.round(2)
     end
+
     # Cost Performance Indicator
     # Cost Performance Indicator (CPI) is an index showing
     # the efficiency of the utilization of the resources on the project.
@@ -153,6 +162,7 @@ module CalculateEvmLogic
             end
       cpi.round(2)
     end
+
     # Critical ratio
     #
     # @param [Numeric] hours hours per day
@@ -161,6 +171,7 @@ module CalculateEvmLogic
       cr = today_spi(hours) * today_cpi(hours)
       cr.round(2)
     end
+
     # Estimate to Complete
     # Estimate to Complete (ETC) is the estimated cost required
     # to complete the remainder of the project.
@@ -172,11 +183,11 @@ module CalculateEvmLogic
               0.0
             else
               div_value = case @etc_method
-                          when "method1"
+                          when 'method1'
                             1.0
-                          when "method2"
+                          when 'method2'
                             today_cpi(hours)
-                          when "method3"
+                          when 'method3'
                             today_cr(hours)
                           else
                             today_cpi(hours)
@@ -185,6 +196,7 @@ module CalculateEvmLogic
             end
       etc.round(1)
     end
+
     # Estimate at Completion
     # Estimate at Completion (EAC) is the estimated cost of the project
     # at the end of the project.
@@ -195,6 +207,7 @@ module CalculateEvmLogic
       eac = today_ac(hours) + etc(hours)
       eac.round(1)
     end
+
     # Variance at Completion
     # Variance at completion (VAC) is the variance
     # on the total budget at the end of the project.
@@ -205,12 +218,14 @@ module CalculateEvmLogic
       vac = bac(hours) - eac(hours)
       vac.round(1)
     end
+
     # forecast date (Delay)
     #
     # @return [numeric] delay days
     def delay
       (forecast_finish_date - @pv.due_date).to_i
     end
+
     # To Complete Cost Performance Indicator
     # To Complete Cost Performance Indicator (TCPI) is an index showing
     # the efficiency at which the resources on the project should be utilized
@@ -226,6 +241,7 @@ module CalculateEvmLogic
              end
       tcpi.round(1)
     end
+
     # Create data for csv export.
     #
     # @return [hash] csv data
@@ -236,7 +252,7 @@ module CalculateEvmLogic
         csv_max_date = [@ev.max_date, @ac.max_date, @pv.due_date].max
         evm_date_range = (csv_min_date..csv_max_date).to_a
         # title
-        csv << ["DATE", evm_date_range].flatten!
+        csv << ['DATE', evm_date_range].flatten!
         # set evm values each date
         pv_csv = {}
         ev_csv = {}
@@ -247,11 +263,12 @@ module CalculateEvmLogic
           ac_csv[csv_date] = @ac.cumulative_ac[csv_date].nil? ? nil : @ac.cumulative_ac[csv_date].round(2)
         end
         # evm values
-        csv << ["PV", pv_csv.values.to_a].flatten!
-        csv << ["EV", ev_csv.values.to_a].flatten!
-        csv << ["AC", ac_csv.values.to_a].flatten!
+        csv << ['PV', pv_csv.values.to_a].flatten!
+        csv << ['EV', ev_csv.values.to_a].flatten!
+        csv << ['AC', ac_csv.values.to_a].flatten!
       end
     end
+
     # End of project day.(forecast)
     #
     # @return [date] End of project date
@@ -268,7 +285,10 @@ module CalculateEvmLogic
                                               @ev.cumulative_ev[@ev.max_date],
                                               today_spi,
                                               @working_hours)
-                    # Before completion schedule date
+                    # before schedule date
+                    elsif @basis_date < @pv.start_date
+                      @basis_date
+                    # After completion schedule date
                     else
                       @pv.due_date + rest_days(today_pv,
                                                today_ev,
@@ -276,6 +296,7 @@ module CalculateEvmLogic
                                                @working_hours)
                     end
     end
+
     # rest days
     #
     # @param [numeric] pv pv
@@ -286,6 +307,5 @@ module CalculateEvmLogic
     def rest_days(pv, ev, spi, basis_hours)
       ((pv - ev) / spi / basis_hours).round(0)
     end
-
   end
 end
