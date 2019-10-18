@@ -1,7 +1,7 @@
 # Parent issues controller.
 # This controller provide assignee evm view.
 #
-# 1. selectable list for parent issue view
+# 1. selectable list for assignee issue view
 # 2. calculate EVM each selected assignees
 #
 class EvmparentissuesController < BaseevmController
