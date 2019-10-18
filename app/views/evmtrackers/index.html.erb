@@ -10,7 +10,7 @@
     <%= select_tag :selected_tracker_id,
         options_from_collection_for_select(@selectable_tracker, :tracker_id, :name,
                                            @cfg_param[:selected_tracker_id]),
-                                           {multiple: true, size: 5}%>
+                                           { multiple: true, size: 5 }%>
   </div>
 <% end %>
 <%= render partial: "/common/option_field"%>
@@ -19,7 +19,7 @@
   <% unless @cfg_param[:selected_tracker_id].nil? %>
     <h3><%=selected_trackers_name(@cfg_param[:selected_tracker_id])%></h3>
     <!-- EVN value -->
-    <%= render partial: "/common/basic_evm_value", locals: { evm: @tracker_evm} %>
+    <%= render partial: "/common/basic_evm_value", locals: { evm: @tracker_evm } %>
     <br>
     <!-- Charts -->
     <%= render partial: "/common/basic_evm_chart_js",

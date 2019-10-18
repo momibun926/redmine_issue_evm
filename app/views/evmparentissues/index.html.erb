@@ -10,7 +10,7 @@
     <%= select_tag :selected_parent_issue_id,
         options_from_collection_for_select(@selectable_parent_issue, :id, :subject,
                                            @cfg_param[:selected_parent_issue_id]),
-                                           {multiple: true, size: 5}%>
+                                           { multiple: true, size: 5 }%>
   </div>
 <% end %>
 <%= render partial: "/common/option_field"%>
@@ -19,7 +19,7 @@
   <% @parent_issue_evm.each do |parent_issue_id, evm| %>
     <h3><%= parent_issue_link(parent_issue_id) %> <%=parent_issue_subject(parent_issue_id)%></h3>
     <!-- EVN value -->
-    <%= render partial: "/common/basic_evm_value", locals: { evm: evm} %>
+    <%= render partial: "/common/basic_evm_value", locals: { evm: evm } %>
     <br>
     <!-- Charts -->
     <%= render partial: "/common/basic_evm_chart_js",
