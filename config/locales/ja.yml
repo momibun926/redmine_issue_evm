@@ -114,6 +114,7 @@ ja:
   project_module_Issuevm: EVM
   permission_view_evms: EVMプラグインタブの表示
   permission_manage_evmbaselines: ベースラインの設定
+  permission_manage_evmsettings: EVM設定の編集
   permission_view_evmbaselines: ベースラインの一覧表示
   
   # Tab Display

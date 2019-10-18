@@ -113,6 +113,7 @@
   project_module_Issuevm: EVM
   permission_view_evms: View EVM
   permission_manage_evmbaselines: Edit Baseline
+　permission_manage_evmsettings: Edit Common Setting
   permission_view_evmbaselines: View Baseline
   
   # Tab Display

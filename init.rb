@@ -37,6 +37,9 @@ Redmine::Plugin.register :redmine_issue_evm do
                evmbaselines: [:index,
                               :history,
                               :show]
+    permission :manage_evmsettings,
+               evmsettings: [:index,
+                              :edit]
   end
 
   # menu
