@@ -23,7 +23,6 @@ module IssueDataFetcher
   # Include descendants project.require inputted start date and due date.
   # for use calculate PV and EV.a
   #
-  # @note If the due date has not been entered, we will use the due date of the version
   # @param [object] proj project object
   # @param [hush] condition fieldname(symbol) conditon value
   # @return [Issue] issue object
