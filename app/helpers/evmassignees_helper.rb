@@ -9,5 +9,4 @@ module EvmassigneesHelper
   def assignee_name(assignee_id)
     assignee_id.blank? ? l(:no_assignee) : User.find(assignee_id).name
   end
-  
 end

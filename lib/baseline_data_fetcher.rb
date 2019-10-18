@@ -1,5 +1,4 @@
 module BaselineDataFetcher
-
   # Get Issues of Baseline.(start date, due date, estimated hours)
   # When baseline_id is nil,latest baseline of project.
   #
@@ -9,6 +8,7 @@ module BaselineDataFetcher
   def project_baseline(project_id, baseline_id)
     baselines = {}
     return unless Evmbaseline.exists?(project_id: project_id)
+    
     baselines = if baseline_id.nil?
                   Evmbaseline.where(project_id: project_id).
                               order(created_on: :DESC)
@@ -26,5 +26,4 @@ module BaselineDataFetcher
     Evmbaseline.where(project_id: porject.id).
                 order(created_on: :DESC)
   end
-
 end
