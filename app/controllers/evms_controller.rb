@@ -26,8 +26,8 @@ class EvmsController < BaseevmController
       @cfg_param[:basis_date] = default_basis_date
       # baseline
       @cfg_param[:no_use_baseline] = params[:no_use_baseline]
-      @cfg_param[:baseline_id] = default_baseline_id
       @evmbaseline = selectable_baseline_list @project
+      @cfg_param[:baseline_id] = default_baseline_id
       # evm explanation
       @cfg_param[:display_explanation] = params[:display_explanation]
       # baseline

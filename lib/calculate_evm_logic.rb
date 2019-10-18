@@ -46,10 +46,15 @@ module CalculateEvmLogic
       @no_use_baseline = if baselines.nil?
                            'true'
                          else
-                           options[:no_use_baseline]
+                           options[:no_use_baseline] || 'false'
                          end                
-      # create pv, ev, ac, bl object
-      @pv_baseline = CalculatePv.new @basis_date, baselines, @region unless baselines.nil?
+      # Baseline
+      if @no_use_baseline == 'true'
+        @pv_baseline = nil
+      else
+        @pv_baseline = CalculatePv.new @basis_date, baselines, @region unless baselines.nil?
+      end
+      # PV Actual
       @pv_actual = CalculatePv.new @basis_date, issues, @region
       # EV
       @ev = CalculateEv.new @basis_date, issues
