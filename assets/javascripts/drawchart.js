@@ -272,6 +272,11 @@ function drawOtherEvmChart(dataToChart, placeholder, nowdate, graphtitle){
                     color: '#808080'
                 }]
             },
+            yAxis:{
+                title: {
+                    text: 'Hours'
+                }
+            },
             tooltip:{
                 valueDecimals: 2,
                 crosshairs: true,
