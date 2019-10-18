@@ -1,8 +1,8 @@
 # Version controller.
 # This controller provide version evm view.
 #
-# 1. selectable list for assignee view
-# 2. calculate EVM each selected assignees
+# 1. selectable list for version view
+# 2. calculate EVM each selected version
 #
 class EvmversionsController < BaseevmController
   # index for version EVM view.

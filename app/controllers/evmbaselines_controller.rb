@@ -1,5 +1,5 @@
 # Baseline controller.
-# This controller provide baseline model.
+# This controller provide baseline view.
 #
 # 1. index, new, show, edit, update, create, destroy
 #
