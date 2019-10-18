@@ -57,4 +57,12 @@ module CommonHelper
   def local_date(bldatetime)
     bldatetime.localtime.strftime('%Y-%m-%d %H:%M:%S') if bldatetime.present?
   end
+
+  # create no date area
+  #
+  # @param [string] no_data if nno data , true
+  # @return [String] html
+  def display_no_data(no_data)
+    "<p class='nodata'>#{l(:label_no_data)}</p>" if no_data.nil?
+  end
 end

@@ -1,5 +1,5 @@
 <% html_title("Project tracking with EVM - assignee issues ") %>
-<!-- sunb title -->
+<!-- sub title -->
 <% content_for :title_sub do %>
   <%= l(:label_nav_assignee) %>
 <% end %>
@@ -16,6 +16,7 @@
 <%= render partial: "/common/option_field"%>
 <!-- contents -->
 <section>
+  <%= raw display_no_data(@cfg_param[:selected_assignee_id]) %>
   <% @assignee_evm.each do |assignee_id, evm| %>
     <h3><%=assignee_name(assignee_id)%></h3>
     <!-- EVN value -->
