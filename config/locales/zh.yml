@@ -114,6 +114,7 @@ zh:
   project_module_Issuevm: EVM
   permission_view_evms: 查看EVM
   permission_manage_evmbaselines: 编辑基线
+  permission_manage_evmsettings: Edit Common Setting
   permission_view_evmbaselines: 查看基线
   
   # Tab Display

@@ -16,6 +16,7 @@
 <%= render partial: "/common/option_field"%>
 <!-- contents -->
 <section>
+  <%= raw display_no_data(@cfg_param[:selected_version_id]) %>
   <% @version_evm.each do |ver_id, evm| %>
     <h3><%=version_chart_name(ver_id)%></h3>
     <!-- EVN value -->
