@@ -21,7 +21,9 @@ module CalculateEvmLogic
     attr_reader :ac
     # forecast
     attr_reader :forecast
-
+    # description
+    attr_accessor :description
+    
     # Constractor
     #
     # @param [evmbaseline] baselines selected baseline.

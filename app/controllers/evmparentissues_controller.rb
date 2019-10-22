@@ -48,6 +48,8 @@ class EvmparentissuesController < BaseevmController
                                                      parent_issue,
                                                      parent_issue_actual_cost,
                                                      @cfg_param
+      # description
+      @parent_issue_evm[issue_id].description = Issue.find(issue_id).subject
       # create chart data
       @parent_issue_evm_chart[issue_id] = evm_chart_data @parent_issue_evm[issue_id]
     end

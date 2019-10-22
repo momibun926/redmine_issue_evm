@@ -18,7 +18,7 @@
 <section>
   <%= raw display_no_data(@cfg_param[:selected_tracker_id]) %>
   <% unless @cfg_param[:selected_tracker_id].nil? %>
-    <h3><%=selected_trackers_name(@cfg_param[:selected_tracker_id])%></h3>
+    <h3><%= @tracker_evm.description %></h3>
     <!-- EVN value -->
     <%= render partial: "/common/basic_evm_value", locals: { evm: @tracker_evm } %>
     <br>
@@ -27,6 +27,6 @@
         locals: { basis_date: @cfg_param[:basis_date],
                   chart_data: @tracker_evm_chart,
                   id: "1",
-                  tittle: selected_trackers_name(@cfg_param[:selected_tracker_id]) } %>
+                  tittle: @tracker_evm.description } %>
   <% end %>
 </section>

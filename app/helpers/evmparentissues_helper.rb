@@ -1,13 +1,6 @@
 # evms helper
 module EvmparentissuesHelper
   include CommonHelper
-  # Get parent issue
-  #
-  # @param [numeric] parent_issue_id parent issue id
-  # @return [issue] parent issue object
-  def parent_issue_subject(parent_issue_id)
-    Issue.find(parent_issue_id).subject
-  end
 
   # Get parent issue link
   #
