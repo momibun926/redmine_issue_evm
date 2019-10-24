@@ -207,4 +207,58 @@ module IssueDataFetcher
   def target_issue_amount(proj)
     Issue.cross_project_scope(proj, 'descendants').where(SQL_COM.to_s).pluck(:id)
   end
+
+  # select version count
+  #
+  # @param [project] proj project object
+  # @return [hash] count of issues. each versions.
+  def count_version_list(proj)
+    issues = Issue.cross_project_scope(proj, 'descendants').
+               select('versions.name, COUNT(issues.id) AS count').
+               where(SQL_COM.to_s).
+               joins(:fixed_version).
+               group('versions.name').
+               pluck('versions.name', 'COUNT(issues.id) AS count')
+    count_list = {}
+    issues.each do |name, count|
+      count_list[name] = count
+    end
+    count_list
+  end
+
+  # select assignee count
+  #
+  # @param [project] proj project object
+  # @return [hash] count of issues. each assignees (include noassign).
+  def count_assignee_list(proj)
+    issues = Issue.cross_project_scope(proj, 'descendants').
+               select(:assigned_to_id, 'COUNT(issues.id) AS count').
+               where(SQL_COM.to_s).
+               group(:assigned_to_id).
+               pluck(:assigned_to_id, 'COUNT(issues.id) AS count')
+    count_list = {}
+    issues.each do |id, count|
+      assignee_name = id.nil? ? l(:no_assignee) : User.find(id).name
+      count_list[assignee_name] = count
+    end
+    count_list
+  end
+
+  # select tracker count
+  #
+  # @param [project] proj project object
+  # @return [hash] count of issues. each trackers.
+  def count_tracker_list(proj)
+    issues = Issue.cross_project_scope(proj, 'descendants').
+               select('trackers.name', 'COUNT(issues.id) AS count').
+               where(SQL_COM.to_s).
+               joins(:tracker).
+               group('trackers.name').
+               pluck('trackers.name', 'COUNT(issues.id) AS count')
+    count_list = {}
+    issues.each do |name, count|
+      count_list[name] = count
+    end
+    count_list
+  end
 end
