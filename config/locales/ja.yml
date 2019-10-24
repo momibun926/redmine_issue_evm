@@ -19,6 +19,7 @@ ja:
   subtitle_evm_chart_performance: パフォーマンスチャート
 
 # Indicator project metrics
+  Indicator_tittle: 基本情報
   indicator_duration: プロジェクトの期間
   indicator_status: ステータス
   indicator_difference: 遅れ日数

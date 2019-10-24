@@ -1,7 +1,4 @@
 <% html_title("Project tracking with EVM") %>
-<%= @test1 %>
-<%= @test2 %>
-<%= @test3 %>
 <% if @no_data %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
@@ -32,6 +29,13 @@
     </div>
   <% end %>
   <%= render partial: "/common/option_field"%>
+  <h3><%= l(:subtitle_evm_summary)%></h3>
+  <!--metrics-->
+  <%= render partial: "/evms/metrics",
+      locals: { version_list: @count_version_list,
+                assignee_list: @count_assignee_list,
+                tracker_list: @count_tracker_list,
+                project_metrics: @project_metrics } %>
   <!--Indicator value-->
   <%= render partial: "/evms/measure",
       locals: { project_evm: @project_evm,

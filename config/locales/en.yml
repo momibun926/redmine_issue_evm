@@ -18,6 +18,7 @@
   subtitle_evm_chart_performance: Performance Charts
 
   # Indicator project metrics
+  Indicator_tittle: Metrix
   indicator_duration: Duration
   indicator_status: Status
   indicator_difference: To due date

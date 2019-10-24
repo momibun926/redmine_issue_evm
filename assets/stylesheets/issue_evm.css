@@ -1,6 +1,6 @@
 /*** Option ***/
 .option-col {
-  padding: 0px 5px 0px 5px;
+  padding: 0px 30px 0px 5px;
   float: left;
 }
 .option-col p {
@@ -11,8 +11,8 @@
 }
 
 /*** project metrics ***/
-.project-metrics {
-  margin-right : 10px;
+#metrics-table td {
+  min-width: 20px;
 }
 
 /*** summary evm indicator ***/

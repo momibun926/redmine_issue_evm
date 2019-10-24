@@ -1,11 +1,4 @@
 <section>
-  <h3><%= l(:subtitle_evm_summary)%></h3>
-  <span class="project-metrics"><b><%= l(:indicator_duration) %>:</b> <%= project_metrics[:plan_start_date] %> - <%= project_metrics[:plan_due_date] %></span>
-  <span class="project-metrics"><b><%= l(:indicator_status) %>:</b> <%= project_metrics[:state] %></span>
-  <span class="project-metrics"><b><%= l(:indicator_difference) %>:</b> <%= project_metrics[:due_date_difference] %></span>
-  <span class="project-metrics"><b><%= l(:indicator_target_issues_count) %>:</b> <%= project_metrics[:target_issue_ids] %> / <%= project_metrics[:total_issue_ids] %></span>
-  <br>
-  <br>
   <table id="evm-indicator-value-table" border="1" bordercolor = "#bbb">
     <tr>
       <th rowspan="2"><%=l(:indicator_table_header_date)%></th>

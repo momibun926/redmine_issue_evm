@@ -1,0 +1,48 @@
+<fieldset id="filters" class="collapsible collapsed">
+  <legend onclick="toggleFieldset(this);"><%= l(:Indicator_tittle) %></legend>
+  <div style="display: none;">
+    <div class="option-col">
+      <p><%=l(:explanation_basis)%></p>
+      <b><%= l(:indicator_duration) %>:</b> <%= project_metrics[:plan_start_date] %> - <%= project_metrics[:plan_due_date] %><br>
+      <b><%= l(:indicator_status) %>:</b> <%= project_metrics[:state] %><br>
+      <b><%= l(:indicator_difference) %>:</b> <%= project_metrics[:due_date_difference] %><br>
+      <b><%= l(:indicator_target_issues_count) %>:</b> <%= project_metrics[:target_issue_ids] %> / <%= project_metrics[:total_issue_ids] %><br>
+    </div>
+    <div class="option-col">
+      <p><%=l(:field_version)%></p>
+      <table id="metrics-table">
+        <% version_list.each do |name, count| %>
+          <tr>
+            <td><%= name %></td>
+            <td align="right"><%= count %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <div class="option-col">
+      <p><%=l(:field_assigned_to)%></p>
+      <table id="metrics-table">
+        <% assignee_list.each do |name, count| %>
+          <tr>
+            <td><%= name %></td>
+            <td align="right"><%= count %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <div class="option-col">
+      <p><%=l(:field_tracker)%></p>
+      <table id="metrics-table">
+        <% tracker_list.each do |name, count| %>
+          <tr>
+            <td><%= name %></td>
+            <td align="right"><%= count %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <div class="option-apply"></div>
+    <br>
+  </div>
+</fieldset>
+

@@ -54,9 +54,9 @@ class EvmsController < BaseevmController
       # project metrics
       @project_metrics = project_metrics @project, @project_evm
       # count
-      @test1 = count_version_list @project
-      @test2 = count_assignee_list @project
-      @test3 = count_tracker_list @project
+      @count_version_list = count_version_list @project
+      @count_assignee_list = count_assignee_list @project
+      @count_tracker_list = count_tracker_list @project
 
       # export
       respond_to do |format|
