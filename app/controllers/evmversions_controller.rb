@@ -39,8 +39,8 @@ class EvmversionsController < BaseevmController
   #
   def create_evm_data
     @cfg_param[:selected_version_id].each do |ver_id|
-      proj_id = Version.find(ver_id).project_id
-      proj = Project.find(proj_id)
+      ver = Version.find(ver_id)
+      proj = Project.find(ver.project_id)
       condition = { fixed_version_id: ver_id }
       # issues of version
       version_issues = evm_issues proj, condition
@@ -51,6 +51,8 @@ class EvmversionsController < BaseevmController
                                               version_issues,
                                               version_actual_cost,
                                               @cfg_param
+      # description
+      @version_evm[ver_id].description = proj.name + ' ' + ver.name
       # create chart data
       @version_evm_chart[ver_id] = evm_chart_data @version_evm[ver_id]
     end

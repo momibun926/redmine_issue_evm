@@ -29,10 +29,18 @@
     </div>
   <% end %>
   <%= render partial: "/common/option_field"%>
+  <h3><%= l(:subtitle_evm_summary)%></h3>
+  <!--metrics-->
+  <%= render partial: "/evms/metrics",
+      locals: { version_list: @count_version_list,
+                assignee_list: @count_assignee_list,
+                tracker_list: @count_tracker_list,
+                project_metrics: @project_metrics } %>
   <!--Indicator value-->
   <%= render partial: "/evms/measure",
       locals: { project_evm: @project_evm,
-                working_hours: @cfg_param[:working_hours] } %>
+                working_hours: @cfg_param[:working_hours],
+                project_metrics: @project_metrics } %>
   <!-- Exports -->
   <% other_formats_links do |f| %>
     <%= f.link_to 'CSV', :url => {:action => 'index'} %>

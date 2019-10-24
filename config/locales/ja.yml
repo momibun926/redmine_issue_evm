@@ -18,6 +18,13 @@ ja:
   subtitle_evm_chart_main: EVMチャート
   subtitle_evm_chart_performance: パフォーマンスチャート
 
+# Indicator project metrics
+  Indicator_tittle: 基本情報
+  indicator_duration: プロジェクトの期間
+  indicator_status: ステータス
+  indicator_difference: 遅れ日数
+  indicator_target_issues_count: 対象となっているチケットの件数
+
   # Indicator table header
   indicator_table_header_date: 基準日
   indicator_table_header_today: 基準日の指標

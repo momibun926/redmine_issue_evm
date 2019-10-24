@@ -51,6 +51,13 @@ class EvmsController < BaseevmController
         @incomplete_issues = incomplete_project_issues @project, @cfg_param[:basis_date]
         @no_data_incomplete_issues = @incomplete_issues.blank?
       end
+      # project metrics
+      @project_metrics = project_metrics @project, @project_evm
+      # count
+      @count_version_list = count_version_list @project
+      @count_assignee_list = count_assignee_list @project
+      @count_tracker_list = count_tracker_list @project
+
       # export
       respond_to do |format|
         format.html

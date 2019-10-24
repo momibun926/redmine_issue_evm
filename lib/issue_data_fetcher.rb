@@ -152,13 +152,13 @@ module IssueDataFetcher
   # @return [issue] parent issues
   def selectable_parent_issues_list(proj)
     Issue.where(project_id: proj.id).
-          where(parent_id: nil).
-          where('( rgt - lft ) > 1')
+      where(parent_id: nil).
+      where('( rgt - lft ) > 1')
   end
 
   # Get imcomplete issuees on basis date.
   #
-  # @param [Numeric] proj project id
+  # @param [project] proj project id
   # @param [date] basis_date basis date
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
@@ -166,5 +166,99 @@ module IssueDataFetcher
       where(SQL_COM.to_s).
       where('start_date <= ? AND (closed_on IS NULL OR closed_on > ?)',
             basis_date, basis_date.end_of_day)
+  end
+
+  # project metrics
+  # collect basic information of project. 
+  #
+  # @param [project] proj project object
+  # @param [calculateEVM] evm calculate EVN class instance
+  # @return [hash] project metrics 
+  def project_metrics(proj, evm)
+    metrics = {}
+    # amount of total issue ids
+    metrics[:total_issue_ids] = total_issue_amount(proj).length
+    # amount of target issue ids
+    metrics[:target_issue_ids] = target_issue_amount(proj).length
+    # plan start date
+    metrics[:plan_start_date] = evm.pv.start_date
+    # plan due date
+    metrics[:plan_due_date] = evm.pv.due_date
+    # actual start date
+    metrics[:actual_start_date] = [evm.ac.min_date, evm.ev.min_date].min
+    # project state
+    metrics[:state] = evm.pv.state
+    # plan due date difference
+    metrics[:due_date_difference] = (evm.pv.basis_date - evm.pv.due_date).to_i
+    # return
+    metrics
+  end
+
+  # select total issue amount
+  #
+  # @return [numeric] array id total issues
+  def total_issue_amount(proj)
+    Issue.cross_project_scope(proj, 'descendants').pluck(:id)
+  end
+
+  # select target issue amount
+  #
+  # @return [numeric] array id of target issues
+  def target_issue_amount(proj)
+    Issue.cross_project_scope(proj, 'descendants').where(SQL_COM.to_s).pluck(:id)
+  end
+
+  # select version count
+  #
+  # @param [project] proj project object
+  # @return [hash] count of issues. each versions.
+  def count_version_list(proj)
+    issues = Issue.cross_project_scope(proj, 'descendants').
+               select('versions.name, COUNT(issues.id) AS count').
+               where(SQL_COM.to_s).
+               joins(:fixed_version).
+               group('versions.name').
+               pluck('versions.name', 'COUNT(issues.id) AS count')
+    count_list = {}
+    issues.each do |name, count|
+      count_list[name] = count
+    end
+    count_list
+  end
+
+  # select assignee count
+  #
+  # @param [project] proj project object
+  # @return [hash] count of issues. each assignees (include noassign).
+  def count_assignee_list(proj)
+    issues = Issue.cross_project_scope(proj, 'descendants').
+               select(:assigned_to_id, 'COUNT(issues.id) AS count').
+               where(SQL_COM.to_s).
+               group(:assigned_to_id).
+               pluck(:assigned_to_id, 'COUNT(issues.id) AS count')
+    count_list = {}
+    issues.each do |id, count|
+      assignee_name = id.nil? ? l(:no_assignee) : User.find(id).name
+      count_list[assignee_name] = count
+    end
+    count_list
+  end
+
+  # select tracker count
+  #
+  # @param [project] proj project object
+  # @return [hash] count of issues. each trackers.
+  def count_tracker_list(proj)
+    issues = Issue.cross_project_scope(proj, 'descendants').
+               select('trackers.name', 'COUNT(issues.id) AS count').
+               where(SQL_COM.to_s).
+               joins(:tracker).
+               group('trackers.name').
+               pluck('trackers.name', 'COUNT(issues.id) AS count')
+    count_list = {}
+    issues.each do |name, count|
+      count_list[name] = count
+    end
+    count_list
   end
 end

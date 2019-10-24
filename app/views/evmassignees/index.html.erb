@@ -18,7 +18,7 @@
 <section>
   <%= raw display_no_data(@cfg_param[:selected_assignee_id]) %>
   <% @assignee_evm.each do |assignee_id, evm| %>
-    <h3><%=assignee_name(assignee_id)%></h3>
+    <h3><%= evm.description %></h3>
     <!-- EVN value -->
     <%= render partial: "/common/basic_evm_value", locals: { evm: evm } %>
     <br>
@@ -27,6 +27,6 @@
         locals: { basis_date: @cfg_param[:basis_date],
                   chart_data: @assignee_evm_chart[assignee_id],
                   id: assignee_id,
-                  tittle: assignee_name(assignee_id) } %>
+                  tittle: evm.description } %>
   <% end %>
 </section>

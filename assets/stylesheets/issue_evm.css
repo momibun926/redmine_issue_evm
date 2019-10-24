@@ -1,6 +1,6 @@
 /*** Option ***/
 .option-col {
-  padding: 0px 5px 0px 5px;
+  padding: 0px 30px 0px 5px;
   float: left;
 }
 .option-col p {
@@ -8,6 +8,11 @@
 }
 .option-apply {
   clear:both;
+}
+
+/*** project metrics ***/
+#metrics-table td {
+  min-width: 20px;
 }
 
 /*** summary evm indicator ***/
@@ -19,6 +24,13 @@
 #evm-indicator-value-table th {
   background-color: #eee;
 }
+/*** summary evm indicator ***/
+#evm-indicator-value-table {
+  border: 1px solid #bbb;
+  width: auto;
+  border-collapse: collapse;
+}
+
 #evm-indicator-value-table td,
 #evm-indicator-value-table th {
   width: 80px;

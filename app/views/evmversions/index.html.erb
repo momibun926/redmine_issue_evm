@@ -18,7 +18,7 @@
 <section>
   <%= raw display_no_data(@cfg_param[:selected_version_id]) %>
   <% @version_evm.each do |ver_id, evm| %>
-    <h3><%=version_chart_name(ver_id)%></h3>
+    <h3><%= evm.description %></h3>
     <!-- EVN value -->
     <%= render partial: "/common/basic_evm_value", locals: { evm: evm } %>
     <br>
@@ -27,6 +27,6 @@
         locals: { basis_date: @cfg_param[:basis_date],
                   chart_data: @version_evm_chart[ver_id],
                   id: ver_id,
-                  tittle: version_chart_name(ver_id)} %>
+                  tittle: evm.description } %>
   <% end %>
 </section>
