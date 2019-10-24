@@ -10,6 +10,11 @@
   clear:both;
 }
 
+/*** project metrics ***/
+.project-metrics {
+  margin-right : 10px;
+}
+
 /*** summary evm indicator ***/
 #evm-indicator-value-table {
   border: 1px solid #bbb;
@@ -19,6 +24,13 @@
 #evm-indicator-value-table th {
   background-color: #eee;
 }
+/*** summary evm indicator ***/
+#evm-indicator-value-table {
+  border: 1px solid #bbb;
+  width: auto;
+  border-collapse: collapse;
+}
+
 #evm-indicator-value-table td,
 #evm-indicator-value-table th {
   width: 80px;

@@ -18,6 +18,12 @@ zh:
   subtitle_evm_chart_main: 预估图表
   subtitle_evm_chart_performance: 绩效指数图表
 
+  # Indicator project metrics
+  indicator_duration: Duration
+  indicator_status: Status
+  indicator_difference: difference planed
+  indicator_target_issues_count: Amount of target issues
+
   # Indicator table header
   indicator_table_header_date: 基准日期
   indicator_table_header_today: 基准当日指标

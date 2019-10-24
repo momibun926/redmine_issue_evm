@@ -32,7 +32,8 @@
   <!--Indicator value-->
   <%= render partial: "/evms/measure",
       locals: { project_evm: @project_evm,
-                working_hours: @cfg_param[:working_hours] } %>
+                working_hours: @cfg_param[:working_hours],
+                project_metrics: @project_metrics } %>
   <!-- Exports -->
   <% other_formats_links do |f| %>
     <%= f.link_to 'CSV', :url => {:action => 'index'} %>

@@ -17,6 +17,12 @@
   subtitle_evm_chart_main: EVM Charts
   subtitle_evm_chart_performance: Performance Charts
 
+  # Indicator project metrics
+  indicator_duration: Duration
+  indicator_status: Status
+  indicator_difference: difference planed
+  indicator_target_issues_count: Amount of target issues
+
   # Indicator table header
   indicator_table_header_date: Basis date
   indicator_table_header_today: Basis date value
