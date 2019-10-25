@@ -53,12 +53,10 @@ module IssueDataFetcher
   # @return [Array] Two column,spent_on,sum of hours
   def evm_costs(proj, condition = ' 1 = 1 ')
     Issue.cross_project_scope(proj, 'descendants').
-      select('spent_on, SUM(hours) AS sum_hours').
       where(SQL_COM.to_s).
       where(condition).
       joins(:time_entries).
-      group(:spent_on).
-      collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
+      group(:spent_on).sum(:hours)
   end
 
   # Get spent time of parent issue
@@ -70,13 +68,11 @@ module IssueDataFetcher
       " ON ancestors.root_id = #{Issue.table_name}.root_id" +
       " AND ancestors.lft <= #{Issue.table_name}.lft " +
       " AND ancestors.rgt >= #{Issue.table_name}.rgt ").
-      select('spent_on, SUM(hours) AS sum_hours').
       where(SQL_COM.to_s).
       where(SQL_COM_ANC.to_s).
       where(:ancestors => { :id => issue_id }).
       joins(:time_entries).
-      group(:spent_on).
-      collect { |issue| [issue.spent_on.to_date, issue.sum_hours] }
+      group(:spent_on).sum(:hours)
   end
 
   # Get pair of project id and fixed version id.
@@ -214,16 +210,9 @@ module IssueDataFetcher
   # @return [hash] count of issues. each versions.
   def count_version_list(proj)
     issues = Issue.cross_project_scope(proj, 'descendants').
-               select('versions.name, COUNT(issues.id) AS count').
                where(SQL_COM.to_s).
                joins(:fixed_version).
-               group('versions.name').
-               pluck('versions.name', 'COUNT(issues.id) AS count')
-    count_list = {}
-    issues.each do |name, count|
-      count_list[name] = count
-    end
-    count_list
+               group('versions.name').count
   end
 
   # select assignee count
@@ -232,10 +221,8 @@ module IssueDataFetcher
   # @return [hash] count of issues. each assignees (include noassign).
   def count_assignee_list(proj)
     issues = Issue.cross_project_scope(proj, 'descendants').
-               select(:assigned_to_id, 'COUNT(issues.id) AS count').
                where(SQL_COM.to_s).
-               group(:assigned_to_id).
-               pluck(:assigned_to_id, 'COUNT(issues.id) AS count')
+               group(:assigned_to_id).count
     count_list = {}
     issues.each do |id, count|
       assignee_name = id.nil? ? l(:no_assignee) : User.find(id).name
@@ -250,15 +237,8 @@ module IssueDataFetcher
   # @return [hash] count of issues. each trackers.
   def count_tracker_list(proj)
     issues = Issue.cross_project_scope(proj, 'descendants').
-               select('trackers.name', 'COUNT(issues.id) AS count').
                where(SQL_COM.to_s).
                joins(:tracker).
-               group('trackers.name').
-               pluck('trackers.name', 'COUNT(issues.id) AS count')
-    count_list = {}
-    issues.each do |name, count|
-      count_list[name] = count
-    end
-    count_list
+               group('trackers.name').count
   end
 end
