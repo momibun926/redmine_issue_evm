@@ -50,7 +50,7 @@ module IssueDataFetcher
   # Include descendants project.require inputted start date and due date.
   #
   # @param [Object] proj project
-  # @return [Array] Two column,spent_on,sum of hours
+  # @return [hash] Two column,spent_on,sum of hours
   def evm_costs(proj, condition = ' 1 = 1 ')
     Issue.cross_project_scope(proj, 'descendants').
       where(SQL_COM.to_s).
@@ -62,7 +62,7 @@ module IssueDataFetcher
   # Get spent time of parent issue
   #
   # @param [numeric] issue_id selected issue
-  # @return [Array] Two column,spent_on,sum of hours
+  # @return [hash] Two column,spent_on,sum of hours
   def parent_issue_costs(issue_id)
     Issue.joins("JOIN #{Issue.table_name} ancestors" +
       " ON ancestors.root_id = #{Issue.table_name}.root_id" +
@@ -103,7 +103,7 @@ module IssueDataFetcher
   # sort by assignee id.
   #
   # @param [project] proj project object
-  # @return [issue] assigned_to_id
+  # @return [hash] assigenee name, assigned_to_id
   def selectable_assignee_list(proj)
     ids = assignee_ids proj
     selectable_list = {}
@@ -117,7 +117,7 @@ module IssueDataFetcher
   # Selectable version list.
   #
   # @param [project] proj project object
-  # @return [Array] fixed_version_id, versions.name
+  # @return [issue] fixed_version_id, versions.name
   def selectable_version_list(proj)
     Issue.cross_project_scope(proj, 'descendants').
       select(:fixed_version_id, 'versions.name').
@@ -129,7 +129,7 @@ module IssueDataFetcher
   # Selectable tracker list
   #
   # @param [project] proj project object
-  # @return [Array] tracker_id, name
+  # @return [issue] tracker_id, name
   def selectable_tracker_list(proj)
     Issue.cross_project_scope(proj, 'descendants').
       select(:tracker_id, 'trackers.name').
@@ -187,24 +187,24 @@ module IssueDataFetcher
     metrics
   end
 
-  # select total issue amount
+  # amount of issue in project
   #
   # @return [numeric] array id total issues
   def total_issue_amount(proj)
     Issue.cross_project_scope(proj, 'descendants').pluck(:id)
   end
 
-  # select target issue amount
+  # amount of issue in target
   #
   # @return [numeric] array id of target issues
   def target_issue_amount(proj)
     Issue.cross_project_scope(proj, 'descendants').where(SQL_COM.to_s).pluck(:id)
   end
 
-  # select version count
+  # amount of issue in version
   #
   # @param [project] proj project object
-  # @return [hash] count of issues. each versions.
+  # @return [hash] amount of issues. each versions.
   def count_version_list(proj)
     Issue.cross_project_scope(proj, 'descendants').
       where(SQL_COM.to_s).
@@ -212,7 +212,7 @@ module IssueDataFetcher
       group('versions.name').count
   end
 
-  # select assignee count
+  # amount of issue in assignee
   #
   # @param [project] proj project object
   # @return [hash] count of issues. each assignees (include noassign).
@@ -228,7 +228,7 @@ module IssueDataFetcher
     count_list
   end
 
-  # select tracker count
+  # amount of issue in tracker
   #
   # @param [project] proj project object
   # @return [hash] count of issues. each trackers.
