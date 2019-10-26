@@ -9,12 +9,14 @@ zh:
   label_nav_assignee: Assignees
   label_nav_parent_issue: Parent issues
   label_nav_tracker: Trackers
+  label_nav_exclude: Exclude issues
   label_nav_baseline_setting: Baseline setting
   label_nav_evm_setting: Common setting
   
   # Main page
   subtitle_evm_summary: 概览
   subtitle_evm_incomplete_issues: 未完成工作项列表
+  subtitle_evm_exclude_issues: Exclude issues
   subtitle_evm_chart_main: 预估图表
   subtitle_evm_chart_performance: 绩效指数图表
 

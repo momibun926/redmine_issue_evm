@@ -63,6 +63,6 @@ module CommonHelper
   # @param [string] no_data if nno data , true
   # @return [String] html
   def display_no_data(no_data)
-    "<p class='nodata'>#{l(:label_no_data)}</p>" if no_data.nil?
+    "<p class='nodata'>#{l(:label_no_data)}</p>" if no_data.blank?
   end
 end
