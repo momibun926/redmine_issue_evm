@@ -67,6 +67,9 @@ div[class*="evm-explanation"] {
 .icon-version-evm {
   background-image: url('../images/version-evm.png');
 }
+.icon-exclude-evm {
+  background-image: url('../images/issue-exclude.png');
+}
 
 /*** for activity page ***/
 dt.evmbaseline-new {

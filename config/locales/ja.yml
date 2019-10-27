@@ -9,12 +9,14 @@ ja:
   label_nav_assignee: 担当者別
   label_nav_parent_issue: 親チケット別
   label_nav_tracker: トラッカー別
+  label_nav_exclude: EVMの計算から除外されているチケット
   label_nav_baseline_setting: ベースラインの設定
   label_nav_evm_setting: 共通設定
   
   # Main page
   subtitle_evm_summary: サマリー
   subtitle_evm_incomplete_issues: 未完了チケット
+  subtitle_evm_exclude_issues: 除外されているチケット
   subtitle_evm_chart_main: EVMチャート
   subtitle_evm_chart_performance: パフォーマンスチャート
 

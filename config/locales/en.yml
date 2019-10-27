@@ -8,12 +8,14 @@
   label_nav_assignee: Assignees
   label_nav_parent_issue: Parent issues
   label_nav_tracker: Trackers
+  label_nav_exclude: Exclude issues
   label_nav_baseline_setting: Baseline setting
   label_nav_evm_setting: Common setting
   
   # Main page
   subtitle_evm_summary: Summary
   subtitle_evm_incomplete_issues: Incomplete Issues
+  subtitle_evm_exclude_issues: Exclude issues
   subtitle_evm_chart_main: EVM Charts
   subtitle_evm_chart_performance: Performance Charts
 
