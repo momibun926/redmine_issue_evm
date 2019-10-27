@@ -5,7 +5,7 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-4.5.2
+4.5.3
 
 ## Compatibility
 Redmine 4.0.0 and above
@@ -32,6 +32,7 @@ PV is based on your baseline. In addition, you can set calculation without basel
 * Change the calculating basic date
 * Change the level of the forecast
 * Calculate EVM of assignees, parent issues, trackers, and versions (see Screenshots)
+* Show issues of exclude EVM calculation
 * Show unfinished issues
 
 ## workig days
