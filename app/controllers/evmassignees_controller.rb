@@ -56,7 +56,7 @@ class EvmassigneesController < BaseevmController
                                            assignee_actual_cost,
                                            @cfg_param
       # description
-      @assignee_evm[id].description = id.blank? ? l(:no_assignee) : User.find(id).name
+      @assignee_evm[id].description = assignee_name(id)
       # create chart data
       @assignee_evm_chart[id] = evm_chart_data @assignee_evm[id]
     end
