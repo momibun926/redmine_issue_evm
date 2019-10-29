@@ -10,7 +10,10 @@ function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
             },
             title:{
                 text: graphtitle,
-                align: 'left'
+                align: 'left',
+                style: {
+                    fontSize: '1.2em'
+                }
             },
             xAxis:{
                 type: 'datetime',
@@ -145,7 +148,10 @@ function drawPerformanceChart(dataToChart, placeholder, graphtitle){
             },
             title:{
                 text: graphtitle,
-                align: 'left'
+                align: 'left',
+                style: {
+                    fontSize: '1.2em'
+                }
             },
             xAxis:{
                 type: 'datetime',
@@ -236,7 +242,10 @@ function drawOtherEvmChart(dataToChart, placeholder, nowdate, graphtitle){
             },
             title:{
                 text: graphtitle,
-                align: 'left'
+                align: 'left',
+                style: {
+                    fontSize: '1.2em'
+                }
             },
             xAxis:{
                 type: 'datetime',
