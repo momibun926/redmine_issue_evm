@@ -242,9 +242,10 @@ module IssueDataFetcher
   # user name
   # include nil. When userid is nil, no assigned name.
   #
-  # @param [numeric] id assignee id
-  # @return [string] assignee name
+  # @param [numeric] id assignee id or user group id
+  # @return [string] assignee name or user group name
   def assignee_name(id)
-    assignee_name = id.nil? ? l(:no_assignee) : User.find(id).name
+    assigneee = User.find_by(id: id) || Group.find_by(id: id)
+    assignee_name = id.nil? ? l(:no_assignee) : assigneee.name
   end
 end
