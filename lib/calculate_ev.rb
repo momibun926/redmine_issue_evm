@@ -1,4 +1,4 @@
-require 'base_calculate'
+require "base_calculate"
 
 # Calculation EVM module
 module CalculateEvmLogic
@@ -41,7 +41,7 @@ module CalculateEvmLogic
       @cumulative_ev = sort_and_sum_evm_hash @daily_ev
     end
 
-    # Today's earned value
+    # Today"s earned value
     #
     # @return [Numeric] EV value on basis date
     def today_value
@@ -74,7 +74,7 @@ module CalculateEvmLogic
             hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
             # latest date of changed ratio
             ratio_date_utc = Journal.where(journalized_id: issue.id,
-                                           journal_details: { prop_key: 'done_ratio' }).
+                                           journal_details: { prop_key: "done_ratio" }).
                                      joins(:details).
                                      maximum(:created_on)
             # parent isssue is no journals

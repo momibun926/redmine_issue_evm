@@ -17,10 +17,10 @@ class EvmassigneesController < BaseevmController
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
     @cfg_param[:selected_assignee_id] = params[:selected_assignee_id]
-    @cfg_param[:no_use_baseline] = 'true'
-    @cfg_param[:forecast] = 'false'
-    @cfg_param[:display_performance] = 'false'
-    @cfg_param[:display_incomplete] = 'false'
+    @cfg_param[:no_use_baseline] = "true"
+    @cfg_param[:forecast] = "false"
+    @cfg_param[:display_performance] = "false"
+    @cfg_param[:display_incomplete] = "false"
     # selectable assignee
     @selectable_assignees = selectable_assignee_list @project
     # calculate EVM (assignee)

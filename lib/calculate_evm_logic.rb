@@ -1,6 +1,6 @@
-require 'calculate_pv'
-require 'calculate_ev'
-require 'calculate_ac'
+require "calculate_pv"
+require "calculate_ev"
+require "calculate_ac"
 
 # Calculation EVM module
 module CalculateEvmLogic
@@ -46,12 +46,12 @@ module CalculateEvmLogic
       @exclude_holiday = options[:exclude_holiday]
       @region = options[:region]
       @no_use_baseline = if baselines.nil?
-                           'true'
+                           "true"
                          else
-                           options[:no_use_baseline] || 'false'
+                           options[:no_use_baseline] || "false"
                          end                
       # Baseline
-      if @no_use_baseline == 'true'
+      if @no_use_baseline == "true"
         @pv_baseline = nil
       else
         @pv_baseline = CalculatePv.new @basis_date, baselines, @region unless baselines.nil?
@@ -190,11 +190,11 @@ module CalculateEvmLogic
               0.0
             else
               div_value = case @etc_method
-                          when 'method1'
+                          when "method1"
                             1.0
-                          when 'method2'
+                          when "method2"
                             today_cpi(hours)
-                          when 'method3'
+                          when "method3"
                             today_cr(hours)
                           else
                             today_cpi(hours)
@@ -259,7 +259,7 @@ module CalculateEvmLogic
         csv_max_date = [@ev.max_date, @ac.max_date, @pv.due_date].max
         evm_date_range = (csv_min_date..csv_max_date).to_a
         # title
-        csv << ['DATE', evm_date_range].flatten!
+        csv << ["DATE", evm_date_range].flatten!
         # set evm values each date
         pv_csv = {}
         ev_csv = {}
@@ -270,9 +270,9 @@ module CalculateEvmLogic
           ac_csv[csv_date] = @ac.cumulative_ac[csv_date].nil? ? nil : @ac.cumulative_ac[csv_date].round(2)
         end
         # evm values
-        csv << ['PV', pv_csv.values.to_a].flatten!
-        csv << ['EV', ev_csv.values.to_a].flatten!
-        csv << ['AC', ac_csv.values.to_a].flatten!
+        csv << ["PV", pv_csv.values.to_a].flatten!
+        csv << ["EV", ev_csv.values.to_a].flatten!
+        csv << ["AC", ac_csv.values.to_a].flatten!
       end
     end
 
