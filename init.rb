@@ -1,5 +1,5 @@
-require 'redmine'
-require 'holidays/core_extensions/date'
+require "redmine"
+require "holidays/core_extensions/date"
 
 # Extention for ate class
 class Date
@@ -8,18 +8,18 @@ end
 
 # for search and activity page
 Rails.configuration.to_prepare do
-  Redmine::Activity.register 'evmbaseline'
-  Redmine::Search.available_search_types << 'evmbaselines'
+  Redmine::Activity.register "evmbaseline"
+  Redmine::Search.available_search_types << "evmbaselines"
 end
 
 # module define
 Redmine::Plugin.register :redmine_issue_evm do
-  name 'Redmine Issue Evm plugin'
-  author 'Hajime Nakagama'
-  description 'Earned value management calculation plugin.'
-  version '4.5.3'
-  url 'https://github.com/momibun926/redmine_issue_evm'
-  author_url 'https://github.com/momibun926'
+  name "Redmine Issue Evm plugin"
+  author "Hajime Nakagama"
+  description "Earned value management calculation plugin."
+  version "4.5.3"
+  url "https://github.com/momibun926/redmine_issue_evm"
+  author_url "https://github.com/momibun926"
 
   # module
   project_module :Issuevm do
@@ -48,7 +48,7 @@ Redmine::Plugin.register :redmine_issue_evm do
 
   # View listener for activity page
   class RedmineIssueEvmHookListener < Redmine::Hook::ViewListener
-    render_on :view_layouts_base_html_head, :inline => '<%= stylesheet_link_tag "issue_evm", :plugin => :redmine_issue_evm %>'
+    render_on :view_layouts_base_html_head, :inline => "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
   end
 
   # load holidays

@@ -1,4 +1,4 @@
-require 'base_calculate'
+require "base_calculate"
 
 # Calculation EVM module
 module CalculateEvmLogic
@@ -36,7 +36,7 @@ module CalculateEvmLogic
       @cumulative_ac = sort_and_sum_evm_hash @daily_ac
     end
 
-    # Today's Actual cost
+    # Today"s Actual cost
     #
     # @return [Numeric] AC on basis date
     def today_value

@@ -1,4 +1,4 @@
-require 'base_calculate'
+require "base_calculate"
 
 # Calculation EVM module
 module CalculateEvmLogic
@@ -50,7 +50,7 @@ module CalculateEvmLogic
       @cumulative_pv.values.max
     end
 
-    # Today's planed value
+    # Today"s planed value
     #
     # @return [Numeric] PV on basis date or PV of baseline.
     def today_value

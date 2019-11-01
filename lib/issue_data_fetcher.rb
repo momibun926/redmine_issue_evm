@@ -3,21 +3,21 @@
 # It also collects a selectable list that is optionally specified
 #
 module IssueDataFetcher
-  # Calculation common condition of issue's select
-  SQL_COM = '(issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL) ' +
-            ' OR ' +
-            '(issues.start_date IS NOT NULL ' +
-            ' AND ' +
-            ' issues.due_date IS NULL ' +
-            ' AND ' +
-            ' issues.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))'
-  SQL_COM_ANC = '(ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL) ' +
-                ' OR ' +
-                '(ancestors.start_date IS NOT NULL ' +
-                ' AND ' +
-                ' ancestors.due_date IS NULL ' +
-                ' AND ' +
-                ' ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))'
+  # Calculation common condition of issue"s select
+  SQL_COM = "(issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL) " +
+            " OR " +
+            "(issues.start_date IS NOT NULL " +
+            " AND " +
+            " issues.due_date IS NULL " +
+            " AND " +
+            " issues.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
+  SQL_COM_ANC = "(ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL) " +
+                " OR " +
+                "(ancestors.start_date IS NOT NULL " +
+                " AND " +
+                " ancestors.due_date IS NULL " +
+                " AND " +
+                " ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
   
   # Get issues of EVM for PV and EV.
   # Include descendants project.require inputted start date and due date.
@@ -26,8 +26,8 @@ module IssueDataFetcher
   # @param [object] proj project object
   # @param [hush] condition fieldname(symbol) conditon value
   # @return [Issue] issue object
-  def evm_issues(proj, condition = ' 1 = 1 ')
-    Issue.cross_project_scope(proj, 'descendants').
+  def evm_issues(proj, condition = " 1 = 1 ")
+    Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
       where(condition)
   end
@@ -51,8 +51,8 @@ module IssueDataFetcher
   #
   # @param [Object] proj project
   # @return [hash] Two column,spent_on,sum of hours
-  def evm_costs(proj, condition = ' 1 = 1 ')
-    Issue.cross_project_scope(proj, 'descendants').
+  def evm_costs(proj, condition = " 1 = 1 ")
+    Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
       where(condition).
       joins(:time_entries).
@@ -80,7 +80,7 @@ module IssueDataFetcher
   # @param [project] proj project object
   # @return [Array] project_id, fixed_version_id
   def project_varsion_id_pair(proj)
-    Issue.cross_project_scope(proj, 'descendants').
+    Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
       where.not(fixed_version_id: nil).
       distinct(:project_id, :fixed_version_id).
@@ -93,7 +93,7 @@ module IssueDataFetcher
   # @param [project] proj project object
   # @return [issue] assigned_to_id
   def assignee_ids(proj)
-    Issue.cross_project_scope(proj, 'descendants').
+    Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
       distinct(:assigned_to_id).
       pluck(:assigned_to_id)
@@ -119,11 +119,11 @@ module IssueDataFetcher
   # @param [project] proj project object
   # @return [issue] fixed_version_id, versions.name
   def selectable_version_list(proj)
-    Issue.cross_project_scope(proj, 'descendants').
-      select(:fixed_version_id, 'versions.name').
+    Issue.cross_project_scope(proj, "descendants").
+      select(:fixed_version_id, "versions.name").
       where(SQL_COM.to_s).
       joins(:fixed_version).
-      group(:fixed_version_id, 'versions.name')
+      group(:fixed_version_id, "versions.name")
   end
 
   # Selectable tracker list
@@ -131,11 +131,11 @@ module IssueDataFetcher
   # @param [project] proj project object
   # @return [issue] tracker_id, name
   def selectable_tracker_list(proj)
-    Issue.cross_project_scope(proj, 'descendants').
-      select(:tracker_id, 'trackers.name').
+    Issue.cross_project_scope(proj, "descendants").
+      select(:tracker_id, "trackers.name").
       where(SQL_COM.to_s).
       joins(:tracker).
-      group(:tracker_id, 'trackers.name')
+      group(:tracker_id, "trackers.name")
   end
 
   # Selectable parent issue list
@@ -146,7 +146,7 @@ module IssueDataFetcher
     Issue.where(project_id: proj.id).
       select(:id, :subject).
       where(parent_id: nil).
-      where('( rgt - lft ) > 1')
+      where("( rgt - lft ) > 1")
   end
 
   # Get imcomplete issuees on basis date.
@@ -155,9 +155,9 @@ module IssueDataFetcher
   # @param [date] basis_date basis date
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
-    Issue.cross_project_scope(proj, 'descendants').
+    Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
-      where('start_date <= ? AND (closed_on IS NULL OR closed_on > ?)',
+      where("start_date <= ? AND (closed_on IS NULL OR closed_on > ?)",
             basis_date, basis_date.end_of_day)
   end
 
@@ -191,14 +191,14 @@ module IssueDataFetcher
   #
   # @return [numeric] array id total issues
   def total_issue_amount(proj)
-    Issue.cross_project_scope(proj, 'descendants').pluck(:id)
+    Issue.cross_project_scope(proj, "descendants").pluck(:id)
   end
 
   # amount of issue in target
   #
   # @return [numeric] array id of target issues
   def target_issue_amount(proj)
-    Issue.cross_project_scope(proj, 'descendants').where(SQL_COM.to_s).pluck(:id)
+    Issue.cross_project_scope(proj, "descendants").where(SQL_COM.to_s).pluck(:id)
   end
 
   # amount of issue in version
@@ -206,10 +206,10 @@ module IssueDataFetcher
   # @param [project] proj project object
   # @return [hash] amount of issues. each versions.
   def count_version_list(proj)
-    Issue.cross_project_scope(proj, 'descendants').
+    Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
       joins(:fixed_version).
-      group('versions.name').count
+      group("versions.name").count
   end
 
   # amount of issue in assignee
@@ -217,7 +217,7 @@ module IssueDataFetcher
   # @param [project] proj project object
   # @return [hash] count of issues. each assignees (include noassign).
   def count_assignee_list(proj)
-    issues = Issue.cross_project_scope(proj, 'descendants').
+    issues = Issue.cross_project_scope(proj, "descendants").
                where(SQL_COM.to_s).
                group(:assigned_to_id).count
     count_list = {}
@@ -233,10 +233,10 @@ module IssueDataFetcher
   # @param [project] proj project object
   # @return [hash] count of issues. each trackers.
   def count_tracker_list(proj)
-    Issue.cross_project_scope(proj, 'descendants').
+    Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
       joins(:tracker).
-      group('trackers.name').count
+      group("trackers.name").count
   end
 
   # user name
@@ -246,6 +246,6 @@ module IssueDataFetcher
   # @return [string] assignee name or user group name
   def assignee_name(id)
     assigneee = User.find_by(id: id) || Group.find_by(id: id)
-    assignee_name = id.nil? ? l(:no_assignee) : assigneee.name
+    assignee_name = id.blank? ? l(:no_assignee) : assigneee.name
   end
 end

@@ -63,7 +63,7 @@ class EvmsController < BaseevmController
         format.html
         format.csv do
           send_data @project_evm.to_csv,
-                    type: 'text/csv; header=present',
+                    type: "text/csv; header=present",
                     filename: "evm_#{@project.name}_#{Date.current}.csv"
         end
       end

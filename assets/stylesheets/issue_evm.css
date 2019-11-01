@@ -53,30 +53,30 @@ div[class*="evm-explanation"] {
 
 /*** icon image ***/
 .icon-assignee-evm {
-  background-image: url('../images/assignee-evm.png');
+  background-image: url("../images/assignee-evm.png");
 }
 .icon-parent-issue-evm {
-  background-image: url('../images/parent-issue-evm.png');
+  background-image: url("../images/parent-issue-evm.png");
 }
 .icon-main-evm {
-  background-image: url('../images/main-evm.png');
+  background-image: url("../images/main-evm.png");
 }
 .icon-tracker-evm {
-  background-image: url('../images/tracker-evm.png');
+  background-image: url("../images/tracker-evm.png");
 }
 .icon-version-evm {
-  background-image: url('../images/version-evm.png');
+  background-image: url("../images/version-evm.png");
 }
 .icon-exclude-evm {
-  background-image: url('../images/issue-exclude.png');
+  background-image: url("../images/issue-exclude.png");
 }
 
 /*** for activity page ***/
 dt.evmbaseline-new {
-  background-image: url('../images/baseline-add.png');
+  background-image: url("../images/baseline-add.png");
 }
 dt.evmbaseline-edit {
-  background-image: url('../images/baseline-edit.png');
+  background-image: url("../images/baseline-edit.png");
 }
 
 /*** for validate ***/

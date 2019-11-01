@@ -15,10 +15,10 @@ class EvmtrackersController < BaseevmController
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
     @cfg_param[:selected_tracker_id] = params[:selected_tracker_id]
-    @cfg_param[:no_use_baseline] = 'true'
-    @cfg_param[:forecast] = 'false'
-    @cfg_param[:display_performance] = 'false'
-    @cfg_param[:display_incomplete] = 'false'
+    @cfg_param[:no_use_baseline] = "true"
+    @cfg_param[:forecast] = "false"
+    @cfg_param[:display_performance] = "false"
+    @cfg_param[:display_incomplete] = "false"
     # selectable tracker
     @selectable_tracker = selectable_tracker_list @project
     condition = { tracker_id: params[:selected_tracker_id] }
@@ -34,7 +34,7 @@ class EvmtrackersController < BaseevmController
                                       tracker_actual_cost,
                                       @cfg_param
       # description
-      @tracker_evm.description = Tracker.where(id: params[:selected_tracker_id]).pluck(:name).join(' ')
+      @tracker_evm.description = Tracker.where(id: params[:selected_tracker_id]).pluck(:name).join(" ")
       # create chart data
       @tracker_evm_chart = evm_chart_data @tracker_evm
     end
