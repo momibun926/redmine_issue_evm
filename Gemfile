@@ -3,5 +3,5 @@ source "https://rubygems.org"
 gem "holidays"
 
 group :development do
-  gem "rubocop"
+  gem "rubocop-rails"
 end
