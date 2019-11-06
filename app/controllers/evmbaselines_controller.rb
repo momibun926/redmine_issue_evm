@@ -41,7 +41,7 @@ class EvmbaselinesController < BaseevmController
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: :index
     else
-      redirect_to action: :edit
+      render :edit
     end
   end
 
@@ -72,7 +72,7 @@ class EvmbaselinesController < BaseevmController
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: :index
     else
-      redirect_to action: :new
+      render :new
     end
   end
 
