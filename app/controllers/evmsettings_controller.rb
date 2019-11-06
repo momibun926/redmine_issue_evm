@@ -21,7 +21,6 @@ class EvmsettingsController < BaseevmController
     @evm_settings.user_id = User.current.id
     @update_user = User.find(@evm_settings.user_id)
     if @evm_settings.save
-      flash[:notice] = l(:notice_successful_update)
       redirect_to project_evms_path
     else
       render :edit
@@ -36,7 +35,6 @@ class EvmsettingsController < BaseevmController
     @evm_settings.user_id = User.current.id
     # Save
     if @evm_settings.save
-      flash[:notice] = l(:notice_successful_create)
       redirect_to project_evms_path
     else
       render :new

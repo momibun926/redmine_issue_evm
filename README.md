@@ -5,7 +5,7 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-4.5.3
+4.5.4
 
 ## Compatibility
 Redmine 4.0.0 and above
@@ -193,8 +193,8 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 5. Create new Pull Request
 
 # My Environment
-*  Redmine version                4.0.4.stable
-*  Ruby version                   2.5.5-p157 (2019-03-15) [x64-mingw32]
+*  Redmine version                4.0.5.stable
+*  Ruby version                   2.5.7-p206 (2019-10-01) [x64-mingw32]
 *  Rails version                  5.2.3
 *  Environment                    production
 *  Database adapter               Mysql2

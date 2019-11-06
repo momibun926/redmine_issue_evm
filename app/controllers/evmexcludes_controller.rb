@@ -9,6 +9,8 @@ class EvmexcludesController < BaseevmController
   # 1. exclude issue of calculate EVM
   #
   def index
+    # View options
+    @cfg_param[:basis_date] = params[:basis_date]
     # total amount
     total_issue_ids = total_issue_amount @project
     # target amount

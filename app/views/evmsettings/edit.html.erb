@@ -1,3 +1,6 @@
+<div class="contextual">
+  <%= link_to l(:label_nav_main), { controller: :evms, action: :index, id: @project.id}, class: "icon icon-main-evm" %>
+</div>
 <h2><%= l(:label_setting_edit) %></h2>
 <%= form_for @evm_settings,  url: {action: :update, method: :get} do |f| %>
   <%= render partial: "/evmsettings/evmsetting", locals: { f: f , evm_setting: @evm_settings } %>
