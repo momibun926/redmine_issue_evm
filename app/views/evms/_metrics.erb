@@ -2,11 +2,17 @@
   <legend onclick="toggleFieldset(this);"><%= l(:Indicator_tittle) %></legend>
   <div style="display: none;">
     <div class="option-col">
-      <p><%=l(:explanation_basis)%></p>
+      <p><%= l(:explanation_basis) %></p>
       <b><%= l(:indicator_duration) %>:</b> <%= project_metrics[:plan_start_date] %> - <%= project_metrics[:plan_due_date] %><br>
       <b><%= l(:indicator_status) %>:</b> <%= project_metrics[:state] %><br>
       <b><%= l(:indicator_difference) %>:</b> <%= project_metrics[:due_date_difference] %><br>
       <b><%= l(:indicator_target_issues_count) %>:</b> <%= project_metrics[:target_issue_ids] %> / <%= project_metrics[:total_issue_ids] %><br>
+    </div>
+    <div class="option-col">
+      <p><%= l(:indicator_baseline_difference) %></p>
+      <b><%= l(:indicator_bac) %>:</b> <%= project_state[:bac] %><br>
+      <b><%= l(:indicator_due_date) %>:</b> <%= project_state[:due_date] %><br>
+      <b><%= l(:indicator_schedule) %>:</b> <%= project_state[:schedule] %><br>
     </div>
     <div class="option-col">
       <p><%=l(:field_version)%></p>

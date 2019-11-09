@@ -248,4 +248,36 @@ module IssueDataFetcher
     assigneee = User.find_by(id: id) || Group.find_by(id: id)
     assignee_name = id.blank? ? l(:no_assignee) : assigneee.name
   end
+
+  # check project state
+  # difference of baseline and actual plan
+  #
+  # @param [CalculateEvm] project_evm evm object of project
+  # @return [hash] project state
+  def check_project_state(project_evm)
+    pv_actual = project_evm.pv_actual
+    pv_baseline = project_evm.pv_baseline
+    project_state = {}
+    project_state[:bac] = ""
+    project_state[:due_date] = ""
+    project_state[:schedule] = ""
+    unless pv_baseline.nil?
+      project_state[:bac] = if pv_actual.bac == pv_baseline.bac
+                              l(:no_changed)
+                            else
+                              l(:bac_cahnged)
+                            end
+      project_state[:due_date] = if pv_actual.due_date == pv_baseline.due_date
+                                  l(:no_changed)
+                                else
+                                  l(:due_date_changed)
+                                end
+      project_state[:schedule] = if pv_actual.daily_pv == pv_baseline.daily_pv
+                                  l(:no_changed)
+                                else
+                                  l(:schedule_changed)
+                                end
+    end
+    project_state
+  end
 end
