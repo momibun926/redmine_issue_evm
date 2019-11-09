@@ -26,5 +26,5 @@
     <%= wikitoolbar_for "evmbaseline_description" %>
   </div>
   <%= submit_tag l(:button_save) %>&emsp;
-  <%= link_to l(:button_close), :back %>
+  <%= link_to l(:button_back), { controller: :evmbaselines, action: :index, id: @project.id } %>
 <% end %>
