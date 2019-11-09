@@ -35,7 +35,8 @@
       locals: { version_list: @count_version_list,
                 assignee_list: @count_assignee_list,
                 tracker_list: @count_tracker_list,
-                project_metrics: @project_metrics } %>
+                project_metrics: @project_metrics,
+                project_state: @project_state } %>
   <!--Indicator value-->
   <%= render partial: "/evms/measure",
       locals: { project_evm: @project_evm,

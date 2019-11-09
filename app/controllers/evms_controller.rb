@@ -57,6 +57,8 @@ class EvmsController < BaseevmController
       @count_version_list = count_version_list @project
       @count_assignee_list = count_assignee_list @project
       @count_tracker_list = count_tracker_list @project
+      # project state
+      @project_state = check_project_state @project_evm
 
       # export
       respond_to do |format|

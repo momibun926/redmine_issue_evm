@@ -26,6 +26,14 @@ zh:
   indicator_status: Status
   indicator_difference: To due date
   indicator_target_issues_count: Amount of target issues
+  indicator_schedule_cost: Schedule and cost
+  indicator_bac: BAC
+  indicator_due_date: Due date of project
+  indicator_schedule: Schedule
+  no_changed: No changed
+  bac_cahnged: BAC is changed.
+  due_date_changed: Due date is changed.
+  schedule_changed: Rescheduled, Plan of A few issue is changed.
 
   # Indicator table header
   indicator_table_header_date: 基准日期
