@@ -268,15 +268,15 @@ module IssueDataFetcher
                               l(:bac_cahnged)
                             end
       project_state[:due_date] = if pv_actual.due_date == pv_baseline.due_date
-                                  l(:no_changed)
-                                else
-                                  l(:due_date_changed)
-                                end
+                                   l(:no_changed)
+                                 else
+                                   l(:due_date_changed)
+                                 end
       project_state[:schedule] = if pv_actual.daily_pv == pv_baseline.daily_pv
-                                  l(:no_changed)
-                                else
-                                  l(:schedule_changed)
-                                end
+                                   l(:no_changed)
+                                 else
+                                   l(:schedule_changed)
+                                 end
     end
     project_state
   end

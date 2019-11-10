@@ -2,6 +2,7 @@
 # this helper is common helper. called other helpers.
 #
 module CommonHelper
+
   # SPI color of CSS.
   #
   # @return [String] SPI color
