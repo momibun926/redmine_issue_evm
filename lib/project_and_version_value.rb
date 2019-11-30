@@ -71,12 +71,11 @@ module ProjectAndVersionValue
   # @return [Array] Two column,spent_on,sum of hours
   def evm_costs(proj, condition = " 1 = 1 ")
     Issue.cross_project_scope(proj, "descendants").
-      select("spent_on, SUM(hours) AS sum_hours").
       where(SQL_COM.to_s).
       where(condition).
       joins(:time_entries).
-      group(:spent_on).
-      collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
+      group(:spent_on).sum(:hours)
+
   end
 
   # Get spent time of descendants issues
