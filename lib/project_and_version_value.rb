@@ -87,13 +87,11 @@ module ProjectAndVersionValue
       " ON ancestors.root_id = #{Issue.table_name}.root_id" +
       " AND ancestors.lft <= #{Issue.table_name}.lft " +
       " AND ancestors.rgt >= #{Issue.table_name}.rgt ").
-      select("spent_on, SUM(hours) AS sum_hours").
       where(SQL_COM.to_s).
       where(SQL_COM_ANC.to_s).
-      where(:ancestors => {:id => issue_id}).
+      where(:ancestors => { :id => issue_id }).
       joins(:time_entries).
-      group(:spent_on).
-      collect {|issue| [issue.spent_on.to_date, issue.sum_hours] }
+      group(:spent_on).sum(:hours)
   end
 
   # Get pair of project id and fixed version id.
