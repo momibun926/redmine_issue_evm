@@ -1,6 +1,7 @@
 # evms helper.
 module EvmsHelper
   include CommonHelper
+
   # Get project name
   # Add baseline subject when baseline exists
   #

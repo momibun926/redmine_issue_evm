@@ -10,7 +10,7 @@ class EvmsettingsController < BaseevmController
   #
   def edit
     @evm_settings = Evmsetting.find_by(project_id: @project.id)
-    @update_user = User.find(@evm_settings.user_id)
+    @update_user = User.find(@evm_settings.user_id).name
   end
 
   # Update baselie
@@ -19,7 +19,7 @@ class EvmsettingsController < BaseevmController
     @evm_settings = Evmsetting.find_by(project_id: @project.id)
     @evm_settings.update(evm_setting_params)
     @evm_settings.user_id = User.current.id
-    @update_user = User.find(@evm_settings.user_id)
+    @update_user = User.find(@evm_settings.user_id).name
     if @evm_settings.save
       redirect_to project_evms_path
     else

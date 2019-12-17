@@ -14,13 +14,14 @@
   
   # Main page
   subtitle_evm_summary: Summary
+  subtitle_evm_indicator: EVM Indicator
   subtitle_evm_incomplete_issues: Incomplete Issues
   subtitle_evm_exclude_issues: Exclude issues
   subtitle_evm_chart_main: EVM Charts
   subtitle_evm_chart_performance: Performance Charts
 
   # Indicator project metrics
-  Indicator_tittle: Metrix
+  Indicator_metrics: Metrics
   indicator_duration: Duration
   indicator_status: Status
   indicator_difference: To due date

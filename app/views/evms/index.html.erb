@@ -37,6 +37,7 @@
                 tracker_list: @count_tracker_list,
                 project_metrics: @project_metrics,
                 project_state: @project_state } %>
+  <h3><%= l(:subtitle_evm_indicator)%></h3>
   <!--Indicator value-->
   <%= render partial: "/evms/measure",
       locals: { project_evm: @project_evm,
