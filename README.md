@@ -15,27 +15,37 @@ Redmine 4.0.0 and above
 > The redmine3.4.x compatible version in branch "redmine3-4-3".
 > https://github.com/momibun926/redmine_issue_evm/tree/redmine3-4-3
 
-## Main features
+# Main features
 * Calculate EVM
-* Show project metrics (Duration, Amount of target issues, Show amount of issues by version, asignee, and tracker)
-* Chart with EVM (PV,EV,AC)
-* Set the baseline　and show history
+  * All projects
+  * Each version
+  * Each asssignee
+  * Each parent issues
+  * Some Tarckers
+* Project metrics
+  * Duration
+  * Satus
+  * Delayed days
+  * Amount of culculation issues
+  * Difference at baseline
+  * Amount of issue. (version, assignee, tracker)
+  * Chart of EVM(PV,EV,AC)
+* Common setting
+  * Basis date, basis hours of day
+  * Method of ETC
+  * Forcast chart, Performance chart, Threthold value, incomplete issues
+* Create baselines, and view history
 
 ## Baseline
 If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
 PV is based on your baseline. In addition, you can set calculation without baseline by options.
 
-## Additional options
-* Explanation of EVM
-* Chart with Project Performance (SPI,CPI,CR)
-* Select past baseline
+## View options
 * Change the calculating basic date
-* Change the level of the forecast
-* Calculate EVM of assignees, parent issues, trackers, and versions (see Screenshots)
-* Show issues of exclude EVM calculation
-* Show unfinished issues
+* Using baseline
+* Explanation of EVM
 
-## workig days
+## about workig days
 1. Excluding weekends and holidays
 2. If it is only weekends or holidays, make it a working day
 3. Use holidays gem -> Regional settings are set in the common setting page(common setting link in contextial)
@@ -114,14 +124,13 @@ PV: Dividing estimated time: 24hours by 3 days (from start date to due date)
 Based on these data, EVM and chart are created.
 
 # Chart
-2 types of charts can be displayed.
 Charts are displayed using HigthChart. See below for license.
 It is a license that can not be used for commercial purposes.
 https://creativecommons.org/licenses/by-nc/3.0/
 
 **Main chart**
 
-Show PV,EV,AC with baseline.Display unclosed issues according to the baseline.
+Show PV,EV,AC with baseline. Display unclosed issues according to the baseline.
 
 **Performance chart**
 
