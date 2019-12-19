@@ -13,4 +13,18 @@ module EvmsHelper
                     @project.name + '- ' + @evmbaseline.find(@baseline_id).subject
                   end
   end
+
+  # Get baseline difference color
+  # Except No change is red
+  #
+  # @param [string] str difference string
+  # @return [String] CSS class, except no change is red.
+  def difference_color(str)
+    value = if str != l(:no_changed)
+              "class='difference-red'"
+            else
+              ""
+            end
+    value.html_safe
+  end
 end
