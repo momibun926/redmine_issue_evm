@@ -15,11 +15,15 @@
   padding: 0px 30px 0px 0px;
   float: left;
 }
-.metrics-col p {
+.metrics-col fieldset legend{
   font-weight: bold;
 }
 .metrics-apply {
   clear:both;
+}
+td.difference-red {
+  font-weight: bold;
+  color: #FF0000;
 }
 
 /*** project metrics ***/

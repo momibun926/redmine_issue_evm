@@ -26,7 +26,7 @@ Redmine 4.0.0 and above
   * Duration
   * Satus
   * Delayed days
-  * Amount of culculation issues
+  * Amount of calculation issues
   * Difference at baseline
   * Amount of issue. (version, assignee, tracker)
   * Chart of EVM(PV,EV,AC)

@@ -5,6 +5,7 @@ module CommonHelper
 
   # SPI color of CSS.
   #
+  # @param [CalculateEvm] evm calculate evm class
   # @return [String] SPI color
   def spi_color(evm)
     value = case evm.today_spi
@@ -20,6 +21,7 @@ module CommonHelper
 
   # CPI color of CSS.
   #
+  # @param [CalculateEvm] evm calculate evm class
   # @return [String] CPI color
   def cpi_color(evm)
     value = case evm.today_cpi
@@ -35,7 +37,8 @@ module CommonHelper
 
   # CR color of CSS.
   #
-  # @return [String] CR color
+ # @param [CalculateEvm] evm calculate evm class
+   # @return [String] CR color
   def cr_color(evm)
     value = ""
     if evm.today_sv < 0.0

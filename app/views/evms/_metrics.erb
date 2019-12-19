@@ -1,16 +1,41 @@
 <div class="metrics-col">
   <fieldset><legend><%= l(:Indicator_metrics) %></legend>
-  <b><%= l(:indicator_duration) %>:</b> <%= project_metrics[:plan_start_date] %> - <%= project_metrics[:plan_due_date] %><br>
-  <b><%= l(:indicator_status) %>:</b> <%= project_metrics[:state] %><br>
-  <b><%= l(:indicator_difference) %>:</b> <%= project_metrics[:due_date_difference] %><br>
-  <b><%= l(:indicator_target_issues_count) %>:</b> <%= project_metrics[:target_issue_ids] %> / <%= project_metrics[:total_issue_ids] %><br>
+  <table id="metrics-col">
+    <tr>
+      <td align="right"><%= l(:indicator_target_issues_count) %>:</td>
+      <td><%= project_metrics[:target_issue_ids] %> / <%= project_metrics[:total_issue_ids] %></td>
+    </tr>
+    <tr>
+      <td align="right"><%= l(:indicator_status) %>:</td>
+      <td><%= project_metrics[:state] %></td>
+    </tr>
+    <tr>
+      <td align="right"><%= l(:indicator_duration) %>:</td>
+      <td><%= project_metrics[:plan_start_date] %> - <%= project_metrics[:plan_due_date] %></td>
+    </tr>
+    <tr>
+      <td align="right"><%= l(:indicator_difference) %>:</td>
+      <td><%= project_metrics[:due_date_difference] %></td>
+    </tr>
+  </table>
   </fieldset>
 </div>
 <div class="metrics-col">
   <fieldset><legend><%= l(:indicator_baseline_difference) %></legend>
-  <b><%= l(:indicator_bac) %>:</b> <%= project_state[:bac] %><br>
-  <b><%= l(:indicator_due_date) %>:</b> <%= project_state[:due_date] %><br>
-  <b><%= l(:indicator_schedule) %>:</b> <%= project_state[:schedule] %><br>
+  <table id="metrics-col">
+    <tr>
+      <td align="right"><%= l(:indicator_bac) %>:</td>
+      <td <%=difference_color(project_state[:bac])%>><%= project_state[:bac] %></td>
+    </tr>
+    <tr>
+      <td align="right"><%= l(:indicator_due_date) %>:</td>
+      <td <%=difference_color(project_state[:due_date])%>><%= project_state[:due_date] %></td>
+    </tr>
+    <tr>
+      <td align="right"><%= l(:indicator_schedule) %>:</td>
+      <td <%=difference_color(project_state[:due_date])%>><%= project_state[:schedule] %></td>
+    </tr>
+  </table>
   </fieldset>
 </div>
 <div class="metrics-col">
