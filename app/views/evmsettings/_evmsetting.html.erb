@@ -25,7 +25,7 @@
 <fieldset><legend><%= l(:label_evm_graph) %></legend>
   <%= f.check_box :view_forecast,{},checked_value = "true",unchecked_value = "false" %>
   <%= l(:label_forecast) %><br>
-  <%= f.check_box :view_version,{},checked_value = "true",unchecked_value = "false" %>
+  <%= f.check_box :view_performance,{},checked_value = "true",unchecked_value = "false" %>
   <%= l(:label_display_performance) %><br>
   <%= l(:label_limit_spi) %>
   <%= f.text_field :threshold_spi, { size: 3, placeholder: '0.9' }  %>&emsp;
