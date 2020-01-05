@@ -1,0 +1,25 @@
+<table id="evm-indicator-value-table" border="1" bordercolor = "#bbb">
+  <tr>
+    <th>BAC</th>
+    <th>Complete EV</th>
+    <th>PV</th>
+    <th>EV</th>
+    <th>AC</th>
+    <th>SV</th>
+    <th>CV</th>
+    <th>SPI</th>
+    <th>CPI</th>
+  </tr>
+  <tr>
+    <td><%= evm.bac %></td>
+    <td><%= evm.complete_ev %></td>
+    <td><%= evm.today_pv %></td>
+    <td><%= evm.today_ev %></td>
+    <td><%= evm.today_ac %></td>
+    <td><%= evm.today_sv %></td>
+    <td><%= evm.today_cv %></td>
+    <td <%= spi_color(evm) %>><%= evm.today_spi %></td>
+    <td <%= cpi_color(evm) %>><%= evm.today_cpi %></td>
+  </tr>
+</table>
+<br>

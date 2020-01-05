@@ -1,7 +1,6 @@
 /*** Option ***/
-
 .option-col {
-  padding: 0px 5px 0px 5px;
+  padding: 0px 30px 0px 5px;
   float: left;
 }
 .option-col p {
@@ -11,8 +10,28 @@
   clear:both;
 }
 
-/*** summary evm indicator ***/
+/*** metrics ***/
+.metrics-col {
+  padding: 0px 30px 0px 0px;
+  float: left;
+}
+.metrics-col fieldset legend{
+  font-weight: bold;
+}
+.metrics-apply {
+  clear:both;
+}
+td.difference-red {
+  font-weight: bold;
+  color: #FF0000;
+}
 
+/*** project metrics ***/
+#metrics-table td {
+  min-width: 20px;
+}
+
+/*** summary evm indicator ***/
 #evm-indicator-value-table {
   border: 1px solid #bbb;
   width: auto;
@@ -21,29 +40,19 @@
 #evm-indicator-value-table th {
   background-color: #eee;
 }
-#evm-indicator-value-table td,
-#evm-indicator-value-table th {
-  width: 60px;
-  padding: 2px;
-  text-align: center;
-}
-
-#evm-indicator-option_value-table {
+/*** summary evm indicator ***/
+#evm-indicator-value-table {
   border: 1px solid #bbb;
   width: auto;
   border-collapse: collapse;
 }
-#evm-indicator-option_value-table th {
-  background-color: #eee;
-}
-#evm-indicator-option_value-table td,
-#evm-indicator-option_value-table th {
-  min-width: 60px;
-  max-width: 150px;
+
+#evm-indicator-value-table td,
+#evm-indicator-value-table th {
+  width: 80px;
   padding: 2px;
   text-align: center;
 }
-
 td.indicator-red {
   background-color: #FF0000;
 }
@@ -52,7 +61,6 @@ td.indicator-orange {
 }
 
 /*** sidebar ***/
-
 div[class*="evm-explanation"] {
   width: auto;
   padding-left: 20px;
@@ -60,30 +68,42 @@ div[class*="evm-explanation"] {
 }
 
 /*** icon image ***/
-
-.icon-print {
-  background-image: url('../images/icon-print.png');
+.icon-assignee-evm {
+  background-image: url("../images/assignee-evm.png");
 }
-
-/*** print ***/
-
-@page {
-  size: A4
+.icon-parent-issue-evm {
+  background-image: url("../images/parent-issue-evm.png");
+}
+.icon-main-evm {
+  background-image: url("../images/main-evm.png");
+}
+.icon-tracker-evm {
+  background-image: url("../images/tracker-evm.png");
+}
+.icon-version-evm {
+  background-image: url("../images/version-evm.png");
+}
+.icon-exclude-evm {
+  background-image: url("../images/issue-exclude.png");
 }
 
 /*** for activity page ***/
-
 dt.evmbaseline-new {
-  background-image: url('../images/baseline-add.png');
+  background-image: url("../images/baseline-add.png");
 }
 dt.evmbaseline-edit {
-  background-image: url('../images/baseline-edit.png');
+  background-image: url("../images/baseline-edit.png");
 }
 
 /*** for validate ***/
-
 .field_with_errors {
   padding: 2px;
   background-color: red;
   display: table;
+}
+
+/*** for baseline setting ***/
+#wrapper input[readonly],
+#wrapper textarea[readonly] {
+  background-color:aliceblue;
 }

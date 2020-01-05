@@ -1,108 +1,34 @@
-# evms helper
+# evms helper.
 module EvmsHelper
-  # SPI color of CSS.
+  include CommonHelper
+
+  # Get used baseline name
   #
-  # @return [String] SPI color
-  def spi_color(evm)
-    value = case evm.today_spi
-            when (@limit_spi + 0.01..0.99)
-              'class="indicator-orange"'
-            when (0.01..@limit_spi)
-              'class="indicator-red"'
+  # @return [String] balseline name (subject)
+  def used_baseline_name
+    "#{l(:label_baseline)} : #{@evmbaseline.find(@cfg_param[:baseline_id]).subject}" if @cfg_param[:baseline_id].present?
+  end
+
+  # Get baseline difference color
+  # Except No change is red
+  #
+  # @param [string] str difference string
+  # @return [String] CSS class, except no change is red.
+  def difference_color(str)
+    value = if str != l(:no_changed)
+              "class='difference-red'"
             else
               ""
             end
     value.html_safe
   end
-  # CPI color of CSS.
+
+  # project status
   #
-  # @return [String] CPI color
-  def cpi_color(evm)
-    value = case evm.today_cpi
-            when (@limit_cpi + 0.01..0.99)
-              'class="indicator-orange"'
-            when (0.01..@limit_cpi)
-              'class="indicator-red"'
-            else
-              ""
-            end
+  # @param [Array] status status of EV and status of PV
+  # @return [String] Project status
+  def project_status(status)
+    value = l(status).join(",")
     value.html_safe
-  end
-  # CR color of CSS.
-  #
-  # @return [String] CR color
-  def cr_color(evm)
-    value = ""
-    if evm.today_sv < 0.0
-      value = case evm.today_cr
-              when (@limit_cr + 0.01..0.99)
-                'class="indicator-orange"'
-              when (0.01..@limit_cr)
-                'class="indicator-red"'
-              else
-                ""
-              end
-    end
-    value.html_safe
-  end
-  # Get project name
-  #
-  # @return [String] project name, baseline subject
-  def project_chart_name
-    name = if @baseline_id.nil?
-             @project.name
-           else
-             @project.name + "- " + @evmbaseline.find(@baseline_id).subject
-    end
-  end
-  # Get project name
-  #
-  # @param [numeric] ver_id fixed version id
-  # @return [String] project name, baseline subject
-  def version_chart_name(ver_id)
-    ver = Version.find(ver_id)
-    pro = Project.find(ver.project_id)
-    pro.name + " - " + ver.name
-  end
-  # Get selected trackers name
-  #
-  # @param [array] ids selected tracker ids
-  # @return [String] trackers name
-  def selected_trackers_name(ids)
-    selected = Tracker.select(:name).where(id: ids)
-    tracker_name = ""
-    selected.each do |trac|
-      tracker_name = tracker_name + trac.to_s + " "
-    end
-    tracker_name
-  end
-  # Get assignee name
-  #
-  # @param [numeric] assignee_id assignee id
-  # @return [String] assignee name, assignee name. "no assigned" if not assigned.
-  def assignee_name(assignee_id)
-    assignee_id.nil? ? l(:no_assignee) : User.find(assignee_id).name
-  end
-  # Get parent issue
-  #
-  # @param [numeric] issue_id parent issue id
-  # @return [issue] parent issue object
-  def parent_issue(parent_issue_id)
-    Issue.find(parent_issue_id)
-  end
-  # Get parent issue link
-  #
-  # @param [numeric] issue_id parent issue id
-  # @return [issue] parent issue link
-  def parent_issue_link(parent_issue_id)
-    parent_issue = Issue.find(parent_issue_id)
-    link_to(parent_issue_id, issue_path(parent_issue))
-  end
-  # Get local date time
-  #
-  # @param [datetime] bldatetime updated or created datetime
-  # @return [String] formatted date
-  def local_date(bldatetime)
-    bldatetime.localtime.strftime("%Y-%m-%d %H:%M:%S") if bldatetime.present?
   end
 end

@@ -1,0 +1,33 @@
+<% html_title("Project tracking with EVM - versions ") %>
+<!-- sunb title -->
+<% content_for :title_sub do %>
+  <%= l(:label_nav_version) %>
+<% end %>
+<% content_for :additional_option do %>
+  <!-- selectable version -->
+  <div class="option-col">
+    <p><%= l(:label_select_version) %></p>
+    <%= select_tag :selected_version_id,
+        options_from_collection_for_select(@selectable_versions, :fixed_version_id, :name,
+                                           @cfg_param[:selected_version_id]),
+                                           { multiple: true, size: 5 }%>
+  </div>
+<% end %>
+<%= render partial: "/common/option_field"%>
+<!-- contents -->
+<section>
+  <%= raw display_no_data(@cfg_param[:selected_version_id]) %>
+  <% @version_evm.each do |ver_id, evm| %>
+    <h3><%= evm.description %></h3>
+    <!-- EVN value -->
+    <%= render partial: "/common/basic_evm_value", locals: { evm: evm } %>
+    <br>
+    <!-- Charts -->
+    <%= render partial: "/common/basic_evm_chart_js",
+        locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
+                  chart_data: @version_evm_chart[ver_id],
+                  basis_date_label: basis_date_label(evm.finished_date), 
+                  id: ver_id,
+                  tittle: evm.description } %>
+  <% end %>
+</section>

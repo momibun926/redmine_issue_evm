@@ -1,34 +1,38 @@
-<table class="list issue">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th><%=l(:incomplete_issue_parent_id)%></th>
-      <th><%=l(:field_project)%></th>
-      <th><%=l(:field_subject)%></th>
-      <th><%=l(:field_status)%></th>
-      <th><%=l(:field_priority)%></th>
-      <th><%=l(:field_assigned_to)%></th>
-      <th><%=l(:field_start_date)%></th>
-      <th><%=l(:field_due_date)%></th>
-      <th><%=l(:field_estimated_hours)%></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% unless incomplete_issues.nil? %>
-      <% incomplete_issues.each do |issue| %>
-        <tr id="issue-<%= issue.id %>" class="<%= cycle("odd", "even") %> <%= issue.css_classes %>"></tr>
-          <td><%=link_to(issue.id, issue_path(issue))%></td>
-          <td><%=issue.parent_id%></td>
-          <td><%=issue.project%></td>
-          <td><%=issue.subject%></td>
-          <td><%=issue.status%></td>
-          <td><%=issue.priority%></td>
-          <td><%=issue.assigned_to%></td>
-          <td><%=issue.start_date%></td>
-          <td><%=issue.due_date%></td>
-          <td><%=issue.estimated_hours%></td>
-        </tr>
+<section>
+  <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
+  <table class="list">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th><%=l(:incomplete_issue_parent_id)%></th>
+        <th><%=l(:field_project)%></th>
+        <th><%=l(:field_subject)%></th>
+        <th><%=l(:field_status)%></th>
+        <th><%=l(:field_priority)%></th>
+        <th><%=l(:field_assigned_to)%></th>
+        <th><%=l(:field_start_date)%></th>
+        <th><%=l(:field_due_date)%></th>
+        <th><%=l(:field_estimated_hours)%></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if incomplete_issues.present? %>
+        <% incomplete_issues.each do |issue| %>
+          <tr id="issue-<%= issue.id %>" class="<%= cycle("odd", "even") %> <%= issue.css_classes %>"></tr>
+            <td><%=link_to(issue.id, issue_path(issue))%></td>
+            <td><%=issue.parent_id%></td>
+            <td><%=issue.project%></td>
+            <td><%=issue.subject%></td>
+            <td><%=issue.status%></td>
+            <td><%=issue.priority%></td>
+            <td><%=issue.assigned_to%></td>
+            <td><%=format_date(issue.start_date)%></td>
+            <td><%=format_date(issue.due_date)%></td>
+            <td><%=issue.estimated_hours%></td>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</section>
+

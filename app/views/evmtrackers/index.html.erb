@@ -1,0 +1,33 @@
+<% html_title("Project tracking with EVM") %>
+<!-- sunb title -->
+<% content_for :title_sub do %>
+  <%= l(:label_nav_tracker) %>
+<% end %>
+<% content_for :additional_option do %>
+  <!-- select trackers -->
+  <div class="option-col">
+    <p><%= l(:label_select_trackers) %></p>
+    <%= select_tag :selected_tracker_id,
+        options_from_collection_for_select(@selectable_tracker, :tracker_id, :name,
+                                           @cfg_param[:selected_tracker_id]),
+                                           { multiple: true, size: 5 }%>
+  </div>
+<% end %>
+<%= render partial: "/common/option_field"%>
+<!-- contents -->
+<section>
+  <%= raw display_no_data(@cfg_param[:selected_tracker_id]) %>
+  <% if @cfg_param[:selected_tracker_id].present? %>
+    <h3><%= @tracker_evm.description %></h3>
+    <!-- EVN value -->
+    <%= render partial: "/common/basic_evm_value", locals: { evm: @tracker_evm } %>
+    <br>
+    <!-- Charts -->
+    <%= render partial: "/common/basic_evm_chart_js",
+        locals: { basis_date: convert_to_labels(@tracker_evm.finished_date || @cfg_param[:basis_date]),
+                  chart_data: @tracker_evm_chart,
+                  basis_date_label: basis_date_label(@tracker_evm.finished_date), 
+                  id: "1",
+                  tittle: @tracker_evm.description } %>
+  <% end %>
+</section>
