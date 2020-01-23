@@ -20,8 +20,8 @@ module IssueDataFetcher
                 " ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
   
   # Get issues of EVM for PV and EV.
-  # Include descendants project.require inputted start date and due date.
-  # for use calculate PV and EV.a
+  # Include descendants project. Rerequires inputted start date and due date.
+  # for use calculate PV and EV.
   #
   # @param [object] proj project object
   # @param [hush] condition fieldname(symbol) conditon value

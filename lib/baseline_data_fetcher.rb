@@ -1,3 +1,7 @@
+# Baseline data fetcher
+# This module is a function to collect baseline records necessary to calculate EVM
+# It also collects a selectable list that is optionally specified
+#
 module BaselineDataFetcher
   # Get Issues of Baseline.(start date, due date, estimated hours)
   # When baseline_id is nil,latest baseline of project.

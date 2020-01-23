@@ -1,4 +1,4 @@
-# evms helper
+# version helper
 module EvmversionsHelper
   include CommonHelper
 end
