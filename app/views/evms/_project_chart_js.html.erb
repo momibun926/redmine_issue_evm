@@ -77,6 +77,39 @@ var myChart = new Chart(ctx, {
             pointRadius: 0,
             backgroundColor: "Navy",
             fill: false
+        },{
+            label: "EAC",
+            spanGaps: true,
+            data: <%= chart_data[:eac_top_line].to_h.values.to_s.delete("nil") %>,
+            borderDash: [8, 2],
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Navy",
+            pointRadius: 0,
+            backgroundColor: "Navy",
+            fill: false
+        },{
+            label: "AC Forecast",
+            spanGaps: true,
+            data: <%= chart_data[:actual_cost_forecast].to_h.values.to_s.delete("nil") %>,
+            borderDash: [8, 2],
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Orange",
+            pointRadius: 0,
+            backgroundColor: "Orange",
+            fill: false
+        },{
+            label: "EV Forecast",
+            spanGaps: true,
+            data: <%= chart_data[:earned_value_forecast].to_h.values.to_s.delete("nil") %>,
+            borderDash: [8, 2],
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "limegreen",
+            pointRadius: 0,
+            backgroundColor: "limegreen",
+            fill: false
         }]
     },
     options: {

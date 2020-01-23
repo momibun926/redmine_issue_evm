@@ -151,6 +151,9 @@ module ChartDataMaker
     chart_data[:planned_value_daily] = convert_to_chart chartjs_planned_value_daily
     chart_data[:baseline_value] = convert_to_chart chartjs_baseline_value unless evm.pv_baseline.nil?
     chart_data[:bac_top_line] = convert_to_chart chartjs_bac_top_line
+    chart_data[:eac_top_line] = convert_to_chart chartjs_eac_top_line
+    chart_data[:actual_cost_forecast] = convert_to_chart chartjs_actual_cost_forecast
+    chart_data[:earned_value_forecast] = convert_to_chart chartjs_earned_value_forecast
     chart_data
   end
   # Create data for display performance chart.
