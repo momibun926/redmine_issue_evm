@@ -43,7 +43,7 @@ class EvmsController < BaseevmController
                                       actual_cost,
                                       @cfg_param
       # create chart data
-      @evm_chart_data = evm_chart_data @project_evm
+      @evm_chart_data = evm_chart_data_for_chartjs @project_evm
       # create performance chart data
       @performance_chart_data = performance_chart_data @project_evm
       # incomplete issues

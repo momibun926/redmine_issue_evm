@@ -11,33 +11,71 @@
   </section>
 </div>
 <%= chart_data[:planned_value].to_h.keys %>
+<%= chart_data[:earned_value].to_h.values.to_s.delete("nil") %>
 <canvas id="myChart" width="900" height="400"></canvas>
 <script>
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: <%= chart_data[:planned_value].to_h.keys %>,
+        labels: <%= raw chart_data[:planned_value].to_h.keys %>,
         datasets: [{
             label: "PV",
             spanGaps: true,
-            data: <%= chart_data[:planned_value].to_h.values %>,
-            backgroundColor: 'rgba(255, 99, 132, 1.0)',
-            borderColor: 'rgba(100, 50, 132, 1.0)',
+            data: <%= chart_data[:planned_value].to_h.values.to_s.delete("nil") %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "dodgerblue",
+            pointRadius: 0,
+            backgroundColor: "dodgerblue",
             fill: false
         },{
             label: "EV",
             spanGaps: true,
-            data: [2,,,,5,,,,60],
-            backgroundColor: 'rgba(255, 99, 132, 1.0)',
-            borderColor: 'rgba(0, 50, 132, 1.0)',
+            data: <%= chart_data[:earned_value].to_h.values.to_s.delete("nil") %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "limegreen",
+            pointRadius: 0,
+            backgroundColor: "limegreen",
             fill: false
         },{
             label: "AC",
             spanGaps: true,
-            data: <%= chart_data[:actual_cost].to_h.values %>,
-            backgroundColor: 'rgba(255, 99, 132, 1.0)',
-            borderColor: 'rgba(255, 50, 132, 1.0)',
+            data: <%= chart_data[:actual_cost].to_h.values.to_s.delete("nil") %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Orange",
+            pointRadius: 0,
+            backgroundColor: "Orange",
+            fill: false
+        },{
+            label: "PV Daily",
+            type: 'bar',
+            data: <%= chart_data[:planned_value_daily].to_h.values.to_s.delete("nil") %>,
+            borderWidth: 2,
+            borderColor: "Orange",
+            backgroundColor: "Orange"
+        },{
+            label: "Baseline",
+            spanGaps: true,
+            data: <%= chart_data[:baseline_value].to_h.values.to_s.delete("nil") %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Navy",
+            pointRadius: 0,
+            backgroundColor: "Navy",
+            fill: false
+        },{
+            label: "BAC",
+            spanGaps: true,
+            data: <%= chart_data[:bac_top_line].to_h.values.to_s.delete("nil") %>,
+            borderDash: [8, 2],
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Navy",
+            pointRadius: 0,
+            backgroundColor: "Navy",
             fill: false
         }]
     },
