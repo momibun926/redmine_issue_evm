@@ -1,4 +1,4 @@
-# evms helper
+# parent issue helper
 module EvmparentissuesHelper
   include CommonHelper
 

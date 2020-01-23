@@ -1,4 +1,7 @@
 # Chart data maker
+# This module is a function of create data to display chart.
+# Requires CalculateEvm class.
+#
 module ChartDataMaker
   # Create data for display chart.
   #
