@@ -10,3 +10,51 @@
     <br>
   </section>
 </div>
+<%= chart_data[:planned_value].to_h.keys %>
+<canvas id="myChart" width="900" height="400"></canvas>
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: <%= chart_data[:planned_value].to_h.keys %>,
+        datasets: [{
+            label: "PV",
+            spanGaps: true,
+            data: <%= chart_data[:planned_value].to_h.values %>,
+            backgroundColor: 'rgba(255, 99, 132, 1.0)',
+            borderColor: 'rgba(100, 50, 132, 1.0)',
+            fill: false
+        },{
+            label: "EV",
+            spanGaps: true,
+            data: [2,,,,5,,,,60],
+            backgroundColor: 'rgba(255, 99, 132, 1.0)',
+            borderColor: 'rgba(0, 50, 132, 1.0)',
+            fill: false
+        },{
+            label: "AC",
+            spanGaps: true,
+            data: <%= chart_data[:actual_cost].to_h.values %>,
+            backgroundColor: 'rgba(255, 99, 132, 1.0)',
+            borderColor: 'rgba(255, 50, 132, 1.0)',
+            fill: false
+        }]
+    },
+    options: {
+        title:  {
+            display: true,
+            text: <%= raw project_name.to_json %>
+        },
+        scales: {
+            xAxes: [{
+                type: 'time',
+                distribution: 'linear',
+                ticks: {
+                    source: 'data'
+                }
+            }]
+        }
+    }
+});
+</script>
