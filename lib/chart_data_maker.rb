@@ -3,67 +3,6 @@
 # Requires CalculateEvm class.
 #
 module ChartDataMaker
-  # Create data for display chart.
-  #
-  # 1. basis EVM data for chart
-  # 2. You chseck forecast option is on, add follows data
-  # * BAC top line
-  # * EAC top line
-  # * forecast AC (forecast finish date)
-  # * forecast EV (forecast finish date)
-  #
-  # @param [object] evm calculation EVN object
-  # @return [hash] chart data
-  def evm_chart_data(evm)
-    # overdue?
-    if evm.pv_actual.state.equal?(:overdue)
-      planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date < evm.basis_date }
-    else
-      planned_value = evm.pv_actual.cumulative_pv
-    end
-    if evm.pv_baseline.nil?
-    else
-      if evm.pv_baseline.state.equal?(:overdue)
-        baseline_value = evm.pv_baseline.cumulative_pv.select { |date, _value| date < evm.basis_date }
-      else
-        baseline_value = evm.pv_baseline.cumulative_pv
-      end
-    end
-    chart_data = {}
-    chart_data[:planned_value] = convert_to_chart planned_value
-    chart_data[:actual_cost] = convert_to_chart evm.ac.cumulative_ac
-    chart_data[:earned_value] = convert_to_chart evm.ev.cumulative_ev
-    chart_data[:baseline_value] = convert_to_chart baseline_value unless evm.pv_baseline.nil?
-    chart_data[:planned_value_daily] = convert_to_chart evm.pv.daily_pv
-    # forecast
-    if evm.forecast
-      # for chart
-      chart_minimum_date = [evm.pv.start_date, evm.ev.min_date, evm.ac.min_date].min
-      chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date, evm.forecast_finish_date].max
-      # top line of BAC
-      bac_top_line = {}
-      bac_top_line[chart_minimum_date] = evm.bac
-      bac_top_line[chart_maximum_date] = evm.bac
-      chart_data[:bac_top_line] = convert_to_chart bac_top_line
-      # top line of EAC
-      eac_top_line = {}
-      eac_top_line[chart_minimum_date] = evm.eac
-      eac_top_line[chart_maximum_date] = evm.eac
-      chart_data[:eac_top_line] = convert_to_chart eac_top_line
-      # forecast line of AC
-      actual_cost_forecast = {}
-      actual_cost_forecast[evm.basis_date] = evm.today_ac
-      actual_cost_forecast[evm.forecast_finish_date] = evm.eac
-      chart_data[:actual_cost_forecast] = convert_to_chart actual_cost_forecast
-      # forecast line of EV
-      earned_value_forecast = {}
-      earned_value_forecast[evm.basis_date] = evm.today_ev
-      earned_value_forecast[evm.forecast_finish_date] = evm.bac 
-      chart_data[:earned_value_forecast] = convert_to_chart earned_value_forecast
-    end
-    chart_data
-  end
-
   # Create data for display chart for chartjs.
   #
   # 1. basis EVM data for chart
@@ -76,6 +15,10 @@ module ChartDataMaker
   # @param [object] evm calculation EVN object
   # @return [hash] chart data
   def evm_chart_data_for_chartjs(evm)
+    
+    chart_minimum_date = [evm.pv.start_date, evm.ev.min_date, evm.ac.min_date].min
+    chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date, evm.forecast_finish_date].max
+
     # overdue?
     if evm.pv_actual.state.equal?(:overdue)
       planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date < evm.basis_date }
@@ -90,15 +33,6 @@ module ChartDataMaker
         baseline_value = evm.pv_baseline.cumulative_pv
       end
     end
-    chart_data = {}
-    chart_data[:planned_value] = convert_to_chart planned_value
-    chart_data[:actual_cost] = convert_to_chart evm.ac.cumulative_ac
-    chart_data[:earned_value] = convert_to_chart evm.ev.cumulative_ev
-    chart_data[:baseline_value] = convert_to_chart baseline_value unless evm.pv_baseline.nil?
-    chart_data[:planned_value_daily] = convert_to_chart evm.pv.daily_pv
-
-    chart_minimum_date = [evm.pv.start_date, evm.ev.min_date, evm.ac.min_date].min
-    chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date, evm.forecast_finish_date].max
 
     # forecast
     if evm.forecast
@@ -107,53 +41,55 @@ module ChartDataMaker
       bac_top_line = {}
       bac_top_line[chart_minimum_date] = evm.bac
       bac_top_line[chart_maximum_date] = evm.bac
-      chart_data[:bac_top_line] = convert_to_chart bac_top_line
       # top line of EAC
       eac_top_line = {}
       eac_top_line[chart_minimum_date] = evm.eac
       eac_top_line[chart_maximum_date] = evm.eac
-      chart_data[:eac_top_line] = convert_to_chart eac_top_line
       # forecast line of AC
       actual_cost_forecast = {}
       actual_cost_forecast[evm.basis_date] = evm.today_ac
       actual_cost_forecast[evm.forecast_finish_date] = evm.eac
-      chart_data[:actual_cost_forecast] = convert_to_chart actual_cost_forecast
       # forecast line of EV
       earned_value_forecast = {}
       earned_value_forecast[evm.basis_date] = evm.today_ev
       earned_value_forecast[evm.forecast_finish_date] = evm.bac 
-      chart_data[:earned_value_forecast] = convert_to_chart earned_value_forecast
     end
-    chartjs_planned_value = {}
-    chartjs_actual_cost = {}
-    chartjs_earned_value = {}
-    chartjs_baseline_value = {}
-    chartjs_planned_value_daily = {}
-    chartjs_bac_top_line = {}
-    chartjs_eac_top_line = {}
-    chartjs_actual_cost_forecast = {}
-    chartjs_earned_value_forecast = {}
+    
+    labels = []
+    plotdata_planned_value = []
+    plotdata_actual_cost = []
+    plotdata_earned_value = []
+    plotdata_baseline_value = []
+    plotdata_planned_value_daily = []
+    plotdata_bac_top_line = []
+    plotdata_eac_top_line = []
+    plotdata_actual_cost_forecast = []
+    plotdata_earned_value_forecast = []
 
     for chart_date in chart_minimum_date..chart_maximum_date do
-      chartjs_planned_value[chart_date] = planned_value[chart_date]
-      chartjs_actual_cost[chart_date] = evm.ac.cumulative_ac[chart_date]
-      chartjs_earned_value[chart_date] = evm.ev.cumulative_ev[chart_date]
-      chartjs_baseline_value[chart_date] = baseline_value[chart_date] unless evm.pv_baseline.nil?
-      chartjs_planned_value_daily[chart_date] = evm.pv.daily_pv[chart_date]
-      chartjs_bac_top_line[chart_date] = bac_top_line[chart_date]
-      chartjs_eac_top_line[chart_date] = eac_top_line[chart_date]
-      chartjs_actual_cost_forecast[chart_date] = actual_cost_forecast[chart_date]
-      chartjs_earned_value_forecast[chart_date] = earned_value_forecast[chart_date]
+      labels << chart_date.to_time(:local).to_i * 1000
+      plotdata_planned_value << planned_value[chart_date]
+      plotdata_actual_cost << evm.ac.cumulative_ac[chart_date]
+      plotdata_earned_value << evm.ev.cumulative_ev[chart_date]
+      plotdata_baseline_value << baseline_value[chart_date] unless evm.pv_baseline.nil?
+      plotdata_planned_value_daily << evm.pv.daily_pv[chart_date]
+      plotdata_bac_top_line << bac_top_line[chart_date]
+      plotdata_eac_top_line << eac_top_line[chart_date]
+      plotdata_actual_cost_forecast << actual_cost_forecast[chart_date]
+      plotdata_earned_value_forecast << earned_value_forecast[chart_date]
     end
-    chart_data[:planned_value] = convert_to_chart chartjs_planned_value
-    chart_data[:actual_cost] = convert_to_chart chartjs_actual_cost
-    chart_data[:earned_value] = convert_to_chart chartjs_earned_value
-    chart_data[:planned_value_daily] = convert_to_chart chartjs_planned_value_daily
-    chart_data[:baseline_value] = convert_to_chart chartjs_baseline_value unless evm.pv_baseline.nil?
-    chart_data[:bac_top_line] = convert_to_chart chartjs_bac_top_line
-    chart_data[:eac_top_line] = convert_to_chart chartjs_eac_top_line
-    chart_data[:actual_cost_forecast] = convert_to_chart chartjs_actual_cost_forecast
-    chart_data[:earned_value_forecast] = convert_to_chart chartjs_earned_value_forecast
+
+    chart_data = {}
+    chart_data[:labels] = labels
+    chart_data[:pv] = plotdata_planned_value.to_s.delete("nil")
+    chart_data[:ac] = plotdata_actual_cost.to_s.delete("nil")
+    chart_data[:ev] = plotdata_earned_value.to_s.delete("nil")
+    chart_data[:pv_daily] = plotdata_planned_value_daily.to_s.delete("nil")
+    chart_data[:baseline] = plotdata_baseline_value.to_s.delete("nil") unless evm.pv_baseline.nil?
+    chart_data[:bac] = plotdata_bac_top_line.to_s.delete("nil")
+    chart_data[:eac] = plotdata_eac_top_line.to_s.delete("nil")
+    chart_data[:ac_forecast] = plotdata_actual_cost_forecast.to_s.delete("nil")
+    chart_data[:ev_forecast] = plotdata_earned_value_forecast.to_s.delete("nil")
     chart_data
   end
   # Create data for display performance chart.
@@ -170,17 +106,20 @@ module ChartDataMaker
     performance_max_date = [new_ev.keys.max,
                             new_ac.keys.max,
                             new_pv.keys.max].min
-    spi = {}
-    cpi = {}
-    cr = {}
+    labels = []
+    spi = []
+    cpi = []
+    cr = []
     (performance_min_date..performance_max_date).each do |date|
-      spi[date] = (new_ev[date] / new_pv[date]).round(2)
-      cpi[date] = (new_ev[date] / new_ac[date]).round(2)
-      cr[date] = (spi[date] * cpi[date]).round(2)
+      labels << date.to_time(:local).to_i * 1000
+      spi << (new_ev[date] / new_pv[date]).round(2)
+      cpi << (new_ev[date] / new_ac[date]).round(2)
+      cr << ((new_ev[date] / new_pv[date]).round(2) * (new_ev[date] / new_ac[date]).round(2)).round(2)
     end
-    chart_data[:spi] = convert_to_chart(spi)
-    chart_data[:cpi] = convert_to_chart(cpi)
-    chart_data[:cr] = convert_to_chart(cr)
+    chart_data[:labels] = labels
+    chart_data[:spi] = spi.to_s.delete("nil")
+    chart_data[:cpi] = cpi.to_s.delete("nil")
+    chart_data[:cr] = cr.to_s.delete("nil")
     chart_data
   end
 

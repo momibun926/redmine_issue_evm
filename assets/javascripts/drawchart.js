@@ -1,3 +1,115 @@
+function drawChartjs(rrr){
+    var plotData = rrr
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: plotData.labels,
+            datasets: [{
+                label: "PV",
+                spanGaps: true,
+                data: [plotData.pv],
+                borderWidth: 2,
+                lineTension: 0,
+                borderColor: "dodgerblue",
+                pointRadius: 0,
+                backgroundColor: "dodgerblue",
+                fill: false
+            },{
+                label: "EV",
+                spanGaps: true,
+                data: [plotData.ev],
+                borderWidth: 2,
+                lineTension: 0,
+                borderColor: "limegreen",
+                pointRadius: 0,
+                backgroundColor: "limegreen",
+                fill: false
+            },{
+                label: "AC",
+                spanGaps: true,
+                data: [plotData.ac],
+                borderWidth: 2,
+                lineTension: 0,
+                borderColor: "Orange",
+                pointRadius: 0,
+                backgroundColor: "Orange",
+                fill: false
+            },{
+                label: "PV Daily",
+                data: [plotData.pv_daily],
+                borderWidth: 2,
+                borderColor: "Orange",
+                backgroundColor: "Orange"
+            },{
+                label: "Baseline",
+                spanGaps: true,
+                data: [plotData.baseline],
+                borderWidth: 2,
+                lineTension: 0,
+                borderColor: "Navy",
+                pointRadius: 0,
+                backgroundColor: "Navy",
+                fill: false
+            },{
+                label: "BAC",
+                spanGaps: true,
+                data: [plotData.bac],
+                borderDash: [8, 2],
+                borderWidth: 2,
+                lineTension: 0,
+                borderColor: "Navy",
+                pointRadius: 0,
+                backgroundColor: "Navy",
+                fill: false
+            },{
+                label: "EAC",
+                spanGaps: true,
+                data: [plotData.eac],
+                borderDash: [8, 2],
+                borderWidth: 2,
+                lineTension: 0,
+                borderColor: "Navy",
+                pointRadius: 0,
+                backgroundColor: "Navy",
+                fill: false
+            },{
+                label: "AC Forecast",
+                spanGaps: true,
+                data: [plotData.ac_forecast],
+                borderDash: [8, 2],
+                borderWidth: 2,
+                lineTension: 0,
+                borderColor: "Orange",
+                pointRadius: 0,
+                backgroundColor: "Orange",
+                fill: false
+            },{
+                label: "EV Forecast",
+                spanGaps: true,
+                data: [plotData.ev_forecast],
+                borderDash: [8, 2],
+                borderWidth: 2,
+                lineTension: 0,
+                borderColor: "limegreen",
+                pointRadius: 0,
+                backgroundColor: "limegreen",
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'linear',
+                    ticks: {
+                        source: 'data'
+                    }
+                }]
+            }
+        }
+    });
+}
+
 function drawProjectChart(dataToChart, placeholder, nowdate, graphtitle){
     var data = dataToChart;
     var chartOptions = {

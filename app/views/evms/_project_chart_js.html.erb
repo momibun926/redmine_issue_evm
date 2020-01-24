@@ -1,28 +1,15 @@
-<div id="evm-graph-lines">
-  <section>
-    <script>
-      var actualWeek = <%= basis_date.to_time.to_i * 1000 %>;
-      var graphTitleMain = <%= raw project_name.to_json %> ;
-      var projectChartData = <%= raw chart_data.to_json %>;
-      var projectChartHtmlElement = "evm-graph-lines";
-      drawProjectChart(projectChartData, projectChartHtmlElement, actualWeek, graphTitleMain);
-    </script>
-    <br>
-  </section>
-</div>
-<%= chart_data[:planned_value].to_h.keys %>
-<%= chart_data[:earned_value].to_h.values.to_s.delete("nil") %>
-<canvas id="myChart" width="900" height="400"></canvas>
+<canvas id="myChart" width="900" height="300"></canvas>
 <script>
+var data = <%= raw chart_data.to_json %>;
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: <%= raw chart_data[:planned_value].to_h.keys %>,
+        labels: <%= chart_data[:labels] %>,
         datasets: [{
             label: "PV",
             spanGaps: true,
-            data: <%= chart_data[:planned_value].to_h.values.to_s.delete("nil") %>,
+            data: <%= chart_data[:pv] %>,
             borderWidth: 2,
             lineTension: 0,
             borderColor: "dodgerblue",
@@ -32,7 +19,7 @@ var myChart = new Chart(ctx, {
         },{
             label: "EV",
             spanGaps: true,
-            data: <%= chart_data[:earned_value].to_h.values.to_s.delete("nil") %>,
+            data: <%= chart_data[:ev] %>,
             borderWidth: 2,
             lineTension: 0,
             borderColor: "limegreen",
@@ -42,7 +29,7 @@ var myChart = new Chart(ctx, {
         },{
             label: "AC",
             spanGaps: true,
-            data: <%= chart_data[:actual_cost].to_h.values.to_s.delete("nil") %>,
+            data: <%= chart_data[:ac] %>,
             borderWidth: 2,
             lineTension: 0,
             borderColor: "Orange",
@@ -52,14 +39,14 @@ var myChart = new Chart(ctx, {
         },{
             label: "PV Daily",
             type: 'bar',
-            data: <%= chart_data[:planned_value_daily].to_h.values.to_s.delete("nil") %>,
+            data: <%= chart_data[:pv_daily] %>,
             borderWidth: 2,
             borderColor: "Orange",
             backgroundColor: "Orange"
         },{
             label: "Baseline",
             spanGaps: true,
-            data: <%= chart_data[:baseline_value].to_h.values.to_s.delete("nil") %>,
+            data: <%= chart_data[:baseline] %>,
             borderWidth: 2,
             lineTension: 0,
             borderColor: "Navy",
@@ -69,7 +56,7 @@ var myChart = new Chart(ctx, {
         },{
             label: "BAC",
             spanGaps: true,
-            data: <%= chart_data[:bac_top_line].to_h.values.to_s.delete("nil") %>,
+            data: <%= chart_data[:bac] %>,
             borderDash: [8, 2],
             borderWidth: 2,
             lineTension: 0,
@@ -80,7 +67,7 @@ var myChart = new Chart(ctx, {
         },{
             label: "EAC",
             spanGaps: true,
-            data: <%= chart_data[:eac_top_line].to_h.values.to_s.delete("nil") %>,
+            data: <%= chart_data[:eac] %>,
             borderDash: [8, 2],
             borderWidth: 2,
             lineTension: 0,
@@ -91,7 +78,7 @@ var myChart = new Chart(ctx, {
         },{
             label: "AC Forecast",
             spanGaps: true,
-            data: <%= chart_data[:actual_cost_forecast].to_h.values.to_s.delete("nil") %>,
+            data: <%= chart_data[:ac_forecast] %>,
             borderDash: [8, 2],
             borderWidth: 2,
             lineTension: 0,
@@ -102,7 +89,7 @@ var myChart = new Chart(ctx, {
         },{
             label: "EV Forecast",
             spanGaps: true,
-            data: <%= chart_data[:earned_value_forecast].to_h.values.to_s.delete("nil") %>,
+            data: <%= chart_data[:ev_forecast] %>,
             borderDash: [8, 2],
             borderWidth: 2,
             lineTension: 0,

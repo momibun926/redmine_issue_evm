@@ -58,7 +58,7 @@ class EvmassigneesController < BaseevmController
       # description
       @assignee_evm[id].description = assignee_name(id)
       # create chart data
-      @assignee_evm_chart[id] = evm_chart_data @assignee_evm[id]
+      @assignee_evm_chart[id] = evm_chart_data_for_chartjs @assignee_evm[id]
     end
   end
 end
