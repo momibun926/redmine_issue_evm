@@ -1,11 +1,71 @@
-<div id="evm-graph-lines-performance">
-  <section>
-    <script>
-      var actualWeek = <%= basis_date.to_time.to_i * 1000 %>;
-      var graphTitleMain = <%= raw project_name.to_json %> ;
-      var performanceChartData = <%= raw performance_chart_data.to_json %>;
-      var performanceChartHtmlElement = "evm-graph-lines-performance";
-      drawPerformanceChart(performanceChartData, performanceChartHtmlElement, graphTitleMain);
-    </script>
-  </section>
-</div>
+<canvas id="ChartPerformance" width="900" height="200"></canvas>
+<script>
+var ctx = document.getElementById("ChartPerformance").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: <%= performance_chart_data[:labels] %>,
+        datasets: [{
+            label: "SPI",
+            spanGaps: true,
+            data: <%= performance_chart_data[:spi] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "dodgerblue",
+            pointRadius: 0,
+            backgroundColor: "dodgerblue",
+            fill: false
+        },{
+            label: "CPI",
+            spanGaps: true,
+            data: <%= performance_chart_data[:cpi] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Orange",
+            pointRadius: 0,
+            backgroundColor: "Orange",
+            fill: false
+        },{
+            label: "CR",
+            spanGaps: true,
+            data: <%= performance_chart_data[:cr] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "darkred",
+            pointRadius: 0,
+            backgroundColor: "darkred",
+            fill: false
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                type: "time",
+                time: {
+                    displayFormats: {
+                        unit: "day",
+                        day: "MMM D"
+                    }
+                },
+                distribution: "linear",
+                ticks: {
+                    source: "auto"
+                },
+                stacked: false,
+                gridLines: {
+                    display: false
+                }                
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false
+                }
+            }]            
+        },
+        legend: {
+            display: true,
+            position: "bottom"
+        }
+    }
+});
+</script>

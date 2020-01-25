@@ -1,12 +1,134 @@
-<div id="evm-graph-lines">
-  <section>
-    <script>
-      var actualWeek = <%= basis_date.to_time.to_i * 1000 %>;
-      var graphTitleMain = <%= raw project_name.to_json %> ;
-      var projectChartData = <%= raw chart_data.to_json %>;
-      var projectChartHtmlElement = "evm-graph-lines";
-      drawProjectChart(projectChartData, projectChartHtmlElement, actualWeek, graphTitleMain);
-    </script>
-    <br>
-  </section>
-</div>
+<canvas id="ChartProject" width="900" height="200"></canvas>
+<script>
+var data = <%= raw chart_data.to_json %>;
+var ctx = document.getElementById("ChartProject").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: <%= chart_data[:labels] %>,
+        datasets: [{
+            label: "PV",
+            spanGaps: true,
+            data: <%= chart_data[:pv] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "dodgerblue",
+            pointRadius: 0,
+            backgroundColor: "dodgerblue",
+            fill: false
+        },{
+            label: "EV",
+            spanGaps: true,
+            data: <%= chart_data[:ev] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "limegreen",
+            pointRadius: 0,
+            backgroundColor: "limegreen",
+            fill: false
+        },{
+            label: "AC",
+            spanGaps: true,
+            data: <%= chart_data[:ac] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Orange",
+            pointRadius: 0,
+            backgroundColor: "Orange",
+            fill: false
+        },{
+            label: "Baseline",
+            spanGaps: true,
+            data: <%= chart_data[:baseline] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Navy",
+            pointRadius: 0,
+            backgroundColor: "Navy",
+            fill: false
+        },{
+            label: "BAC",
+            spanGaps: true,
+            data: <%= chart_data[:bac] %>,
+            borderDash: [5, 2],
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "dodgerblue",
+            pointRadius: 0,
+            backgroundColor: "dodgerblue",
+            fill: false
+        },{
+            label: "EAC",
+            spanGaps: true,
+            data: <%= chart_data[:eac] %>,
+            borderDash: [5, 2],
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Orange",
+            pointRadius: 0,
+            backgroundColor: "Orange",
+            fill: false
+        },{
+            label: "AC Forecast",
+            spanGaps: true,
+            data: <%= chart_data[:ac_forecast] %>,
+            borderDash: [2, 2],
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Orange",
+            pointRadius: 0,
+            backgroundColor: "Orange",
+            fill: false
+        },{
+            label: "EV Forecast",
+            spanGaps: true,
+            data: <%= chart_data[:ev_forecast] %>,
+            borderDash: [2, 2],
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "limegreen",
+            pointRadius: 0,
+            backgroundColor: "limegreen",
+            fill: false
+        },{
+            label: "PV Daily",
+            data: <%= chart_data[:pv_daily] %>,
+            steppedLine: "true",
+            borderWidth: 1,
+            borderColor: "lightskyblue",
+            pointRadius: 0,
+            backgroundColor: "lightskyblue"
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                type: "time",
+                time: {
+                    displayFormats: {
+                        unit: "day",
+                        day: "MMM D"
+                    }
+                },
+                distribution: "linear",
+                ticks: {
+                    source: "auto"
+                },
+                stacked: false,
+                gridLines: {
+                    display: false
+                }                
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false
+                }
+            }]            
+        },
+        legend: {
+            display: true,
+            position: "bottom"
+        }
+    }
+});
+</script>

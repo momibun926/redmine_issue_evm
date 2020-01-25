@@ -5,10 +5,16 @@
 チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。期日が入力されず、ヴァージョンの期日がある場合は、期日としてヴァージョンの期日を利用します。
 
 # バージョン
-4.6.0
+5.0.0
 
 # 動作環境
 Redmine 4.0.0 以上
+
+> *Highchartのグラフ表示が好きな方へ*
+>
+> Version5.0からChart.jsを使ってグラフの表示を行っています。
+> Highchartsのグラフ表示が好きな殻は下記のバージョンをお使いください。
+> https://github.com/momibun926/redmine_issue_evm/releases/tag/4.6
 
 > *redmine3.4.xをお使いの方へ*
 >
@@ -127,9 +133,7 @@ __EVMの計算例__
 
 # チャートの表示
 計算されたEVM値を元に、以下のチャートを表示します。
-チャートの表示には、HigthChartを利用しています。ライセンスについては以下参照。
-商用目的では利用のできないライセンスなので注意してください。
-https://creativecommons.org/licenses/by-nc/3.0/
+チャートの表示には、Chart.jsを利用しています。Redmineに同梱されているものを利用しています。
 
 **メインチャート**
 
@@ -195,9 +199,9 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ![evm sample screenshot](./images/screenshot_common_setting.png "plugin　setting")
 
 # 開発環境
-*  Redmine version                4.0.5.stable
+*  Redmine version                4.1.0.stable
 *  Ruby version                   2.5.7-p206 (2019-10-01) [x64-mingw32]
-*  Rails version                  5.2.3
+*  Rails version                  5.2.4.1
 *  Environment                    production
 *  Database adapter               Mysql2
 *  Mailer queue                   ActiveJob::QueueAdapters::AsyncAdapter

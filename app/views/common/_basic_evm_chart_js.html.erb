@@ -1,9 +1,69 @@
-<div id="evm-graph-<%= id %>">
-  <script>
-    var actualWeek = <%= basis_date.to_time.to_i * 1000 %>;
-    var graphTitleMain = <%= raw tittle.to_json %>;
-    var chartData = <%= raw chart_data.to_json %>;
-    var chartHtmlElement = "evm-graph-<%= id %>";
-    drawOtherEvmChart(chartData, chartHtmlElement, actualWeek, graphTitleMain);
-  </script>
-</div>
+<canvas id="chartid<%= id %>" width="900" height="200"></canvas>
+<script>
+var ctx = document.getElementById("chartid<%= id %>").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: <%= chart_data[:labels] %>,
+        datasets: [{
+            label: "PV",
+            spanGaps: true,
+            data: <%= chart_data[:pv] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "dodgerblue",
+            pointRadius: 0,
+            backgroundColor: "dodgerblue",
+            fill: false
+        },{
+            label: "EV",
+            spanGaps: true,
+            data: <%= chart_data[:ev] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "limegreen",
+            pointRadius: 0,
+            backgroundColor: "limegreen",
+            fill: false
+        },{
+            label: "AC",
+            spanGaps: true,
+            data: <%= chart_data[:ac] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Orange",
+            pointRadius: 0,
+            backgroundColor: "Orange",
+            fill: false
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                type: "time",
+                time: {
+                    displayFormats: {
+                        day: "MMM D"
+                    }
+                },
+                distribution: "linear",
+                ticks: {
+                    source: "auto"
+                },
+                gridLines: {
+                    display: false
+                }                
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false
+                }
+            }]            
+        },
+        legend: {
+            display: true,
+            position: "bottom"
+        }
+    }
+});
+</script>
