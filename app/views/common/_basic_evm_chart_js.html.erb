@@ -1,10 +1,8 @@
-<canvas id="myChart" width="900" height="250"></canvas>
-<%= raw chart_data.to_json %>
+<canvas id="chartid<%= id %>" width="900" height="200"></canvas>
 <script>
-var data = <%= raw chart_data.to_json %>;
-var ctx = document.getElementById("myChart").getContext('2d');
+var ctx = document.getElementById("chartid<%= id %>").getContext("2d");
 var myChart = new Chart(ctx, {
-    type: 'line',
+    type: "line",
     data: {
         labels: <%= chart_data[:labels] %>,
         datasets: [{
@@ -42,12 +40,29 @@ var myChart = new Chart(ctx, {
     options: {
         scales: {
             xAxes: [{
-                type: 'time',
-                distribution: 'linear',
+                type: "time",
+                time: {
+                    displayFormats: {
+                        day: "MMM D"
+                    }
+                },
+                distribution: "linear",
                 ticks: {
-                    source: 'data'
+                    source: "auto"
+                },
+                gridLines: {
+                    display: false
+                }                
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false
                 }
-            }]
+            }]            
+        },
+        legend: {
+            display: true,
+            position: "bottom"
         }
     }
 });

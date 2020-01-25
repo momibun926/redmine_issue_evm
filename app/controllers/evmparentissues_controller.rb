@@ -51,7 +51,7 @@ class EvmparentissuesController < BaseevmController
       # description
       @parent_issue_evm[issue_id].description = Issue.find(issue_id).subject
       # create chart data
-      @parent_issue_evm_chart[issue_id] = evm_chart_data_for_chartjs @parent_issue_evm[issue_id]
+      @parent_issue_evm_chart[issue_id] = evm_chart_data @parent_issue_evm[issue_id]
     end
   end
 end

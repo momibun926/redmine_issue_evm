@@ -36,7 +36,7 @@ class EvmtrackersController < BaseevmController
       # description
       @tracker_evm.description = Tracker.where(id: params[:selected_tracker_id]).pluck(:name).join(" ")
       # create chart data
-      @tracker_evm_chart = evm_chart_data_for_chartjs @tracker_evm
+      @tracker_evm_chart = evm_chart_data @tracker_evm
     end
   end
 end

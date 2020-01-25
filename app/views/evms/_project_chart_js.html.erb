@@ -1,9 +1,9 @@
-<canvas id="myChart" width="900" height="300"></canvas>
+<canvas id="ChartProject" width="900" height="200"></canvas>
 <script>
 var data = <%= raw chart_data.to_json %>;
-var ctx = document.getElementById("myChart").getContext('2d');
+var ctx = document.getElementById("ChartProject").getContext("2d");
 var myChart = new Chart(ctx, {
-    type: 'line',
+    type: "line",
     data: {
         labels: <%= chart_data[:labels] %>,
         datasets: [{
@@ -37,13 +37,6 @@ var myChart = new Chart(ctx, {
             backgroundColor: "Orange",
             fill: false
         },{
-            label: "PV Daily",
-            type: 'bar',
-            data: <%= chart_data[:pv_daily] %>,
-            borderWidth: 2,
-            borderColor: "Orange",
-            backgroundColor: "Orange"
-        },{
             label: "Baseline",
             spanGaps: true,
             data: <%= chart_data[:baseline] %>,
@@ -57,29 +50,29 @@ var myChart = new Chart(ctx, {
             label: "BAC",
             spanGaps: true,
             data: <%= chart_data[:bac] %>,
-            borderDash: [8, 2],
+            borderDash: [5, 2],
             borderWidth: 2,
             lineTension: 0,
-            borderColor: "Navy",
+            borderColor: "dodgerblue",
             pointRadius: 0,
-            backgroundColor: "Navy",
+            backgroundColor: "dodgerblue",
             fill: false
         },{
             label: "EAC",
             spanGaps: true,
             data: <%= chart_data[:eac] %>,
-            borderDash: [8, 2],
+            borderDash: [5, 2],
             borderWidth: 2,
             lineTension: 0,
-            borderColor: "Navy",
+            borderColor: "Orange",
             pointRadius: 0,
-            backgroundColor: "Navy",
+            backgroundColor: "Orange",
             fill: false
         },{
             label: "AC Forecast",
             spanGaps: true,
             data: <%= chart_data[:ac_forecast] %>,
-            borderDash: [8, 2],
+            borderDash: [2, 2],
             borderWidth: 2,
             lineTension: 0,
             borderColor: "Orange",
@@ -90,28 +83,51 @@ var myChart = new Chart(ctx, {
             label: "EV Forecast",
             spanGaps: true,
             data: <%= chart_data[:ev_forecast] %>,
-            borderDash: [8, 2],
+            borderDash: [2, 2],
             borderWidth: 2,
             lineTension: 0,
             borderColor: "limegreen",
             pointRadius: 0,
             backgroundColor: "limegreen",
             fill: false
+        },{
+            label: "PV Daily",
+            data: <%= chart_data[:pv_daily] %>,
+            steppedLine: "true",
+            borderWidth: 1,
+            borderColor: "lightskyblue",
+            pointRadius: 0,
+            backgroundColor: "lightskyblue"
         }]
     },
     options: {
-        title:  {
-            display: true,
-            text: <%= raw project_name.to_json %>
-        },
         scales: {
             xAxes: [{
-                type: 'time',
-                distribution: 'linear',
+                type: "time",
+                time: {
+                    displayFormats: {
+                        unit: "day",
+                        day: "MMM D"
+                    }
+                },
+                distribution: "linear",
                 ticks: {
-                    source: 'data'
+                    source: "auto"
+                },
+                stacked: false,
+                gridLines: {
+                    display: false
+                }                
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false
                 }
-            }]
+            }]            
+        },
+        legend: {
+            display: true,
+            position: "bottom"
         }
     }
 });

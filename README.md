@@ -5,10 +5,16 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-4.6.0
+5.0.0
 
 ## Compatibility
 Redmine 4.0.0 and above
+
+> *For those who like highchart graph display*
+>
+> Charts are displayed using Chart.js from Version 5.0.
+> Use the following version for Highcharts graph display.
+> https://github.com/momibun926/redmine_issue_evm/releases/tag/4.6
 
 > *Notification*
 >
@@ -124,9 +130,7 @@ PV: Dividing estimated time: 24hours by 3 days (from start date to due date)
 Based on these data, EVM and chart are created.
 
 # Chart
-Charts are displayed using HigthChart. See below for license.
-It is a license that can not be used for commercial purposes.
-https://creativecommons.org/licenses/by-nc/3.0/
+Charts are displayed using Chart.js. This java scripts include Redmine.
 
 **Main chart**
 
@@ -202,9 +206,9 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 5. Create new Pull Request
 
 # My Environment
-*  Redmine version                4.0.5.stable
+*  Redmine version                4.1.0.stable
 *  Ruby version                   2.5.7-p206 (2019-10-01) [x64-mingw32]
-*  Rails version                  5.2.3
+*  Rails version                  5.2.4.1
 *  Environment                    production
 *  Database adapter               Mysql2
 *  Mailer queue                   ActiveJob::QueueAdapters::AsyncAdapter

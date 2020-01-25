@@ -1,8 +1,8 @@
-<canvas id="myChartPerformance" width="900" height="250"></canvas>
+<canvas id="ChartPerformance" width="900" height="200"></canvas>
 <script>
-var ctx = document.getElementById("myChartPerformance").getContext('2d');
+var ctx = document.getElementById("ChartPerformance").getContext("2d");
 var myChart = new Chart(ctx, {
-    type: 'line',
+    type: "line",
     data: {
         labels: <%= performance_chart_data[:labels] %>,
         datasets: [{
@@ -21,9 +21,9 @@ var myChart = new Chart(ctx, {
             data: <%= performance_chart_data[:cpi] %>,
             borderWidth: 2,
             lineTension: 0,
-            borderColor: "limegreen",
+            borderColor: "Orange",
             pointRadius: 0,
-            backgroundColor: "limegreen",
+            backgroundColor: "Orange",
             fill: false
         },{
             label: "CR",
@@ -31,25 +31,40 @@ var myChart = new Chart(ctx, {
             data: <%= performance_chart_data[:cr] %>,
             borderWidth: 2,
             lineTension: 0,
-            borderColor: "Orange",
+            borderColor: "darkred",
             pointRadius: 0,
-            backgroundColor: "Orange",
+            backgroundColor: "darkred",
             fill: false
         }]
     },
     options: {
-        title:  {
-            display: true,
-            text: <%= raw project_name.to_json %>
-        },
         scales: {
             xAxes: [{
-                type: 'time',
-                distribution: 'linear',
+                type: "time",
+                time: {
+                    displayFormats: {
+                        unit: "day",
+                        day: "MMM D"
+                    }
+                },
+                distribution: "linear",
                 ticks: {
-                    source: 'data'
+                    source: "auto"
+                },
+                stacked: false,
+                gridLines: {
+                    display: false
+                }                
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false
                 }
-            }]
+            }]            
+        },
+        legend: {
+            display: true,
+            position: "bottom"
         }
     }
 });
