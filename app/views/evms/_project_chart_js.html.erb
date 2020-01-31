@@ -1,6 +1,5 @@
 <canvas id="ChartProject" width="900" height="200"></canvas>
 <script>
-var data = <%= raw chart_data.to_json %>;
 var ctx = document.getElementById("ChartProject").getContext("2d");
 var myChart = new Chart(ctx, {
     type: "line",

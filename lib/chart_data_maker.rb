@@ -80,19 +80,19 @@ module ChartDataMaker
 
     chart_data = {}
     chart_data[:labels] = labels
-    chart_data[:pv] = plotdata_planned_value.to_s.delete("nil")
-    chart_data[:ac] = plotdata_actual_cost.to_s.delete("nil")
-    chart_data[:ev] = plotdata_earned_value.to_s.delete("nil")
-    chart_data[:pv_daily] = plotdata_planned_value_daily.to_s.delete("nil")
+    chart_data[:pv] = plotdata_planned_value.to_json
+    chart_data[:ac] = plotdata_actual_cost.to_json
+    chart_data[:ev] = plotdata_earned_value.to_json
+    chart_data[:pv_daily] = plotdata_planned_value_daily.to_json
     chart_data[:baseline] = if evm.pv_baseline.nil?
                               plotdata_baseline_value
                             else
-                              plotdata_baseline_value.to_s.delete("nil")
+                              plotdata_baseline_value.to_json
                             end
-    chart_data[:bac] = plotdata_bac_top_line.to_s.delete("nil")
-    chart_data[:eac] = plotdata_eac_top_line.to_s.delete("nil")
-    chart_data[:ac_forecast] = plotdata_actual_cost_forecast.to_s.delete("nil")
-    chart_data[:ev_forecast] = plotdata_earned_value_forecast.to_s.delete("nil")
+    chart_data[:bac] = plotdata_bac_top_line.to_json
+    chart_data[:eac] = plotdata_eac_top_line.to_json
+    chart_data[:ac_forecast] = plotdata_actual_cost_forecast.to_json
+    chart_data[:ev_forecast] = plotdata_earned_value_forecast.to_json
     chart_data
   end
   
@@ -121,9 +121,9 @@ module ChartDataMaker
       cr << ((new_ev[date] / new_pv[date]).round(2) * (new_ev[date] / new_ac[date]).round(2)).round(2)
     end
     chart_data[:labels] = labels
-    chart_data[:spi] = spi.to_s.delete("nil")
-    chart_data[:cpi] = cpi.to_s.delete("nil")
-    chart_data[:cr] = cr.to_s.delete("nil")
+    chart_data[:spi] = spi.to_json
+    chart_data[:cpi] = cpi.to_json
+    chart_data[:cr] = cr.to_json
     chart_data
   end
 
