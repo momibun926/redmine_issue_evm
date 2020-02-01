@@ -127,6 +127,16 @@ var myChart = new Chart(ctx, {
         legend: {
             display: true,
             position: "bottom"
+        },
+        tooltips: {
+            mode: "nearest",
+            intersect: false,
+            callbacks: {
+                title: function (tooltipItem, data){
+                    var title = tooltipItem[0].xLabel;
+                    return title.replace(", 12:00:00 am","");
+                }            
+            }
         }
     }
 });

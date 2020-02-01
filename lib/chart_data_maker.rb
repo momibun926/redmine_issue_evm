@@ -67,15 +67,15 @@ module ChartDataMaker
 
     for chart_date in chart_minimum_date..chart_maximum_date do
       labels << chart_date.to_time(:local).to_i * 1000
-      plotdata_planned_value << planned_value[chart_date]
-      plotdata_actual_cost << evm.ac.cumulative_ac[chart_date]
-      plotdata_earned_value << evm.ev.cumulative_ev[chart_date]
-      plotdata_baseline_value << baseline_value[chart_date] unless evm.pv_baseline.nil?
-      plotdata_planned_value_daily << evm.pv.daily_pv[chart_date]
-      plotdata_bac_top_line << bac_top_line[chart_date]
-      plotdata_eac_top_line << eac_top_line[chart_date]
-      plotdata_actual_cost_forecast << actual_cost_forecast[chart_date]
-      plotdata_earned_value_forecast << earned_value_forecast[chart_date]
+      plotdata_planned_value << evm_round(planned_value[chart_date])
+      plotdata_actual_cost << evm_round(evm.ac.cumulative_ac[chart_date])
+      plotdata_earned_value << evm_round(evm.ev.cumulative_ev[chart_date])
+      plotdata_baseline_value << evm_round(baseline_value[chart_date]) unless evm.pv_baseline.nil?
+      plotdata_planned_value_daily << evm_round(evm.pv.daily_pv[chart_date])
+      plotdata_bac_top_line << evm_round(bac_top_line[chart_date])
+      plotdata_eac_top_line << evm_round(eac_top_line[chart_date])
+      plotdata_actual_cost_forecast << evm_round(actual_cost_forecast[chart_date])
+      plotdata_earned_value_forecast << evm_round(earned_value_forecast[chart_date])
     end
 
     chart_data = {}
@@ -116,9 +116,9 @@ module ChartDataMaker
     cr = []
     (performance_min_date..performance_max_date).each do |date|
       labels << date.to_time(:local).to_i * 1000
-      spi << (new_ev[date] / new_pv[date]).round(2)
-      cpi << (new_ev[date] / new_ac[date]).round(2)
-      cr << ((new_ev[date] / new_pv[date]).round(2) * (new_ev[date] / new_ac[date]).round(2)).round(2)
+      spi << evm_round((new_ev[date] / new_pv[date]))
+      cpi << evm_round((new_ev[date] / new_ac[date]))
+      cr << evm_round(((new_ev[date] / new_pv[date]) * (new_ev[date] / new_ac[date])))
     end
     chart_data[:labels] = labels
     chart_data[:spi] = spi.to_json
@@ -151,5 +151,17 @@ module ChartDataMaker
       temp[date] = value
     end
     temp
+  end
+
+  # round function for evm value
+  #
+  # @param [number] evm_value EVM hash value
+  # @return [number] EVM value or nil
+  def evm_round(evm_value)
+    ret = if evm_value.nil?
+            evm_value
+          else
+            evm_value.round(2)
+          end
   end
 end
