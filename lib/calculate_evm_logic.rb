@@ -45,25 +45,20 @@ module CalculateEvmLogic
       @etc_method = options[:etc_method]
       @exclude_holiday = options[:exclude_holiday]
       @region = options[:region]
-      @no_use_baseline = if baselines.nil?
-                           "true"
-                         else
-                           options[:no_use_baseline] || "false"
-                         end                
-      # Baseline
-      if @no_use_baseline == "true"
-        @pv_baseline = nil
-      else
-        @pv_baseline = CalculatePv.new @basis_date, baselines, @region unless baselines.nil?
-      end
       # PV Actual
       @pv_actual = CalculatePv.new @basis_date, issues, @region
       # EV
       @ev = CalculateEv.new @basis_date, issues
       # AC
       @ac = CalculateAc.new @basis_date, costs
-      # PV
-      @pv = @no_use_baseline ? @pv_actual : @pv_baseline
+      # Baseline and PV
+      if baselines.nil?
+        @pv_baseline = nil
+        @pv = @pv_actual
+      else
+        @pv_baseline = CalculatePv.new @basis_date, baselines, @region
+        @pv = @pv_baseline
+      end
     end
 
     # Badget at completion.

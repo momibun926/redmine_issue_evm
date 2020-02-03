@@ -31,7 +31,11 @@ class EvmsController < BaseevmController
       # evm explanation
       @cfg_param[:display_explanation] = params[:display_explanation]
       # baseline
-      baselines = project_baseline @project, @cfg_param[:baseline_id]
+      if @cfg_param[:baseline_id].nil?
+        baselines = nil
+      else
+        baselines = project_baseline @cfg_param[:baseline_id]
+      end
       # issues of project include disendants
       issues = evm_issues @project
       # spent time of project include disendants
@@ -86,7 +90,7 @@ class EvmsController < BaseevmController
   # default baseline. latest baseline
   #
   def default_baseline_id
-    if params[:evmbaseline_id].nil?
+    if params[:evmbaseline_id].nil? && params[:no_use_baseline].nil?
       @evmbaseline.blank? ? nil : @evmbaseline.first.id
     else
       params[:evmbaseline_id]
