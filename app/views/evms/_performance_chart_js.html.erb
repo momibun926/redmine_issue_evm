@@ -42,8 +42,8 @@ var myChart = new Chart(ctx, {
             xAxes: [{
                 type: "time",
                 time: {
+                    unit: "day",
                     displayFormats: {
-                        unit: "day",
                         day: "MMM D"
                     }
                 },
@@ -75,6 +75,16 @@ var myChart = new Chart(ctx, {
                     return title.replace(", 12:00:00 am","");
                 }            
             }
+        },
+        annotation: {
+            annotations: [{
+                type: "line",
+                mode: "horizontal",
+                scaleID: "y-axis-0",
+                value: 1,
+                borderWidth: 2,
+                borderColor: "gray"
+            }]
         }
     }
 });

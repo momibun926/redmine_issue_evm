@@ -12,7 +12,7 @@ var myChart = new Chart(ctx, {
             borderWidth: 2,
             lineTension: 0,
             borderColor: "royalblue",
-            pointRadius: 0,
+            pointRadius: 1,
             backgroundColor: "royalblue",
             fill: false
         },{
@@ -22,7 +22,7 @@ var myChart = new Chart(ctx, {
             borderWidth: 2,
             lineTension: 0,
             borderColor: "forestgreen",
-            pointRadius: 0,
+            pointRadius: 1,
             backgroundColor: "forestgreen",
             fill: false
         },{
@@ -32,7 +32,7 @@ var myChart = new Chart(ctx, {
             borderWidth: 2,
             lineTension: 0,
             borderColor: "darkorange",
-            pointRadius: 0,
+            pointRadius: 1,
             backgroundColor: "darkorange",
             fill: false
         }]
@@ -74,6 +74,22 @@ var myChart = new Chart(ctx, {
                     return title.replace(", 12:00:00 am","");
                 }            
             }
+        },
+        annotation: {
+            annotations: [
+            {
+                type: "line",
+                mode: "vertical",
+                scaleID: "x-axis-0",
+                value: <%= basis_date %>,
+                borderWidth: 1,
+                borderColor: "darkred",
+                label: {
+                    content: "Basis date",
+                    enabled: true,
+                    position: "top"
+                }
+            }]
         }
     }
 });
