@@ -23,8 +23,8 @@
 <h2><%= l(:title_evm_tab) %></h2>
 <h3><%= yield :title_sub %></h3>
 <%= form_tag url_for(action: :index), method: :get, id: "query_form" do %>
-  <fieldset id="filters" class="collapsible collapsed">
-    <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+  <fieldset id="filters" class="collapsible">
+    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_options) %></legend>
     <div style="display: none;">
       <!-- basis date -->
       <div class="option-col">
