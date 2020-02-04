@@ -1,4 +1,8 @@
 <% html_title("Project tracking with EVM") %>
+<!-- sub title -->
+<% content_for :title_sub do %>
+  <%= l(:label_nav_main) %>
+<% end %>
 <% if @no_data %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>

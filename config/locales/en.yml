@@ -90,7 +90,7 @@
   label_region: Regions to get a holiday
   label_display_incomplete: Incomplete Issues
   label_display_performance: Performance
-  label_forecast: Forecast
+  label_forecast: Show forecast line
   label_calculate : ETC calculation method
   label_calc_method1: Optimistic
   label_calc_method2: Normal
