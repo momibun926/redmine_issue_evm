@@ -23,8 +23,8 @@
 <h2><%= l(:title_evm_tab) %></h2>
 <h3><%= yield :title_sub %></h3>
 <%= form_tag url_for(action: :index), method: :get, id: "query_form" do %>
-  <fieldset id="filters" class="collapsible collapsed">
-    <legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
+  <fieldset id="filters" class="collapsible">
+    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_options) %></legend>
     <div style="display: none;">
       <!-- basis date -->
       <div class="option-col">
@@ -32,12 +32,10 @@
         <%= date_field_tag("basis_date", @cfg_param[:basis_date], size: 8) %><%= calendar_for("basis_date") %>
       </div>
       <%= yield :additional_option %>
-      <!-- Apply button -->
-      <div class="option-apply">
-        <br>
-        <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
-        <br>
-      </div>
     </div>
   </fieldset>
+  <!-- Apply button -->
+  <p class="buttons">
+    <%= link_to "#", {onclick: "$(this).closest('form').submit()",class: "icon icon-checked" } do l(:button_apply) end %>
+  </p>
 <% end %>

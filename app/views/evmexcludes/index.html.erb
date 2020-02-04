@@ -1,3 +1,4 @@
+<% html_title("Project tracking with EVM") %>
 <!-- contextual (Basline setting) -->
 <div class="contextual">
   <%= link_to l(:label_nav_main), { controller: :evms, action: :index, id: @project.id, params: @cfg_param }, class: "icon icon-main-evm" %>
@@ -10,6 +11,7 @@
   <%= link_to_if_authorized l(:label_nav_evm_setting), { controller: :evmsettings, action: :edit, id: @project.id }, class: "icon icon-settings" %>
 </div>
 <section>
+  <h2><%= l(:title_evm_tab) %></h2>
   <h3><%= l(:subtitle_evm_exclude_issues) %></h3>
   <%= raw display_no_data(@exclude_issues) %>
   <% unless @exclude_issues.blank? %>

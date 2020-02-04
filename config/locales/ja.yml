@@ -92,7 +92,7 @@ ja:
   label_region: 休日の設定
   label_display_incomplete: 未完了チケットの表示
   label_display_performance: パフォーマンスチャートの表示
-  label_forecast: 予測
+  label_forecast: 予測値の表示
   label_calculate : ETCの計算方法
   label_calc_method1: 楽観的
   label_calc_method2: 普通

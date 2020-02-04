@@ -17,7 +17,11 @@ module ChartDataMaker
   def evm_chart_data(evm)
     # max date, min date include forecast date
     chart_minimum_date = [evm.pv.start_date, evm.ev.min_date, evm.ac.min_date].min
-    chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date, evm.forecast_finish_date].max
+    if evm.forecast == true
+      chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date, evm.forecast_finish_date].max
+    else
+      chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date].max
+    end
     # overdue?
     if evm.pv_actual.state.equal?(:overdue)
       planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date < evm.basis_date }
@@ -38,7 +42,7 @@ module ChartDataMaker
     actual_cost_forecast = {}
     earned_value_forecast = {}
     # forecast
-    if evm.forecast
+    if evm.forecast == true
       # for chart
       # top line of BAC
       bac_top_line[chart_minimum_date] = evm.bac
