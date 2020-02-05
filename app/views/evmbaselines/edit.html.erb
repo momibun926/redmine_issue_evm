@@ -7,15 +7,15 @@
     </p>
     <p>
       <%= label :bac ,l(:label_baseline_bac) %>
-      <%= @evm_baselines.bac %>
+      <%= f.text_field :bac, size: 10, readonly: true %>
     </p>
     <p>
       <%= label :start_date ,l(:label_baseline_start_date) %>
-      <%= @evm_baselines.minimum_start_date %>
+      <%= f.text_field :minimum_start_date, size: 11, readonly: true %>
     </p>
     <p>
       <%= label :due_date ,l(:label_baseline_due_date) %>
-      <%= @evm_baselines.maximum_due_date %>
+      <%= f.text_field :maximum_due_date, size: 11, readonly: true %>
     </p>
     <p>
       <%= f.label :description %>

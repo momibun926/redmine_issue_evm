@@ -7,15 +7,15 @@
     </p>
     <p>
       <%= label :bac ,l(:label_baseline_bac) %>
-      <%= @bac.round(1) %>
+      <%= text_field_tag :bac, @bac.round(1), readonly: true%>
     </p>
     <p>
       <%= label :start_date ,l(:label_baseline_start_date) %>
-      <%= @start_date %>
+      <%= text_field_tag :start_date, @start_date, size: 11, readonly: true%>
     </p>
     <p>
       <%= label :due_date ,l(:label_baseline_due_date) %>
-      <%= @due_date %>
+      <%= text_field_tag :due_date, @due_date, size: 11, readonly: true %>
     </p>
     <p>
       <%= f.label :description %>
