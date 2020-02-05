@@ -11,8 +11,6 @@ class BaseevmController < ApplicationController
   include CalculateEvmLogic
   include ChartDataMaker
 
-  # menu
-  menu_item :issuevm
   # Before action
   before_action :find_project, :find_common_setting
 
