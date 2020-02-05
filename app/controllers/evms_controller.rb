@@ -86,7 +86,7 @@ class EvmsController < BaseevmController
   # default basis date
   #
   def default_basis_date
-    params[:basis_date].nil? ? Time.zone.today : params[:basis_date].to_date
+    params[:basis_date].nil? ? Date.today : params[:basis_date].to_date
   end
   
   # default baseline. latest baseline
