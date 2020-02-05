@@ -64,7 +64,7 @@
 
   # baseline page
   label_baseline: Baseline Name
-  label_baseline_show: Show Baseline
+  label_baseline_show: Baseline detail
   label_baseline_edit: Edit Baseline
   label_baseline_create: New Baseline
   label_baseline_version: Baseline History

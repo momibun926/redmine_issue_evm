@@ -66,7 +66,7 @@ ja:
 
   # baseline page
   label_baseline: ベースライン名
-  label_baseline_show: ベースラインの表示
+  label_baseline_show: ベースラインの詳細
   label_baseline_edit: ベースラインの編集
   label_baseline_create: ベースラインの作成
   label_baseline_version: ベースラインの履歴
