@@ -4,6 +4,8 @@
 # 1. index, new, show, edit, update, create, destroy
 #
 class EvmbaselinesController < BaseevmController
+  # menu
+  menu_item :issuevm
   # display baseline list
   #
   def index

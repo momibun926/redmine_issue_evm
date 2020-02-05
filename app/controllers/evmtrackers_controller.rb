@@ -5,6 +5,8 @@
 # 2. calculate EVM each selected trackers
 #
 class EvmtrackersController < BaseevmController
+  # menu
+  menu_item :issuevm
   # index for tracker EVM view.
   #
   # 1. set options of view request

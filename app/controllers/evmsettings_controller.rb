@@ -1,5 +1,7 @@
 # setting controller
 class EvmsettingsController < BaseevmController
+  # menu
+  menu_item :issuevm
   # New setting
   #
   def new

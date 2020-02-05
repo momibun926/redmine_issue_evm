@@ -8,7 +8,9 @@
 # 5. export to CSV
 #
 class EvmsController < BaseevmController
-  # Before action (override)
+  # menu
+  menu_item :issuevm
+    # Before action (override)
   before_action :authorize
 
   # View of main page.

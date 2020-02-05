@@ -4,6 +4,8 @@
 # 1. Exclude issue of calculation EVM 
 #
 class EvmexcludesController < BaseevmController
+  # menu
+  menu_item :issuevm
   # index for exclude issues EVM view.
   #
   # 1. exclude issue of calculate EVM

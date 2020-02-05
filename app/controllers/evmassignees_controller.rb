@@ -6,6 +6,8 @@
 # 3. create chart data
 #
 class EvmassigneesController < BaseevmController
+  # menu
+  menu_item :issuevm
   # index for assignee EVM view.
   #
   # 1. set options of view request

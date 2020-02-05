@@ -5,6 +5,8 @@
 # 2. calculate EVM each selected version
 #
 class EvmversionsController < BaseevmController
+  # menu
+  menu_item :issuevm
   # index for version EVM view.
   #
   # 1. set options of view request
