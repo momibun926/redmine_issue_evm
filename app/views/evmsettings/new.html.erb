@@ -1,4 +1,6 @@
-<h2><%= l(:label_setting_create) %></h2>
+<% html_title("Project tracking with EVM - plugin setting ") %>
+<h2><%= l(:title_evm_tab) %></h2>
+<h3><%= l(:label_setting_create)%></h3>
 <%= form_for @evm_settings, url: project_evmsettings_path do |f| %>
   <%= render partial: "/evmsettings/evmsetting", locals: { f: f , evm_setting: @evm_settings } %>
   <%= submit_tag l(:button_create) %>
