@@ -77,6 +77,7 @@ zh:
   label_current_baseline: 最近
   label_old_baseline: 过去
   label_latest_baseline: 使用最新的基线计算
+  label_based_on: basis date of baseline
   
   # common setting page
   label_setting_create: 创建EVM设置

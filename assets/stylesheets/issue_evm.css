@@ -101,3 +101,9 @@ dt.evmbaseline-edit {
   background-color: red;
   display: table;
 }
+
+/*** for baseline setting ***/
+#wrapper input[readonly],
+#wrapper textarea[readonly] {
+  background-color:aliceblue;
+}

@@ -76,6 +76,7 @@
   label_current_baseline: Latest
   label_old_baseline: old
   label_latest_baseline: View EVM
+  label_based_on: basis date of baseline
   
   # common setting page
   label_setting_create: Create EVM setting

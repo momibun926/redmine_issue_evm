@@ -16,6 +16,7 @@ class EvmbaselinesController < BaseevmController
   #
   def new
     @evm_baselines = Evmbaseline.new
+    @evm_baselines.based_on = Date.today
     issues = evm_issues @project
     @start_date = issues.minimum(:start_date)
     @due_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
@@ -102,6 +103,6 @@ class EvmbaselinesController < BaseevmController
   # Strong parameter
   #
   def evm_baseline_params
-    params.require(:evmbaseline).permit(:subject, :description)
+    params.require(:evmbaseline).permit(:subject, :description, :based_on)
   end
 end
