@@ -2,16 +2,11 @@
 module EvmsHelper
   include CommonHelper
 
-  # Get project name
-  # Add baseline subject when baseline exists
+  # Get used baseline name
   #
-  # @return [String] project name, baseline subject
-  def project_chart_name
-    chart_title = if @baseline_id.nil?
-                    @project.name
-                  else
-                    @project.name + '- ' + @evmbaseline.find(@baseline_id).subject
-                  end
+  # @return [String] balseline name (subject)
+  def used_baseline_name
+    "#{l(:label_baseline)} : #{@evmbaseline.find(params[:evmbaseline_id]).subject}" unless params[:evmbaseline_id].nil?
   end
 
   # Get baseline difference color
