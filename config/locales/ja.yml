@@ -78,7 +78,8 @@ ja:
   label_current_baseline: 最新
   label_old_baseline: old
   label_latest_baseline: View EVM
-  
+  label_based_on: ベースラインの基準日
+
   # common setting page
   label_setting_create: EVM共通設定の作成
   label_setting_edit: EVM共通設定の編集

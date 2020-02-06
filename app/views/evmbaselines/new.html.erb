@@ -8,15 +8,19 @@
       <%= f.text_field :subject, size: 60, required: true %>
     </p>
     <p>
-      <%= label :bac ,l(:label_baseline_bac) %>
+      <%= f.label :based_on, l(:label_based_on) %>
+      <%= f.date_field :based_on, size: 8 %><%= calendar_for(:based_on) %>
+    </p>
+    <p>
+      <%= label :bac, l(:label_baseline_bac) %>
       <%= text_field_tag :bac, @bac.round(1), readonly: true%>
     </p>
     <p>
-      <%= label :start_date ,l(:label_baseline_start_date) %>
+      <%= label :start_date, l(:label_baseline_start_date) %>
       <%= text_field_tag :start_date, @start_date, size: 11, readonly: true%>
     </p>
     <p>
-      <%= label :due_date ,l(:label_baseline_due_date) %>
+      <%= label :due_date, l(:label_baseline_due_date) %>
       <%= text_field_tag :due_date, @due_date, size: 11, readonly: true %>
     </p>
     <p>
