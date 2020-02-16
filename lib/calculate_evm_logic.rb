@@ -124,6 +124,15 @@ module CalculateEvmLogic
       sv.round(1)
     end
 
+    # Time variance (SVt)
+    # How much ahead or behind the schedule a project is running on time base.
+    #
+    # @return [Numeric] days
+    def today_tv
+      tv = @pv.cumulative_pv.select{ |k, v| ( v < today_ev ) }.keys.max - @basis_date
+      tv.to_i
+    end
+
     # Cost variance
     # Cost Variance (CV) is a very important factor to measure project performance.
     # CV indicates how much over - or under-budget the project is.
@@ -148,6 +157,19 @@ module CalculateEvmLogic
               today_ev(hours) / today_pv(hours)
             end
       spi.round(2)
+    end
+
+    # Time Performance Indicator
+    # TPI is greater than 1, then the project is ahead of schedule and 
+    # if it is less than 1, then the project is behind schedule.
+    #
+    # @return [Numeric] earned schedule date / basis_date
+    def today_tpi
+      es_date = @pv.cumulative_pv.select{ |k, v| ( v <= today_ev ) }.keys.max
+      es_days = (es_date - @pv.start_date).to_i
+      at_days = (@basis_date - @pv.start_date).to_i
+      tpi = es_days.fdiv(at_days)
+      tpi.round(2)
     end
 
     # Cost Performance Indicator
