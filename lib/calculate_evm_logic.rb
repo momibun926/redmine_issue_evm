@@ -129,7 +129,8 @@ module CalculateEvmLogic
     #
     # @return [Numeric] days
     def today_tv
-      tv = @pv.cumulative_pv.select{ |k, v| ( v < today_ev ) }.keys.max - @basis_date
+      es_date = @pv.cumulative_pv.select{ |k, v| ( v <= today_ev ) }.keys.max
+      tv = es_date.nil? ? 0 : es_date - @basis_date
       tv.to_i
     end
 
@@ -166,9 +167,12 @@ module CalculateEvmLogic
     # @return [Numeric] earned schedule date / basis_date
     def today_tpi
       es_date = @pv.cumulative_pv.select{ |k, v| ( v <= today_ev ) }.keys.max
-      es_days = (es_date - @pv.start_date).to_i
-      at_days = (@basis_date - @pv.start_date).to_i
-      tpi = es_days.fdiv(at_days)
+      tpi = 0
+      unless es_date.nil? 
+        es_days = (es_date - @pv.start_date).to_i
+        at_days = (@basis_date - @pv.start_date).to_i
+        tpi = es_days.fdiv(at_days)
+      end
       tpi.round(2)
     end
 
