@@ -42,7 +42,7 @@ module CalculateEvmLogic
       @cumulative_pv = sort_and_sum_evm_hash @daily_pv
     end
 
-    # Badget at completion
+    # Badget at completion (BAC)
     # Total estimate hours of issues.
     #
     # @return [Numeric] BAC
@@ -50,11 +50,44 @@ module CalculateEvmLogic
       @cumulative_pv.values.max
     end
 
+    # Schadule at completion.
+    # This is the original planned completion duration (days) of the project.
+    #
+    # @return [Numeric] SAC (days)
+    def sac
+      sac = (due_date - start_date).to_i
+    end
+
+
     # Today"s planed value
     #
     # @return [Numeric] PV on basis date or PV of baseline.
     def today_value
       @cumulative_pv[@basis_date]
+    end
+
+    # Actual Time (AT)
+    # This is the duration from the beginning of the project to basis date.
+    #
+    # @return [Numeric] days: basis date - start date
+    def today_at
+      (@basis_date - @start_date).to_i
+    end
+
+    # Earned schedule (ES)
+    # This duration from the beginning of the project to the date 
+    # on which the PV should have been equal to the current value of EV.
+    #
+    # @param [numeric] ev EV value of basis date.
+    # @return [date] earned shedule
+    def today_es(ev)
+      es_date_pv = if @state == :overdue
+                     @cumulative_pv.select{ |k, v| ( k < @basis_date ) }
+                   else
+                     @cumulative_pv
+                   end
+      es_date = es_date_pv.select{ |k, v| ( v <= ev ) }.keys.max
+      es_date.nil? ? 0 : (es_date - @start_date).to_i
     end
 
     private

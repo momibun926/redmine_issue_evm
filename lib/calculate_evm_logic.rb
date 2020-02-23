@@ -71,6 +71,15 @@ module CalculateEvmLogic
       bac.round(1)
     end
 
+    # Schadule at completion.
+    # This is the original planned completion duration (days) of the project.
+    #
+    # @return [Numeric] SAC
+    def sac
+      sac = @pv.sac
+      sac.round(1)
+    end
+
     # CompleteEV
     #
     # @param [Numeric] hours hours per day
@@ -129,9 +138,7 @@ module CalculateEvmLogic
     #
     # @return [Numeric] days
     def today_tv
-      es_date = @pv.cumulative_pv.select{ |k, v| ( v <= today_ev ) }.keys.max
-      tv = es_date.nil? ? 0 : es_date - @basis_date
-      tv.to_i
+      (@pv.today_at - @pv.today_es(today_ev)).to_i
     end
 
     # Cost variance
@@ -164,15 +171,9 @@ module CalculateEvmLogic
     # TPI is greater than 1, then the project is ahead of schedule and 
     # if it is less than 1, then the project is behind schedule.
     #
-    # @return [Numeric] earned schedule date / basis_date
+    # @return [Numeric] earned schedule (days) / Actual time (days)
     def today_tpi
-      es_date = @pv.cumulative_pv.select{ |k, v| ( v <= today_ev ) }.keys.max
-      tpi = 0
-      unless es_date.nil? 
-        es_days = (es_date - @pv.start_date).to_i
-        at_days = (@basis_date - @pv.start_date).to_i
-        tpi = es_days.fdiv(at_days)
-      end
+      tpi = @pv.today_es(today_ev).fdiv(@pv.today_at)
       tpi.round(2)
     end
 
@@ -236,6 +237,15 @@ module CalculateEvmLogic
       eac.round(1)
     end
 
+    # Time estimate at completion (TEAC).
+    # Whereas the estimated time at completion has to be called the time estimate at completion (TEAC)
+    #
+    # @return [Numeric] SAC / TPI
+    def teac
+      teac = @pv.sac / today_tpi
+      teac.round(0)
+    end
+
     # Variance at Completion
     # Variance at completion (VAC) is the variance
     # on the total budget at the end of the project.
@@ -245,6 +255,16 @@ module CalculateEvmLogic
     def vac(hours = 1)
       vac = bac(hours) - eac(hours)
       vac.round(1)
+    end
+
+    # Time Variance at Completion (TVAC)
+    # Indication of the estimated amount of time 
+    # that the project will be completed ahead or behind schedule.
+    #
+    # @return [Numeric] SAC - TEAC
+    def tvac
+      tvac = @pv.sac - teac
+      tvac.round(1)
     end
 
     # forecast date (Delay)
