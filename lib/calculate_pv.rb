@@ -23,11 +23,14 @@ module CalculateEvmLogic
     # @param [date] basis_date basis date.
     # @param [issue] issues for culculation of PV.
     # @param [string] region setting region use calculation working days.
-    def initialize(basis_date, issues, region)
+    # @param [string] exclude_holiday setting exclude holiday
+    def initialize(basis_date, issues, region, exclude_holiday)
       # basis date
       @basis_date = basis_date
       # region
       @region = region
+      # exclude holiday
+      @holiday_exclude = exclude_holiday
       # daily PV
       @daily_pv = calculate_planed_value issues
       # planed start date
@@ -55,7 +58,7 @@ module CalculateEvmLogic
     #
     # @return [Numeric] SAC (days)
     def sac
-      sac = (due_date - start_date).to_i
+      amount_working_days(start_date, due_date)
     end
 
 
@@ -71,7 +74,7 @@ module CalculateEvmLogic
     #
     # @return [Numeric] days: basis date - start date
     def today_at
-      (@basis_date - @start_date).to_i
+      amount_working_days(@start_date, @basis_date)
     end
 
     # Earned schedule (ES)
@@ -87,7 +90,7 @@ module CalculateEvmLogic
                      @cumulative_pv
                    end
       es_date = es_date_pv.select{ |k, v| ( v <= ev ) }.keys.max
-      es_date.nil? ? 0 : (es_date - @start_date).to_i
+      es_date.nil? ? 0 : amount_working_days(@start_date, es_date)
     end
 
     private
@@ -125,7 +128,7 @@ module CalculateEvmLogic
     end
 
     # working days.
-    # exclude weekends and holiday.
+    # exclude weekends and holiday or include weekends and holiday.
     #
     # @param [date] start_date start date of issue
     # @param [date] end_date end date of issue
@@ -138,6 +141,15 @@ module CalculateEvmLogic
                       else
                         issue_days
                       end
+    end
+
+    # Amount of working days.
+    #
+    # @param [date] start_date start date
+    # @param [date] end_date end date
+    # @return [Numeric] Amount of working days
+    def amount_working_days(start_date, end_date)
+      working_days(start_date, end_date).length
     end
 
     # state on basis date

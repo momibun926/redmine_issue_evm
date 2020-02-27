@@ -46,7 +46,7 @@ module CalculateEvmLogic
       @exclude_holiday = options[:exclude_holiday]
       @region = options[:region]
       # PV Actual
-      @pv_actual = CalculatePv.new @basis_date, issues, @region
+      @pv_actual = CalculatePv.new @basis_date, issues, @region, @exclude_holiday 
       # EV
       @ev = CalculateEv.new @basis_date, issues
       # AC
@@ -56,7 +56,7 @@ module CalculateEvmLogic
         @pv_baseline = nil
         @pv = @pv_actual
       else
-        @pv_baseline = CalculatePv.new @basis_date, baselines, @region
+        @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday 
         @pv = @pv_baseline
       end
     end
@@ -256,7 +256,6 @@ module CalculateEvmLogic
     #
     # @return [Numeric] SAC / TPI
     def teac
-      Rails.logger.info(today_tpi)
       teac = today_tpi == 0 ? 0 : @pv.sac / today_tpi
       teac.round(0)
     end

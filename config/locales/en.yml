@@ -89,7 +89,7 @@
   label_limit_spi: SPI threshold.
   label_limit_cpi: CPI threshold.
   label_limit_cr: CR threshold.
-  label_exclude_holidays: Exclude holidays and weekend in PV calculation.
+  label_exclude_holidays: Exclude holidays and weekend in duration of days calculation.
   label_region: Regions to get a holiday
   label_display_incomplete: Incomplete Issues
   label_display_performance: Performance
