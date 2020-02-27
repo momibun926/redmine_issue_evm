@@ -117,18 +117,25 @@ ja:
 
   # Explanation
   explanation_bac: 完成時総予算：プロジェクトのチケットの総予定工数
+  explanation_sac: 計画時日数：プロジェクト計画時の所要日数（開始日から終了日までの日数）
   explanation_pv: 今日までのチケットの予定工数
   explanation_ev: 出来高：チケットが完了となった時に予定工数を計上。進捗率が設定されている場合は、進捗率を変更した日に予定工数*進捗率を計上
+  explanation_es: 達成スケジュール：現時点までに完了した作業量を、プロジェクトの総予定期間で換算した時間
   explanation_ac: 作業時間の記録から集計した作業時間
+  explanation_at: 実時間：現時点までに完了した作業に対して実際に投入した時間
   explanation_sv: スケジュール差異：予定工数と完了工数の差(EV-PV)
   explanation_cv: コスト差異：予定工数と作業時間の差(EV-AC)
+  explanation_tv: 実時間差異：どの程度、予定に対して進捗しているかの時間差異
   explanation_spi: スケジュール効率指数(EV÷PV)：1以下の場合は遅れ
   explanation_cpi: コスト効率指数(EV÷AC)：1以下の場合はコスト超過
   explanation_cr: プロジェクトパフォーマンス(1以上であれば良好)
+  explanation_tpi: どの程度、予定に対して進捗しているかの時間割合
   explanation_complete: BACに対する完了率(EV/BAC)
   explanation_eac: プロジェクト完了時の総コスト見積もり(AC＋ETC)
+  explanation_teac: プロジェクト完了時の総日数見積(SAC/TPI)
   explanation_etc: 残作業のコスト見積り((BAC－EV)÷CPI)
-  explanation_vac: プロジェクト完了時コのスト差異(BAC－EAC)：マイナスはコスト超過
+  explanation_vac: プロジェクト完了時のスト差異(BAC－EAC)：マイナスはコスト超過
+  explanation_tvac: プロジェクト完了時の総日数差異(SAC－TEAC)：マイナスはスケジュール超過
   explanation_difference_end_date: 予定完了日と完了予想日の差(日数)
   explanation_tcpi: 残作業効率指数((BAC-EV)/(BAC-AC))：残作業を達成するために、どれくらいの生産性が必要か？：1以上は生産性を高める必要あり。
 

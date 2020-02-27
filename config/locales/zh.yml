@@ -116,18 +116,25 @@ zh:
 
   # Explanation
   explanation_bac: Budget cost At Completion，完工预算：(BAC)全部工作的预算是多少？不改变成本基准，BAC就不会发生变化。
+  explanation_sac: This is the original planned completion duration (date) of the project.
   explanation_pv: Planned Value，计划值：(PV)应该完成多少工作？
   explanation_ev: Earned Value，挣值：(EV)完成了多少预算工作？
+  explanation_es: Earned schedule, This duration from the beginning of the project to the date on which the PV should have been equal to the current value of EV.
   explanation_ac: Actual Cost，实际成本：(AC)完成工作的实际成本是多少？这里成本指代工作时间
+  explanation_at: Actual time, This is the duration from the beginning of the project to status date.
   explanation_sv: Schedule Variance，进度偏差：(SV)是指已完工程实际时间和已完工程计划时间之间的差异。当SV<0时，表示进度拖延；当SV=0时，表示实际与计划相符。当SV>0时，表示进度提前。计算公式：SV = EV-PV。
   explanation_cv: Cost Variance，成本偏差：当CV<0时，表示项目运行超出预算费用；当CV>0时，表示项目运行实际费用没有超出预算费用。此处费用用时间标识。计算公式：CV = EV-AC。
+  explanation_tv: Time variance, If TV value is negative, the project is behind schedule and if it is positive, it is ahead of schedule.
   explanation_spi: Schedule Performance Index，进度绩效指数：SPI>1说明进度超前；SPI<1说明进度延迟。计算公式：SPI = EV/PV。
   explanation_cpi: Cost Performance Index，成本绩效指数：CPI<1时，表示超支，即实际费用高于预算费用；CPI>1时，表示节支，即实际费用低于预算费用。计算公式：CPI = EV/AC。
   explanation_cr: Critical Ratio，关键比率：(CR)。当CR在0.9-1.2之间，表示项目进展正常，偏差可以接受；CR在0.8-0.9或1.2-1.3之间，表示需要对项目进展进行检查，项目偏差需要纠正；CR在1.3以上或0.8以下，表示需要对项目立即采取行动，项目偏差已经严重失控。计算公式：CR = SPI * CPI。
+  explanation_tpi: Time performance index, If TPI is greater than 1, then the project is ahead of schedule and if it is less than 1, then the project is behind schedule.
   explanation_complete: 完成率。计算公式：Complete = EV/BAC。
   explanation_eac: Estimate At Completion，完工估算：(EAC)是根据项目绩效和风险量化对项目总成本的预测。计算公式：EAC = AC＋ETC。
+  explanation_teac: The remaining work will be performed while maintaining the same rate of doing work for the rest of the project
   explanation_etc: Estimate To Completion，完工尚需估算：(ETC)是指剩余工作在当前的预测。计算公式：ETC = (BAC－EV)/CPI。
   explanation_vac: Variance At Completion，完工偏差(VAC)。当VAC>0时，成本有节余；当VAC<0时，成本超支。计算公式：VAC = BAC－EAC。
+  explanation_tvac: The Time Variance at Completion (TVAC) gives an indication of the estimated amount of time that the project will be completed ahead or behind schedule
   explanation_difference_end_date: Delay，延期：是指计划完成日期和预估完成日期的差异(天数)
   explanation_tcpi: To Complete Performance Index，完工尚需绩效指数：是指为了在既定的预算内完工（如BAC或EAC），未来实施剩余工作必须达到的成本绩效指标（预测值）。当TCPI<1时，说明生产力水平符合或超过预期；若TCPI>1，则应提高生产力(EV)。TCPI有两种计算公式。公式1-TCPI按照原定预算BAC完成：TCPI = (BAC–EV)/(BAC–AC)；公式2-TCPI按照新预算EAC完成：TCPI = (BAC–EV)/(EAC–AC)。
  
