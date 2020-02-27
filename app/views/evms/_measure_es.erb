@@ -1,0 +1,24 @@
+<section>
+  <table id="evm-indicator-value-table" border="1" bordercolor = "#bbb">
+    <tr>
+      <th>SAC</th>
+      <th>ES</th>
+      <th>AT</th>
+      <th>TV</th>
+      <th>TPI</th>
+      <th>TEAC</th>
+      <th>TVAC</th>
+    </tr>
+    <tr>
+      <td><%=project_evm.sac%></td>
+      <td><%=project_evm.today_es%></td>
+      <td><%=project_evm.today_at%></td>
+      <td><%=project_evm.today_tv%></td>
+      <td><%=project_evm.today_tpi%></td>
+      <td><%=project_evm.teac%></td>
+      <td><%=project_evm.tvac%></td>
+    </tr>
+  </table>
+  <%= l(:explanation_es_unit)%>
+  <br>
+</section>

@@ -16,6 +16,7 @@ ja:
   # Main page
   subtitle_evm_summary: サマリー
   subtitle_evm_indicator: EVM
+  subtitle_es_indicator: ES
   subtitle_evm_incomplete_issues: 未完了チケット
   subtitle_evm_exclude_issues: 除外されているチケット
   subtitle_evm_chart_main: EVMチャート
@@ -47,6 +48,7 @@ ja:
   # Indicator table legend
   explanation_upper_row: 上段は時間.
   explanation_lower_row: 下段は日数.
+  explanation_es_unit: 単位は日数
   
   # Option - common
   label_basis_date: 基準日

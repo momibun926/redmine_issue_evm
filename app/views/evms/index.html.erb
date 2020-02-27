@@ -35,20 +35,23 @@
     </div>
   <% end %>
   <%= render partial: "/common/option_field"%>
-  <h3><%= l(:subtitle_evm_summary)%></h3>
   <!--metrics-->
+  <h3><%= l(:subtitle_evm_summary)%></h3>
   <%= render partial: "/evms/metrics",
       locals: { version_list: @count_version_list,
                 assignee_list: @count_assignee_list,
                 tracker_list: @count_tracker_list,
                 project_metrics: @project_metrics,
                 project_state: @project_state } %>
+  <!--Indicator value of EVM -->
   <h3><%= l(:subtitle_evm_indicator)%></h3>
-  <!--Indicator value-->
-  <%= render partial: "/evms/measure",
+  <%= render partial: "/evms/measure_evm",
       locals: { project_evm: @project_evm,
-                working_hours: @cfg_param[:working_hours],
-                project_metrics: @project_metrics } %>
+                working_hours: @cfg_param[:working_hours] } %>
+  <!--Indicator value of ES -->
+  <h3><%= l(:subtitle_es_indicator)%></h3>
+  <%= render partial: "/evms/measure_es",
+      locals: { project_evm: @project_evm } %>
   <!-- Exports -->
   <% other_formats_links do |f| %>
     <%= f.link_to "CSV", :url => {:action => :index} %>

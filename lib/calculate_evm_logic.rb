@@ -133,12 +133,26 @@ module CalculateEvmLogic
       sv.round(1)
     end
 
-    # Time variance (SVt)
+    # Earned shedule (ES)
+    #
+    # @return [Numeric] days
+    def today_es
+      @pv.today_es(today_ev).to_i
+    end
+
+    # Actual time (AT)
+    #
+    # @return [Numeric] days
+    def today_at
+      @pv.today_at
+    end
+
+    # Time variance (TV)
     # How much ahead or behind the schedule a project is running on time base.
     #
     # @return [Numeric] days
     def today_tv
-      (@pv.today_at - @pv.today_es(today_ev)).to_i
+      (today_es - today_at).to_i
     end
 
     # Cost variance
@@ -242,7 +256,8 @@ module CalculateEvmLogic
     #
     # @return [Numeric] SAC / TPI
     def teac
-      teac = @pv.sac / today_tpi
+      Rails.logger.info(today_tpi)
+      teac = today_tpi == 0 ? 0 : @pv.sac / today_tpi
       teac.round(0)
     end
 

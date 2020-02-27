@@ -15,6 +15,7 @@
   # Main page
   subtitle_evm_summary: Summary
   subtitle_evm_indicator: EVM Indicator
+  subtitle_es_indicator: ES Indicator
   subtitle_evm_incomplete_issues: Incomplete Issues
   subtitle_evm_exclude_issues: Exclude issues
   subtitle_evm_chart_main: EVM Charts
@@ -45,6 +46,7 @@
   # Indicator table legend
   explanation_upper_row: Upper row is hours.
   explanation_lower_row: Lower row is days.
+  explanation_es_unit: days
   
   # Option - common
   label_basis_date: Basis date
