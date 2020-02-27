@@ -182,7 +182,7 @@ module IssueDataFetcher
     # project state
     metrics[:state] = evm.pv.state
     # plan due date difference
-    metrics[:due_date_difference] = (evm.pv.basis_date - evm.pv.due_date).to_i
+    metrics[:due_date_difference] = (evm.pv.due_date - evm.pv.basis_date).to_i
     # return
     metrics
   end

@@ -25,7 +25,7 @@
   Indicator_metrics: Metrics
   indicator_duration: Duration
   indicator_status: Status
-  indicator_difference: To due date
+  indicator_difference: Days of to due date
   indicator_target_issues_count: Amount of target issues
   indicator_baseline_difference: Baseline difference
   indicator_bac: BAC

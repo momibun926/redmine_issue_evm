@@ -26,7 +26,7 @@ ja:
   Indicator_metrics: 基本情報
   indicator_duration: プロジェクトの期間
   indicator_status: ステータス
-  indicator_difference: 遅れ日数
+  indicator_difference: 終了予定日までの日数
   indicator_target_issues_count: 対象となっているチケットの件数
   indicator_baseline_difference: ベースラインとの比較
   indicator_bac: BAC
