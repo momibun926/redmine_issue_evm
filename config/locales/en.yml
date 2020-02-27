@@ -14,8 +14,8 @@
   
   # Main page
   subtitle_evm_summary: Summary
-  subtitle_evm_indicator: EVM Indicator
-  subtitle_es_indicator: ES Indicator
+  subtitle_evm_indicator: Elements of Earned Value Management
+  subtitle_es_indicator: Earned Schedule
   subtitle_evm_incomplete_issues: Incomplete Issues
   subtitle_evm_exclude_issues: Exclude issues
   subtitle_evm_chart_main: EVM Charts
