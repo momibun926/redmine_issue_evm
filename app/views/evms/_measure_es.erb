@@ -1,6 +1,13 @@
 <section>
   <table id="evm-indicator-value-table" border="1" bordercolor = "#bbb">
     <tr>
+      <th rowspan="2"><%=l(:indicator_table_header_date)%></th>
+      <th colspan="3"><%=l(:indicator_table_header_today)%></th>
+      <th><%=l(:indicator_table_header_difference)%></th>
+      <th><%=l(:indicator_table_header_performance)%></th>
+      <th colspan="2"><%=l(:indicator_table_header_forecast)%></th>
+    </tr>
+    <tr>
       <th>SAC</th>
       <th>ES</th>
       <th>AT</th>
@@ -10,6 +17,7 @@
       <th>TVAC</th>
     </tr>
     <tr>
+      <td><%=project_evm.basis_date%></td>
       <td><%=project_evm.sac%></td>
       <td><%=project_evm.today_es%></td>
       <td><%=project_evm.today_at%></td>

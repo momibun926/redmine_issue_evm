@@ -5,7 +5,7 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-5.1.0
+5.2.0
 
 ## Compatibility
 Redmine 4.0.0 and above
@@ -22,8 +22,8 @@ Redmine 4.0.0 and above
 > https://github.com/momibun926/redmine_issue_evm/tree/redmine3-4-3
 
 # Main features
-* Calculate EVM
-  * All projects
+* Calculate EVM 
+  * All projects with ES
   * Each version
   * Each asssignee
   * Each parent issues
