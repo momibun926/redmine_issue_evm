@@ -31,7 +31,7 @@ Redmine 4.0.0 and above
 * Project metrics
   * Duration
   * Satus
-  * Delayed days
+  * Days until due date
   * Amount of calculation issues
   * Difference at baseline
   * Amount of issue. (version, assignee, tracker)
@@ -41,42 +41,6 @@ Redmine 4.0.0 and above
   * Method of ETC
   * Forcast chart, Performance chart, Threthold value, incomplete issues
 * Create baselines, and view history
-
-## Baseline
-If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
-PV is based on your baseline. In addition, you can set calculation without baseline by options.
-
-## View options
-* Change the calculating basic date
-* Using baseline
-* Explanation of EVM
-
-## about workig days
-1. Excluding weekends and holidays
-2. If it is only weekends or holidays, make it a working day
-3. Use holidays gem -> Regional settings are set in the common setting page(common setting link in contextial)
-
-Example)
-
-In Japan, May 3, May 4, May 5 are holidays
-
-* Including weekends and holidays
-
-|Start date          |Due date            |Estimated time |Working day|PV per day|
-|--------------------|--------------------|---------------|-----------|----------|
-|May 1, 2017 (Monday)|May 8, 2017 (Monday)|12 hours       |3 days     |4 hours   |
-
-* Including only a few weekends and holidays
-
-|Start date          |Due date            |Estimated time |Working day|PV per day|
-|--------------------|--------------------|---------------|-----------|----------|
-|May 1, 2017 (Monday)|May 7, 2017 (Sunday)|10 hours       |2 days     |5 hours   |
-
-* Only weekends and holidays
-
-|Start date          |Due date            |Estimated time |Working day|PV per day|
-|--------------------|--------------------|---------------|-----------|----------|
-|May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days     |4 hours   |
 
 # How to calculate EVM
 The below are used for EVM.
@@ -128,6 +92,42 @@ PV: Dividing estimated time: 24hours by 3 days (from start date to due date)
 | AC  | 10  | 16  | 24  |
 
 Based on these data, EVM and chart are created.
+
+## Baseline
+If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
+PV is based on your baseline. In addition, you can set calculation without baseline by options.
+
+## View options
+* Change the calculating basic date
+* Using baseline
+* Explanation of EVM
+
+## About workig days
+1. Excluding weekends and holidays
+2. If it is only weekends or holidays, make it a working day
+3. Use holidays gem -> Regional settings are set in the common setting page(common setting link in contextial)
+
+Example)
+
+In Japan, May 3, May 4, May 5 are holidays
+
+* Including weekends and holidays
+
+|Start date          |Due date            |Estimated time |Working day|PV per day|
+|--------------------|--------------------|---------------|-----------|----------|
+|May 1, 2017 (Monday)|May 8, 2017 (Monday)|12 hours       |3 days     |4 hours   |
+
+* Including only a few weekends and holidays
+
+|Start date          |Due date            |Estimated time |Working day|PV per day|
+|--------------------|--------------------|---------------|-----------|----------|
+|May 1, 2017 (Monday)|May 7, 2017 (Sunday)|10 hours       |2 days     |5 hours   |
+
+* Only weekends and holidays
+
+|Start date          |Due date            |Estimated time |Working day|PV per day|
+|--------------------|--------------------|---------------|-----------|----------|
+|May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days     |4 hours   |
 
 # Chart
 Charts are displayed using Chart.js. This java scripts include Redmine.

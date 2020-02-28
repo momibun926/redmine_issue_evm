@@ -17,6 +17,8 @@ module CalculateEvmLogic
     # state on basis date
     # overdue: basis date is overdue, before_plan: basis date is before start date
     attr_reader :state
+    # Rest days
+    attr_reader :rest_days
 
     # Constractor
     #
@@ -43,6 +45,8 @@ module CalculateEvmLogic
       @daily_pv[@basis_date] ||= 0.0
       # addup PV
       @cumulative_pv = sort_and_sum_evm_hash @daily_pv
+      # Rest days
+      @rest_days = (@basis_date > @due_date) ? 0 : amount_working_days(@basis_date, @due_date)
     end
 
     # Badget at completion (BAC)
