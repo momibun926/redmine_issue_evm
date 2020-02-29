@@ -1,7 +1,9 @@
+<% html_title("Project tracking with EVM - plugin setting ") %>
 <div class="contextual">
   <%= link_to l(:label_nav_main), { controller: :evms, action: :index, id: @project.id}, class: "icon icon-main-evm" %>
 </div>
-<h2><%= l(:label_setting_edit) %></h2>
+<h2><%= l(:title_evm_tab) %></h2>
+<h3><%= l(:label_setting_edit) %></h3>
 <%= form_for @evm_settings,  url: {action: :update, method: :get} do |f| %>
   <%= render partial: "/evmsettings/evmsetting", locals: { f: f , evm_setting: @evm_settings } %>
   <%= f.label :updated_on %>&emsp;<%= format_time(@evm_settings.updated_on) %><br>

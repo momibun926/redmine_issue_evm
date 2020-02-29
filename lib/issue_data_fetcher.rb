@@ -181,8 +181,8 @@ module IssueDataFetcher
     metrics[:actual_start_date] = [evm.ac.min_date, evm.ev.min_date].min
     # project state
     metrics[:state] = evm.pv.state
-    # plan due date difference
-    metrics[:due_date_difference] = (evm.pv.basis_date - evm.pv.due_date).to_i
+    # Rest days to due date
+    metrics[:due_date_difference] = evm.pv.rest_days
     # return
     metrics
   end

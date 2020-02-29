@@ -5,7 +5,7 @@
       <th colspan="5"><%=l(:indicator_table_header_today)%></th>
       <th colspan="2"><%=l(:indicator_table_header_difference)%></th>
       <th colspan="3"><%=l(:indicator_table_header_performance)%></th>
-      <th colspan="5"><%=l(:indicator_table_header_forecast)%></th>
+      <th colspan="4"><%=l(:indicator_table_header_forecast)%></th>
     </tr>
     <tr>
       <th>BAC</th>
@@ -22,7 +22,6 @@
       <th>ETC</th>
       <th>VAC</th>
       <th>TCPI</th>
-      <th>Delay</th>
     </tr>
     <tr>
       <td rowspan="2"><%=project_evm.basis_date%></td>
@@ -40,7 +39,6 @@
       <td><%=project_evm.etc%></td>
       <td><%=project_evm.vac%></td>
       <td><%=project_evm.tcpi%></td>
-      <td rowspan="2"><%=project_evm.delay%> Days</td>
     </tr>
     <tr>
       <td><%=project_evm.bac(working_hours)%></td>
@@ -60,6 +58,7 @@
     </tr>
   </table>
   <%= l(:explanation_upper_row)%> <%= l(:explanation_lower_row)%>
+  <br>
   <br>
 </section>
 

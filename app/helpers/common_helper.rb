@@ -69,4 +69,13 @@ module CommonHelper
   def display_no_data(no_data)
     "<p class='nodata'>#{l(:label_no_data)}</p>" if no_data.blank?
   end
+
+  # Convert date to labels on chart.js
+  #
+  # @param [date] date date on chart.js eAxis
+  # @return [number] data for labels on chart.js
+  def convert_to_labels(date)
+    date.to_time(:local).to_i * 1000
+  end
+
 end

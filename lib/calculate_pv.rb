@@ -17,17 +17,22 @@ module CalculateEvmLogic
     # state on basis date
     # overdue: basis date is overdue, before_plan: basis date is before start date
     attr_reader :state
+    # Rest days
+    attr_reader :rest_days
 
     # Constractor
     #
     # @param [date] basis_date basis date.
     # @param [issue] issues for culculation of PV.
     # @param [string] region setting region use calculation working days.
-    def initialize(basis_date, issues, region)
+    # @param [string] exclude_holiday setting exclude holiday
+    def initialize(basis_date, issues, region, exclude_holiday)
       # basis date
       @basis_date = basis_date
       # region
       @region = region
+      # exclude holiday
+      @holiday_exclude = exclude_holiday
       # daily PV
       @daily_pv = calculate_planed_value issues
       # planed start date
@@ -40,9 +45,11 @@ module CalculateEvmLogic
       @daily_pv[@basis_date] ||= 0.0
       # addup PV
       @cumulative_pv = sort_and_sum_evm_hash @daily_pv
+      # Rest days
+      @rest_days = (@basis_date > @due_date) ? 0 : amount_working_days(@basis_date, @due_date)
     end
 
-    # Badget at completion
+    # Badget at completion (BAC)
     # Total estimate hours of issues.
     #
     # @return [Numeric] BAC
@@ -50,11 +57,44 @@ module CalculateEvmLogic
       @cumulative_pv.values.max
     end
 
+    # Schadule at completion.
+    # This is the original planned completion duration (days) of the project.
+    #
+    # @return [Numeric] SAC (days)
+    def sac
+      amount_working_days(start_date, due_date)
+    end
+
+
     # Today"s planed value
     #
     # @return [Numeric] PV on basis date or PV of baseline.
     def today_value
       @cumulative_pv[@basis_date]
+    end
+
+    # Actual Time (AT)
+    # This is the duration from the beginning of the project to basis date.
+    #
+    # @return [Numeric] days: basis date - start date
+    def today_at
+      amount_working_days(@start_date, @basis_date)
+    end
+
+    # Earned schedule (ES)
+    # This duration from the beginning of the project to the date 
+    # on which the PV should have been equal to the current value of EV.
+    #
+    # @param [numeric] ev EV value of basis date.
+    # @return [date] earned shedule
+    def today_es(ev)
+      es_date_pv = if @state == :overdue
+                     @cumulative_pv.select{ |k, v| ( k < @basis_date ) }
+                   else
+                     @cumulative_pv
+                   end
+      es_date = es_date_pv.select{ |k, v| ( v <= ev ) }.keys.max
+      es_date.nil? ? 0 : amount_working_days(@start_date, es_date)
     end
 
     private
@@ -92,7 +132,7 @@ module CalculateEvmLogic
     end
 
     # working days.
-    # exclude weekends and holiday.
+    # exclude weekends and holiday or include weekends and holiday.
     #
     # @param [date] start_date start date of issue
     # @param [date] end_date end date of issue
@@ -105,6 +145,15 @@ module CalculateEvmLogic
                       else
                         issue_days
                       end
+    end
+
+    # Amount of working days.
+    #
+    # @param [date] start_date start date
+    # @param [date] end_date end date
+    # @return [Numeric] Amount of working days
+    def amount_working_days(start_date, end_date)
+      working_days(start_date, end_date).length
     end
 
     # state on basis date

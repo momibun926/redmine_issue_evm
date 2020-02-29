@@ -31,12 +31,13 @@
         <p><%= l(:label_basis_date) %></p>
         <%= date_field_tag("basis_date", @cfg_param[:basis_date], size: 8) %><%= calendar_for("basis_date") %>
       </div>
+      <!-- additional option of each page -->
       <%= yield :additional_option %>
     </div>
   </fieldset>
   <!-- Apply button -->
   <p class="buttons">
     <%= link_to "#", {onclick: "$(this).closest('form').submit()", class: "icon icon-checked" } do l(:button_apply) end %>
-    <%= link_to l(:button_clear), { basis_date: Date.today }, :class => 'icon icon-reload'  %>
+    <%= link_to l(:button_clear), { basis_date: Date.today }, :class => "icon icon-reload"  %>
   </p>
 <% end %>

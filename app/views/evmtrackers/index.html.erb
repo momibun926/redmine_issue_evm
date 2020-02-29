@@ -1,4 +1,4 @@
-<% html_title("Project tracking with EVM - Trackers ") %>
+<% html_title("Project tracking with EVM") %>
 <!-- sunb title -->
 <% content_for :title_sub do %>
   <%= l(:label_nav_tracker) %>
@@ -24,7 +24,7 @@
     <br>
     <!-- Charts -->
     <%= render partial: "/common/basic_evm_chart_js",
-        locals: { basis_date: @cfg_param[:basis_date].to_time(:local).to_i * 1000,
+        locals: { basis_date: convert_to_labels(@cfg_param[:basis_date]),
                   chart_data: @tracker_evm_chart,
                   id: "1",
                   tittle: @tracker_evm.description } %>

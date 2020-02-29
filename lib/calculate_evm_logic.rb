@@ -46,7 +46,7 @@ module CalculateEvmLogic
       @exclude_holiday = options[:exclude_holiday]
       @region = options[:region]
       # PV Actual
-      @pv_actual = CalculatePv.new @basis_date, issues, @region
+      @pv_actual = CalculatePv.new @basis_date, issues, @region, @exclude_holiday 
       # EV
       @ev = CalculateEv.new @basis_date, issues
       # AC
@@ -56,7 +56,7 @@ module CalculateEvmLogic
         @pv_baseline = nil
         @pv = @pv_actual
       else
-        @pv_baseline = CalculatePv.new @basis_date, baselines, @region
+        @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday 
         @pv = @pv_baseline
       end
     end
@@ -69,6 +69,15 @@ module CalculateEvmLogic
     def bac(hours = 1)
       bac = @pv.bac / hours
       bac.round(1)
+    end
+
+    # Schadule at completion.
+    # This is the original planned completion duration (days) of the project.
+    #
+    # @return [Numeric] SAC
+    def sac
+      sac = @pv.sac
+      sac.round(1)
     end
 
     # CompleteEV
@@ -124,6 +133,28 @@ module CalculateEvmLogic
       sv.round(1)
     end
 
+    # Earned shedule (ES)
+    #
+    # @return [Numeric] days
+    def today_es
+      @pv.today_es(today_ev).to_i
+    end
+
+    # Actual time (AT)
+    #
+    # @return [Numeric] days
+    def today_at
+      @pv.today_at
+    end
+
+    # Time variance (TV)
+    # How much ahead or behind the schedule a project is running on time base.
+    #
+    # @return [Numeric] days
+    def today_tv
+      (today_es - today_at).to_i
+    end
+
     # Cost variance
     # Cost Variance (CV) is a very important factor to measure project performance.
     # CV indicates how much over - or under-budget the project is.
@@ -148,6 +179,16 @@ module CalculateEvmLogic
               today_ev(hours) / today_pv(hours)
             end
       spi.round(2)
+    end
+
+    # Time Performance Indicator
+    # TPI is greater than 1, then the project is ahead of schedule and 
+    # if it is less than 1, then the project is behind schedule.
+    #
+    # @return [Numeric] earned schedule (days) / Actual time (days)
+    def today_tpi
+      tpi = @pv.today_es(today_ev).fdiv(@pv.today_at)
+      tpi.round(2)
     end
 
     # Cost Performance Indicator
@@ -210,6 +251,15 @@ module CalculateEvmLogic
       eac.round(1)
     end
 
+    # Time estimate at completion (TEAC).
+    # Whereas the estimated time at completion has to be called the time estimate at completion (TEAC)
+    #
+    # @return [Numeric] SAC / TPI
+    def teac
+      teac = today_tpi == 0 ? 0 : @pv.sac / today_tpi
+      teac.round(0)
+    end
+
     # Variance at Completion
     # Variance at completion (VAC) is the variance
     # on the total budget at the end of the project.
@@ -219,6 +269,16 @@ module CalculateEvmLogic
     def vac(hours = 1)
       vac = bac(hours) - eac(hours)
       vac.round(1)
+    end
+
+    # Time Variance at Completion (TVAC)
+    # Indication of the estimated amount of time 
+    # that the project will be completed ahead or behind schedule.
+    #
+    # @return [Numeric] SAC - TEAC
+    def tvac
+      tvac = @pv.sac - teac
+      tvac.round(1)
     end
 
     # forecast date (Delay)

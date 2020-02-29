@@ -1,0 +1,32 @@
+<section>
+  <table id="evm-indicator-value-table" border="1" bordercolor = "#bbb">
+    <tr>
+      <th rowspan="2"><%=l(:indicator_table_header_date)%></th>
+      <th colspan="3"><%=l(:indicator_table_header_today)%></th>
+      <th><%=l(:indicator_table_header_difference)%></th>
+      <th><%=l(:indicator_table_header_performance)%></th>
+      <th colspan="2"><%=l(:indicator_table_header_forecast)%></th>
+    </tr>
+    <tr>
+      <th>SAC</th>
+      <th>ES</th>
+      <th>AT</th>
+      <th>TV</th>
+      <th>TPI</th>
+      <th>TEAC</th>
+      <th>TVAC</th>
+    </tr>
+    <tr>
+      <td><%=project_evm.basis_date%></td>
+      <td><%=project_evm.sac%></td>
+      <td><%=project_evm.today_es%></td>
+      <td><%=project_evm.today_at%></td>
+      <td><%=project_evm.today_tv%></td>
+      <td><%=project_evm.today_tpi%></td>
+      <td><%=project_evm.teac%></td>
+      <td><%=project_evm.tvac%></td>
+    </tr>
+  </table>
+  <%= l(:explanation_es_unit) %> (<%= exclude_holiday ? l(:label_exclude_holidays) : "" %>)
+  <br>
+</section>
