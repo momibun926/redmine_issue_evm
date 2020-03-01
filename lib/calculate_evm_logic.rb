@@ -62,7 +62,7 @@ module CalculateEvmLogic
         @pv = @pv_baseline
       end
       # project finished?
-      @finished_date = [@pv.due_date, @ev.max_date, @ac.max_date].max if @ev.state == :finished
+      @finished_date = [@ev.max_date, @ac.max_date].max if @ev.state == :finished
     end
 
     # Badget at completion.
@@ -148,7 +148,7 @@ module CalculateEvmLogic
     #
     # @return [Numeric] days
     def today_at
-      @pv.today_at
+      @pv.today_at(@finished_date || @basis_date)
     end
 
     # Time variance (TV)
@@ -191,7 +191,7 @@ module CalculateEvmLogic
     #
     # @return [Numeric] earned schedule (days) / Actual time (days)
     def today_tpi
-      tpi = @pv.today_es(today_ev).fdiv(@pv.today_at)
+      tpi = today_es.fdiv(today_at)
       tpi.round(2)
     end
 
