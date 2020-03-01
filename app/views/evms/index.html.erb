@@ -59,7 +59,7 @@
   <h3><%= l(:subtitle_evm_chart_main) %></h3>
   <h4><%= used_baseline_name %></h4>
   <%= render partial: "/evms/project_chart_js",
-      locals: { basis_date: convert_to_labels(@cfg_param[:basis_date]),
+      locals: { basis_date: convert_to_labels(@project_evm.finished_date || @cfg_param[:basis_date]),
                 chart_data: @evm_chart_data} %>
   <br>
   <!-- Performance Chart -->

@@ -23,6 +23,8 @@ module CalculateEvmLogic
     attr_reader :forecast
     # description
     attr_accessor :description
+    # project finished date
+    attr_accessor :finished_date
     
     # Constractor
     #
@@ -59,6 +61,8 @@ module CalculateEvmLogic
         @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday 
         @pv = @pv_baseline
       end
+      # project finished?
+      @finished_date = [@pv.due_date, @ev.max_date, @ac.max_date].max if @ev.state == :finished
     end
 
     # Badget at completion.
