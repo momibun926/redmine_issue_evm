@@ -12,11 +12,11 @@
       <thead>
         <tr>
           <th><%= l(:label_baseline) %></th>
-          <th><%= l(:label_based_on) %></th>
           <th><%= l(:field_description) %></th>
+          <th><%= l(:label_based_on) %></th>
+          <th><%= l(:label_baseline_bac) %></th>
           <th><%= l(:label_baseline_start_date) %></th>
           <th><%= l(:label_baseline_due_date) %></th>
-          <th><%= l(:label_baseline_bac) %></th>
           <th><%= l(:field_status) %></th>
           <th><%= l(:field_author) %></th>
           <th><%= l(:field_created_on) %></th>
@@ -28,11 +28,11 @@
       　　<% @evm_baselines.each do |baseline| %>
           <tr class="baseline">
             <td class="subject"><%= link_to baseline.subject, {controller: :evms, action: :index, evmbaseline_id: baseline.id} %></td>
-            <td class="based_on"><%= baseline.based_on %></td>
             <td class="description"><%= textilizable truncate_lines(baseline.description, length: 50) %></td>
+            <td class="based_on"><%= baseline.based_on %></td>
+            <td class="bac"><%= baseline.bac %></td>
             <td class="strat_date"><%= baseline.minimum_start_date %></td>
             <td class="due_date"><%= baseline.maximum_due_date %></td>
-            <td class="bac"><%= baseline.bac %></td>
             <td class="status"><%= baseline.state %></td>
             <td class="author"><%= baseline.author %></td>
             <td class="created_on"><%= local_date(baseline.created_on) %></td>
