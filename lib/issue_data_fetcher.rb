@@ -180,7 +180,7 @@ module IssueDataFetcher
     # actual start date
     metrics[:actual_start_date] = [evm.ac.min_date, evm.ev.min_date].min
     # project state
-    metrics[:state] = evm.pv.state
+    metrics[:state] = evm.project_state
     # Rest days to due date
     metrics[:due_date_difference] = evm.pv.rest_days
     # return
@@ -249,12 +249,12 @@ module IssueDataFetcher
     assignee_name = id.blank? ? l(:no_assignee) : assigneee.name
   end
 
-  # check project state
+  # check baseline difference
   # difference of baseline and actual plan
   #
   # @param [CalculateEvm] project_evm evm object of project
   # @return [hash] project state
-  def check_project_state(project_evm)
+  def check_baseline_difference(project_evm)
     pv_actual = project_evm.pv_actual
     pv_baseline = project_evm.pv_baseline
     project_state = {}

@@ -25,7 +25,9 @@ module CalculateEvmLogic
     attr_accessor :description
     # project finished date
     attr_accessor :finished_date
-    
+    # Project status
+    attr_accessor :project_state
+
     # Constractor
     #
     # @param [evmbaseline] baselines selected baseline.
@@ -63,6 +65,8 @@ module CalculateEvmLogic
       end
       # project finished?
       @finished_date = [@ev.max_date, @ac.max_date].max if @ev.state == :finished
+      # project state
+      @project_state = @ev.state
     end
 
     # Badget at completion.

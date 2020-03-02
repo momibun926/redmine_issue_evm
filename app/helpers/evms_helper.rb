@@ -22,4 +22,13 @@ module EvmsHelper
             end
     value.html_safe
   end
+
+  # Get annotationlabel
+  #
+  # @param [date] finished_date project finished date
+  # @return [String] label name, "Basis date" or "Finished date"
+  def basis_date_label(finished_date)
+    value = finished_date.nil? ? "Basis date" : "Finished date"  
+    value.html_safe
+  end
 end
