@@ -38,6 +38,8 @@
   progress: Work in progress
   finished: Finished
   overdue: Over due date
+  before_plan: Before project start date
+  within_duration: Within the project period
 
   # Indicator table header
   indicator_table_header_date: Basis date
@@ -53,6 +55,7 @@
   
   # Option - common
   label_basis_date: Basis date
+  label_finished_date: Finished date
   # Option - main
   label_baseline_use: Use baseline for EVM value
   label_no_use_baseline: Not use

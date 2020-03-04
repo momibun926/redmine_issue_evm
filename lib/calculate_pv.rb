@@ -166,7 +166,7 @@ module CalculateEvmLogic
                elsif @basis_date < @start_date
                  :before_plan
                else
-                 :working
+                 :within_duration
                end
     end
   end
