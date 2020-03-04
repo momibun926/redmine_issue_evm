@@ -36,6 +36,12 @@ zh:
   bac_cahnged: BAC is changed.
   due_date_changed: Due date is changed.
   schedule_changed: Rescheduled, Plan of A few issue is changed.
+  progress: Work in progress
+  finished: Finished
+  overdue: Over due date
+  no_work: No finished issue
+  before_plan: Before project start date
+  within_duration: Within the project period
 
   # Indicator table header
   indicator_table_header_date: 基准日期
@@ -51,6 +57,7 @@ zh:
 
   # Option - common
   label_basis_date: 基准日期
+  label_finished_date: Finished date
   # Option - main
   label_baseline_use: 使用基线计算EVM
   label_no_use_baseline: 不使用

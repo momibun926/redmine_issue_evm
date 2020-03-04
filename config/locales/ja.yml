@@ -36,7 +36,12 @@ ja:
   bac_cahnged: BACが変更されました
   due_date_changed: プロジェクトの期限が変更されました
   schedule_changed: スケジュールが変更されました
-
+  progress: 作業中です
+  finished: プロジェクトは終了しています
+  overdue: 完了予定日を過ぎています
+  no_work: 完了しているタスクがありません
+  before_plan: プジェクト開始日前です
+  within_duration: プロジェクト期間内です
 
   # Indicator table header
   indicator_table_header_date: 基準日
@@ -52,6 +57,7 @@ ja:
   
   # Option - common
   label_basis_date: 基準日
+  label_finished_date: 完了日
   # Option - main
   label_baseline_use: ベースラインの利用
   label_no_use_baseline: ベースラインを使用しない

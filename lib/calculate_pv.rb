@@ -76,9 +76,10 @@ module CalculateEvmLogic
     # Actual Time (AT)
     # This is the duration from the beginning of the project to basis date.
     #
+    # @param [date] status_date project finished date or basis date.
     # @return [Numeric] days: basis date - start date
-    def today_at
-      amount_working_days(@start_date, @basis_date)
+    def today_at(status_date)
+      amount_working_days(@start_date, status_date)
     end
 
     # Earned schedule (ES)
@@ -165,7 +166,7 @@ module CalculateEvmLogic
                elsif @basis_date < @start_date
                  :before_plan
                else
-                 :working
+                 :within_duration
                end
     end
   end

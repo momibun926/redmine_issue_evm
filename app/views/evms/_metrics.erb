@@ -7,7 +7,7 @@
     </tr>
     <tr>
       <td align="right"><%= l(:indicator_status) %>:</td>
-      <td><%= project_metrics[:state] %></td>
+      <td><%= project_status(project_metrics[:state]) %></td>
     </tr>
     <tr>
       <td align="right"><%= l(:indicator_duration) %>:</td>

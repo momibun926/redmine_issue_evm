@@ -2,11 +2,12 @@
 <script>
 var ctx = document.getElementById("ChartProject").getContext("2d");
 var myChart = new Chart(ctx, {
-    type: "line",
+    type: "bar",
     data: {
         labels: <%= chart_data[:labels] %>,
         datasets: [{
             label: "PV",
+            type: "line",
             spanGaps: true,
             data: <%= chart_data[:pv] %>,
             borderWidth: 2,
@@ -17,6 +18,7 @@ var myChart = new Chart(ctx, {
             fill: false
         },{
             label: "EV",
+            type: "line",
             spanGaps: true,
             data: <%= chart_data[:ev] %>,
             borderWidth: 2,
@@ -27,6 +29,7 @@ var myChart = new Chart(ctx, {
             fill: false
         },{
             label: "AC",
+            type: "line",
             spanGaps: true,
             data: <%= chart_data[:ac] %>,
             borderWidth: 2,
@@ -37,6 +40,7 @@ var myChart = new Chart(ctx, {
             fill: false
         },{
             label: "Baseline",
+            type: "line",
             spanGaps: true,
             data: <%= chart_data[:baseline] %>,
             borderWidth: 2,
@@ -47,6 +51,7 @@ var myChart = new Chart(ctx, {
             fill: false
         },{
             label: "BAC",
+            type: "line",
             spanGaps: true,
             data: <%= chart_data[:bac] %>,
             borderDash: [5, 2],
@@ -58,6 +63,7 @@ var myChart = new Chart(ctx, {
             fill: false
         },{
             label: "EAC",
+            type: "line",
             spanGaps: true,
             data: <%= chart_data[:eac] %>,
             borderDash: [5, 2],
@@ -69,6 +75,7 @@ var myChart = new Chart(ctx, {
             fill: false
         },{
             label: "AC Forecast",
+            type: "line",
             spanGaps: true,
             data: <%= chart_data[:ac_forecast] %>,
             borderDash: [2, 2],
@@ -80,6 +87,7 @@ var myChart = new Chart(ctx, {
             fill: false
         },{
             label: "EV Forecast",
+            type: "line",
             spanGaps: true,
             data: <%= chart_data[:ev_forecast] %>,
             borderDash: [2, 2],
@@ -148,7 +156,7 @@ var myChart = new Chart(ctx, {
                 borderWidth: 1,
                 borderColor: "darkred",
                 label: {
-                    content: "Basis date",
+                    content: "<%= basis_date_label %>",
                     enabled: true,
                     position: "top"
                 }

@@ -39,6 +39,7 @@ module CalculateEvmLogic
       @daily_ev[@basis_date] ||= 0.0
       # addup EV
       @cumulative_ev = sort_and_sum_evm_hash @daily_ev
+      @cumulative_ev.reject!{|k, v| @basis_date < k }
     end
 
     # Today"s earned value
@@ -98,9 +99,11 @@ module CalculateEvmLogic
                elsif @issue_count == 0
                  :no_work
                elsif @finished_issue_count == @issue_count
-                 :finished
-               else
-                 :NA
+                  if @basis_date < @max_date 
+                    :progress
+                  else
+                    :finished
+                  end
                end
     end
   end
