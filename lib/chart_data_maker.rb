@@ -18,24 +18,13 @@ module ChartDataMaker
     # max date, min date include forecast date
     chart_minimum_date = [evm.pv.start_date, evm.ev.min_date, evm.ac.min_date].min
     if evm.forecast == true
-      chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date, evm.forecast_finish_date].max
+      chart_maximum_date = [evm.pv.due_date, evm.ev.cumulative_ev.keys.max, evm.ac.cumulative_ac.keys.max, evm.forecast_finish_date].max
     else
-      chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date].max
+      chart_maximum_date = [evm.pv.due_date, evm.ev.cumulative_ev.keys.max, evm.ac.cumulative_ac.keys.max,].max
     end
-    # overdue?
-    if evm.pv_actual.state.equal?(:overdue)
-      planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date < evm.basis_date }
-    else
-      planned_value = evm.pv_actual.cumulative_pv
-    end
-    if evm.pv_baseline.nil?
-    else
-      if evm.pv_baseline.state.equal?(:overdue)
-        baseline_value = evm.pv_baseline.cumulative_pv.select { |date, _value| date < evm.basis_date }
-      else
-        baseline_value = evm.pv_baseline.cumulative_pv
-      end
-    end
+    # always within dyue date
+    planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date <= evm.pv.due_date }
+    baseline_value = evm.pv_baseline.cumulative_pv.select { |date, _value| date <= evm.pv_baseline.due_date } unless evm.pv_baseline.nil?
     # init forecast chart data
     bac_top_line = {}
     eac_top_line = {}
