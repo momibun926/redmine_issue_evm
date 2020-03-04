@@ -15,13 +15,8 @@ module ChartDataMaker
   # @param [object] evm calculation EVN object
   # @return [hash] chart data
   def evm_chart_data(evm)
-    # max date, min date include forecast date
-    chart_minimum_date = [evm.pv.start_date, evm.ev.min_date, evm.ac.min_date].min
-    if evm.forecast == true
-      chart_maximum_date = [evm.pv.due_date, evm.ev.cumulative_ev.keys.max, evm.ac.cumulative_ac.keys.max, evm.forecast_finish_date].max
-    else
-      chart_maximum_date = [evm.pv.due_date, evm.ev.cumulative_ev.keys.max, evm.ac.cumulative_ac.keys.max,].max
-    end
+    chart_duration = {}
+    chart_duration = chart_duration(evm)
     # always within dyue date
     planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date <= evm.pv.due_date }
     baseline_value = evm.pv_baseline.cumulative_pv.select { |date, _value| date <= evm.pv_baseline.due_date } unless evm.pv_baseline.nil?
@@ -34,11 +29,11 @@ module ChartDataMaker
     if evm.forecast == true
       # for chart
       # top line of BAC
-      bac_top_line[chart_minimum_date] = evm.bac
-      bac_top_line[chart_maximum_date] = evm.bac
+      bac_top_line[chart_duration[:start_date]] = evm.bac
+      bac_top_line[chart_duration[:end_date]] = evm.bac
       # top line of EAC
-      eac_top_line[chart_minimum_date] = evm.eac
-      eac_top_line[chart_maximum_date] = evm.eac
+      eac_top_line[chart_duration[:start_date]] = evm.eac
+      eac_top_line[chart_duration[:end_date]] = evm.eac
       # forecast line of AC
       actual_cost_forecast[evm.basis_date] = evm.today_ac
       actual_cost_forecast[evm.forecast_finish_date] = evm.eac
@@ -58,7 +53,7 @@ module ChartDataMaker
     plotdata_actual_cost_forecast = []
     plotdata_earned_value_forecast = []
 
-    for chart_date in chart_minimum_date..chart_maximum_date do
+    for chart_date in chart_duration[:start_date]..chart_duration[:end_date] do
       labels << chart_date.to_time(:local).to_i * 1000
       plotdata_planned_value << evm_round(planned_value[chart_date])
       plotdata_actual_cost << evm_round(evm.ac.cumulative_ac[chart_date])
@@ -157,4 +152,30 @@ module ChartDataMaker
             evm_value.round(2)
           end
   end
+
+  # Get duretion of chart
+  #
+  # @param [evm] evm evm object
+  # @return [hash] duration chart area
+  def chart_duration(evm)
+    # duration
+    duration = {}
+    # start date
+    chart_minimum_date_array = [evm.pv.start_date, evm.pv_actual.start_date, evm.ev.min_date, evm.ac.min_date]
+    chart_minimum_date_array << evm.pv_baseline.start_date unless evm.pv_baseline.nil?
+    duration[:start_date] = chart_minimum_date_array.min
+    # end date
+    chart_maximum_date_array = [evm.pv.due_date, evm.pv_actual.due_date]
+    chart_maximum_date_array << evm.forecast_finish_date if evm.forecast == true
+    chart_maximum_date_array << evm.pv_baseline.due_date unless evm.pv_baseline.nil?
+    unless evm.ev.state == :finished
+      chart_maximum_date_array << evm.ev.cumulative_ev.keys.max 
+      chart_maximum_date_array << evm.ac.cumulative_ac.keys.max
+    else
+      chart_maximum_date_array << evm.ev.max_date
+      chart_maximum_date_array << evm.ac.max_date
+    end
+    duration[:end_date] = chart_maximum_date_array.max
+  end
+
 end
