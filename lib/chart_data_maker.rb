@@ -15,7 +15,7 @@ module ChartDataMaker
   # @param [object] evm calculation EVN object
   # @return [hash] chart data
   def evm_chart_data(evm)
-    chart_duration = {}
+    # start date and end date of chart
     chart_duration = chart_duration(evm)
     # always within dyue date
     planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date <= evm.pv.due_date }
@@ -176,6 +176,7 @@ module ChartDataMaker
       chart_maximum_date_array << evm.ac.max_date
     end
     duration[:end_date] = chart_maximum_date_array.max
+    duration
   end
 
 end
