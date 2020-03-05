@@ -18,7 +18,7 @@ module ChartDataMaker
     # start date and end date of chart
     chart_duration = chart_duration(evm)
     # always within dyue date
-    planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date <= evm.pv.due_date }
+    planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date <= evm.pv_actual.due_date }
     baseline_value = evm.pv_baseline.cumulative_pv.select { |date, _value| date <= evm.pv_baseline.due_date } unless evm.pv_baseline.nil?
     # init forecast chart data
     bac_top_line = {}
@@ -166,6 +166,7 @@ module ChartDataMaker
     duration[:start_date] = chart_minimum_date_array.min
     # end date
     chart_maximum_date_array = [evm.pv.due_date, evm.pv_actual.due_date]
+    Rails.logger.info(evm.pv_actual.due_date)
     chart_maximum_date_array << evm.forecast_finish_date if evm.forecast == true
     chart_maximum_date_array << evm.pv_baseline.due_date unless evm.pv_baseline.nil?
     unless evm.ev.state == :finished
