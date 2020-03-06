@@ -55,16 +55,13 @@ module CalculateEvmLogic
       @ev = CalculateEv.new @basis_date, issues
       # AC
       @ac = CalculateAc.new @basis_date, costs
-      # Baseline and PV
+      # PV Baseline or PV actual
+      @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday unless baselines.nil?
+      @pv = @pv_baseline || @pv_actual
+      # project finished?
       if baselines.nil?
-        @pv_baseline = nil
-        @pv = @pv_actual
-        # project finished?
         @finished_date = [@ev.max_date, @ac.max_date].max if @ev.state == :finished
       else
-        @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday 
-        @pv = @pv_baseline
-        # project finished?
         @finished_date = [@ev.max_date, @ac.max_date].max if @pv_baseline.bac <= @ev.cumulative_ev.values.max
       end
       # project state
