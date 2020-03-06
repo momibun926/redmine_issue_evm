@@ -59,13 +59,9 @@ module CalculateEvmLogic
       @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday unless baselines.nil?
       @pv = @pv_baseline || @pv_actual
       # project finished?
-      if baselines.nil?
-        @finished_date = [@ev.max_date, @ac.max_date].max if @ev.state == :finished
-      else
-        @finished_date = [@ev.max_date, @ac.max_date].max if @pv_baseline.bac <= @ev.cumulative_ev.values.max
-      end
+      @finished_date = [@ev.max_date, @ac.max_date].max if @ev.state(@pv_baseline) == :finished
       # project state
-      @project_state = [@ev.state, @pv.state]
+      @project_state = [@ev.state(@pv_baseline), @pv.state]
     end
 
     # Badget at completion.

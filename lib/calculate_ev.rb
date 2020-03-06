@@ -14,9 +14,6 @@ module CalculateEvmLogic
     attr_reader :daily_ev
     # cumulative EV by date
     attr_reader :cumulative_ev
-    # satate
-    # progress: task is progress, finished: task is all completed.
-    attr_reader :state
 
     # Constractor
     #
@@ -33,8 +30,6 @@ module CalculateEvmLogic
       # maximum due date
       # if no data, set basis date
       @max_date = @daily_ev.keys.max || @basis_date
-      # check state
-      @state = check_state
       # basis date
       @daily_ev[@basis_date] ||= 0.0
       # addup EV
@@ -47,6 +42,13 @@ module CalculateEvmLogic
     # @return [Numeric] EV value on basis date
     def today_value
       @cumulative_ev[@basis_date]
+    end
+
+    # State
+    #
+    # @return [Numeric] EV value on basis date
+    def state(bac = nil)
+      check_state(bac)
     end
 
     private
@@ -93,18 +95,24 @@ module CalculateEvmLogic
     # state on basis date
     #
     # @return [String] state of plan on basis date
-    def check_state
-      @state = if @finished_issue_count < @issue_count
-                 :progress
-               elsif @issue_count == 0
-                 :no_work
-               elsif @finished_issue_count == @issue_count
-                  if @basis_date < @max_date 
-                    :progress
-                  else
-                    :finished
-                  end
-               end
+    def check_state(pv_baseline = nil)
+      if pv_baseline.nil?
+        if @finished_issue_count < @issue_count
+          :progress
+        elsif @issue_count == 0
+          :no_work
+        elsif @finished_issue_count == @issue_count
+          if @basis_date < @max_date 
+            :progress
+          else
+            :finished
+          end
+        end
+      elsif pv_baseline.bac <= @cumulative_ev.values.max
+        :finished
+      else
+        :progress
+      end
     end
   end
 end
