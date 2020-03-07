@@ -18,15 +18,19 @@ module ChartDataMaker
     # start date and end date of chart
     chart_duration = chart_duration(evm)
     # always within dyue date
-    planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date <= evm.pv_actual.due_date }
-    baseline_value = evm.pv_baseline.cumulative_pv.select { |date, _value| date <= evm.pv_baseline.due_date } unless evm.pv_baseline.nil?
+    planned_value = evm.pv_actual.cumulative_pv.select { |k, v| k <= evm.pv_actual.due_date }
+    baseline_value = evm.pv_baseline.cumulative_pv.select { |k, v| k <= evm.pv_baseline.due_date } unless evm.pv_baseline.nil?
+    # less than basis date or finished date
+    chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
+    earned_value = evm.ev.cumulative_ev.select { |k, v| k <= chart_adjust_date }
+    actual_value = evm.ac.cumulative_ac.select { |k, v| k <= chart_adjust_date }
     # init forecast chart data
     bac_top_line = {}
     eac_top_line = {}
     actual_cost_forecast = {}
     earned_value_forecast = {}
     # forecast
-    if evm.forecast == true
+    if evm.forecast == true && evm.finished_date.nil?
       # for chart
       # top line of BAC
       bac_top_line[chart_duration[:start_date]] = evm.bac
@@ -56,8 +60,8 @@ module ChartDataMaker
     for chart_date in chart_duration[:start_date]..chart_duration[:end_date] do
       labels << chart_date.to_time(:local).to_i * 1000
       plotdata_planned_value << evm_round(planned_value[chart_date])
-      plotdata_actual_cost << evm_round(evm.ac.cumulative_ac[chart_date])
-      plotdata_earned_value << evm_round(evm.ev.cumulative_ev[chart_date])
+      plotdata_actual_cost << evm_round(actual_value[chart_date])
+      plotdata_earned_value << evm_round(earned_value[chart_date])
       plotdata_baseline_value << evm_round(baseline_value[chart_date]) unless evm.pv_baseline.nil?
       plotdata_planned_value_daily << evm_round(evm.pv.daily_pv[chart_date])
       plotdata_bac_top_line << evm_round(bac_top_line[chart_date])
@@ -89,8 +93,10 @@ module ChartDataMaker
   # @return [hash] data for performance chart
   def performance_chart_data(evm)
     chart_data = {}
-    new_ev = complement_evm_value evm.ev.cumulative_ev
-    new_ac = complement_evm_value evm.ac.cumulative_ac
+    # less than basis date or finished date
+    chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
+    new_ev = complement_evm_value evm.ev.cumulative_ev.select { |k, v| k <= chart_adjust_date }
+    new_ac = complement_evm_value evm.ac.cumulative_ac.select { |k, v| k <= chart_adjust_date }
     new_pv = complement_evm_value evm.pv.cumulative_pv
     performance_min_date = [new_ev.keys.min,
                             new_ac.keys.min,

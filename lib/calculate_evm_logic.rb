@@ -59,7 +59,8 @@ module CalculateEvmLogic
       @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday unless baselines.nil?
       @pv = @pv_baseline || @pv_actual
       # project finished?
-      @finished_date = [@ev.max_date, @ac.max_date].max if @ev.state(@pv_baseline) == :finished
+      ev_finished_date = @ev.cumulative_ev.select { |k, v| @pv_baseline.bac <= v }.keys.min unless baselines.nil?
+      @finished_date = [ev_finished_date, @ev.max_date, @basis_date].compact.min if @ev.state(@pv_baseline) == :finished
       # project state
       @project_state = [@ev.state(@pv_baseline)]
       @project_state << @pv.state unless @ev.state(@pv_baseline) == :finished
@@ -191,7 +192,7 @@ module CalculateEvmLogic
     #
     # @return [Numeric] earned schedule (days) / Actual time (days)
     def today_tpi
-      tpi = today_es.fdiv(today_at)
+      tpi = today_es.zero? ? 0 : today_es.fdiv(today_at)
       tpi.round(2)
     end
 
@@ -348,7 +349,7 @@ module CalculateEvmLogic
                     # After completion schedule date
                     elsif @pv.due_date < @basis_date
                       @basis_date + rest_days(@pv.cumulative_pv[@pv.due_date],
-                                              @ev.cumulative_ev[@ev.max_date],
+                                              @ev.cumulative_ev.values.max,
                                               today_spi,
                                               @working_hours)
                     # before schedule date

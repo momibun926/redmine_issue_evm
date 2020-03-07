@@ -97,23 +97,14 @@ module CalculateEvmLogic
     # @param [CalculatePv] pv_baseline CalculatePv object
     # @return [String] state of project
     def check_state(pv_baseline = nil)
-      if pv_baseline.nil?
-        if @finished_issue_count < @issue_count
-          :progress
-        elsif @issue_count == 0
-          :no_work
-        elsif @finished_issue_count == @issue_count
-          if @basis_date < @max_date 
-            :progress
-          else
-            :finished
-          end
-        end
-      elsif pv_baseline.bac <= @cumulative_ev.values.max
-        :finished
+      return :no_work if @issue_count == 0
+      unless pv_baseline.nil?
+        return :finished if pv_baseline.bac <= @cumulative_ev[@basis_date]
       else
-        :progress
+        return :progress if @basis_date < @max_date
+        return :finished if @finished_issue_count == @issue_count
       end
+      :progress
     end
   end
 end

@@ -89,6 +89,7 @@ module CalculateEvmLogic
     # @param [numeric] ev EV value of basis date.
     # @return [date] earned shedule
     def today_es(ev)
+      return 0 if @state == :before_plan
       es_date_pv = if @state == :overdue
                      @cumulative_pv.select{ |k, v| ( k < @basis_date ) }
                    else
