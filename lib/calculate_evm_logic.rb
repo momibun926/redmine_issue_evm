@@ -58,11 +58,11 @@ module CalculateEvmLogic
       # PV Baseline or PV actual
       @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday unless baselines.nil?
       @pv = @pv_baseline || @pv_actual
-      # project finished?
+      # Finished date is set when project is finished
       @finished_date = check_finished_date(@ev, @pv_baseline)
       # Forecast is invalid when project is finished 
       @forecast = "false" unless @finished_date.nil?
-      # project state
+      # project state, EV and PV
       @project_state = [@ev.state(@pv_baseline)]
       @project_state << @pv.state unless @ev.state(@pv_baseline) == :finished
     end
