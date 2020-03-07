@@ -61,7 +61,8 @@ module CalculateEvmLogic
       # project finished?
       @finished_date = [@ev.max_date, @ac.max_date].max if @ev.state(@pv_baseline) == :finished
       # project state
-      @project_state = [@ev.state(@pv_baseline), @pv.state]
+      @project_state = [@ev.state(@pv_baseline)]
+      @project_state << @pv.state unless @ev.state(@pv_baseline) == :finished
     end
 
     # Badget at completion.

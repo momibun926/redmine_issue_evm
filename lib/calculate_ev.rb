@@ -94,7 +94,8 @@ module CalculateEvmLogic
 
     # state on basis date
     #
-    # @return [String] state of plan on basis date
+    # @param [CalculatePv] pv_baseline CalculatePv object
+    # @return [String] state of project
     def check_state(pv_baseline = nil)
       if pv_baseline.nil?
         if @finished_issue_count < @issue_count
