@@ -30,7 +30,7 @@ module ChartDataMaker
     actual_cost_forecast = {}
     earned_value_forecast = {}
     # forecast
-    if evm.forecast == true && evm.finished_date.nil?
+    if evm.forecast == true
       # for chart
       # top line of BAC
       bac_top_line[chart_duration[:start_date]] = evm.bac

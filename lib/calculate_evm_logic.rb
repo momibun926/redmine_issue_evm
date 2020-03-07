@@ -44,7 +44,7 @@ module CalculateEvmLogic
     def initialize(baselines, issues, costs, options = {})
       # set options
       @working_hours = options[:working_hours]
-      @basis_date = options[:basis_date].to_date
+      @basis_date = options[:basis_date]
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
       @exclude_holiday = options[:exclude_holiday]
@@ -59,8 +59,9 @@ module CalculateEvmLogic
       @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday unless baselines.nil?
       @pv = @pv_baseline || @pv_actual
       # project finished?
-      ev_finished_date = @ev.cumulative_ev.select { |k, v| @pv_baseline.bac <= v }.keys.min unless baselines.nil?
-      @finished_date = [ev_finished_date, @ev.max_date, @basis_date].compact.min if @ev.state(@pv_baseline) == :finished
+      @finished_date = check_finished_date(@ev, @pv_baseline)
+      # Forecast is invalid when project is finished 
+      @forecast = "false" unless @finished_date.nil?
       # project state
       @project_state = [@ev.state(@pv_baseline)]
       @project_state << @pv.state unless @ev.state(@pv_baseline) == :finished
@@ -373,6 +374,16 @@ module CalculateEvmLogic
     # @return [date] rest days
     def rest_days(pv, ev, spi, basis_hours)
       ((pv - ev) / spi / basis_hours).round(0)
+    end
+
+    # Check finished date
+    #
+    # @param [CalculateEv] ev EV class
+    # @param [CalculatePv] pv_baseline PV(Baseline) class
+    # @return [date] project finished date, nil is not finished.
+    def check_finished_date(ev, pv_baseline)
+      ev_finished_date = ev.cumulative_ev.select { |k, v| pv_baseline.bac <= v }.keys.min unless pv_baseline.nil?
+      [ev_finished_date, ev.max_date, @basis_date].compact.min if ev.state(pv_baseline) == :finished
     end
   end
 end
