@@ -44,7 +44,7 @@ module CalculateEvmLogic
     def initialize(baselines, issues, costs, options = {})
       # set options
       @working_hours = options[:working_hours]
-      @basis_date = options[:basis_date].to_date
+      @basis_date = options[:basis_date]
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
       @exclude_holiday = options[:exclude_holiday]
@@ -55,18 +55,16 @@ module CalculateEvmLogic
       @ev = CalculateEv.new @basis_date, issues
       # AC
       @ac = CalculateAc.new @basis_date, costs
-      # Baseline and PV
-      if baselines.nil?
-        @pv_baseline = nil
-        @pv = @pv_actual
-      else
-        @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday 
-        @pv = @pv_baseline
-      end
-      # project finished?
-      @finished_date = [@ev.max_date, @ac.max_date].max if @ev.state == :finished
-      # project state
-      @project_state = [@ev.state, @pv.state]
+      # PV Baseline or PV actual
+      @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday if baselines.present?
+      @pv = @pv_baseline || @pv_actual
+      # Finished date is set when project is finished
+      @finished_date = check_finished_date(@ev, @pv_baseline)
+      # Forecast is invalid when project is finished 
+      @forecast = "false" if @finished_date.present?
+      # project state, EV and PV
+      @project_state = [@ev.state(@pv_baseline)]
+      @project_state << @pv.state if @ev.state(@pv_baseline) != :finished
     end
 
     # Badget at completion.
@@ -195,7 +193,7 @@ module CalculateEvmLogic
     #
     # @return [Numeric] earned schedule (days) / Actual time (days)
     def today_tpi
-      tpi = today_es.fdiv(today_at)
+      tpi = today_es.zero? ? 0 : today_es.fdiv(today_at)
       tpi.round(2)
     end
 
@@ -352,7 +350,7 @@ module CalculateEvmLogic
                     # After completion schedule date
                     elsif @pv.due_date < @basis_date
                       @basis_date + rest_days(@pv.cumulative_pv[@pv.due_date],
-                                              @ev.cumulative_ev[@ev.max_date],
+                                              @ev.cumulative_ev.values.max,
                                               today_spi,
                                               @working_hours)
                     # before schedule date
@@ -376,6 +374,16 @@ module CalculateEvmLogic
     # @return [date] rest days
     def rest_days(pv, ev, spi, basis_hours)
       ((pv - ev) / spi / basis_hours).round(0)
+    end
+
+    # Check finished date
+    #
+    # @param [CalculateEv] ev EV class
+    # @param [CalculatePv] pv_baseline PV(Baseline) class
+    # @return [date] project finished date, nil is not finished.
+    def check_finished_date(ev, pv_baseline)
+      ev_finished_date = ev.cumulative_ev.select { |k, v| pv_baseline.bac <= v }.keys.min if pv_baseline.present?
+      [ev_finished_date, ev.max_date, @basis_date].compact.min if ev.state(pv_baseline) == :finished
     end
   end
 end

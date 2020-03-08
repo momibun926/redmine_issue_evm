@@ -14,9 +14,6 @@ module CalculateEvmLogic
     attr_reader :daily_ev
     # cumulative EV by date
     attr_reader :cumulative_ev
-    # satate
-    # progress: task is progress, finished: task is all completed.
-    attr_reader :state
 
     # Constractor
     #
@@ -33,8 +30,6 @@ module CalculateEvmLogic
       # maximum due date
       # if no data, set basis date
       @max_date = @daily_ev.keys.max || @basis_date
-      # check state
-      @state = check_state
       # basis date
       @daily_ev[@basis_date] ||= 0.0
       # addup EV
@@ -49,6 +44,13 @@ module CalculateEvmLogic
       @cumulative_ev[@basis_date]
     end
 
+    # State
+    #
+    # @return [Numeric] EV value on basis date
+    def state(bac = nil)
+      check_state(bac)
+    end
+
     private
 
     # Calculate EV.
@@ -61,13 +63,13 @@ module CalculateEvmLogic
       temp_ev = {}
       @finished_issue_count = 0
       @issue_count = 0
-      unless issues.nil?
+      if issues.present?
         issues.each do |issue|
           # closed issue
           if issue.closed?
             closed_date = issue.closed_on || issue.updated_on
             dt = closed_date.to_time.to_date
-            temp_ev[dt] += issue.estimated_hours.to_f unless temp_ev[dt].nil?
+            temp_ev[dt] += issue.estimated_hours.to_f if temp_ev[dt].present?
             temp_ev[dt] ||= issue.estimated_hours.to_f
             @finished_issue_count += 1
           # progress issue
@@ -79,9 +81,9 @@ module CalculateEvmLogic
                                      joins(:details).
                                      maximum(:created_on)
             # parent isssue is no journals
-            ratio_date = ratio_date_utc.to_time.to_date unless ratio_date_utc.nil?
+            ratio_date = ratio_date_utc.to_time.to_date if ratio_date_utc.present?
             ratio_date ||= basis_date
-            temp_ev[ratio_date] += hours unless temp_ev[ratio_date].nil?
+            temp_ev[ratio_date] += hours if temp_ev[ratio_date].present?
             temp_ev[ratio_date] ||= hours
           end
           @issue_count += 1
@@ -92,19 +94,17 @@ module CalculateEvmLogic
 
     # state on basis date
     #
-    # @return [String] state of plan on basis date
-    def check_state
-      @state = if @finished_issue_count < @issue_count
-                 :progress
-               elsif @issue_count == 0
-                 :no_work
-               elsif @finished_issue_count == @issue_count
-                  if @basis_date < @max_date 
-                    :progress
-                  else
-                    :finished
-                  end
-               end
+    # @param [CalculatePv] pv_baseline CalculatePv object
+    # @return [String] state of project
+    def check_state(pv_baseline = nil)
+      return :no_work if @issue_count == 0
+      if pv_baseline.present?
+        return :finished if pv_baseline.bac <= @cumulative_ev[@basis_date]
+      else
+        return :progress if @basis_date < @max_date
+        return :finished if @finished_issue_count == @issue_count
+      end
+      :progress
     end
   end
 end

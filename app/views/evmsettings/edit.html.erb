@@ -7,7 +7,7 @@
 <%= form_for @evm_settings,  url: {action: :update, method: :get} do |f| %>
   <%= render partial: "/evmsettings/evmsetting", locals: { f: f , evm_setting: @evm_settings } %>
   <%= f.label :updated_on %>&emsp;<%= format_time(@evm_settings.updated_on) %><br>
-  <%= f.label :user_id %>&emsp;<%= @update_user unless @update_user.nil? %><br><br>
+  <%= f.label :user_id %>&emsp;<%= @update_user if @update_user.present? %><br><br>
   <%= submit_tag l(:button_save) %>&emsp;
   <%= link_to l(:button_back), :back %>
 <% end %>

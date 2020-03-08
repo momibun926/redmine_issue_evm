@@ -35,10 +35,10 @@
       <td <%=spi_color(project_evm)%>><%=project_evm.today_spi%></td>
       <td <%=cpi_color(project_evm)%>><%=project_evm.today_cpi%></td>
       <td <%=cr_color(project_evm)%>><%=project_evm.today_cr%></td>
-      <td><%=project_evm.eac%></td>
-      <td><%=project_evm.etc%></td>
-      <td><%=project_evm.vac%></td>
-      <td><%=project_evm.tcpi%></td>
+      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.eac)%></td>
+      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.etc)%></td>
+      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.vac)%></td>
+      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.tcpi)%></td>
     </tr>
     <tr>
       <td><%=project_evm.bac(working_hours)%></td>
@@ -51,10 +51,10 @@
       <td <%=spi_color(project_evm)%>><%=project_evm.today_spi(working_hours)%></td>
       <td <%=cpi_color(project_evm)%>><%=project_evm.today_cpi(working_hours)%></td>
       <td <%=cr_color(project_evm)%>><%=project_evm.today_cr(working_hours)%></td>
-      <td><%=project_evm.eac(working_hours)%></td>
-      <td><%=project_evm.etc(working_hours)%></td>
-      <td><%=project_evm.vac(working_hours)%></td>
-      <td><%=project_evm.tcpi(working_hours)%></td>
+      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.eac(working_hours))%></td>
+      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.etc(working_hours))%></td>
+      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.vac(working_hours))%></td>
+      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.tcpi(working_hours))%></td>
     </tr>
   </table>
   <%= l(:explanation_upper_row)%> <%= l(:explanation_lower_row)%>

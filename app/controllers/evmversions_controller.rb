@@ -26,7 +26,7 @@ class EvmversionsController < BaseevmController
     # calculate EVM (version)
     @version_evm = {}
     @version_evm_chart = {}
-    unless @cfg_param[:selected_version_id].nil?
+    if @cfg_param[:selected_version_id].present?
       # create evm data
       create_evm_data
     end

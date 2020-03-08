@@ -28,7 +28,7 @@ class EvmassigneesController < BaseevmController
     # calculate EVM (assignee)
     @assignee_evm = {}
     @assignee_evm_chart = {}
-    unless @cfg_param[:selected_assignee_id].nil?
+    if @cfg_param[:selected_assignee_id].present?
       # create evm data
       create_evm_data
     end

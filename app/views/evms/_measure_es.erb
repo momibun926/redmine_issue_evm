@@ -23,8 +23,8 @@
       <td><%=project_evm.today_at%></td>
       <td><%=project_evm.today_tv%></td>
       <td><%=project_evm.today_tpi%></td>
-      <td><%=project_evm.teac%></td>
-      <td><%=project_evm.tvac%></td>
+      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.teac)%></td>
+      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.tvac)%></td>
     </tr>
   </table>
   <%= l(:explanation_es_unit) %> (<%= exclude_holiday ? l(:label_exclude_holidays) : "" %>)

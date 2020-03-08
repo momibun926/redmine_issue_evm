@@ -9,7 +9,7 @@ module BaselineDataFetcher
   # @param [numeric] baseline_id baseline id
   # @return [EvmBaseline] evmbaselines
   def project_baseline(baseline_id)
-    Evmbaseline.where(id: baseline_id).first.evmbaselineIssues unless baseline_id.nil?
+    Evmbaseline.where(id: baseline_id).first.evmbaselineIssues if baseline_id.present?
   end
 
   # get selectable list of baseline

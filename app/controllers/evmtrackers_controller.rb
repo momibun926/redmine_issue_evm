@@ -29,7 +29,7 @@ class EvmtrackersController < BaseevmController
     # spent time fo trackers
     tracker_actual_cost = evm_costs @project, condition
     # calculate EVM
-    unless tracker_issues.blank?
+    if tracker_issues.present?
       # create evm data
       @tracker_evm = CalculateEvm.new nil,
                                       tracker_issues,

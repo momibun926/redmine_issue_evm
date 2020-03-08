@@ -78,4 +78,12 @@ module CommonHelper
     date.to_time(:local).to_i * 1000
   end
 
+  # forecast value of project finished
+  #
+  # @param [date] finished_date finished date of project
+  # @param [numeric] evm_value EVN value
+  # @return [String] html
+  def forecast_value_finished(finished_date, evm_value)
+    value = finished_date.nil? ? evm_value : "-".html_safe
+  end
 end

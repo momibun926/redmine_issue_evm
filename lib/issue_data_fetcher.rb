@@ -261,7 +261,7 @@ module IssueDataFetcher
     project_state[:bac] = ""
     project_state[:due_date] = ""
     project_state[:schedule] = ""
-    unless pv_baseline.nil?
+    if pv_baseline.present?
       project_state[:bac] = if pv_actual.bac.round(2) == pv_baseline.bac.round(2)
                               l(:no_changed)
                             else

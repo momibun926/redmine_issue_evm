@@ -15,27 +15,15 @@ module ChartDataMaker
   # @param [object] evm calculation EVN object
   # @return [hash] chart data
   def evm_chart_data(evm)
-    # max date, min date include forecast date
-    chart_minimum_date = [evm.pv.start_date, evm.ev.min_date, evm.ac.min_date].min
-    if evm.forecast == true
-      chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date, evm.forecast_finish_date].max
-    else
-      chart_maximum_date = [evm.pv.due_date, evm.ev.max_date, evm.ac.max_date].max
-    end
-    # overdue?
-    if evm.pv_actual.state.equal?(:overdue)
-      planned_value = evm.pv_actual.cumulative_pv.select { |date, _value| date < evm.basis_date }
-    else
-      planned_value = evm.pv_actual.cumulative_pv
-    end
-    if evm.pv_baseline.nil?
-    else
-      if evm.pv_baseline.state.equal?(:overdue)
-        baseline_value = evm.pv_baseline.cumulative_pv.select { |date, _value| date < evm.basis_date }
-      else
-        baseline_value = evm.pv_baseline.cumulative_pv
-      end
-    end
+    # start date and end date of chart
+    chart_duration = chart_duration(evm)
+    # always within dyue date
+    planned_value = evm.pv_actual.cumulative_pv.select { |k, v| k <= evm.pv_actual.due_date }
+    baseline_value = evm.pv_baseline.cumulative_pv.select { |k, v| k <= evm.pv_baseline.due_date } if evm.pv_baseline.present?
+    # less than basis date or finished date
+    chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
+    earned_value = evm.ev.cumulative_ev.select { |k, v| k <= chart_adjust_date }
+    actual_value = evm.ac.cumulative_ac.select { |k, v| k <= chart_adjust_date }
     # init forecast chart data
     bac_top_line = {}
     eac_top_line = {}
@@ -45,11 +33,11 @@ module ChartDataMaker
     if evm.forecast == true
       # for chart
       # top line of BAC
-      bac_top_line[chart_minimum_date] = evm.bac
-      bac_top_line[chart_maximum_date] = evm.bac
+      bac_top_line[chart_duration[:start_date]] = evm.bac
+      bac_top_line[chart_duration[:end_date]] = evm.bac
       # top line of EAC
-      eac_top_line[chart_minimum_date] = evm.eac
-      eac_top_line[chart_maximum_date] = evm.eac
+      eac_top_line[chart_duration[:start_date]] = evm.eac
+      eac_top_line[chart_duration[:end_date]] = evm.eac
       # forecast line of AC
       actual_cost_forecast[evm.basis_date] = evm.today_ac
       actual_cost_forecast[evm.forecast_finish_date] = evm.eac
@@ -69,12 +57,12 @@ module ChartDataMaker
     plotdata_actual_cost_forecast = []
     plotdata_earned_value_forecast = []
 
-    for chart_date in chart_minimum_date..chart_maximum_date do
+    for chart_date in chart_duration[:start_date]..chart_duration[:end_date] do
       labels << chart_date.to_time(:local).to_i * 1000
       plotdata_planned_value << evm_round(planned_value[chart_date])
-      plotdata_actual_cost << evm_round(evm.ac.cumulative_ac[chart_date])
-      plotdata_earned_value << evm_round(evm.ev.cumulative_ev[chart_date])
-      plotdata_baseline_value << evm_round(baseline_value[chart_date]) unless evm.pv_baseline.nil?
+      plotdata_actual_cost << evm_round(actual_value[chart_date])
+      plotdata_earned_value << evm_round(earned_value[chart_date])
+      plotdata_baseline_value << evm_round(baseline_value[chart_date]) if evm.pv_baseline.present?
       plotdata_planned_value_daily << evm_round(evm.pv.daily_pv[chart_date])
       plotdata_bac_top_line << evm_round(bac_top_line[chart_date])
       plotdata_eac_top_line << evm_round(eac_top_line[chart_date])
@@ -88,10 +76,10 @@ module ChartDataMaker
     chart_data[:ac] = plotdata_actual_cost.to_json
     chart_data[:ev] = plotdata_earned_value.to_json
     chart_data[:pv_daily] = plotdata_planned_value_daily.to_json
-    chart_data[:baseline] = if evm.pv_baseline.nil?
-                              plotdata_baseline_value
-                            else
+    chart_data[:baseline] = if evm.pv_baseline.present?
                               plotdata_baseline_value.to_json
+                            else
+                              plotdata_baseline_value
                             end
     chart_data[:bac] = plotdata_bac_top_line.to_json
     chart_data[:eac] = plotdata_eac_top_line.to_json
@@ -105,8 +93,10 @@ module ChartDataMaker
   # @return [hash] data for performance chart
   def performance_chart_data(evm)
     chart_data = {}
-    new_ev = complement_evm_value evm.ev.cumulative_ev
-    new_ac = complement_evm_value evm.ac.cumulative_ac
+    # less than basis date or finished date
+    chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
+    new_ev = complement_evm_value evm.ev.cumulative_ev.select { |k, v| k <= chart_adjust_date }
+    new_ac = complement_evm_value evm.ac.cumulative_ac.select { |k, v| k <= chart_adjust_date }
     new_pv = complement_evm_value evm.pv.cumulative_pv
     performance_min_date = [new_ev.keys.min,
                             new_ac.keys.min,
@@ -168,4 +158,31 @@ module ChartDataMaker
             evm_value.round(2)
           end
   end
+
+  # Get duretion of chart
+  #
+  # @param [evm] evm evm object
+  # @return [hash] duration chart area
+  def chart_duration(evm)
+    # duration
+    duration = {}
+    # start date
+    min_date = [evm.pv.start_date, evm.pv_actual.start_date, evm.ev.min_date, evm.ac.min_date]
+    min_date << evm.pv_baseline.start_date if evm.pv_baseline.present?
+    duration[:start_date] = min_date.min
+    # end date
+    max_date = [evm.pv.due_date, evm.pv_actual.due_date]
+    max_date << evm.forecast_finish_date if evm.forecast == true
+    max_date << evm.pv_baseline.due_date if evm.pv_baseline.present?
+    if evm.finished_date.present?
+      max_date << evm.ev.max_date
+      max_date << evm.ac.max_date
+    else
+      max_date << evm.ev.cumulative_ev.keys.max 
+      max_date << evm.ac.cumulative_ac.keys.max
+    end
+    duration[:end_date] = max_date.max
+    duration
+  end
+
 end
