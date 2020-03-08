@@ -14,7 +14,7 @@
   <h2><%= l(:title_evm_tab) %></h2>
   <h3><%= l(:subtitle_evm_exclude_issues) %></h3>
   <%= raw display_no_data(@exclude_issues) %>
-  <% unless @exclude_issues.blank? %>
+  <% if @exclude_issues.present? %>
     <table class="list issue">
       <thead>
         <tr>

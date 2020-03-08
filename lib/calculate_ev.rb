@@ -63,13 +63,13 @@ module CalculateEvmLogic
       temp_ev = {}
       @finished_issue_count = 0
       @issue_count = 0
-      unless issues.nil?
+      if issues.present?
         issues.each do |issue|
           # closed issue
           if issue.closed?
             closed_date = issue.closed_on || issue.updated_on
             dt = closed_date.to_time.to_date
-            temp_ev[dt] += issue.estimated_hours.to_f unless temp_ev[dt].nil?
+            temp_ev[dt] += issue.estimated_hours.to_f if temp_ev[dt].present?
             temp_ev[dt] ||= issue.estimated_hours.to_f
             @finished_issue_count += 1
           # progress issue
@@ -81,9 +81,9 @@ module CalculateEvmLogic
                                      joins(:details).
                                      maximum(:created_on)
             # parent isssue is no journals
-            ratio_date = ratio_date_utc.to_time.to_date unless ratio_date_utc.nil?
+            ratio_date = ratio_date_utc.to_time.to_date if ratio_date_utc.present?
             ratio_date ||= basis_date
-            temp_ev[ratio_date] += hours unless temp_ev[ratio_date].nil?
+            temp_ev[ratio_date] += hours if temp_ev[ratio_date].present?
             temp_ev[ratio_date] ||= hours
           end
           @issue_count += 1
@@ -98,7 +98,7 @@ module CalculateEvmLogic
     # @return [String] state of project
     def check_state(pv_baseline = nil)
       return :no_work if @issue_count == 0
-      unless pv_baseline.nil?
+      if pv_baseline.present?
         return :finished if pv_baseline.bac <= @cumulative_ev[@basis_date]
       else
         return :progress if @basis_date < @max_date

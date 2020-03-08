@@ -109,7 +109,7 @@ module CalculateEvmLogic
     # @return [hash] EVM hash. Key:Date, Value:PV of each days
     def calculate_planed_value(issues)
       temp_pv = {}
-      unless issues.nil?
+      if issues.present?
         issues.each do |issue|
           issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
           pv_days = working_days issue.start_date,
@@ -117,7 +117,7 @@ module CalculateEvmLogic
           hours_per_day = issue_hours_per_day issue.estimated_hours.to_f,
                                               pv_days.length
           pv_days.each do |date|
-            temp_pv[date] += hours_per_day unless temp_pv[date].nil?
+            temp_pv[date] += hours_per_day if temp_pv[date].present?
             temp_pv[date] ||= hours_per_day
           end
         end

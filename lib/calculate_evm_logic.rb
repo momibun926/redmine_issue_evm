@@ -56,15 +56,15 @@ module CalculateEvmLogic
       # AC
       @ac = CalculateAc.new @basis_date, costs
       # PV Baseline or PV actual
-      @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday unless baselines.nil?
+      @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday if baselines.present?
       @pv = @pv_baseline || @pv_actual
       # Finished date is set when project is finished
       @finished_date = check_finished_date(@ev, @pv_baseline)
       # Forecast is invalid when project is finished 
-      @forecast = "false" unless @finished_date.nil?
+      @forecast = "false" if @finished_date.present?
       # project state, EV and PV
       @project_state = [@ev.state(@pv_baseline)]
-      @project_state << @pv.state unless @ev.state(@pv_baseline) == :finished
+      @project_state << @pv.state if @ev.state(@pv_baseline) != :finished
     end
 
     # Badget at completion.
@@ -382,7 +382,7 @@ module CalculateEvmLogic
     # @param [CalculatePv] pv_baseline PV(Baseline) class
     # @return [date] project finished date, nil is not finished.
     def check_finished_date(ev, pv_baseline)
-      ev_finished_date = ev.cumulative_ev.select { |k, v| pv_baseline.bac <= v }.keys.min unless pv_baseline.nil?
+      ev_finished_date = ev.cumulative_ev.select { |k, v| pv_baseline.bac <= v }.keys.min if pv_baseline.present?
       [ev_finished_date, ev.max_date, @basis_date].compact.min if ev.state(pv_baseline) == :finished
     end
   end
