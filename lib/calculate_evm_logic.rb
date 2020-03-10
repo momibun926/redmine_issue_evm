@@ -44,7 +44,7 @@ module CalculateEvmLogic
     def initialize(baselines, issues, costs, options = {})
       # set options
       @working_hours = options[:working_hours]
-      @basis_date = options[:basis_date]
+      @basis_date = options[:basis_date].to_date
       @forecast = options[:forecast]
       @etc_method = options[:etc_method]
       @exclude_holiday = options[:exclude_holiday]
@@ -377,6 +377,8 @@ module CalculateEvmLogic
     end
 
     # Check finished date
+    # If use baseline, EV of status date greater than BAC of baseline.
+    # Other case, all issue is finished.
     #
     # @param [CalculateEv] ev EV class
     # @param [CalculatePv] pv_baseline PV(Baseline) class

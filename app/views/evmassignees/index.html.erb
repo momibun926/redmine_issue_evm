@@ -24,8 +24,9 @@
     <br>
     <!-- Charts -->
     <%= render partial: "/common/basic_evm_chart_js",
-        locals: { basis_date: convert_to_labels(@cfg_param[:basis_date]),
+        locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
                   chart_data: @assignee_evm_chart[assignee_id],
+                  basis_date_label: basis_date_label(evm.finished_date), 
                   id: assignee_id,
                   tittle: evm.description } %>
   <% end %>
