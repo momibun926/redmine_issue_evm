@@ -86,4 +86,13 @@ module CommonHelper
   def forecast_value_finished(finished_date, evm_value)
     value = finished_date.nil? ? evm_value : "-".html_safe
   end
+
+  # Get annotationlabel
+  #
+  # @param [date] finished_date project finished date
+  # @return [String] label name, "Basis date" or "Finished date"
+  def basis_date_label(finished_date)
+    value = finished_date.nil? ? l(:label_basis_date) : l(:label_finished_date)
+    value.html_safe
+  end
 end
