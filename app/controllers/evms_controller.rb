@@ -33,11 +33,7 @@ class EvmsController < BaseevmController
       # evm explanation
       @cfg_param[:display_explanation] = params[:display_explanation]
       # baseline
-      if @cfg_param[:baseline_id].nil?
-        baselines = nil
-      else
-        baselines = project_baseline @cfg_param[:baseline_id]
-      end
+      baselines = project_baseline @cfg_param[:baseline_id] if @cfg_param[:baseline_id].present?
       # issues of project include disendants
       issues = evm_issues @project
       # spent time of project include disendants

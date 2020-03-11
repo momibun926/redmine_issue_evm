@@ -17,10 +17,8 @@ class EvmversionsController < BaseevmController
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
     @cfg_param[:selected_version_id] = params[:selected_version_id]
-    @cfg_param[:no_use_baseline] = "true"
-    @cfg_param[:forecast] = "false"
-    @cfg_param[:display_performance] = "false"
-    @cfg_param[:display_incomplete] = "false"
+    # default params
+    set_default_params_for_other_evm
     # selectable version
     @selectable_versions = selectable_version_list @project
     # calculate EVM (version)
