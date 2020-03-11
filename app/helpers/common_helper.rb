@@ -53,14 +53,6 @@ module CommonHelper
     value.html_safe
   end
 
-  # Get local date time
-  #
-  # @param [datetime] bldatetime updated or created datetime
-  # @return [String] formatted date
-  def local_date(bldatetime)
-    bldatetime.localtime.strftime("%Y-%m-%d %H:%M:%S") if bldatetime.present?
-  end
-
   # create no date area
   #
   # @param [string] no_data if nno data , true

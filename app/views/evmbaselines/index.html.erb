@@ -29,14 +29,14 @@
           <tr class="baseline">
             <td class="subject"><%= link_to baseline.subject, {controller: :evms, action: :index, evmbaseline_id: baseline.id} %></td>
             <td class="description"><%= textilizable truncate_lines(baseline.description, length: 50) %></td>
-            <td class="based_on"><%= baseline.based_on %></td>
+            <td class="based_on"><%= format_date(baseline.based_on) %></td>
             <td class="bac"><%= baseline.bac %></td>
-            <td class="strat_date"><%= baseline.minimum_start_date %></td>
-            <td class="due_date"><%= baseline.maximum_due_date %></td>
+            <td class="strat_date"><%= format_date(baseline.minimum_start_date) %></td>
+            <td class="due_date"><%= format_date(baseline.maximum_due_date) %></td>
             <td class="status"><%= baseline.state %></td>
             <td class="author"><%= baseline.author %></td>
-            <td class="created_on"><%= local_date(baseline.created_on) %></td>
-            <td class="updated_on"><%= local_date(baseline.updated_on) %></td>
+            <td class="created_on"><%= format_time(baseline.created_on) %></td>
+            <td class="updated_on"><%= format_time(baseline.updated_on) %></td>
             <td class="buttons">
               <%= link_to l(:button_show), {controller: :evmbaselines, action: :show, id: baseline.id}, class: "icon icon-move" %>
               <%= link_to l(:button_edit), {controller: :evmbaselines, action: :edit, id: baseline.id}, class: "icon icon-edit" %>
