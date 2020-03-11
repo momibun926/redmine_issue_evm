@@ -24,9 +24,9 @@ module CalculateEvmLogic
     # description
     attr_accessor :description
     # project finished date
-    attr_accessor :finished_date
+    attr_reader :finished_date
     # Project status
-    attr_accessor :project_state
+    attr_reader :project_state
 
     # Constractor
     #
@@ -50,7 +50,7 @@ module CalculateEvmLogic
       @exclude_holiday = options[:exclude_holiday]
       @region = options[:region]
       # PV Actual
-      @pv_actual = CalculatePv.new @basis_date, issues, @region, @exclude_holiday 
+      @pv_actual = CalculatePv.new @basis_date, issues, @region, @exclude_holiday
       # EV
       @ev = CalculateEv.new @basis_date, issues
       # AC
@@ -60,7 +60,7 @@ module CalculateEvmLogic
       @pv = @pv_baseline || @pv_actual
       # Finished date is set when project is finished
       @finished_date = check_finished_date(@ev, @pv_baseline)
-      # Forecast is invalid when project is finished 
+      # Forecast is invalid when project is finished
       @forecast = "false" if @finished_date.present?
       # project state, EV and PV
       @project_state = [@ev.state(@pv_baseline)]
@@ -188,7 +188,7 @@ module CalculateEvmLogic
     end
 
     # Time Performance Indicator
-    # TPI is greater than 1, then the project is ahead of schedule and 
+    # TPI is greater than 1, then the project is ahead of schedule and
     # if it is less than 1, then the project is behind schedule.
     #
     # @return [Numeric] earned schedule (days) / Actual time (days)
@@ -262,7 +262,7 @@ module CalculateEvmLogic
     #
     # @return [Numeric] SAC / TPI
     def teac
-      teac = today_tpi == 0 ? 0 : @pv.sac / today_tpi
+      teac = today_tpi.zero? ? 0 : @pv.sac / today_tpi
       teac.round(0)
     end
 
@@ -278,7 +278,7 @@ module CalculateEvmLogic
     end
 
     # Time Variance at Completion (TVAC)
-    # Indication of the estimated amount of time 
+    # Indication of the estimated amount of time
     # that the project will be completed ahead or behind schedule.
     #
     # @return [Numeric] SAC - TEAC
@@ -341,28 +341,25 @@ module CalculateEvmLogic
     #
     # @return [date] End of project date
     def forecast_finish_date
-                    # already finished project
-      finish_date = if complete_ev == 100.0
-                      @ev.max_date
-                    # not worked yet
-                    elsif today_ev == 0.0
-                      @pv.due_date
-                    # After completion schedule date
-                    elsif @pv.due_date < @basis_date
-                      @basis_date + rest_days(@pv.cumulative_pv[@pv.due_date],
-                                              @ev.cumulative_ev.values.max,
-                                              today_spi,
-                                              @working_hours)
-                    # before schedule date
-                    elsif @basis_date < @pv.start_date
-                      @basis_date
-                    # After completion schedule date
-                    else
-                      @pv.due_date + rest_days(today_pv,
-                                               today_ev,
-                                               today_spi,
-                                               @working_hours)
-                    end
+      # already finished project
+      if complete_ev == 100.0
+        @ev.max_date
+      # not worked yet
+      elsif today_ev == 0.0
+        @pv.due_date
+      # After completion schedule date
+      elsif @pv.due_date < @basis_date
+        @basis_date + rest_days(@pv.cumulative_pv[@pv.due_date],
+                                @ev.cumulative_ev.values.max,
+                                today_spi,
+                                @working_hours)
+      # before schedule date
+      elsif @basis_date < @pv.start_date
+        @basis_date
+      # After completion schedule date
+      else
+        @pv.due_date + rest_days(today_pv, today_ev, today_spi, @working_hours)
+      end
     end
 
     # rest days
@@ -384,7 +381,7 @@ module CalculateEvmLogic
     # @param [CalculatePv] pv_baseline PV(Baseline) class
     # @return [date] project finished date, nil is not finished.
     def check_finished_date(ev, pv_baseline)
-      ev_finished_date = ev.cumulative_ev.select { |k, v| pv_baseline.bac <= v }.keys.min if pv_baseline.present?
+      ev_finished_date = ev.cumulative_ev.select { |_k, v| pv_baseline.bac <= v }.keys.min if pv_baseline.present?
       [ev_finished_date, ev.max_date, @basis_date].compact.min if ev.state(pv_baseline) == :finished
     end
   end

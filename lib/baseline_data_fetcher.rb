@@ -14,10 +14,10 @@ module BaselineDataFetcher
 
   # get selectable list of baseline
   #
-  # @param [project] porject porject object
+  # @param [proj] porject porject object
   # @return [EvmBaseline] baselines
   def selectable_baseline_list(proj)
     Evmbaseline.where(project_id: proj.id).
-                order(created_on: :DESC)
+      order(created_on: :DESC)
   end
 end

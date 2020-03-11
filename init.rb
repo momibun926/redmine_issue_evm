@@ -48,10 +48,9 @@ Redmine::Plugin.register :redmine_issue_evm do
 
   # View listener for activity page
   class RedmineIssueEvmHookListener < Redmine::Hook::ViewListener
-    render_on :view_layouts_base_html_head, :inline => "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
+    render_on :view_layouts_base_html_head, inline: "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
   end
 
   # load holidays
   Holidays.load_all
-
 end

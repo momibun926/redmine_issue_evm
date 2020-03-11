@@ -34,7 +34,7 @@ module CalculateEvmLogic
       @daily_ac[@basis_date] ||= 0.0
       # addup AC
       @cumulative_ac = sort_and_sum_evm_hash @daily_ac
-      @cumulative_ac.reject!{|k, v| @basis_date < k }
+      @cumulative_ac.reject! { |k, _v| @basis_date < k }
     end
 
     # Today"s Actual cost
