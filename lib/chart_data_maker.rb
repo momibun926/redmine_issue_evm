@@ -30,7 +30,7 @@ module ChartDataMaker
     actual_cost_forecast = {}
     earned_value_forecast = {}
     # forecast
-    if evm.forecast == true
+    if evm.forecast
       # for chart
       # top line of BAC
       bac_top_line[chart_duration[:start_date]] = evm.bac
@@ -76,11 +76,7 @@ module ChartDataMaker
     chart_data[:ac] = plotdata_actual_cost.to_json
     chart_data[:ev] = plotdata_earned_value.to_json
     chart_data[:pv_daily] = plotdata_planned_value_daily.to_json
-    chart_data[:baseline] = if evm.pv_baseline.present?
-                              plotdata_baseline_value.to_json
-                            else
-                              plotdata_baseline_value
-                            end
+    chart_data[:baseline] = plotdata_baseline_value.to_json
     chart_data[:bac] = plotdata_bac_top_line.to_json
     chart_data[:eac] = plotdata_eac_top_line.to_json
     chart_data[:ac_forecast] = plotdata_actual_cost_forecast.to_json
@@ -174,7 +170,7 @@ module ChartDataMaker
     duration[:start_date] = min_date.min
     # end date
     max_date = [evm.pv.due_date, evm.pv_actual.due_date]
-    max_date << evm.forecast_finish_date if evm.forecast == true
+    max_date << evm.forecast_finish_date if evm.forecast
     max_date << evm.pv_baseline.due_date if evm.pv_baseline.present?
     if evm.finished_date.present?
       max_date << evm.ev.max_date

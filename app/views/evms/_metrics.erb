@@ -11,7 +11,7 @@
     </tr>
     <tr>
       <td align="right"><%= l(:indicator_duration) %>:</td>
-      <td><%= project_metrics[:plan_start_date] %> - <%= project_metrics[:plan_due_date] %></td>
+      <td><%= format_date(project_metrics[:plan_start_date]) %> - <%= format_date(project_metrics[:plan_due_date]) %></td>
     </tr>
     <tr>
       <td align="right"><%= l(:indicator_difference) %>:</td>

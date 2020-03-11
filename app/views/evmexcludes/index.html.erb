@@ -40,8 +40,8 @@
             <td><%=issue.status%></td>
             <td><%=issue.assigned_to%></td>
             <td><%=issue.fixed_version%></td>
-            <td><%=issue.start_date%></td>
-            <td><%=issue.due_date%></td>
+            <td><%=format_date(issue.start_date)%></td>
+            <td><%=format_date(issue.due_date)%></td>
             <td><%=issue.estimated_hours%></td>
           </tr>
         <% end %>
