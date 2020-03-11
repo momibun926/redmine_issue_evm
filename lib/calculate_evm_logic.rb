@@ -377,8 +377,8 @@ module CalculateEvmLogic
     end
 
     # Check finished date
-    # If use baseline, EV of status date greater than BAC of baseline.
-    # Other case, all issue is finished.
+    # If use baseline, The date that EV of status date greater than BAC of baseline.
+    # Other case, The date that all issue was finished.
     #
     # @param [CalculateEv] ev EV class
     # @param [CalculatePv] pv_baseline PV(Baseline) class
