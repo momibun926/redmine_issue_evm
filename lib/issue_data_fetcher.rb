@@ -3,22 +3,34 @@
 # It also collects a selectable list that is optionally specified
 #
 module IssueDataFetcher
-  # Calculation common condition of issue"s select
-  SQL_COM = "(issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL) " +
-            " OR " +
-            "(issues.start_date IS NOT NULL " +
-            " AND " +
-            " issues.due_date IS NULL " +
-            " AND " +
-            " issues.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
-  SQL_COM_ANC = "(ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL) " +
-                " OR " +
-                "(ancestors.start_date IS NOT NULL " +
-                " AND " +
-                " ancestors.due_date IS NULL " +
-                " AND " +
-                " ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))"
-  
+  # Calculation common condition of issue's select
+  SQL_COM = <<-SQL_COM.freeze
+  (issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL)
+  OR
+  (issues.start_date IS NOT NULL
+   AND
+   issues.due_date IS NULL
+   AND
+   issues.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))
+  SQL_COM
+
+  SQL_COM_ANC = <<-SQL_COM_ANC.freeze
+  (ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL)
+  OR
+  (ancestors.start_date IS NOT NULL
+   AND
+   ancestors.due_date IS NULL
+   AND
+   ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))
+  SQL_COM_ANC
+
+  SQL_JOIN = <<-"SQL_JOIN".freeze
+  JOIN #{Issue.table_name} ancestors
+    ON ancestors.root_id = #{Issue.table_name}.root_id
+    AND ancestors.lft <= #{Issue.table_name}.lft
+    AND ancestors.rgt >= #{Issue.table_name}.rgt
+  SQL_JOIN
+
   # Get issues of EVM for PV and EV.
   # Include descendants project. Rerequires inputted start date and due date.
   # for use calculate PV and EV.
@@ -37,13 +49,10 @@ module IssueDataFetcher
   # @param [numeric] issue_id selected issue
   # @return [issue] descendants issues
   def parent_issues(issue_id)
-    Issue.joins("JOIN #{Issue.table_name} ancestors" +
-      " ON ancestors.root_id = #{Issue.table_name}.root_id" +
-      " AND ancestors.lft <= #{Issue.table_name}.lft " +
-      " AND ancestors.rgt >= #{Issue.table_name}.rgt ").
+    Issue.joins(SQL_JOIN.to_s).
       where(SQL_COM.to_s).
       where(SQL_COM_ANC.to_s).
-      where(:ancestors => { :id => issue_id })
+      where(ancestors: { id: issue_id })
   end
 
   # Get spent time of project.
@@ -64,13 +73,10 @@ module IssueDataFetcher
   # @param [numeric] issue_id selected issue
   # @return [hash] Two column,spent_on,sum of hours
   def parent_issue_costs(issue_id)
-    Issue.joins("JOIN #{Issue.table_name} ancestors" +
-      " ON ancestors.root_id = #{Issue.table_name}.root_id" +
-      " AND ancestors.lft <= #{Issue.table_name}.lft " +
-      " AND ancestors.rgt >= #{Issue.table_name}.rgt ").
+    Issue.joins(SQL_JOIN.to_s).
       where(SQL_COM.to_s).
       where(SQL_COM_ANC.to_s).
-      where(:ancestors => { :id => issue_id }).
+      where(ancestors: { id: issue_id }).
       joins(:time_entries).
       group(:spent_on).sum(:hours)
   end
@@ -162,11 +168,11 @@ module IssueDataFetcher
   end
 
   # project metrics
-  # collect basic information of project. 
+  # collect basic information of project.
   #
   # @param [project] proj project object
   # @param [calculateEVM] evm calculate EVN class instance
-  # @return [hash] project metrics 
+  # @return [hash] project metrics
   def project_metrics(proj, evm)
     metrics = {}
     # amount of total issue ids
@@ -246,7 +252,7 @@ module IssueDataFetcher
   # @return [string] assignee name or user group name
   def assignee_name(id)
     assigneee = User.find_by(id: id) || Group.find_by(id: id)
-    assignee_name = id.blank? ? l(:no_assignee) : assigneee.name
+    id.blank? ? l(:no_assignee) : assigneee.name
   end
 
   # check baseline difference

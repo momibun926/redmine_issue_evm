@@ -34,7 +34,7 @@ module CalculateEvmLogic
       @daily_ev[@basis_date] ||= 0.0
       # addup EV
       @cumulative_ev = sort_and_sum_evm_hash @daily_ev
-      @cumulative_ev.reject!{|k, v| @basis_date < k }
+      @cumulative_ev.reject! { |k, _v| @basis_date < k }
     end
 
     # Today"s earned value
@@ -76,10 +76,9 @@ module CalculateEvmLogic
           elsif issue.done_ratio.positive?
             hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
             # latest date of changed ratio
-            ratio_date_utc = Journal.where(journalized_id: issue.id,
-                                           journal_details: { prop_key: "done_ratio" }).
-                                     joins(:details).
-                                     maximum(:created_on)
+            ratio_date_utc = Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
+                               joins(:details).
+                               maximum(:created_on)
             # parent isssue is no journals
             ratio_date = ratio_date_utc.to_time.to_date if ratio_date_utc.present?
             ratio_date ||= basis_date
@@ -97,7 +96,8 @@ module CalculateEvmLogic
     # @param [CalculatePv] pv_baseline CalculatePv object
     # @return [String] state of project
     def check_state(pv_baseline = nil)
-      return :no_work if @issue_count == 0
+      return :no_work if @issue_count.zero?
+
       if pv_baseline.present?
         return :finished if pv_baseline.bac <= @cumulative_ev[@basis_date]
       else

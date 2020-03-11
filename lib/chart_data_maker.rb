@@ -18,12 +18,12 @@ module ChartDataMaker
     # start date and end date of chart
     chart_duration = chart_duration(evm)
     # always within dyue date
-    planned_value = evm.pv_actual.cumulative_pv.select { |k, v| k <= evm.pv_actual.due_date }
-    baseline_value = evm.pv_baseline.cumulative_pv.select { |k, v| k <= evm.pv_baseline.due_date } if evm.pv_baseline.present?
+    planned_value = evm.pv_actual.cumulative_pv.select { |k, _v| k <= evm.pv_actual.due_date }
+    baseline_value = evm.pv_baseline.cumulative_pv.select { |k, _v| k <= evm.pv_baseline.due_date } if evm.pv_baseline.present?
     # less than basis date or finished date
     chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
-    earned_value = evm.ev.cumulative_ev.select { |k, v| k <= chart_adjust_date }
-    actual_value = evm.ac.cumulative_ac.select { |k, v| k <= chart_adjust_date }
+    earned_value = evm.ev.cumulative_ev.select { |k, _v| k <= chart_adjust_date }
+    actual_value = evm.ac.cumulative_ac.select { |k, _v| k <= chart_adjust_date }
     # init forecast chart data
     bac_top_line = {}
     eac_top_line = {}
@@ -43,7 +43,7 @@ module ChartDataMaker
       actual_cost_forecast[evm.forecast_finish_date] = evm.eac
       # forecast line of EV
       earned_value_forecast[evm.basis_date] = evm.today_ev
-      earned_value_forecast[evm.forecast_finish_date] = evm.bac 
+      earned_value_forecast[evm.forecast_finish_date] = evm.bac
     end
 
     labels = []
@@ -57,7 +57,7 @@ module ChartDataMaker
     plotdata_actual_cost_forecast = []
     plotdata_earned_value_forecast = []
 
-    for chart_date in chart_duration[:start_date]..chart_duration[:end_date] do
+    (chart_duration[:start_date]..chart_duration[:end_date]).each do |chart_date|
       labels << chart_date.to_time(:local).to_i * 1000
       plotdata_planned_value << evm_round(planned_value[chart_date])
       plotdata_actual_cost << evm_round(actual_value[chart_date])
@@ -87,7 +87,7 @@ module ChartDataMaker
     chart_data[:ev_forecast] = plotdata_earned_value_forecast.to_json
     chart_data
   end
-  
+
   # Create data for display performance chart.
   #
   # @return [hash] data for performance chart
@@ -95,8 +95,10 @@ module ChartDataMaker
     chart_data = {}
     # less than basis date or finished date
     chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
-    new_ev = complement_evm_value evm.ev.cumulative_ev.select { |k, v| k <= chart_adjust_date }
-    new_ac = complement_evm_value evm.ac.cumulative_ac.select { |k, v| k <= chart_adjust_date }
+    adjusted_ev = evm.ev.cumulative_ev.select { |k, _v| k <= chart_adjust_date }
+    new_ev = complement_evm_value adjusted_ev
+    adjusted_ac = evm.ac.cumulative_ac.select { |k, _v| k <= chart_adjust_date }
+    new_ac = complement_evm_value adjusted_ac
     new_pv = complement_evm_value evm.pv.cumulative_pv
     performance_min_date = [new_ev.keys.min,
                             new_ac.keys.min,
@@ -152,11 +154,11 @@ module ChartDataMaker
   # @param [number] evm_value EVM hash value
   # @return [number] EVM value or nil
   def evm_round(evm_value)
-    ret = if evm_value.nil?
-            evm_value
-          else
-            evm_value.round(2)
-          end
+    if evm_value.nil?
+      evm_value
+    else
+      evm_value.round(2)
+    end
   end
 
   # Get duretion of chart
@@ -178,11 +180,10 @@ module ChartDataMaker
       max_date << evm.ev.max_date
       max_date << evm.ac.max_date
     else
-      max_date << evm.ev.cumulative_ev.keys.max 
+      max_date << evm.ev.cumulative_ev.keys.max
       max_date << evm.ac.cumulative_ac.keys.max
     end
     duration[:end_date] = max_date.max
     duration
   end
-
 end

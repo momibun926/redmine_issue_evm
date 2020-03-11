@@ -1,7 +1,7 @@
 # Exclude EVM controller.
 # This controller provide exclude evm view.
 #
-# 1. Exclude issue of calculation EVM 
+# 1. Exclude issue of calculation EVM
 #
 class EvmexcludesController < BaseevmController
   # menu

@@ -1,4 +1,5 @@
 .rubocop.yml
+.rubocop_todo.yml
 .yardoc
 doc
 Gemfile.lock

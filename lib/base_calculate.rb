@@ -16,7 +16,7 @@ module CalculateEvmLogic
     def sort_and_sum_evm_hash(evm_hash)
       temp_hash = {}
       sum_value = 0.0
-      evm_hash.sort_by {|key, _val| key }.each do |date, value|
+      evm_hash.sort_by { |key, _val| key }.each do |date, value|
         sum_value += value
         temp_hash[date] = sum_value
       end

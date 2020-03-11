@@ -54,7 +54,7 @@ class EvmversionsController < BaseevmController
                                               version_actual_cost,
                                               @cfg_param
       # description
-      @version_evm[ver_id].description =  "#{proj.name} #{ver.name}"
+      @version_evm[ver_id].description = "#{proj.name} #{ver.name}"
       # create chart data
       @version_evm_chart[ver_id] = evm_chart_data @version_evm[ver_id]
     end

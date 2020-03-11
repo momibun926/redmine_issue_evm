@@ -65,7 +65,6 @@ module CalculateEvmLogic
       amount_working_days(start_date, due_date)
     end
 
-
     # Today"s planed value
     #
     # @return [Numeric] PV on basis date or PV of baseline.
@@ -83,19 +82,20 @@ module CalculateEvmLogic
     end
 
     # Earned schedule (ES)
-    # This duration from the beginning of the project to the date 
+    # This duration from the beginning of the project to the date
     # on which the PV should have been equal to the current value of EV.
     #
     # @param [numeric] ev EV value of basis date.
     # @return [date] earned shedule
     def today_es(ev)
       return 0 if @state == :before_plan
+
       es_date_pv = if @state == :overdue
-                     @cumulative_pv.select{ |k, v| ( k < @basis_date ) }
+                     @cumulative_pv.select { |k, _v| (k < @basis_date) }
                    else
                      @cumulative_pv
                    end
-      es_date = es_date_pv.select{ |k, v| ( v <= ev ) }.keys.max
+      es_date = es_date_pv.select { |_k, v| (v <= ev) }.keys.max
       es_date.nil? ? 0 : amount_working_days(@start_date, es_date)
     end
 
@@ -141,12 +141,12 @@ module CalculateEvmLogic
     # @return [Array] working days
     def working_days(start_date, end_date)
       issue_days = (start_date..end_date).to_a
-      adjusted_days = if @holiday_exclude
-                        working_days = issue_days.reject { |e| e.wday == 0 || e.wday == 6 || e.holiday?(@region) }
-                        working_days.length.zero? ? issue_days : working_days
-                      else
-                        issue_days
-                      end
+      if @holiday_exclude
+        working_days = issue_days.reject { |e| e.wday.zero? || e.wday == 6 || e.holiday?(@region) }
+        working_days.length.zero? ? issue_days : working_days
+      else
+        issue_days
+      end
     end
 
     # Amount of working days.

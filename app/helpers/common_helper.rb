@@ -2,7 +2,6 @@
 # this helper is common helper. called other helpers.
 #
 module CommonHelper
-
   # SPI color of CSS.
   #
   # @param [CalculateEvm] evm calculate evm class
@@ -37,8 +36,8 @@ module CommonHelper
 
   # CR color of CSS.
   #
- # @param [CalculateEvm] evm calculate evm class
-   # @return [String] CR color
+  # @param [CalculateEvm] evm calculate evm class
+  # @return [String] CR color
   def cr_color(evm)
     value = ""
     if evm.today_sv < 0.0
@@ -84,7 +83,7 @@ module CommonHelper
   # @param [numeric] evm_value EVN value
   # @return [String] html
   def forecast_value_finished(finished_date, evm_value)
-    value = finished_date.nil? ? evm_value : "-".html_safe
+    finished_date.nil? ? evm_value : "-".html_safe
   end
 
   # Get annotationlabel

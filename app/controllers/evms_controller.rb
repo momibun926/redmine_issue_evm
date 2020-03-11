@@ -10,7 +10,7 @@
 class EvmsController < BaseevmController
   # menu
   menu_item :issuevm
-    # Before action (override)
+  # Before action (override)
   before_action :authorize
 
   # View of main page.
@@ -88,7 +88,7 @@ class EvmsController < BaseevmController
   def default_basis_date
     params[:basis_date].nil? ? Date.today : params[:basis_date].to_date
   end
-  
+
   # default baseline. latest baseline
   #
   def default_baseline_id
