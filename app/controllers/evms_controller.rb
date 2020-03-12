@@ -60,7 +60,7 @@ class EvmsController < BaseevmController
       @count_assignee_list = count_assignee_list @project
       @count_tracker_list = count_tracker_list @project
       # baseline difference
-      @project_state = check_baseline_difference @project_evm
+      @baseline_variance = check_baseline_variance @project_evm
 
       # export
       respond_to do |format|

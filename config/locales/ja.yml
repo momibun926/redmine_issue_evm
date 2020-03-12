@@ -28,7 +28,7 @@ ja:
   indicator_status: ステータス
   indicator_difference: 終了予定日までの日数
   indicator_target_issues_count: 対象となっているチケットの件数
-  indicator_baseline_difference: ベースラインとの比較
+  indicator_baseline_variance: ベースラインとの比較
   indicator_bac: BAC
   indicator_due_date: プロジェクトの期限
   indicator_schedule: スケジュール
