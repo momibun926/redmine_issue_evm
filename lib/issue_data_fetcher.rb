@@ -3,7 +3,7 @@
 # It also collects a selectable list that is optionally specified
 #
 module IssueDataFetcher
-  # Calculation common condition of issue's select
+  # Common condition of issue's select
   SQL_COM = <<-SQL_COM.freeze
   (issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL)
   OR
@@ -14,6 +14,7 @@ module IssueDataFetcher
    issues.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))
   SQL_COM
 
+  # Common condition of issue's select for parent issue
   SQL_COM_ANC = <<-SQL_COM_ANC.freeze
   (ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL)
   OR
@@ -24,6 +25,7 @@ module IssueDataFetcher
    ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))
   SQL_COM_ANC
 
+  # Common condition of issue's join for parent issue
   SQL_JOIN = <<-"SQL_JOIN".freeze
   JOIN #{Issue.table_name} ancestors
     ON ancestors.root_id = #{Issue.table_name}.root_id

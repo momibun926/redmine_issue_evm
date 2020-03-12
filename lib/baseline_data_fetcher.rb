@@ -14,7 +14,7 @@ module BaselineDataFetcher
 
   # get selectable list of baseline
   #
-  # @param [proj] porject porject object
+  # @param [project] proj porject object
   # @return [EvmBaseline] baselines
   def selectable_baseline_list(proj)
     Evmbaseline.where(project_id: proj.id).
