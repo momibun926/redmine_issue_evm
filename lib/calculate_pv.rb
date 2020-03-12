@@ -162,13 +162,13 @@ module CalculateEvmLogic
     #
     # @return [String] state of plan on basis date
     def check_state
-      @state = if @due_date < @basis_date
-                 :overdue
-               elsif @basis_date < @start_date
-                 :before_plan
-               else
-                 :within_duration
-               end
+      if @due_date < @basis_date
+        :overdue
+      elsif @basis_date < @start_date
+        :before_plan
+      else
+        :within_duration
+      end
     end
   end
 end

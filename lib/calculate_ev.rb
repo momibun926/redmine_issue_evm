@@ -45,10 +45,11 @@ module CalculateEvmLogic
     end
 
     # State
-    #
+    # 
+    # @param [CalculatePv] pv_baseline CalculatePv object
     # @return [Numeric] EV value on basis date
-    def state(bac = nil)
-      check_state(bac)
+    def state(pv_baseline = nil)
+      check_state(pv_baseline)
     end
 
     private
