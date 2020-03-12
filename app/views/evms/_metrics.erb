@@ -21,19 +21,19 @@
   </fieldset>
 </div>
 <div class="metrics-col">
-  <fieldset><legend><%= l(:indicator_baseline_difference) %></legend>
+  <fieldset><legend><%= l(:indicator_baseline_variance) %></legend>
   <table id="metrics-col">
     <tr>
       <td align="right"><%= l(:indicator_bac) %>:</td>
-      <td <%=difference_color(project_state[:bac])%>><%= project_state[:bac] %></td>
+      <td <%=difference_color(baseline_variance[:bac])%>><%= baseline_variance[:bac] %></td>
     </tr>
     <tr>
       <td align="right"><%= l(:indicator_due_date) %>:</td>
-      <td <%=difference_color(project_state[:due_date])%>><%= project_state[:due_date] %></td>
+      <td <%=difference_color(baseline_variance[:due_date])%>><%= baseline_variance[:due_date] %></td>
     </tr>
     <tr>
       <td align="right"><%= l(:indicator_schedule) %>:</td>
-      <td <%=difference_color(project_state[:schedule])%>><%= project_state[:schedule] %></td>
+      <td <%=difference_color(baseline_variance[:schedule])%>><%= baseline_variance[:schedule] %></td>
     </tr>
   </table>
   </fieldset>

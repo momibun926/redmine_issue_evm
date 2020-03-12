@@ -257,12 +257,12 @@ module IssueDataFetcher
     id.blank? ? l(:no_assignee) : assigneee.name
   end
 
-  # check baseline difference
-  # difference of baseline and actual plan
+  # check baseline variance
+  # Variance of baseline and actual plan
   #
   # @param [CalculateEvm] project_evm evm object of project
   # @return [hash] project state
-  def check_baseline_difference(project_evm)
+  def check_baseline_variance(project_evm)
     pv_actual = project_evm.pv_actual
     pv_baseline = project_evm.pv_baseline
     project_state = {}
