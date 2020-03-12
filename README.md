@@ -37,8 +37,8 @@ Redmine 4.0.0 and above
   * Amount of issue. (version, assignee, tracker)
   * Chart of EVM(PV,EV,AC), Forecast is invalid when project is finished.
 * Common setting
-  * Basis date, basis hours of day
-  * Method of ETC
+  * Basic time of day
+  * Calculation method of ETC
   * Forcast chart, Performance chart, Threthold value, incomplete issues
 * Create baselines, and view history
 
