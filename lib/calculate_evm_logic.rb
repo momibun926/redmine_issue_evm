@@ -326,9 +326,9 @@ module CalculateEvmLogic
         ev_csv = {}
         ac_csv = {}
         evm_date_range.each do |csv_date|
-          pv_csv[csv_date] = @pv.cumulative_pv[csv_date].nil? ? nil : @pv.cumulative_pv[csv_date].round(2)
-          ev_csv[csv_date] = @ev.cumulative_ev[csv_date].nil? ? nil : @ev.cumulative_ev[csv_date].round(2)
-          ac_csv[csv_date] = @ac.cumulative_ac[csv_date].nil? ? nil : @ac.cumulative_ac[csv_date].round(2)
+          pv_csv[csv_date] = @pv.cumulative_pv[csv_date]&.round(2)
+          ev_csv[csv_date] = @ev.cumulative_ev[csv_date]&.round(2)
+          ac_csv[csv_date] = @ac.cumulative_ac[csv_date]&.round(2)
         end
         # evm values
         csv << ["PV", pv_csv.values.to_a].flatten!

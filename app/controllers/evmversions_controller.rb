@@ -24,10 +24,7 @@ class EvmversionsController < BaseevmController
     # calculate EVM (version)
     @version_evm = {}
     @version_evm_chart = {}
-    if @cfg_param[:selected_version_id].present?
-      # create evm data
-      create_evm_data
-    end
+    create_evm_data if @cfg_param[:selected_version_id].present?
   end
 
   private
@@ -41,6 +38,7 @@ class EvmversionsController < BaseevmController
     @cfg_param[:selected_version_id].each do |ver_id|
       ver = Version.find(ver_id)
       proj = Project.find(ver.project_id)
+      # search condition
       condition = { fixed_version_id: ver_id }
       # issues of version
       version_issues = evm_issues proj, condition
