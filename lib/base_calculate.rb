@@ -22,5 +22,13 @@ module CalculateEvmLogic
       end
       temp_hash
     end
+    # Add hash value
+    #
+    # @param [hash] evm_hash EVM hash
+    # @param [numeric] value EVM value
+    # @return [numeric] after add value
+    def add_hash_value(evm_hash, value)
+      evm_hash.present? ? evm_hash + value : value
+    end
   end
 end

@@ -117,8 +117,7 @@ module CalculateEvmLogic
           hours_per_day = issue_hours_per_day issue.estimated_hours.to_f,
                                               pv_days.length
           pv_days.each do |date|
-            temp_pv[date] += hours_per_day if temp_pv[date].present?
-            temp_pv[date] ||= hours_per_day
+            temp_pv[date] = add_hash_value temp_pv[date], hours_per_day
           end
         end
       end
