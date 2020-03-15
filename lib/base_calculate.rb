@@ -22,6 +22,7 @@ module CalculateEvmLogic
       end
       temp_hash
     end
+
     # Add hash value
     #
     # @param [hash] evm_hash EVM hash
