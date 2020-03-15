@@ -150,7 +150,7 @@ module ChartDataMaker
   # @param [number] evm_value EVM hash value
   # @return [number] EVM value or nil
   def evm_round(evm_value)
-    evm_value&.round(2)
+    evm_value.round(2) if evm_value.present?
   end
 
   # Get duretion of chart
