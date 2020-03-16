@@ -41,16 +41,18 @@
   </div>
 <% end %>
 <div class="metrics-col">
-  <fieldset><legend><%=l(:field_version)%></legend>
-  <table id="metrics-table">
-    <% version_list.each do |name, count| %>
-      <tr>
-        <td><%= name %></td>
-        <td align="right"><%= count %></td>
-      </tr>
-    <% end %>
-  </table>
-  </fieldset>
+  <% if version_list.present? %>
+    <fieldset><legend><%=l(:field_version)%></legend>
+    <table id="metrics-table">
+      <% version_list.each do |name, count| %>
+        <tr>
+          <td><%= name %></td>
+          <td align="right"><%= count %></td>
+        </tr>
+      <% end %>
+    </table>
+    </fieldset>
+  <% end %>
 </div>
 <div class="metrics-col">
   <fieldset><legend><%=l(:field_assigned_to)%></legend>
@@ -78,4 +80,3 @@
 </div>
 <div class="metrics-apply"></div>
 <br>
-

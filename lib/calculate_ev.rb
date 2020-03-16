@@ -45,7 +45,7 @@ module CalculateEvmLogic
     end
 
     # State
-    # 
+    #
     # @param [CalculatePv] pv_baseline CalculatePv object
     # @return [Numeric] EV value on basis date
     def state(pv_baseline = nil)
@@ -70,21 +70,22 @@ module CalculateEvmLogic
           if issue.closed?
             closed_date = issue.closed_on || issue.updated_on
             dt = closed_date.to_time.to_date
-            temp_ev[dt] += issue.estimated_hours.to_f if temp_ev[dt].present?
-            temp_ev[dt] ||= issue.estimated_hours.to_f
+            temp_ev[dt] = add_hash_value temp_ev[dt], issue.estimated_hours.to_f
             @finished_issue_count += 1
           # progress issue
           elsif issue.done_ratio.positive?
-            hours = issue.estimated_hours.to_f * issue.done_ratio / 100.0
             # latest date of changed ratio
-            ratio_date_utc = Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
+            journals = Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
+                               where("created_on <= ?", basis_date.end_of_day).
                                joins(:details).
-                               maximum(:created_on)
-            # parent isssue is no journals
-            ratio_date = ratio_date_utc.to_time.to_date if ratio_date_utc.present?
-            ratio_date ||= basis_date
-            temp_ev[ratio_date] += hours if temp_ev[ratio_date].present?
-            temp_ev[ratio_date] ||= hours
+                               order("created_on DESC").first
+            # calcurate done hours
+            if journals.present?
+              ratio_date = journals.created_on.to_time.to_date
+              done_ratio = journals.details.first.value.to_i
+              hours = issue.estimated_hours.to_f * done_ratio / 100.0
+              temp_ev[ratio_date] = add_hash_value temp_ev[ratio_date], hours
+            end
           end
           @issue_count += 1
         end

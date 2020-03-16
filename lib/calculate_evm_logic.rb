@@ -91,11 +91,7 @@ module CalculateEvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] EV / BAC
     def complete_ev(hours = 1)
-      complete_ev = if bac(hours) == 0.0
-                      0.0
-                    else
-                      (today_ev(hours) / bac(hours)) * 100.0
-                    end
+      complete_ev = bac(hours).zero? ? 0.0 : (today_ev(hours) / bac(hours)) * 100.0
       complete_ev.round(1)
     end
 
@@ -179,7 +175,7 @@ module CalculateEvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] EV / PV on basis date
     def today_spi(hours = 1)
-      spi = if today_ev(hours) == 0.0 || today_pv(hours) == 0.0
+      spi = if today_ev(hours).zero? || today_pv(hours).zero?
               0.0
             else
               today_ev(hours) / today_pv(hours)
@@ -204,7 +200,7 @@ module CalculateEvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] EV / AC on basis date
     def today_cpi(hours = 1)
-      cpi = if today_ev(hours) == 0.0 || today_ac(hours) == 0.0
+      cpi = if today_ev(hours).zero? || today_ac(hours).zero?
               0.0
             else
               today_ev(hours) / today_ac(hours)
@@ -228,7 +224,7 @@ module CalculateEvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] (BAC - EV) / CPI
     def etc(hours = 1)
-      etc = if today_cpi(hours) == 0.0 || today_cr(hours) == 0.0
+      etc = if today_cpi(hours).zero? || today_cr(hours).zero?
               0.0
             else
               div_value = case @etc_method
@@ -302,7 +298,7 @@ module CalculateEvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] (BAC - EV) / (BAC - AC)
     def tcpi(hours = 1)
-      tcpi = if bac(hours) == 0.0
+      tcpi = if bac(hours).zero?
                0.0
              else
                (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
@@ -326,9 +322,9 @@ module CalculateEvmLogic
         ev_csv = {}
         ac_csv = {}
         evm_date_range.each do |csv_date|
-          pv_csv[csv_date] = @pv.cumulative_pv[csv_date].nil? ? nil : @pv.cumulative_pv[csv_date].round(2)
-          ev_csv[csv_date] = @ev.cumulative_ev[csv_date].nil? ? nil : @ev.cumulative_ev[csv_date].round(2)
-          ac_csv[csv_date] = @ac.cumulative_ac[csv_date].nil? ? nil : @ac.cumulative_ac[csv_date].round(2)
+          pv_csv[csv_date] = @pv.cumulative_pv[csv_date].round(2) if @pv.cumulative_pv[csv_date].present?
+          ev_csv[csv_date] = @ev.cumulative_ev[csv_date].round(2) if @ev.cumulative_ev[csv_date].present?
+          ac_csv[csv_date] = @ac.cumulative_ac[csv_date].round(2) if @ac.cumulative_ac[csv_date].present?
         end
         # evm values
         csv << ["PV", pv_csv.values.to_a].flatten!
@@ -345,7 +341,7 @@ module CalculateEvmLogic
       if complete_ev == 100.0
         @ev.max_date
       # not worked yet
-      elsif today_ev == 0.0
+      elsif today_ev.zero?
         @pv.due_date
       # After completion schedule date
       elsif @pv.due_date < @basis_date

@@ -26,10 +26,7 @@ class EvmassigneesController < BaseevmController
     # calculate EVM (assignee)
     @assignee_evm = {}
     @assignee_evm_chart = {}
-    if @cfg_param[:selected_assignee_id].present?
-      # create evm data
-      create_evm_data
-    end
+    create_evm_data if @cfg_param[:selected_assignee_id].present?
   end
 
   private
@@ -41,11 +38,8 @@ class EvmassigneesController < BaseevmController
   #
   def create_evm_data
     @cfg_param[:selected_assignee_id].each do |id|
-      condition = if id.blank?
-                    { assigned_to_id: nil }
-                  else
-                    { assigned_to_id: id }
-                  end
+      # search condition
+      condition = id.blank? ? { assigned_to_id: nil } : { assigned_to_id: id }
       # issues of assignee
       assignee_issue = evm_issues @project, condition
       # spent time of assignee

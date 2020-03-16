@@ -24,10 +24,7 @@ class EvmparentissuesController < BaseevmController
     # calculate EVM (parent issue)
     @parent_issue_evm = {}
     @parent_issue_evm_chart = {}
-    if @cfg_param[:selected_parent_issue_id].present?
-      # create evm data
-      create_evm_data
-    end
+    create_evm_data if @cfg_param[:selected_parent_issue_id].present?
   end
 
   private
