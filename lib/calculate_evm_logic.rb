@@ -224,21 +224,19 @@ module CalculateEvmLogic
     # @param [Numeric] hours hours per day
     # @return [Numeric] (BAC - EV) / CPI
     def etc(hours = 1)
-      etc = if today_cpi(hours).zero? || today_cr(hours).zero?
-              0.0
-            else
-              div_value = case @etc_method
-                          when "method1"
-                            1.0
-                          when "method2"
-                            today_cpi(hours)
-                          when "method3"
-                            today_cr(hours)
-                          else
-                            today_cpi(hours)
-                          end
-              (bac(hours) - today_ev(hours)) / div_value
-            end
+      return 0.0 if today_cpi(hours).zero? || today_cr(hours).zero?
+
+      div_value = case @etc_method
+                  when "method1"
+                    1.0
+                  when "method2"
+                    today_cpi(hours)
+                  when "method3"
+                    today_cr(hours)
+                  else
+                    today_cpi(hours)
+                  end
+      etc = (bac(hours) - today_ev(hours)) / div_value
       etc.round(1)
     end
 
@@ -360,25 +358,25 @@ module CalculateEvmLogic
 
     # rest days
     #
-    # @param [numeric] pv pv
-    # @param [numeric] ev ev
-    # @param [numeric] spi spi
+    # @param [numeric] pv_value pv
+    # @param [numeric] ev_value ev
+    # @param [numeric] spi_value spi
     # @param [numeric] basis_hours hours of per day is plugin setting
     # @return [date] rest days
-    def rest_days(pv, ev, spi, basis_hours)
-      ((pv - ev) / spi / basis_hours).round(0)
+    def rest_days(pv_value, ev_value, spi_value, basis_hours)
+      ((pv_value - ev_value) / spi_value / basis_hours).round(0)
     end
 
     # Check finished date
     # If use baseline, The date that EV of status date greater than BAC of baseline.
     # Other case, The date that all issue was finished.
     #
-    # @param [CalculateEv] ev EV class
+    # @param [CalculateEv] calc_ev EV class
     # @param [CalculatePv] pv_baseline PV(Baseline) class
     # @return [date] project finished date, nil is not finished.
-    def check_finished_date(ev, pv_baseline)
-      ev_finished_date = ev.cumulative_ev.select { |_k, v| pv_baseline.bac <= v }.keys.min if pv_baseline.present?
-      [ev_finished_date, ev.max_date, @basis_date].compact.min if ev.state(pv_baseline) == :finished
+    def check_finished_date(calc_ev, pv_baseline)
+      ev_finished_date = calc_ev.cumulative_ev.select { |_k, v| pv_baseline.bac <= v }.keys.min if pv_baseline.present?
+      [ev_finished_date, calc_ev.max_date, @basis_date].compact.min if calc_ev.state(pv_baseline) == :finished
     end
   end
 end

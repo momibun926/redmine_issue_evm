@@ -78,7 +78,7 @@ module CalculateEvmLogic
             journals = Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
                                where("created_on <= ?", basis_date.end_of_day).
                                joins(:details).
-                               order("created_on DESC").first
+                               order(created_on: :DESC).first
             # calcurate done hours
             if journals.present?
               ratio_date = journals.created_on.to_time.to_date
