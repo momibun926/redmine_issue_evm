@@ -46,7 +46,7 @@ module CalculateEvmLogic
       # addup PV
       @cumulative_pv = sort_and_sum_evm_hash @daily_pv
       # Rest days
-      @rest_days = (@basis_date > @due_date) ? 0 : amount_working_days(@basis_date, @due_date)
+      @rest_days = @basis_date > @due_date ? 0 : amount_working_days(@basis_date, @due_date)
     end
 
     # Badget at completion (BAC)
@@ -85,9 +85,9 @@ module CalculateEvmLogic
     # This duration from the beginning of the project to the date
     # on which the PV should have been equal to the current value of EV.
     #
-    # @param [numeric] ev EV value of basis date.
+    # @param [numeric] ev_value EV value of basis date.
     # @return [date] earned shedule
-    def today_es(ev)
+    def today_es(ev_value)
       return 0 if @state == :before_plan
 
       es_date_pv = if @state == :overdue
@@ -95,7 +95,7 @@ module CalculateEvmLogic
                    else
                      @cumulative_pv
                    end
-      es_date = es_date_pv.select { |_k, v| (v <= ev) }.keys.max
+      es_date = es_date_pv.select { |_k, v| (v <= ev_value) }.keys.max
       es_date.nil? ? 0 : amount_working_days(@start_date, es_date)
     end
 

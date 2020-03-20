@@ -20,26 +20,14 @@ Redmine::Plugin.register :redmine_issue_evm do
   version "5.3.0"
   url "https://github.com/momibun926/redmine_issue_evm"
   author_url "https://github.com/momibun926"
-
-  # module
   project_module :Issuevm do
     permission :view_evms, evms: :index, require: :member
     permission :manage_evmbaselines,
-               evmbaselines: [:edit,
-                              :destroy,
-                              :new,
-                              :create,
-                              :update,
-                              :index,
-                              :show,
-                              :history]
+               evmbaselines: [:edit, :destroy, :new, :create, :update, :index, :show, :history]
     permission :view_evmbaselines,
-               evmbaselines: [:index,
-                              :history,
-                              :show]
+               evmbaselines: [:index, :history, :show]
     permission :manage_evmsettings,
-               evmsettings: [:index,
-                              :edit]
+               evmsettings: [:index, :edit]
   end
 
   # menu
