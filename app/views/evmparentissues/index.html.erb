@@ -3,6 +3,9 @@
 <% content_for :title_sub do %>
   <%= l(:label_nav_parent_issue) %>
 <% end %>
+<!-- contextual -->
+<%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param } %>
+<!-- Content of view option -->
 <% content_for :additional_option do %>
   <!-- selectable parent issues -->
   <div class="option-col">
@@ -13,6 +16,7 @@
                                            { multiple: true, size: 5 }%>
   </div>
 <% end %>
+<!-- view option -->
 <%= render partial: "/common/option_field"%>
 <!-- contents -->
 <section>
@@ -26,7 +30,7 @@
     <%= render partial: "/common/basic_evm_chart_js",
         locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
                   chart_data: @parent_issue_evm_chart[parent_issue_id],
-                  basis_date_label: basis_date_label(evm.finished_date), 
+                  basis_date_label: basis_date_label(evm.finished_date),
                   id: parent_issue_id,
                   tittle: evm.description } %>
   <% end %>

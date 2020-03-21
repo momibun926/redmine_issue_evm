@@ -12,6 +12,9 @@
       <%= render partial: "/evms/explanation" %>
     <% end %>
   <% end %>
+  <!-- contextual -->
+  <%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param } %>
+  <!-- Content of view option -->
   <% content_for :additional_option do %>
     <!-- calculate use baseline -->
     <div class="option-col">
@@ -32,6 +35,7 @@
       <%= label_tag l(:label_display_explanation) %>
     </div>
   <% end %>
+  <!-- view option -->
   <%= render partial: "/common/option_field"%>
   <!--metrics-->
   <h3><%= l(:subtitle_evm_summary)%></h3>

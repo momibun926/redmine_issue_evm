@@ -3,7 +3,7 @@
   title_evm_tab: Track with EVM
 
   # contextial menu
-  label_nav_main: Main
+  label_nav_main: Project
   label_nav_version: Versions
   label_nav_assignee: Assignees
   label_nav_parent_issue: Parent issues
