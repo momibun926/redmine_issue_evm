@@ -1,0 +1,111 @@
+<canvas id="chartid<%= id %>" width="900" height="200"></canvas>
+<script>
+var ctx = document.getElementById("chartid<%= id %>").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: <%= chart_data[:labels] %>,
+        datasets: [{
+            label: "PV",
+            spanGaps: true,
+            data: <%= chart_data[:pv] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "royalblue",
+            pointRadius: 1,
+            backgroundColor: "royalblue",
+            fill: false
+        },{
+            label: "EV",
+            spanGaps: true,
+            data: <%= chart_data[:ev] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "forestgreen",
+            pointRadius: 1,
+            backgroundColor: "forestgreen",
+            fill: false
+        },{
+            label: "AC",
+            spanGaps: true,
+            data: <%= chart_data[:ac] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "darkorange",
+            pointRadius: 1,
+            backgroundColor: "darkorange",
+            fill: false
+        },{
+            label: "<%= l(:estimated_working_hours) %>",
+            data: <%= chart_data[:pv_daily] %>,
+            steppedLine: "true",
+            borderWidth: 1,
+            borderColor: "lightskyblue",
+            pointRadius: 0,
+            backgroundColor: "lightskyblue"
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                type: "time",
+                time: {
+                    unit: "day",
+                    displayFormats: {
+                        day: "MMM D"
+                    }
+                },
+                distribution: "linear",
+                ticks: {
+                    source: "auto"
+                },
+                gridLines: {
+                    display: false
+                }                
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false
+                }
+            }]            
+        },
+        legend: {
+            display: true,
+            position: "bottom"
+        },
+        tooltips: {
+            mode: "nearest",
+            intersect: false,
+            callbacks: {
+                title: function (tooltipItem, data){
+                    var title = tooltipItem[0].xLabel;
+                    return title.replace(", 12:00:00 am","");
+                }            
+            }
+        },
+        annotation: {
+            annotations: [
+            {
+                type: "line",
+                mode: "vertical",
+                scaleID: "x-axis-0",
+                value: <%= basis_date %>,
+                borderWidth: 1,
+                borderColor: "darkred",
+                label: {
+                    content: "<%= basis_date_label %>",
+                    enabled: true,
+                    position: "top"
+                }
+            },{
+                type: "line",
+                mode: "horizontal",
+                scaleID: "y-axis-0",
+                value: <%= working_hours %>,
+                borderWidth: 1,
+                borderColor: "red"
+            }]
+        }
+    }
+});
+</script>

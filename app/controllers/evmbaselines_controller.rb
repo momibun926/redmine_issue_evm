@@ -1,12 +1,11 @@
-include ProjectAndVersionValue
-
-# baseline controller
-class EvmbaselinesController < ApplicationController
-  unloadable
-
+# Baseline controller.
+# This controller provide baseline view.
+#
+# 1. index, new, show, edit, update, create, destroy
+#
+class EvmbaselinesController < BaseevmController
+  # menu
   menu_item :issuevm
-  before_action :find_project, :authorize
-
   # display baseline list
   #
   def index
@@ -17,6 +16,7 @@ class EvmbaselinesController < ApplicationController
   #
   def new
     @evm_baselines = Evmbaseline.new
+    @evm_baselines.based_on = Date.today
     issues = evm_issues @project
     @start_date = issues.minimum(:start_date)
     @due_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
@@ -44,7 +44,7 @@ class EvmbaselinesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: :index
     else
-      redirect_to action: :edit
+      render :edit
     end
   end
 
@@ -75,7 +75,7 @@ class EvmbaselinesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: :index
     else
-      redirect_to action: :new
+      render :new
     end
   end
 
@@ -100,17 +100,9 @@ class EvmbaselinesController < ApplicationController
 
   private
 
-  # find project object
+  # Strong parameter
   #
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
+  def evm_baseline_params
+    params.require(:evmbaseline).permit(:subject, :description, :based_on)
   end
-
-    # Strong parameter
-    #
-    def evm_baseline_params
-      params.require(:evmbaseline).permit(:subject, :description)
-    end
 end

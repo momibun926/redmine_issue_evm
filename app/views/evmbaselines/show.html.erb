@@ -1,28 +1,35 @@
-<h2><%= l(:label_baseline_show) %></h2>
+<% html_title("Project tracking with EVM - baseline setting ") %>
+<h2><%= l(:title_evm_tab) %></h2>
+<h3><%= l(:label_baseline_show) %></h3>
 <%= form_for @evm_baselines, url: {action: :show, method: :get} do |f| %>
   <div class="box tabular">
     <p>
       <%= f.label :subject %>
-      <%= @evm_baselines.subject %>
+      <%= f.text_field :subject, size: 60, readonly: true %>
+    </p>
+    <p>
+      <%= f.label :based_on, l(:label_based_on) %>
+      <%= f.date_field :based_on, size: 8, readonly: true %><%= calendar_for(:based_on) %>
     </p>
     <p>
       <%= label :bac ,l(:label_baseline_bac) %>
-      <%= @evm_baselines.bac %>
+      <%= f.text_field :bac, size: 10, readonly: true %>
     </p>
     <p>
       <%= label :start_date ,l(:label_baseline_start_date) %>
-      <%= @evm_baselines.minimum_start_date %>
+      <%= f.text_field :minimum_start_date, size: 11, readonly: true %>
     </p>
     <p>
       <%= label :due_date ,l(:label_baseline_due_date) %>
-      <%= @evm_baselines.maximum_due_date %>
+      <%= f.text_field :maximum_due_date, size: 11, readonly: true %>
     </p>
     <p>
       <%= f.label :description %>
       <span>
-        <%= f.text_area :description, rows: 10, readonly: "ture" %>
+        <%= f.text_area :description, class: "wiki-edit", rows: 10, readonly: true %>
       </span>
     </p>
+    <%= wikitoolbar_for "evmbaseline_description" %>
   </div>
-  <%= submit_tag l(:button_close) %>
+  <%= link_to l(:button_back), { controller: :evmbaselines, action: :index, id: @project.id } %>
 <% end %>

@@ -1,7 +1,91 @@
+<canvas id="ChartPerformance" width="900" height="200"></canvas>
 <script>
-  var actualWeek = <%= basis_date.to_time.to_i* 1000 %>;
-  var graphTitleMain = <%= raw project_name.to_json %> ;
-  var performanceChartData = <%= raw project_evm.performance_chart_data.to_json %>;
-  var performanceChartHtmlElement = "evm-graph-lines-performance";
-  drawPerformanceChart(performanceChartData, performanceChartHtmlElement, graphTitleMain);
+var ctx = document.getElementById("ChartPerformance").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: <%= performance_chart_data[:labels] %>,
+        datasets: [{
+            label: "SPI",
+            spanGaps: true,
+            data: <%= performance_chart_data[:spi] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "dodgerblue",
+            pointRadius: 0,
+            backgroundColor: "dodgerblue",
+            fill: false
+        },{
+            label: "CPI",
+            spanGaps: true,
+            data: <%= performance_chart_data[:cpi] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "Orange",
+            pointRadius: 0,
+            backgroundColor: "Orange",
+            fill: false
+        },{
+            label: "CR",
+            spanGaps: true,
+            data: <%= performance_chart_data[:cr] %>,
+            borderWidth: 2,
+            lineTension: 0,
+            borderColor: "darkred",
+            pointRadius: 0,
+            backgroundColor: "darkred",
+            fill: false
+        }]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                type: "time",
+                time: {
+                    unit: "day",
+                    displayFormats: {
+                        day: "MMM D"
+                    }
+                },
+                distribution: "linear",
+                ticks: {
+                    source: "auto"
+                },
+                stacked: false,
+                gridLines: {
+                    display: false
+                }                
+            }],
+            yAxes: [{
+                gridLines: {
+                    drawBorder: false
+                }
+            }]            
+        },
+        legend: {
+            display: true,
+            position: "bottom"
+        },
+        tooltips: {
+            mode: "nearest",
+            intersect: false,
+            callbacks: {
+                title: function (tooltipItem, data){
+                    var title = tooltipItem[0].xLabel;
+                    return title.replace(", 12:00:00 am","");
+                }            
+            }
+        },
+        annotation: {
+            annotations: [{
+                type: "line",
+                mode: "horizontal",
+                scaleID: "y-axis-0",
+                value: 1,
+                borderWidth: 2,
+                borderColor: "gray"
+            }]
+        }
+    }
+});
 </script>

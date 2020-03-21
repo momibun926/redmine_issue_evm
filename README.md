@@ -5,60 +5,32 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-4.0
+4.0.1
 
 ## Compatibility
 Redmine 3.4.0 and above
 
-## Main features
-* Calculate EVM
-* Chart with EVM (PV,EV,AC)
-* Set the baseline　and show history
 
-## Baseline
-If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
-PV is based on your baseline. In addition, you can set calculation without baseline by options.
-
-## Additional options
-* Explanation of EVM
-* Chart with Project Performance (SPI,CPI,CR)
-* Chart with each version
-* Select past baseline
-* Change the calculating basic date
-* Change the level of the forecast
-* Calculate EVM of assignee and choosed trackers
-* Show unfinished issues
-
-## workig days
-1. Excluding weekends and holidays
-2. If it is only weekends or holidays, make it a working day
-3. Use holidays gem -> Regional settings are set in the plugin setting page(Administration->plugins)
-
-Example)
-
-In Japan, May 3, May 4, May 5 are holidays
-
-* Including weekends and holidays
-
-|Start date          |Due date            |Estimated time |Working day|PV per day|
-|--------------------|--------------------|---------------|-----------|----------|
-|May 1, 2017 (Monday)|May 8, 2017 (Monday)|12 hours       |3 days     |4 hours   |
-
-* Including only a few weekends and holidays
-
-|Start date          |Due date            |Estimated time |Working day|PV per day|
-|--------------------|--------------------|---------------|-----------|----------|
-|May 1, 2017 (Monday)|May 7, 2017 (Sunday)|10 hours       |2 days     |5 hours   |
-
-* Only weekends and holidays
-
-|Start date          |Due date            |Estimated time |Working day|PV per day|
-|--------------------|--------------------|---------------|-----------|----------|
-|May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days     |4 hours   |
-
-## Page print
-If you are using the latest browser, please use the printing function of the browser.
-Printing is possible with Summary,Main-chart,Incomplete Issues.
+# Main features
+* Calculate EVM with chart
+  * All projects with ES
+  * Each version
+  * Each asssignee (Shown estimated hours each days on chart)
+  * Each parent issues
+  * Some Tarckers
+* Project metrics
+  * Duration
+  * Satus
+  * Days until due date
+  * Amount of calculation issues
+  * Variance at baseline
+  * Amount of issue. (version, assignee, tracker)
+  * Chart of EVM(PV,EV,AC), Forecast is invalid when project is finished.
+* Common setting
+  * Basic time of day
+  * Calculation method of ETC
+  * Forcast chart, Performance chart, Threthold value, incomplete issues
+* Create baselines, and view history
 
 # How to calculate EVM
 The below are used for EVM.
@@ -69,8 +41,10 @@ The below are used for EVM.
 * spent time
 
 If you input these into your project, it can help you to calculate both a single issue’s EVM and whole project’s one.
-PV: Dividing estimated time by the days (from start date to due date(or effective date of version )) to get daily workload
-EV: After issues are closed, you can get EV.　When the progress rate is set, it is calculated by estimated time * progress rate on the day when the progress is set.
+
+* PV: Dividing estimated time by the days (from start date to due date(or effective date of version )) to get daily workload
+* EV: After issues are closed, you can get EV.　When the progress rate is set, it is calculated by estimated time. (progress rate on the day when the progress is set.)
+* AC: Total work hours of PV issues.
 
 **Example**
 
@@ -109,23 +83,52 @@ PV: Dividing estimated time: 24hours by 3 days (from start date to due date)
 
 Based on these data, EVM and chart are created.
 
+## Baseline
+If you set baseline, you can know easily how project divergence is and whether new task (issues) can be added by chart. In other words, you can see whether your estimated daily workload is over or not by chart.
+PV is based on your baseline. In addition, you can set calculation without baseline by options.
+
+## View options
+* Change the calculating basic date
+* Using baseline
+* Explanation of EVM
+
+## About workig days
+1. Excluding weekends and holidays
+2. If it is only weekends or holidays, make it a working day
+3. Use holidays gem -> Regional settings are set in the common setting page(common setting link in contextial)
+
+Example)
+
+In Japan, May 3, May 4, May 5 are holidays
+
+* Including weekends and holidays
+
+|Start date          |Due date            |Estimated time |Working day|PV per day|
+|--------------------|--------------------|---------------|-----------|----------|
+|May 1, 2017 (Monday)|May 8, 2017 (Monday)|12 hours       |3 days     |4 hours   |
+
+* Including only a few weekends and holidays
+
+|Start date          |Due date            |Estimated time |Working day|PV per day|
+|--------------------|--------------------|---------------|-----------|----------|
+|May 1, 2017 (Monday)|May 7, 2017 (Sunday)|10 hours       |2 days     |5 hours   |
+
+* Only weekends and holidays
+
+|Start date          |Due date            |Estimated time |Working day|PV per day|
+|--------------------|--------------------|---------------|-----------|----------|
+|May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days     |4 hours   |
+
 # Chart
-3 types of charts can be displayed.
-Charts are displayed using HigthChart. See below for license.
-It is a license that can not be used for commercial purposes.
-https://creativecommons.org/licenses/by-nc/3.0/
+Charts are displayed using Chart.js. This java scripts include Redmine.
 
 **Main chart**
 
-Show PV,EV,AC with baseline.Display unclosed issues according to the baseline.
+Show PV,EV,AC with baseline. Display unclosed issues according to the baseline.
 
 **Performance chart**
 
 Show SPI,CPI,CR of the days involved with PV,EV,AC
-
-**Version chart**
-
-Show PV,EV,AC of every version in the issue
 
 # Installation
 (1) Getting plugin source
@@ -165,16 +168,25 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 
 # Screen shots
 **Overview**
-![evm sample screenshot](./images/screenshot01.png "overview")
+![evm sample screenshot](./images/screenshot_main.png "overview")
+
+**Assignees**
+![evm sample screenshot](./images/screenshot_assignee.png "assgnees")
+
+**Prent issues**
+![evm sample screenshot](./images/screenshot_parent_issue.png "assgnees")
+
+**Trackers**
+![evm sample screenshot](./images/screenshot_tracker.png "assgnees")
 
 **Create baseline**
-![evm sample screenshot](./images/screenshot02.png "New baseline")
+![evm sample screenshot](./images/screenshot_new_baseline.png "New baseline")
 
 **Baseline History**
-![evm sample screenshot](./images/screenshot03.png "History")
+![evm sample screenshot](./images/screenshot_history_baseline.png "History")
 
 **Plugin Setting**
-![evm sample screenshot](./images/screenshot04.png "plugin　setting")
+![evm sample screenshot](./images/screenshot_common_setting.png "plugin　setting")
 
 # Contributing
 1. Fork it
@@ -184,11 +196,11 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 5. Create new Pull Request
 
 # My Environment
-* Redmine version                3.4.6.stable
-* Ruby version                   2.3.3-p222 (2016-11-21) [i386-mingw32]
-* Rails version                  4.2.8
+* Redmine version                3.4.13.stable.19405
+* Ruby version                   2.4.1-p111 (2017-03-22) [x86_64-linux]
+* Rails version                  4.2.11.1
 * Environment                    production
-* Database adapter               Mysql2
+* Database adapter               PostgreSQL
 
 #### Translators
 I appreciate your cooperation, Wen Wen, Shen.

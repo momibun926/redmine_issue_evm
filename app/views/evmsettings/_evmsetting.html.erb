@@ -9,7 +9,7 @@
 <% end %>
 <fieldset><legend><%= l(:label_basis_date) %></legend>
   <%= l(:label_basis_hours_of_day) %>
-  <%= f.text_field :basis_hours, {size: 3, placeholder: '8.0'} %><br>
+  <%= f.text_field :basis_hours, { size: 3, placeholder: '8.0' } %><br>
   <%= f.check_box :exclude_holidays,{},checked_value = "true",unchecked_value = "false" %>
   <%= l(:label_exclude_holidays) %><br>
   <%=l(:label_region)%>
@@ -22,19 +22,17 @@
   <%= f.radio_button :etc_method, 'method3' %><%= label_tag l(:label_calc_method3) %><br>
 </fieldset>
 <br>
-<fieldset><legend><%= l(:subtitle_evm_graph_main) %></legend>
+<fieldset><legend><%= l(:label_evm_graph) %></legend>
   <%= f.check_box :view_forecast,{},checked_value = "true",unchecked_value = "false" %>
   <%= l(:label_forecast) %><br>
-  <%= f.check_box :view_version,{},checked_value = "true",unchecked_value = "false" %>
-  <%= l(:label_display_version) %><br>
   <%= f.check_box :view_performance,{},checked_value = "true",unchecked_value = "false" %>
   <%= l(:label_display_performance) %><br>
   <%= l(:label_limit_spi) %>
-  <%= f.text_field :threshold_spi, {size: 3, placeholder: '0.9'}  %>&emsp;
+  <%= f.text_field :threshold_spi, { size: 3, placeholder: '0.9' }  %>&emsp;
   <%= l(:label_limit_cpi) %>
-  <%= f.text_field :threshold_cpi, {size: 3, placeholder: '0.9'}  %>&emsp;
+  <%= f.text_field :threshold_cpi, { size: 3, placeholder: '0.9' }  %>&emsp;
   <%= l(:label_limit_cr) %>
-  <%= f.text_field :threshold_cr, {size: 3, placeholder: '0.9'}  %><br>
+  <%= f.text_field :threshold_cr, { size: 3, placeholder: '0.9' }  %><br>
   <%= f.check_box :view_issuelist,{},checked_value = "true",unchecked_value = "false" %>
   <%= l(:label_display_incomplete) %><br>
 </fieldset>

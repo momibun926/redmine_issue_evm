@@ -1,11 +1,78 @@
-﻿# English strings go here for Rails i18n
-en:
-  # Setting Tab
-  label_setting_create: Create EVM setting
-  label_setting_edit: Edit EVM setting
-  label_setting_set: EVM setting
+﻿en:
+  # main title
+  title_evm_tab: Track with EVM
+
+  # contextial menu
+  label_nav_main: Main
+  label_nav_version: Versions
+  label_nav_assignee: Assignees
+  label_nav_parent_issue: Parent issues
+  label_nav_tracker: Trackers
+  label_nav_exclude: Exclude issues
+  label_nav_baseline_setting: Baseline setting
+  label_nav_evm_setting: Common setting
+  
+  # Main page
+  subtitle_evm_summary: Summary
+  subtitle_evm_indicator: Elements of Earned Value Management
+  subtitle_es_indicator: Earned Schedule
+  subtitle_evm_incomplete_issues: Incomplete Issues
+  subtitle_evm_exclude_issues: Exclude issues
+  subtitle_evm_chart_main: EVM Charts
+  subtitle_evm_chart_performance: Performance Charts
+
+  # Indicator project metrics
+  Indicator_metrics: Metrics
+  indicator_duration: Duration
+  indicator_status: Status
+  indicator_difference: Days of to due date
+  indicator_target_issues_count: Amount of target issues
+  indicator_baseline_variance: Baseline variance
+  indicator_bac: BAC
+  indicator_due_date: Due date of project
+  indicator_schedule: Schedule
+  no_changed: No changed
+  bac_cahnged: BAC is changed.
+  due_date_changed: Due date is changed.
+  schedule_changed: Rescheduled, Plan of A few issue is changed.
+  progress: Work in progress
+  finished: Finished
+  overdue: Over due date
+  before_plan: Before project start date
+  within_duration: Within the project period
+
+  # Indicator table header
+  indicator_table_header_date: Status date
+  indicator_table_header_today: Status date value
+  indicator_table_header_difference: Variance
+  indicator_table_header_performance: Perfromance
+  indicator_table_header_forecast: Forecast
+
+  # Indicator table legend
+  explanation_upper_row: Upper row is hours.
+  explanation_lower_row: Lower row is days.
+  explanation_es_unit: days
+  
+  # Option - common
+  label_basis_date: Status date
+  label_finished_date: Finished date
+  # Option - main
+  label_baseline_use: Use baseline for EVM value
+  label_no_use_baseline: Not use
+  label_explanation : Explanation
+  label_display_explanation: View explanation of EVM value to sidebar
+  # Option - parent issue
+  label_select_parent_issue : Select parent issue
+  # Option - trackers
+  label_select_trackers: Select trackers
+  # Option - assignees
+  label_select_assignee: Select assignees
+  # Option - versions
+  label_select_version: Select versions
+
+  # baseline page
   label_baseline: Baseline Name
-  label_baseline_show: Show Baseline
+  label_baseline_show: Baseline detail
   label_baseline_edit: Edit Baseline
   label_baseline_create: New Baseline
   label_baseline_version: Baseline History
@@ -17,88 +84,78 @@ en:
   label_current_baseline: Latest
   label_old_baseline: old
   label_latest_baseline: View EVM
+  label_based_on: basis date of baseline
+  
+  # common setting page
+  label_setting_create: Create EVM setting
+  label_setting_edit: Edit EVM setting
+  label_setting_set: EVM setting
   label_basis_hours_of_day: Basis hours of day
+  label_evm_graph: Chart
   label_limit_spi: SPI threshold.
   label_limit_cpi: CPI threshold.
   label_limit_cr: CR threshold.
-  label_exclude_holidays: Exclude holidays and weekend in PV calculation.
+  label_exclude_holidays: Exclude holidays and weekend in duration of days calculation.
   label_region: Regions to get a holiday
-  # Message
-  messsage_delete_baseline: Are you sure?
-  # Main form
-  title_evm_tab:  Track with EVM
-  subtitle_evm_summary: Summary
-  subtitle_evm_summary_trackers: Selected trackers
-  subtitle_evm_summary_assignee: Assignees
-  subtitle_evm_summary_parent_issue: Parent issue
-  subtitle_evm_graph_main: Charts
-  subtitle_evm_incomplete_issues: Incomplete Issues
-  subtitle_evm_graph_performance: Performance Cahrts
-  subtitle_evm_graph_version: Version Charts
-  # Option
-  label_basis_date: Basis date
-  label_basis: Use baseline　for EVM value
-  label_no_use_baseline: Not use
-  label_graph: Chart
-  label_forecast: Forecast
-  label_display_version: Version
-  label_display_performance: Performance
   label_display_incomplete: Incomplete Issues
+  label_display_performance: Performance
+  label_forecast: Show forecast line
   label_calculate : ETC calculation method
   label_calc_method1: Optimistic
   label_calc_method2: Normal
   label_calc_method3: Pessimistic
-  label_display : Explanation
-  label_display_other_evm : Other view of EVM
-  label_display_evm_assignee : Each assignees
-  label_display_evm_tracker : Selected trackers
-  label_display_evm_parent_issue : Selected parent issue
-  label_display_evm_parent_issue_attention : All related tickets must have start and end dates
-  label_display_explanation: View explanation of EVM value to sidebar
+
+  # Message
+  messsage_delete_baseline: Are you sure?
+  
+  # Activity page
   label_evmbaseline_plural: Baseline
   label_ativity_message_new: Baseline is created.
   label_ativity_message_edit: Baseline is updated.
-  label_evm_print: Print
+
   # Explanation title
   explanation_basis: Basis
   explanation_difference: Difference
   explanation_performance: Performance
   explanation_forecast: Forecast
+
   # Explanation
   explanation_bac: Total budget allocated to the project.
+  explanation_sac: This is the original planned completion duration (date) of the project.
   explanation_pv: Total cost of the work scheduled/planned as of a reporting date.
   explanation_ev: Total cost of the work completed/performed as of a reporting date. When the progress rate is set, recorded on change date.
+  explanation_es: This duration from the beginning of the project to the date on which the PV should have been equal to the current value of EV.
   explanation_ac: Total cost taken to complete the work as of a reporting date.
+  explanation_at: This is the duration from the beginning of the project to status date.
   explanation_sv: Positive Schedule Variance Indicates we are ahead of schedule. Negative Schedule Variance Indicates we are behind of schedule.
   explanation_cv: Positive Cost Variance Indicates the project is under budget. Negative Cost Variance Indicates the project is over budget.
+  explanation_tv: If TV value is negative, the project is behind schedule and if it is positive, it is ahead of schedule.
   explanation_spi: Above 1 indicates project team is very efficient in utilizing the time allocated to the project. Below 1 indicates project team is less efficient in utilizing the time allocated to the project.
   explanation_cpi: Above 1 indicates efficiency in utilizing the resources allocated to the project is good. Below 1 indicates efficiency in utilizing the resources allocated to the project is not good.
   explanation_cr: Project performance. SPI * CPI
+  explanation_tpi: Time performance index, If TPI is greater than 1, then the project is ahead of schedule and if it is less than 1, then the project is behind schedule.
   explanation_complete: The percentage of work which was planned to be completed by the Reporting Date.
   explanation_eac: Estimate At Completion (EAC) is the estimated cost of the project at the end of the project.
+  explanation_teac: The remaining work will be performed while maintaining the same rate of doing work for the rest of the project
   explanation_etc: The estimated cost required to complete the remainder of the project. (BAC－EV) / CPI
   explanation_vac: The variance on the total budget at the end of the project. BAC－EAC
+  explanation_tvac: The Time Variance at Completion (TVAC) gives an indication of the estimated amount of time that the project will be completed ahead or behind schedule
   explanation_difference_end_date: Difference of plan at the end of day and forecast end of day.
   explanation_tcpi: Showing the efficiency at which the resources on the project should be utilized for the remainder of the project.
-  # Indicator table header
-  indicator_table_header_date: Basis date
-  indicator_table_header_today: Basis date value
-  indicator_table_header_difference: Difference
-  indicator_table_header_performance: Perfromance
-  indicator_table_header_forecast: Forecast
-  indicator_table_header_tracker: selected trackers
-  indicator_table_header_parent_issue: selected parent issue
-  # Indicator table legend
-  explanation_upper_row: Upper row is hours.
-  explanation_lower_row: Lower row is days.
+  
   # Permission
   project_module_Issuevm: EVM
   permission_view_evms: View EVM
   permission_manage_evmbaselines: Edit Baseline
+  permission_manage_evmsettings: Edit Common Setting
   permission_view_evmbaselines: View Baseline
+  
   # Tab Display
   tab_display_name: EVM
+ 
   # incomplete_issue
   incomplete_issue_parent_id: Parent#
+  
   # EVM of assignee
   no_assignee: no assigned
+  estimated_working_hours: Estimated working hours
