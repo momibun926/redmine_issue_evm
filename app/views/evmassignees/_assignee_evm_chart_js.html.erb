@@ -8,7 +8,7 @@ var myChart = new Chart(ctx, {
         datasets: [{
             label: "PV",
             spanGaps: true,
-            data: <%= chart_data[:pv] %>,
+            data: <%= chart_data[:pv_actual] %>,
             borderWidth: 2,
             lineTension: 0,
             borderColor: "royalblue",
@@ -61,13 +61,13 @@ var myChart = new Chart(ctx, {
                 },
                 gridLines: {
                     display: false
-                }                
+                }
             }],
             yAxes: [{
                 gridLines: {
                     drawBorder: false
                 }
-            }]            
+            }]
         },
         legend: {
             display: true,
@@ -80,7 +80,7 @@ var myChart = new Chart(ctx, {
                 title: function (tooltipItem, data){
                     var title = tooltipItem[0].xLabel;
                     return title.replace(", 12:00:00 am","");
-                }            
+                }
             }
         },
         annotation: {

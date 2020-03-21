@@ -12,7 +12,7 @@ ja:
   label_nav_exclude: EVMの計算から除外されているチケット
   label_nav_baseline_setting: ベースラインの設定
   label_nav_evm_setting: 共通設定
-  
+
   # Main page
   subtitle_evm_summary: サマリー
   subtitle_evm_indicator: EVM
@@ -37,7 +37,7 @@ ja:
   due_date_changed: プロジェクトの期限が変更されました
   schedule_changed: スケジュールが変更されました
   progress: 作業中です
-  finished: プロジェクトは終了しています
+  finished: プロジェクトは完了しています
   overdue: 完了予定日を過ぎています
   no_work: 完了しているタスクがありません
   before_plan: プジェクト開始日前です
@@ -54,7 +54,7 @@ ja:
   explanation_upper_row: 上段は時間.
   explanation_lower_row: 下段は日数.
   explanation_es_unit: 単位は日数
-  
+
   # Option - common
   label_basis_date: 基準日
   label_finished_date: 完了日
@@ -109,7 +109,7 @@ ja:
 
   # Message
   messsage_delete_baseline: 本当に削除してもよろしいですか?
-  
+
   # Activity page
   label_evmbaseline_plural: ベースライン
   label_ativity_message_new: ベースラインが作成されました
@@ -151,13 +151,13 @@ ja:
   permission_manage_evmbaselines: ベースラインの設定
   permission_manage_evmsettings: EVM設定の編集
   permission_view_evmbaselines: ベースラインの一覧表示
-  
+
   # Tab Display
   tab_display_name: EVM
- 
+
   # incomplete_issue
   incomplete_issue_parent_id: 親チケット#
-  
+
   # EVM of assignee
   no_assignee: 担当者なし
   estimated_working_hours: 日毎予定時間
