@@ -64,31 +64,27 @@ module CalculateEvmLogic
       temp_ev = {}
       @finished_issue_count = 0
       @issue_count = 0
-      if issues.present?
-        issues.each do |issue|
-          # closed issue
-          if issue.closed?
-            closed_date = issue.closed_on || issue.updated_on
-            dt = closed_date.to_time.to_date
-            temp_ev[dt] = add_hash_value temp_ev[dt], issue.estimated_hours.to_f
-            @finished_issue_count += 1
-          # progress issue
-          elsif issue.done_ratio.positive?
-            # latest date of changed ratio
-            journals = Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
-                         where("created_on <= ?", basis_date.end_of_day).
-                         joins(:details).
-                         order(created_on: :DESC).first
-            # calcurate done hours
-            if journals.present?
-              ratio_date = journals.created_on.to_time.to_date
-              done_ratio = journals.details.first.value.to_i
-              hours = issue.estimated_hours.to_f * done_ratio / 100.0
-              temp_ev[ratio_date] = add_hash_value temp_ev[ratio_date], hours
-            end
+      Array(issues).each do |issue|
+        # closed issue
+        if issue.closed?
+          dt = (issue.closed_on || issue.updated_on).to_time.to_date
+          temp_ev[dt] = add_hash_value temp_ev[dt], issue.estimated_hours.to_f
+          @finished_issue_count += 1
+        # progress issue
+        elsif issue.done_ratio.positive?
+          # latest date of changed ratio
+          journals = Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
+                       where("created_on <= ?", basis_date.end_of_day).
+                       joins(:details).
+                       order(created_on: :DESC).first
+          # calcurate done hours
+          if journals.present?
+            dt = journals.created_on.to_time.to_date
+            hours = issue.estimated_hours.to_f * journals.details.first.value.to_i / 100.0
+            temp_ev[dt] = add_hash_value temp_ev[dt], hours
           end
-          @issue_count += 1
         end
+        @issue_count += 1
       end
       temp_ev
     end

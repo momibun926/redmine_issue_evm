@@ -253,8 +253,9 @@ module IssueDataFetcher
   # @param [numeric] id assignee id or user group id
   # @return [string] assignee name or user group name
   def assignee_name(id)
-    assigneee = User.find_by(id: id) || Group.find_by(id: id)
-    id.blank? ? l(:no_assignee) : assigneee.name
+    return l(:no_assignee) if id.blank?
+
+    User.find_by(id: id) || Group.find_by(id: id)
   end
 
   # check baseline variance
@@ -266,9 +267,6 @@ module IssueDataFetcher
     pv_actual = project_evm.pv_actual
     pv_baseline = project_evm.pv_baseline
     project_state = {}
-    project_state[:bac] = ""
-    project_state[:due_date] = ""
-    project_state[:schedule] = ""
     if pv_baseline.present?
       project_state[:bac] = if pv_actual.bac.round(2) == pv_baseline.bac.round(2)
                               l(:no_changed)
