@@ -226,16 +226,7 @@ module CalculateEvmLogic
     def etc(hours = 1)
       return 0.0 if today_cpi(hours).zero? || today_cr(hours).zero?
 
-      div_value = case @etc_method
-                  when "method1"
-                    1.0
-                  when "method2"
-                    today_cpi(hours)
-                  when "method3"
-                    today_cr(hours)
-                  else
-                    today_cpi(hours)
-                  end
+      div_value = etc_div_value hours
       etc = (bac(hours) - today_ev(hours)) / div_value
       etc.round(1)
     end
@@ -377,6 +368,23 @@ module CalculateEvmLogic
     def check_finished_date(calc_ev, calc_pv)
       ev_finished_date = calc_ev.cumulative.select { |_k, v| calc_pv.bac <= v }.keys.min
       [ev_finished_date, calc_ev.max_date, @basis_date].compact.min if calc_ev.state(calc_pv) == :finished
+    end
+
+    # div value fo etc
+    #
+    # @param [Numeric] hours hours per day
+    # @return [nymeric] div value
+    def etc_div_value(hours = 1)
+      case @etc_method
+      when "method1"
+        1.0
+      when "method2"
+        today_cpi(hours)
+      when "method3"
+        today_cr(hours)
+      else
+        today_cpi(hours)
+      end
     end
   end
 end
