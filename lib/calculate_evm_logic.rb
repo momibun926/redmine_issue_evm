@@ -49,22 +49,22 @@ module CalculateEvmLogic
       @etc_method = options[:etc_method]
       @exclude_holiday = options[:exclude_holiday]
       @region = options[:region]
-      # PV Actual
-      @pv_actual = CalculatePv.new @basis_date, issues, @region, @exclude_holiday
       # EV
       @ev = CalculateEv.new @basis_date, issues
       # AC
       @ac = CalculateAc.new @basis_date, costs
+      # PV Actual
+      @pv_actual = CalculatePv.new @basis_date, issues, @region, @exclude_holiday
       # PV Baseline or PV actual
       @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday if baselines.present?
       @pv = @pv_baseline || @pv_actual
       # Finished date is set when project is finished
-      @finished_date = check_finished_date(@ev, @pv_baseline)
+      @finished_date = check_finished_date @ev, @pv
       # Forecast is invalid when project is finished
       @forecast = false if @finished_date.present?
       # project state, EV and PV
-      @project_state = [@ev.state(@pv_baseline)]
-      @project_state << @pv.state if @ev.state(@pv_baseline) != :finished
+      @project_state = [@ev.state(@pv)]
+      @project_state << @pv.state if @ev.state(@pv) != :finished
     end
 
     # Badget at completion.
@@ -320,9 +320,9 @@ module CalculateEvmLogic
         ev_csv = {}
         ac_csv = {}
         evm_date_range.each do |csv_date|
-          pv_csv[csv_date] = @pv.cumulative_pv[csv_date] && @pv.cumulative_pv[csv_date].round(2)
-          ev_csv[csv_date] = @ev.cumulative_ev[csv_date] && @ev.cumulative_ev[csv_date].round(2)
-          ac_csv[csv_date] = @ac.cumulative_ac[csv_date] && @ac.cumulative_ac[csv_date].round(2)
+          pv_csv[csv_date] = @pv.cumulative[csv_date] && @pv.cumulative[csv_date].round(2)
+          ev_csv[csv_date] = @ev.cumulative[csv_date] && @ev.cumulative[csv_date].round(2)
+          ac_csv[csv_date] = @ac.cumulative[csv_date] && @ac.cumulative[csv_date].round(2)
         end
         # evm values
         csv << ["PV", pv_csv.values.to_a].flatten!
@@ -343,8 +343,8 @@ module CalculateEvmLogic
         @pv.due_date
       # After completion schedule date
       elsif @pv.due_date < @basis_date
-        @basis_date + rest_days(@pv.cumulative_pv[@pv.due_date],
-                                @ev.cumulative_ev.values.max,
+        @basis_date + rest_days(@pv.cumulative[@pv.due_date],
+                                @ev.cumulative.values.max,
                                 today_spi,
                                 @working_hours)
       # before schedule date
@@ -368,15 +368,15 @@ module CalculateEvmLogic
     end
 
     # Check finished date
-    # If use baseline, The date that EV of status date greater than BAC of baseline.
+    # The date that EV of status date greater than BAC of PV(actual or baseline).
     # Other case, The date that all issue was finished.
     #
     # @param [CalculateEv] calc_ev EV class
-    # @param [CalculatePv] pv_baseline PV(Baseline) class
+    # @param [CalculatePv] calc_pv PV class
     # @return [date] project finished date, nil is not finished.
-    def check_finished_date(calc_ev, pv_baseline)
-      ev_finished_date = calc_ev.cumulative_ev.select { |_k, v| pv_baseline.bac <= v }.keys.min if pv_baseline.present?
-      [ev_finished_date, calc_ev.max_date, @basis_date].compact.min if calc_ev.state(pv_baseline) == :finished
+    def check_finished_date(calc_ev, calc_pv)
+      ev_finished_date = calc_ev.cumulative.select { |_k, v| calc_pv.bac <= v }.keys.min
+      [ev_finished_date, calc_ev.max_date, @basis_date].compact.min if calc_ev.state(calc_pv) == :finished
     end
   end
 end

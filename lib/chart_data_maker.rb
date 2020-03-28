@@ -18,12 +18,12 @@ module ChartDataMaker
     # start date and end date of chart
     chart_duration = chart_duration(evm)
     # always within dyue date
-    planned_value = evm.pv_actual.cumulative_pv.select { |k, _v| k <= evm.pv_actual.due_date }
-    baseline_value = evm.pv_baseline.cumulative_pv.select { |k, _v| k <= evm.pv_baseline.due_date } if evm.pv_baseline.present?
+    planned_value = evm.pv_actual.cumulative.select { |k, _v| k <= evm.pv_actual.due_date }
+    baseline_value = evm.pv_baseline.cumulative.select { |k, _v| k <= evm.pv_baseline.due_date } if evm.pv_baseline.present?
     # less than basis date or finished date
     chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
-    earned_value = evm.ev.cumulative_ev.select { |k, _v| k <= chart_adjust_date }
-    actual_value = evm.ac.cumulative_ac.select { |k, _v| k <= chart_adjust_date }
+    earned_value = evm.ev.cumulative.select { |k, _v| k <= chart_adjust_date }
+    actual_value = evm.ac.cumulative.select { |k, _v| k <= chart_adjust_date }
     # init forecast chart data
     bac_top_line = {}
     eac_top_line = {}
@@ -63,7 +63,7 @@ module ChartDataMaker
       plotdata_actual_cost << evm_round(actual_value[chart_date])
       plotdata_earned_value << evm_round(earned_value[chart_date])
       plotdata_baseline_value << evm_round(baseline_value[chart_date]) if evm.pv_baseline.present?
-      plotdata_planned_value_daily << evm_round(evm.pv.daily_pv[chart_date])
+      plotdata_planned_value_daily << evm_round(evm.pv.daily[chart_date])
       plotdata_bac_top_line << evm_round(bac_top_line[chart_date])
       plotdata_eac_top_line << evm_round(eac_top_line[chart_date])
       plotdata_actual_cost_forecast << evm_round(actual_cost_forecast[chart_date])
@@ -91,11 +91,11 @@ module ChartDataMaker
     chart_data = {}
     # less than basis date or finished date
     chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
-    adjusted_ev = evm.ev.cumulative_ev.select { |k, _v| k <= chart_adjust_date }
+    adjusted_ev = evm.ev.cumulative.select { |k, _v| k <= chart_adjust_date }
     new_ev = complement_evm_value adjusted_ev
-    adjusted_ac = evm.ac.cumulative_ac.select { |k, _v| k <= chart_adjust_date }
+    adjusted_ac = evm.ac.cumulative.select { |k, _v| k <= chart_adjust_date }
     new_ac = complement_evm_value adjusted_ac
-    new_pv = complement_evm_value evm.pv.cumulative_pv
+    new_pv = complement_evm_value evm.pv.cumulative
     performance_min_date = [new_ev.keys.min,
                             new_ac.keys.min,
                             new_pv.keys.min].max
@@ -172,8 +172,8 @@ module ChartDataMaker
       max_date << evm.ev.max_date
       max_date << evm.ac.max_date
     else
-      max_date << evm.ev.cumulative_ev.keys.max
-      max_date << evm.ac.cumulative_ac.keys.max
+      max_date << evm.ev.cumulative.keys.max
+      max_date << evm.ac.cumulative.keys.max
     end
     duration[:end_date] = max_date.max
     duration

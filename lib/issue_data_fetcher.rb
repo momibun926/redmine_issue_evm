@@ -278,7 +278,7 @@ module IssueDataFetcher
                                  else
                                    l(:due_date_changed)
                                  end
-      project_state[:schedule] = if pv_actual.daily_pv == pv_baseline.daily_pv
+      project_state[:schedule] = if pv_actual.daily == pv_baseline.daily
                                    l(:no_changed)
                                  else
                                    l(:schedule_changed)

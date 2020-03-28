@@ -11,7 +11,7 @@
   label_nav_exclude: Exclude issues
   label_nav_baseline_setting: Baseline setting
   label_nav_evm_setting: Common setting
-  
+
   # Main page
   subtitle_evm_summary: Summary
   subtitle_evm_indicator: Elements of Earned Value Management
@@ -23,7 +23,7 @@
 
   # Indicator project metrics
   Indicator_metrics: Metrics
-  indicator_duration: Duration
+  indicator_duration: Planed duration
   indicator_status: Status
   indicator_difference: Days of to due date
   indicator_target_issues_count: Amount of target issues
@@ -52,7 +52,7 @@
   explanation_upper_row: Upper row is hours.
   explanation_lower_row: Lower row is days.
   explanation_es_unit: days
-  
+
   # Option - common
   label_basis_date: Status date
   label_finished_date: Finished date
@@ -85,7 +85,7 @@
   label_old_baseline: old
   label_latest_baseline: View EVM
   label_based_on: basis date of baseline
-  
+
   # common setting page
   label_setting_create: Create EVM setting
   label_setting_edit: Edit EVM setting
@@ -107,7 +107,7 @@
 
   # Message
   messsage_delete_baseline: Are you sure?
-  
+
   # Activity page
   label_evmbaseline_plural: Baseline
   label_ativity_message_new: Baseline is created.
@@ -142,20 +142,20 @@
   explanation_tvac: The Time Variance at Completion (TVAC) gives an indication of the estimated amount of time that the project will be completed ahead or behind schedule
   explanation_difference_end_date: Difference of plan at the end of day and forecast end of day.
   explanation_tcpi: Showing the efficiency at which the resources on the project should be utilized for the remainder of the project.
-  
+
   # Permission
   project_module_Issuevm: EVM
   permission_view_evms: View EVM
   permission_manage_evmbaselines: Edit Baseline
   permission_manage_evmsettings: Edit Common Setting
   permission_view_evmbaselines: View Baseline
-  
+
   # Tab Display
   tab_display_name: EVM
- 
+
   # incomplete_issue
   incomplete_issue_parent_id: Parent#
-  
+
   # EVM of assignee
   no_assignee: no assigned
   estimated_working_hours: Estimated working hours
