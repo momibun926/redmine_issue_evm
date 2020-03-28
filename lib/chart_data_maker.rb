@@ -15,6 +15,8 @@ module ChartDataMaker
   # @param [object] evm calculation EVN object
   # @return [hash] chart data
   def evm_chart_data(evm)
+    # kind of chart data
+    plot_data_kind = [:labels, :pv_actual, :pv_daily, :pv_baseline, :ac, :ev, :bac, :eac, :ac_forecast, :ev_forecast]
     # start date and end date of chart
     chart_duration = chart_duration(evm)
     # always within dyue date
@@ -46,41 +48,28 @@ module ChartDataMaker
       earned_value_forecast[evm.forecast_finish_date] = evm.bac
     end
 
-    labels = []
-    plotdata_planned_value = []
-    plotdata_actual_cost = []
-    plotdata_earned_value = []
-    plotdata_baseline_value = []
-    plotdata_planned_value_daily = []
-    plotdata_bac_top_line = []
-    plotdata_eac_top_line = []
-    plotdata_actual_cost_forecast = []
-    plotdata_earned_value_forecast = []
+    plot_data = {}
+    plot_data_kind.each do |kind|
+      plot_data[kind] = []
+    end
 
     (chart_duration[:start_date]..chart_duration[:end_date]).each do |chart_date|
-      labels << chart_date.to_time(:local).to_i * 1000
-      plotdata_planned_value << evm_round(planned_value[chart_date])
-      plotdata_actual_cost << evm_round(actual_value[chart_date])
-      plotdata_earned_value << evm_round(earned_value[chart_date])
-      plotdata_baseline_value << evm_round(baseline_value[chart_date]) if evm.pv_baseline.present?
-      plotdata_planned_value_daily << evm_round(evm.pv.daily[chart_date])
-      plotdata_bac_top_line << evm_round(bac_top_line[chart_date])
-      plotdata_eac_top_line << evm_round(eac_top_line[chart_date])
-      plotdata_actual_cost_forecast << evm_round(actual_cost_forecast[chart_date])
-      plotdata_earned_value_forecast << evm_round(earned_value_forecast[chart_date])
+      plot_data[:labels] << chart_date.to_time(:local).to_i * 1000
+      plot_data[:pv_actual] << evm_round(planned_value[chart_date])
+      plot_data[:pv_baseline] << evm_round(baseline_value[chart_date]) if evm.pv_baseline.present?
+      plot_data[:pv_daily] << evm_round(evm.pv.daily[chart_date])
+      plot_data[:ac] << evm_round(actual_value[chart_date])
+      plot_data[:ev] << evm_round(earned_value[chart_date])
+      plot_data[:bac] << evm_round(bac_top_line[chart_date])
+      plot_data[:eac] << evm_round(eac_top_line[chart_date])
+      plot_data[:ac_forecast] << evm_round(actual_cost_forecast[chart_date])
+      plot_data[:ev_forecast] << evm_round(earned_value_forecast[chart_date])
     end
 
     chart_data = {}
-    chart_data[:labels] = labels
-    chart_data[:pv] = plotdata_planned_value.to_json
-    chart_data[:ac] = plotdata_actual_cost.to_json
-    chart_data[:ev] = plotdata_earned_value.to_json
-    chart_data[:pv_daily] = plotdata_planned_value_daily.to_json
-    chart_data[:baseline] = plotdata_baseline_value.to_json
-    chart_data[:bac] = plotdata_bac_top_line.to_json
-    chart_data[:eac] = plotdata_eac_top_line.to_json
-    chart_data[:ac_forecast] = plotdata_actual_cost_forecast.to_json
-    chart_data[:ev_forecast] = plotdata_earned_value_forecast.to_json
+    plot_data_kind.each do |kind|
+      chart_data[kind] = kind.equal?(:labels) ? plot_data[kind] : plot_data[kind].to_json
+    end
     chart_data
   end
 
