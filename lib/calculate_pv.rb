@@ -10,10 +10,6 @@ module CalculateEvmLogic
     attr_reader :start_date
     # due date (exclude basis date)
     attr_reader :due_date
-    # daily PV
-    attr_reader :daily
-    # cumulative PV by date
-    attr_reader :cumulative
     # state on basis date
     # overdue: basis date is overdue, before_plan: basis date is before start date
     attr_reader :state

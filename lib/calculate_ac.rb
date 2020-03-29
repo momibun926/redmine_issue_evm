@@ -10,10 +10,6 @@ module CalculateEvmLogic
     attr_reader :min_date
     # max date of spent time (exclude basis date)
     attr_reader :max_date
-    # daily AC
-    attr_reader :daily
-    # cumulative EV by date
-    attr_reader :cumulative
 
     # Constractor
     #
@@ -37,7 +33,7 @@ module CalculateEvmLogic
       @cumulative.reject! { |k, _v| @basis_date < k }
     end
 
-    # Today"s Actual cost
+    # Today's Actual cost
     #
     # @return [Numeric] AC on basis date
     def today_value

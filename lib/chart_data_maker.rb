@@ -17,10 +17,7 @@ module ChartDataMaker
   def evm_chart_data(evm)
     # kind of chart data
     plot_data_kind = [:labels, :pv_actual, :pv_daily, :pv_baseline, :ac, :ev, :bac, :eac, :ac_forecast, :ev_forecast]
-    plot_data = {}
-    plot_data_kind.each do |kind|
-      plot_data[kind] = []
-    end
+    plot_data = Hash.new { |h, k| h[k] = [] }
 
     # start date and end date of chart
     chart_duration = chart_duration(evm)
@@ -60,9 +57,9 @@ module ChartDataMaker
     chart_data = {}
     # less than basis date or finished date
     chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
-    adjusted_ev = evm.ev.cumulative.select { |k, _v| k <= chart_adjust_date }
+    adjusted_ev = evm.ev.cumulative_at chart_adjust_date
     new_ev = complement_evm_value adjusted_ev
-    adjusted_ac = evm.ac.cumulative.select { |k, _v| k <= chart_adjust_date }
+    adjusted_ac = evm.ac.cumulative_at chart_adjust_date
     new_ac = complement_evm_value adjusted_ac
     new_pv = complement_evm_value evm.pv.cumulative
     performance_min_date = [new_ev.keys.min,
@@ -186,13 +183,13 @@ module ChartDataMaker
   def create_evm_chart_data_source(evm)
     # always within dyue date
     data_source = {}
-    data_source[:pv_actual] = evm.pv_actual.cumulative.select { |k, _v| k <= evm.pv_actual.due_date }
-    data_source[:pv_baseline] = evm.pv_baseline.cumulative.select { |k, _v| k <= evm.pv_baseline.due_date } if evm.pv_baseline.present?
+    data_source[:pv_actual] = evm.pv_actual.cumulative_at evm.pv_actual.due_date
+    data_source[:pv_baseline] = evm.pv_baseline.cumulative_at evm.pv_baseline.due_date if evm.pv_baseline.present?
     data_source[:pv_daily] = evm.pv.daily
     # less than basis date or finished date
     chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
-    data_source[:ev] = evm.ev.cumulative.select { |k, _v| k <= chart_adjust_date }
-    data_source[:ac] = evm.ac.cumulative.select { |k, _v| k <= chart_adjust_date }
+    data_source[:ev] = evm.ev.cumulative_at chart_adjust_date
+    data_source[:ac] = evm.ac.cumulative_at chart_adjust_date
     data_source
   end
 end

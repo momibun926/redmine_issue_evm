@@ -10,10 +10,6 @@ module CalculateEvmLogic
     attr_reader :min_date
     # max date of spent time (exclude basis date)
     attr_reader :max_date
-    # daily EV
-    attr_reader :daily
-    # cumulative EV by date
-    attr_reader :cumulative
 
     # Constractor
     #
@@ -77,7 +73,7 @@ module CalculateEvmLogic
                        where("created_on <= ?", basis_date.end_of_day).
                        joins(:details).
                        order(created_on: :DESC).first
-          # calcurate done hours
+          # calculate done hours
           if journals.present?
             dt = journals.created_on.to_time.to_date
             hours = issue.estimated_hours.to_f * journals.details.first.value.to_i / 100.0
@@ -96,12 +92,10 @@ module CalculateEvmLogic
     def check_state(calc_pv = nil)
       return :no_work if @issue_count.zero?
 
-      if calc_pv.present?
-        return :finished if calc_pv.bac <= @cumulative[@basis_date]
-      else
-        return :progress if @basis_date < @max_date
-        return :finished if @finished_issue_count == @issue_count
-      end
+      return :finished if calc_pv.present? && calc_pv.bac <= @cumulative[@basis_date]
+
+      return :finished if @finished_issue_count == @issue_count
+
       :progress
     end
   end

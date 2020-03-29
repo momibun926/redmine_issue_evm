@@ -327,20 +327,20 @@ module CalculateEvmLogic
     # @return [date] End of project date
     def forecast_finish_date
       # already finished project
-      if complete_ev == 100.0
-        @ev.max_date
+      return @ev.max_date if complete_ev == 100.0
+
       # not worked yet
-      elsif today_ev.zero?
-        @pv.due_date
+      return @pv.due_date if today_ev.zero?
+
+      # before schedule date
+      return @basis_date if @basis_date < @pv.start_date
+
       # After completion schedule date
-      elsif @pv.due_date < @basis_date
+      if @pv.due_date < @basis_date
         @basis_date + rest_days(@pv.cumulative[@pv.due_date],
                                 @ev.cumulative.values.max,
                                 today_spi,
                                 @working_hours)
-      # before schedule date
-      elsif @basis_date < @pv.start_date
-        @basis_date
       # After completion schedule date
       else
         @pv.due_date + rest_days(today_pv, today_ev, today_spi, @working_hours)
