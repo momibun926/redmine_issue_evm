@@ -10,10 +10,6 @@ module CalculateEvmLogic
     attr_reader :start_date
     # due date (exclude basis date)
     attr_reader :due_date
-    # daily PV
-    attr_reader :daily_pv
-    # cumulative PV by date
-    attr_reader :cumulative_pv
     # state on basis date
     # overdue: basis date is overdue, before_plan: basis date is before start date
     attr_reader :state
@@ -34,17 +30,17 @@ module CalculateEvmLogic
       # exclude holiday
       @holiday_exclude = exclude_holiday
       # daily PV
-      @daily_pv = calculate_planed_value issues
+      @daily = calculate_planed_value issues
       # planed start date
-      @start_date = @daily_pv.keys.min || @basis_date
+      @start_date = @daily.keys.min || @basis_date
       # planed due date
-      @due_date = @daily_pv.keys.max || @basis_date
+      @due_date = @daily.keys.max || @basis_date
       # state
       @state = check_state
       # basis date
-      @daily_pv[@basis_date] ||= 0.0
+      @daily[@basis_date] ||= 0.0
       # addup PV
-      @cumulative_pv = sort_and_sum_evm_hash @daily_pv
+      @cumulative = sort_and_sum_evm_hash @daily
       # Rest days
       @rest_days = @basis_date > @due_date ? 0 : amount_working_days(@basis_date, @due_date)
     end
@@ -54,7 +50,7 @@ module CalculateEvmLogic
     #
     # @return [Numeric] BAC
     def bac
-      @cumulative_pv.values.max
+      @cumulative.values.max
     end
 
     # Schadule at completion.
@@ -69,7 +65,7 @@ module CalculateEvmLogic
     #
     # @return [Numeric] PV on basis date or PV of baseline.
     def today_value
-      @cumulative_pv[@basis_date]
+      @cumulative[@basis_date]
     end
 
     # Actual Time (AT)
@@ -91,9 +87,9 @@ module CalculateEvmLogic
       return 0 if @state == :before_plan
 
       es_date_pv = if @state == :overdue
-                     @cumulative_pv.select { |k, _v| (k < @basis_date) }
+                     @cumulative.select { |k, _v| (k < @basis_date) }
                    else
-                     @cumulative_pv
+                     @cumulative
                    end
       es_date = es_date_pv.select { |_k, v| (v <= ev_value) }.keys.max
       es_date.nil? ? 0 : amount_working_days(@start_date, es_date)
@@ -109,16 +105,12 @@ module CalculateEvmLogic
     # @return [hash] EVM hash. Key:Date, Value:PV of each days
     def calculate_planed_value(issues)
       temp_pv = {}
-      if issues.present?
-        issues.each do |issue|
-          issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
-          pv_days = working_days issue.start_date,
-                                 issue.due_date
-          hours_per_day = issue_hours_per_day issue.estimated_hours.to_f,
-                                              pv_days.length
-          pv_days.each do |date|
-            temp_pv[date] = add_hash_value temp_pv[date], hours_per_day
-          end
+      Array(issues).each do |issue|
+        issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
+        pv_days = working_days issue.start_date, issue.due_date
+        hours_per_day = issue_hours_per_day issue.estimated_hours.to_f, pv_days.length
+        pv_days.each do |date|
+          temp_pv[date] = add_hash_value temp_pv[date], hours_per_day
         end
       end
       temp_pv

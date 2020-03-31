@@ -6,6 +6,18 @@ module CalculateEvmLogic
   class BaseCalculateEvm
     # Basis date
     attr_reader :basis_date
+    # daily element
+    attr_reader :daily
+    # cumulative by date
+    attr_reader :cumulative
+
+    # Cumulative ac at target date
+    #
+    # @param [date] target_date pv at target date
+    # @return [hash] cumulative at ac target date
+    def cumulative_at(target_date)
+      @cumulative.select { |k, _v| k <= target_date }
+    end
 
     private
 

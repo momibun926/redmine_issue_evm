@@ -41,7 +41,8 @@
                 tracker_list: @count_tracker_list,
                 project_metrics: @project_metrics,
                 use_baseline: @project_evm.pv_baseline,
-                baseline_variance: @baseline_variance } %>
+                baseline_variance: @baseline_variance,
+                finished_date: @project_evm.finished_date } %>
   <!--Indicator value of EVM -->
   <h3><%= l(:subtitle_evm_indicator)%></h3>
   <%= render partial: "/evms/measure_evm",
