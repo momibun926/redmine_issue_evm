@@ -10,10 +10,6 @@ module CalculateEvmLogic
     attr_reader :min_date
     # max date of spent time (exclude basis date)
     attr_reader :max_date
-    # daily EV
-    attr_reader :daily_ev
-    # cumulative EV by date
-    attr_reader :cumulative_ev
 
     # Constractor
     #
@@ -23,33 +19,33 @@ module CalculateEvmLogic
       # basis date
       @basis_date = basis_date
       # daily EV
-      @daily_ev = calculate_earned_value issues, basis_date
+      @daily = calculate_earned_value issues, basis_date
       # minimum start date
       # if no data, set basis date
-      @min_date = @daily_ev.keys.min || @basis_date
+      @min_date = @daily.keys.min || @basis_date
       # maximum due date
       # if no data, set basis date
-      @max_date = @daily_ev.keys.max || @basis_date
+      @max_date = @daily.keys.max || @basis_date
       # basis date
-      @daily_ev[@basis_date] ||= 0.0
+      @daily[@basis_date] ||= 0.0
       # addup EV
-      @cumulative_ev = sort_and_sum_evm_hash @daily_ev
-      @cumulative_ev.reject! { |k, _v| @basis_date < k }
+      @cumulative = sort_and_sum_evm_hash @daily
+      @cumulative.reject! { |k, _v| @basis_date < k }
     end
 
-    # Today"s earned value
+    # Today's earned value
     #
     # @return [Numeric] EV value on basis date
     def today_value
-      @cumulative_ev[@basis_date]
+      @cumulative[@basis_date]
     end
 
     # State
     #
-    # @param [CalculatePv] pv_baseline CalculatePv object
+    # @param [CalculatePv] calc_pv CalculatePv object
     # @return [Numeric] EV value on basis date
-    def state(pv_baseline = nil)
-      check_state(pv_baseline)
+    def state(calc_pv = nil)
+      check_state(calc_pv)
     end
 
     private
@@ -77,7 +73,7 @@ module CalculateEvmLogic
                        where("created_on <= ?", basis_date.end_of_day).
                        joins(:details).
                        order(created_on: :DESC).first
-          # calcurate done hours
+          # calculate done hours
           if journals.present?
             dt = journals.created_on.to_time.to_date
             hours = issue.estimated_hours.to_f * journals.details.first.value.to_i / 100.0
@@ -91,17 +87,15 @@ module CalculateEvmLogic
 
     # state on basis date
     #
-    # @param [CalculatePv] pv_baseline CalculatePv object
+    # @param [CalculatePv] calc_pv CalculatePv object
     # @return [String] state of project
-    def check_state(pv_baseline = nil)
+    def check_state(calc_pv = nil)
       return :no_work if @issue_count.zero?
 
-      if pv_baseline.present?
-        return :finished if pv_baseline.bac <= @cumulative_ev[@basis_date]
-      else
-        return :progress if @basis_date < @max_date
-        return :finished if @finished_issue_count == @issue_count
-      end
+      return :finished if calc_pv.present? && calc_pv.bac <= @cumulative[@basis_date]
+
+      return :finished if @finished_issue_count == @issue_count
+
       :progress
     end
   end

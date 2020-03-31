@@ -9,7 +9,7 @@ var myChart = new Chart(ctx, {
             label: "PV",
             type: "line",
             spanGaps: true,
-            data: <%= chart_data[:pv] %>,
+            data: <%= chart_data[:pv_actual] %>,
             borderWidth: 2,
             lineTension: 0,
             borderColor: "royalblue",
@@ -42,7 +42,7 @@ var myChart = new Chart(ctx, {
             label: "Baseline",
             type: "line",
             spanGaps: true,
-            data: <%= chart_data[:baseline] %>,
+            data: <%= chart_data[:pv_baseline] %>,
             borderWidth: 2,
             lineTension: 0,
             borderColor: "Navy",
@@ -124,13 +124,13 @@ var myChart = new Chart(ctx, {
                 stacked: false,
                 gridLines: {
                     display: false
-                }                
+                }
             }],
             yAxes: [{
                 gridLines: {
                     drawBorder: false
                 }
-            }]            
+            }]
         },
         legend: {
             display: true,
@@ -143,7 +143,7 @@ var myChart = new Chart(ctx, {
                 title: function (tooltipItem, data){
                     var title = tooltipItem[0].xLabel;
                     return title.replace(", 12:00:00 am","");
-                }            
+                }
             }
         },
         annotation: {
