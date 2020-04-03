@@ -1,6 +1,5 @@
-# Issue data fetcher
-# This module is a function to collect ISSUE records necessary to calculate EVM
-# It also collects a selectable list that is optionally specified
+# Utility for evm
+#
 #
 module EvmUtil
   # check baseline variance
