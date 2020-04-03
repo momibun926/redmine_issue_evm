@@ -6,7 +6,7 @@ module EvmsHelper
   #
   # @return [String] balseline name (subject)
   def used_baseline_name
-    "#{l(:label_baseline)} : #{@evmbaseline.find(@cfg_param[:baseline_id]).subject}" if @cfg_param[:baseline_id].present?
+    "#{l(:label_baseline)} : #{@selectable_baseline.find(@cfg_param[:baseline_id]).subject}" if @cfg_param[:baseline_id].present?
   end
 
   # Get baseline difference color

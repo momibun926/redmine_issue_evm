@@ -21,7 +21,7 @@
                         onclick: "disableobject('evmbaseline_id', this.checked);"%>
       <%= label_tag l(:label_no_use_baseline) %>
       <%= select_tag :evmbaseline_id,
-                      options_from_collection_for_select(@evmbaseline, :id, :subject,
+                      options_from_collection_for_select(@selectable_baseline, :id, :subject,
                                                          @cfg_param[:baseline_id]),
                                                          disabled: @cfg_param[:no_use_baseline] %>
     </div>
