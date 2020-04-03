@@ -8,6 +8,7 @@
 # 5. export to CSV
 #
 class EvmsController < BaseevmController
+  include EvmUtil
   # menu
   menu_item :issuevm
   # Before action (override)
@@ -28,40 +29,15 @@ class EvmsController < BaseevmController
       @cfg_param[:basis_date] = default_basis_date
       # baseline
       @cfg_param[:no_use_baseline] = params[:no_use_baseline]
-      @evmbaseline = selectable_baseline_list @project
-      @cfg_param[:baseline_id] = default_baseline_id
       # evm explanation
       @cfg_param[:display_explanation] = params[:display_explanation]
-      # baseline
-      baselines = project_baseline @cfg_param[:baseline_id] if @cfg_param[:baseline_id].present?
-      # issues of project include disendants
-      issues = evm_issues @project
-      # spent time of project include disendants
-      actual_cost = evm_costs @project
-      @no_data = issues.blank?
-      # calculate EVM
-      @project_evm = CalculateEvm.new baselines,
-                                      issues,
-                                      actual_cost,
-                                      @cfg_param
-      # create chart data
-      @evm_chart_data = evm_chart_data @project_evm
-      # create performance chart data
-      @performance_chart_data = performance_chart_data @project_evm
-      # incomplete issues
-      if @cfg_param[:display_incomplete]
-        @incomplete_issues = incomplete_project_issues @project, @cfg_param[:basis_date]
-        @no_data_incomplete_issues = @incomplete_issues.blank?
-      end
-      # project metrics
-      @project_metrics = project_metrics @project, @project_evm
-      # count
-      @count_version_list = count_version_list @project
-      @count_assignee_list = count_assignee_list @project
-      @count_tracker_list = count_tracker_list @project
-      # baseline difference
-      @baseline_variance = check_baseline_variance @project_evm
-
+      # selectable baseline
+      @selectable_baseline = selectable_baseline_list @project
+      @cfg_param[:baseline_id] = default_baseline_id
+      # calculate EVM (project)
+      create_evm_data
+      # create other information
+      create_other_information
       # export
       respond_to do |format|
         format.html
@@ -79,17 +55,48 @@ class EvmsController < BaseevmController
 
   private
 
-  # default basis date
-  #
+  def create_evm_data
+    # baseline
+    baselines = project_baseline @cfg_param[:baseline_id]
+    # issues of project include disendants
+    issues = evm_issues @project
+    # spent time of project include disendants
+    actual_cost = evm_costs @project
+    @no_data = issues.blank?
+    # calculate EVM
+    @project_evm = CalculateEvm.new baselines,
+                                    issues,
+                                    actual_cost,
+                                    @cfg_param
+    # create chart data
+    @evm_chart_data = evm_chart_data @project_evm
+    # create performance chart data
+    @performance_chart_data = performance_chart_data @project_evm
+  end
+
+  def create_other_information
+    # incomplete issues
+    if @cfg_param[:display_incomplete]
+      @incomplete_issues = incomplete_project_issues @project, @cfg_param[:basis_date]
+      @no_data_incomplete_issues = @incomplete_issues.blank?
+    end
+    # project metrics
+    @project_metrics = project_metrics @project, @project_evm
+    # count
+    @count_version_list = count_version_list @project
+    @count_assignee_list = count_assignee_list @project
+    @count_tracker_list = count_tracker_list @project
+    # baseline difference
+    @baseline_variance = check_baseline_variance @project_evm
+  end
+
   def default_basis_date
     params[:basis_date].nil? ? Date.today : params[:basis_date].to_date
   end
 
-  # default baseline. latest baseline
-  #
   def default_baseline_id
     if params[:evmbaseline_id].nil? && params[:no_use_baseline].nil?
-      @evmbaseline.blank? ? nil : @evmbaseline.first.id
+      @selectable_baseline.blank? ? nil : @selectable_baseline.first.id
     else
       params[:evmbaseline_id]
     end
