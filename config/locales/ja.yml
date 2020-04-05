@@ -4,7 +4,7 @@ ja:
   title_evm_tab: Track with EVM
 
   # contextial menu
-  label_nav_main: メイン
+  label_nav_main: プロジェクト
   label_nav_version: バージョン別
   label_nav_assignee: 担当者別
   label_nav_parent_issue: 親チケット別
