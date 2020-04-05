@@ -13,6 +13,7 @@
                            { multiple: true, size: 5 }%>
   </div>
 <% end %>
+<%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param } %>
 <%= render partial: "/common/option_field"%>
 <!-- contents -->
 <section>
@@ -27,7 +28,7 @@
         locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
                   chart_data: @assignee_evm_chart[assignee_id],
                   working_hours: @cfg_param[:working_hours],
-                  basis_date_label: basis_date_label(evm.finished_date), 
+                  basis_date_label: basis_date_label(evm.finished_date),
                   id: assignee_id,
                   tittle: evm.description } %>
   <% end %>

@@ -68,14 +68,8 @@ div[class*="evm-explanation"] {
 }
 
 /*** icon image ***/
-.icon-assignee-evm {
-  background-image: url("../images/assignee-evm.png");
-}
 .icon-parent-issue-evm {
   background-image: url("../images/parent-issue-evm.png");
-}
-.icon-main-evm {
-  background-image: url("../images/main-evm.png");
 }
 .icon-tracker-evm {
   background-image: url("../images/tracker-evm.png");

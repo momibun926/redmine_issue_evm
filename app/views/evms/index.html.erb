@@ -32,6 +32,7 @@
       <%= label_tag l(:label_display_explanation) %>
     </div>
   <% end %>
+  <%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param } %>
   <%= render partial: "/common/option_field"%>
   <!--metrics-->
   <h3><%= l(:subtitle_evm_summary)%></h3>

@@ -1,0 +1,11 @@
+<!-- contextual (Basline setting) -->
+<div class="contextual">
+  <%= link_to l(:label_nav_main), { controller: :evms, action: :index, id: project.id, params: cfg_param }, class: "icon icon-projects" %>
+  <%= link_to l(:label_nav_version), { controller: :evmversions, action: :index, id: project.id, params: cfg_param }, class: "icon icon-version-evm" %>
+  <%= link_to l(:label_nav_assignee), { controller: :evmassignees, action: :index, id: project.id, params: cfg_param }, class: "icon icon-user" %>
+  <%= link_to l(:label_nav_parent_issue), { controller: :evmparentissues, action: :index, id: project.id, params: cfg_param }, class: "icon icon-parent-issue-evm" %>
+  <%= link_to l(:label_nav_tracker), { controller: :evmtrackers, action: :index, id: project.id, params: cfg_param }, class: "icon icon-tracker-evm" %>
+  <%= link_to l(:label_nav_exclude), { controller: :evmexcludes, action: :index, id: project.id, params: cfg_param }, class: "icon icon-exclude-evm" %>
+  <%= link_to_if_authorized l(:label_nav_baseline_setting), { controller: :evmbaselines, action: :index, id: project.id }, class: "icon icon-settings" %>
+  <%= link_to_if_authorized l(:label_nav_evm_setting), { controller: :evmsettings, action: :edit, id: project.id }, class: "icon icon-settings" %>
+</div>
