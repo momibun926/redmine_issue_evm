@@ -3,6 +3,9 @@
 <% content_for :title_sub do %>
   <%= l(:label_nav_version) %>
 <% end %>
+<!-- contextual -->
+<%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param } %>
+<!-- Content of view option -->
 <% content_for :additional_option do %>
   <!-- selectable version -->
   <div class="option-col">
@@ -13,6 +16,7 @@
                                            { multiple: true, size: 5 }%>
   </div>
 <% end %>
+<!-- view option -->
 <%= render partial: "/common/option_field"%>
 <!-- contents -->
 <section>
@@ -26,7 +30,7 @@
     <%= render partial: "/common/basic_evm_chart_js",
         locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
                   chart_data: @version_evm_chart[ver_id],
-                  basis_date_label: basis_date_label(evm.finished_date), 
+                  basis_date_label: basis_date_label(evm.finished_date),
                   id: ver_id,
                   tittle: evm.description } %>
   <% end %>
