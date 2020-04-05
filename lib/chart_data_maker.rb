@@ -16,18 +16,20 @@ module ChartDataMaker
   # @return [hash] chart data
   def evm_chart_data(evm)
     # kind of chart data
-    plot_data_kind = [:labels, :pv_actual, :pv_daily, :pv_baseline, :ac, :ev, :bac, :eac, :ac_forecast, :ev_forecast]
+    plot_data_kind = %i[labels pv_actual pv_daily pv_baseline ac ev bac eac ac_forecast ev_forecast]
     plot_data = Hash.new { |h, k| h[k] = [] }
+    plot_data_kind_evm = %i[pv_actual pv_daily ac ev]
+    plot_data_kind_forecast = %i[bac eac ac_forecast ev_forecast]
 
     # start date and end date of chart
     chart_duration = chart_duration(evm)
 
     # EVM chart
     evm_data_source = create_evm_chart_data_source evm
-    (chart_duration[:start_date]..chart_duration[:end_date]).each do |chart_date|
+    (chart_duration[start_date]..chart_duration[:end_date]).each do |chart_date|
       plot_data[:labels] << chart_date.to_time(:local).to_i * 1000
       plot_data[:pv_baseline] << evm_round(evm_data_source[:pv_baseline][chart_date]) if evm.pv_baseline.present?
-      [:pv_actual, :pv_daily, :ac, :ev].each do |kind|
+      plot_data_kind_evm.each do |kind|
         plot_data[kind] << evm_round(evm_data_source[kind][chart_date])
       end
     end
@@ -36,7 +38,7 @@ module ChartDataMaker
     if evm.forecast
       forecast_data_source = create_forecast_chart_data_source evm, chart_duration
       (chart_duration[:start_date]..chart_duration[:end_date]).each do |chart_date|
-        [:bac, :eac, :ac_forecast, :ev_forecast].each do |kind|
+        plot_data_kind_forecast.each do |kind|
           plot_data[kind] << evm_round(forecast_data_source[kind][chart_date])
         end
       end
