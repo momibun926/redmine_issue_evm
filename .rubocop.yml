@@ -1,0 +1,71 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - "app/controllers/evmbaselines_controller.rb"
+
+Rails/ApplicationRecord:
+  Exclude:
+    - "app/models/*.rb"
+
+Rails/CreateTableWithTimestamps:
+  Exclude:
+    - "db/migrate/*"
+
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
+Layout/DotPosition:
+   EnforcedStyle: trailing
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/SymbolArray:
+  Exclude:
+    - "init.rb"
+
+Style/Proc:
+  Exclude:
+    - "app/models/evmbaseline.rb"
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 200
+
+Metrics/ModuleLength:
+  Max: 200
+
+Metrics/MethodLength:
+  Max: 30
+
+Layout/LineLength:
+  Max: 150
+
+Metrics/BlockLength:
+  Max: 25
+  Exclude:
+    - "init.rb"
+
+Metrics/PerceivedComplexity:
+  Max: 8
+
+Metrics/AbcSize:
+  Max: 100
