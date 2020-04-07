@@ -143,7 +143,7 @@ module ChartDataMaker
       max_date << evm.ev.cumulative.keys.max
       max_date << evm.ac.cumulative.keys.max
     end
-    duration[:end_date] = max_date.max
+    duration[:end_date] = max_date.max + 1
     duration
   end
 
