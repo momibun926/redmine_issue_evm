@@ -6,6 +6,7 @@ module CalculateEvmLogic
   # EV calculate estimate time of finished issue
   #
   class CalculateEv < BaseCalculateEvm
+    include IssueDataFetcher
     # min date of spent time (exclude basis date)
     attr_reader :min_date
     # max date of spent time (exclude basis date)
@@ -28,8 +29,8 @@ module CalculateEvmLogic
       @max_date = @daily.keys.max || @basis_date
       # basis date
       @daily[@basis_date] ||= 0.0
-      # addup EV
-      @cumulative = sort_and_sum_evm_hash @daily
+      # cumulative EV
+      @cumulative = create_cumulative_evm @daily
       @cumulative.reject! { |k, _v| @basis_date < k }
     end
 
@@ -51,7 +52,9 @@ module CalculateEvmLogic
     private
 
     # Calculate EV.
-    # Closed date or Date of ratio was set.
+    # 1.closed issue
+    # 2.progless issue (setted done ratio)
+    # 3.parent issue of children is progress or closed
     #
     # @param [issue] issues target issues of EVM
     # @param [date] basis_date basis date of option
@@ -61,23 +64,40 @@ module CalculateEvmLogic
       @finished_issue_count = 0
       @issue_count = 0
       Array(issues).each do |issue|
-        # closed issue
+        # 1.closed issue
         if issue.closed?
-          dt = (issue.closed_on || issue.updated_on).to_time.to_date
-          temp_ev[dt] = add_hash_value temp_ev[dt], issue.estimated_hours.to_f
-          @finished_issue_count += 1
-        # progress issue
+          dt = issue.closed_on.to_time.to_date
+          temp_ev[dt] = add_daily_evm_value temp_ev[dt],
+                                            issue.estimated_hours.to_f
+          Rails.logger.info("id:#{issue.id}")
+          Rails.logger.info("hours:#{issue.estimated_hours.to_f}")
+                                          @finished_issue_count += 1
+        # progress issue,
         elsif issue.done_ratio.positive?
-          # latest date of changed ratio
-          journals = Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
-                       where("created_on <= ?", basis_date.end_of_day).
-                       joins(:details).
-                       order(created_on: :DESC).first
-          # calculate done hours
+          # 2.progless issue (setted done ratio)
+          journals = issue_journal issue, basis_date
           if journals.present?
             dt = journals.created_on.to_time.to_date
-            hours = issue.estimated_hours.to_f * journals.details.first.value.to_i / 100.0
-            temp_ev[dt] = add_hash_value temp_ev[dt], hours
+            Rails.logger.info("before evm value:#{temp_ev[dt]}")
+            temp_ev[dt] = add_daily_evm_value temp_ev[dt],
+                                              issue.estimated_hours.to_f,
+                                              journals.details.first.value.to_f
+            Rails.logger.info("id:#{issue.id}")
+            Rails.logger.info("hours:#{issue.estimated_hours.to_f}")
+            Rails.logger.info("ratio:#{journals.details.first.value.to_f}")
+            Rails.logger.info("after evm value::#{temp_ev[dt]}")
+          # 3.parent issue of children is progress or closed
+          elsif issue.children?
+            child = issue_child issue
+            if child.closed_on.present?
+              dt = child.closed_on.to_time.to_date
+              temp_ev[dt] = add_daily_evm_value temp_ev[dt],
+                                                issue.estimated_hours.to_f,
+                                                issue.done_ratio
+              Rails.logger.info("id:#{issue.id}")
+              Rails.logger.info("hours:#{issue.estimated_hours.to_f}")
+              Rails.logger.info("ratio:#{issue.done_ratio}")
+            end
           end
         end
         @issue_count += 1

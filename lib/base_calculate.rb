@@ -25,7 +25,7 @@ module CalculateEvmLogic
     #
     # @param [hash] evm_hash target issues of EVM
     # @return [hash] Sorted EVM hash. Key:date, Value:EVM value
-    def sort_and_sum_evm_hash(evm_hash)
+    def create_cumulative_evm(evm_hash)
       temp_hash = {}
       sum_value = 0.0
       evm_hash.sort_by { |key, _val| key }.each do |date, value|
@@ -35,13 +35,14 @@ module CalculateEvmLogic
       temp_hash
     end
 
-    # Add hash value
+    # Add daily EVM value
     #
     # @param [hash] evm_hash EVM hash
     # @param [numeric] value EVM value
+    # @param [numeric] done_ratio done ratio
     # @return [numeric] after add value
-    def add_hash_value(evm_hash, value)
-      evm_hash.present? ? evm_hash + value : value
+    def add_daily_evm_value(evm_hash, value, done_ratio = 100)
+      evm_hash.to_f + (value.to_f * done_ratio.fdiv(100))
     end
   end
 end
