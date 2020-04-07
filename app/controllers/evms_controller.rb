@@ -56,38 +56,38 @@ class EvmsController < BaseevmController
   private
 
   def create_evm_data
-      # baseline
+    # baseline
     baselines = project_baseline @cfg_param[:baseline_id]
-      # issues of project include disendants
-      issues = evm_issues @project
-      # spent time of project include disendants
-      actual_cost = evm_costs @project
-      @no_data = issues.blank?
-      # calculate EVM
-      @project_evm = CalculateEvm.new baselines,
-                                      issues,
-                                      actual_cost,
-                                      @cfg_param
-      # create chart data
-      @evm_chart_data = evm_chart_data @project_evm
-      # create performance chart data
-      @performance_chart_data = performance_chart_data @project_evm
+    # issues of project include disendants
+    issues = evm_issues @project
+    # spent time of project include disendants
+    actual_cost = evm_costs @project
+    @no_data = issues.blank?
+    # calculate EVM
+    @project_evm = CalculateEvm.new baselines,
+                                    issues,
+                                    actual_cost,
+                                    @cfg_param
+    # create chart data
+    @evm_chart_data = evm_chart_data @project_evm
+    # create performance chart data
+    @performance_chart_data = performance_chart_data @project_evm
   end
 
   def create_other_information
-      # incomplete issues
-      if @cfg_param[:display_incomplete]
-        @incomplete_issues = incomplete_project_issues @project, @cfg_param[:basis_date]
-        @no_data_incomplete_issues = @incomplete_issues.blank?
-      end
-      # project metrics
-      @project_metrics = project_metrics @project, @project_evm
-      # count
-      @count_version_list = count_version_list @project
-      @count_assignee_list = count_assignee_list @project
-      @count_tracker_list = count_tracker_list @project
-      # baseline difference
-      @baseline_variance = check_baseline_variance @project_evm
+    # incomplete issues
+    if @cfg_param[:display_incomplete]
+      @incomplete_issues = incomplete_project_issues @project, @cfg_param[:basis_date]
+      @no_data_incomplete_issues = @incomplete_issues.blank?
+    end
+    # project metrics
+    @project_metrics = project_metrics @project, @project_evm
+    # count
+    @count_version_list = count_version_list @project
+    @count_assignee_list = count_assignee_list @project
+    @count_tracker_list = count_tracker_list @project
+    # baseline difference
+    @baseline_variance = check_baseline_variance @project_evm
   end
 
   def default_basis_date
