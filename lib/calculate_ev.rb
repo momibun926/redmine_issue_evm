@@ -69,8 +69,6 @@ module CalculateEvmLogic
           dt = issue.closed_on.to_time.to_date
           temp_ev[dt] = add_daily_evm_value temp_ev[dt],
                                             issue.estimated_hours.to_f
-          Rails.logger.info("id:#{issue.id}")
-          Rails.logger.info("hours:#{issue.estimated_hours.to_f}")
                                           @finished_issue_count += 1
         # progress issue,
         elsif issue.done_ratio.positive?
@@ -78,14 +76,9 @@ module CalculateEvmLogic
           journals = issue_journal issue, basis_date
           if journals.present?
             dt = journals.created_on.to_time.to_date
-            Rails.logger.info("before evm value:#{temp_ev[dt]}")
             temp_ev[dt] = add_daily_evm_value temp_ev[dt],
                                               issue.estimated_hours.to_f,
                                               journals.details.first.value.to_f
-            Rails.logger.info("id:#{issue.id}")
-            Rails.logger.info("hours:#{issue.estimated_hours.to_f}")
-            Rails.logger.info("ratio:#{journals.details.first.value.to_f}")
-            Rails.logger.info("after evm value::#{temp_ev[dt]}")
           # 3.parent issue of children is progress or closed
           elsif issue.children?
             child = issue_child issue
@@ -94,9 +87,6 @@ module CalculateEvmLogic
               temp_ev[dt] = add_daily_evm_value temp_ev[dt],
                                                 issue.estimated_hours.to_f,
                                                 issue.done_ratio
-              Rails.logger.info("id:#{issue.id}")
-              Rails.logger.info("hours:#{issue.estimated_hours.to_f}")
-              Rails.logger.info("ratio:#{issue.done_ratio}")
             end
           end
         end
