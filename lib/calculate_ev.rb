@@ -90,10 +90,13 @@ module CalculateEvmLogic
     # @param [CalculatePv] calc_pv CalculatePv object
     # @return [String] state of project
     def check_state(calc_pv = nil)
+      # no finished isshe
       return :no_work if @issue_count.zero?
-
+      # bac <= basis date is finished
       return :finished if calc_pv.present? && calc_pv.bac <= @cumulative[@basis_date]
-
+      # basis date is before max ev date(latest finished issue)
+      return :progress if @basis_date < @max_date
+      # all issue is finished
       return :finished if @finished_issue_count == @issue_count
 
       :progress
