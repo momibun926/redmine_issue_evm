@@ -28,8 +28,8 @@ module CalculateEvmLogic
       @max_date = @daily.keys.max || @basis_date
       # basis date
       @daily[@basis_date] ||= 0.0
-      # addup AC
-      @cumulative = sort_and_sum_evm_hash @daily
+      # cumulative AC
+      @cumulative = create_cumulative_evm @daily
       @cumulative.reject! { |k, _v| @basis_date < k }
     end
 
