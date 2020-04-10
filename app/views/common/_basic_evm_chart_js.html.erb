@@ -49,7 +49,7 @@ var myChart = new Chart(ctx, {
                 },
                 distribution: "linear",
                 ticks: {
-                    source: "auto"
+                    source: "auto",
                 },
                 gridLines: {
                     display: false
@@ -58,6 +58,9 @@ var myChart = new Chart(ctx, {
             yAxes: [{
                 gridLines: {
                     drawBorder: false
+                },
+                ticks: {
+                    min: 0,
                 }
             }]
         },
