@@ -257,4 +257,26 @@ module IssueDataFetcher
 
     User.find_by(id: id) || Group.find_by(id: id)
   end
+
+  # children of parent isuue
+  #
+  # @param [issue] issue parent issue
+  # @return [issue] cildren issue
+  def issue_child(issue)
+    Issue.where(root_id: issue.root_id).
+      where("lft > ? AND rgt < ?", issue.lft, issue.rgt).
+      order(closed_on: :DESC).first
+  end
+
+  # latest setted done ratio journal
+  #
+  # @param [issue] issue issue record
+  # @param [date] basis_date basis date
+  # @return [journal] first of journals
+  def issue_journal(issue, basis_date)
+    Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
+      where("created_on <= ?", basis_date.end_of_day).
+      includes(:details).
+      order(created_on: :DESC).first
+  end
 end
