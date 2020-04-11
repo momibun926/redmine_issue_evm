@@ -51,19 +51,19 @@
   <h3><%= l(:subtitle_evm_indicator)%></h3>
   <%= render partial: "/evms/measure_evm",
       locals: { project_evm: @project_evm,
-                working_hours: @cfg_param[:working_hours] } %>
+                cfg_param: @cfg_param } %>
   <!--Indicator value of ES -->
   <h3><%= l(:subtitle_es_indicator)%></h3>
   <%= render partial: "/evms/measure_es",
       locals: { project_evm: @project_evm,
-                exclude_holiday: @cfg_param[:exclude_holiday] } %>
+                cfg_param: @cfg_param } %>
   <!-- Exports -->
   <% other_formats_links do |f| %>
     <%= f.link_to "CSV", :url => {:action => :index} %>
   <% end %>
   <!-- Main Chart -->
   <h3><%= l(:subtitle_evm_chart_main) %></h3>
-  <h4><%= used_baseline_name %></h4>
+  <h4><%= used_baseline_name(@selectable_baseline, @cfg_param[:baseline_id]) %></h4>
   <%= render partial: "/evms/project_chart_js",
       locals: { basis_date: convert_to_labels(@project_evm.finished_date || @cfg_param[:basis_date]),
                 chart_data: @evm_chart_data,
