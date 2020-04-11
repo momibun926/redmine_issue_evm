@@ -42,7 +42,7 @@ module CalculateEvmLogic
     # @param [numeric] done_ratio done ratio
     # @return [numeric] after add value
     def add_daily_evm_value(evm_hash, value, done_ratio = 100)
-      evm_hash.present? ? evm_hash + (value * done_ratio / 100) : value
+      evm_hash.to_f + (value.to_f * done_ratio.fdiv(100))
     end
   end
 end
