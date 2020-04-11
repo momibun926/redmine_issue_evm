@@ -39,8 +39,8 @@ module CalculateEvmLogic
       @state = check_state
       # basis date
       @daily[@basis_date] ||= 0.0
-      # addup PV
-      @cumulative = sort_and_sum_evm_hash @daily
+      # cumulative PV
+      @cumulative = create_cumulative_evm @daily
       # Rest days
       @rest_days = @basis_date > @due_date ? 0 : amount_working_days(@basis_date, @due_date)
     end
@@ -110,7 +110,7 @@ module CalculateEvmLogic
         pv_days = working_days issue.start_date, issue.due_date
         hours_per_day = issue_hours_per_day issue.estimated_hours.to_f, pv_days.length
         pv_days.each do |date|
-          temp_pv[date] = add_hash_value temp_pv[date], hours_per_day
+          temp_pv[date] = add_daily_evm_value temp_pv[date], hours_per_day
         end
       end
       temp_pv
