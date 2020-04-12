@@ -24,7 +24,7 @@
   <% @version_evm.each do |ver_id, evm| %>
     <h3><%= evm.description %></h3>
     <!-- EVN value -->
-    <%= render partial: "/common/basic_evm_value", locals: { evm: evm } %>
+    <%= render partial: "/common/basic_evm_value", locals: { evm: evm, cfg_param: @cfg_param } %>
     <br>
     <!-- Charts -->
     <%= render partial: "/common/basic_evm_chart_js",

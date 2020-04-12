@@ -26,15 +26,15 @@
     <table id="metrics-col">
       <tr>
         <td align="right"><%= l(:indicator_bac) %>:</td>
-        <td <%=difference_color(baseline_variance[:bac])%>><%= baseline_variance[:bac] %></td>
+        <%=difference_color(baseline_variance[:bac])%>
       </tr>
       <tr>
         <td align="right"><%= l(:indicator_due_date) %>:</td>
-        <td <%=difference_color(baseline_variance[:due_date])%>><%= baseline_variance[:due_date] %></td>
+        <%=difference_color(baseline_variance[:due_date])%>
       </tr>
       <tr>
         <td align="right"><%= l(:indicator_schedule) %>:</td>
-        <td <%=difference_color(baseline_variance[:schedule])%>><%= baseline_variance[:schedule] %></td>
+        <%=difference_color(baseline_variance[:schedule])%>
       </tr>
     </table>
     </fieldset>

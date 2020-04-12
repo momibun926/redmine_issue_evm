@@ -2,55 +2,21 @@
 # this helper is common helper. called other helpers.
 #
 module CommonHelper
-  # SPI color of CSS.
+  # performance index content.
   #
-  # @param [CalculateEvm] evm calculate evm class
-  # @return [String] SPI color
-  def spi_color(evm)
-    value = case evm.today_spi
-            when (@cfg_param[:limit_spi] + 0.01..0.99)
-              "class='indicator-orange'"
-            when (0.01..@cfg_param[:limit_spi])
-              "class='indicator-red'"
+  # @param [numeric] value evn value
+  # @param [float] limit threthold in configuration
+  # @return [String] htm element <td class="color">value</td>
+  def performance_indicator(value, limit)
+    color = case value
+            when (limit + 0.01..0.99)
+              "indicator-orange"
+            when (0.01..limit)
+              "indicator-red"
             else
               ""
             end
-    value.html_safe
-  end
-
-  # CPI color of CSS.
-  #
-  # @param [CalculateEvm] evm calculate evm class
-  # @return [String] CPI color
-  def cpi_color(evm)
-    value = case evm.today_cpi
-            when (@cfg_param[:limit_cpi] + 0.01..0.99)
-              "class='indicator-orange'"
-            when (0.01..@cfg_param[:limit_cpi])
-              "class='indicator-red'"
-            else
-              ""
-            end
-    value.html_safe
-  end
-
-  # CR color of CSS.
-  #
-  # @param [CalculateEvm] evm calculate evm class
-  # @return [String] CR color
-  def cr_color(evm)
-    value = ""
-    if evm.today_sv < 0.0
-      value = case evm.today_cr
-              when (@cfg_param[:limit_cr] + 0.01..0.99)
-                "class='indicator-orange'"
-              when (0.01..@cfg_param[:limit_cr])
-                "class='indicator-red'"
-              else
-                ""
-              end
-    end
-    value.html_safe
+    content_tag(:td, value, class: color)
   end
 
   # create no date area
@@ -58,7 +24,7 @@ module CommonHelper
   # @param [string] no_data if nno data , true
   # @return [String] html
   def display_no_data(no_data)
-    "<p class='nodata'>#{l(:label_no_data)}</p>" if no_data.blank?
+    content_tag(:p, l(:label_no_data), class: "nodata") if no_data.blank?
   end
 
   # Convert date to labels on chart.js
@@ -75,7 +41,8 @@ module CommonHelper
   # @param [numeric] evm_value EVN value
   # @return [String] html
   def forecast_value_finished(finished_date, evm_value)
-    finished_date.nil? ? evm_value : "-".html_safe
+    value = finished_date.nil? ? evm_value : "-"
+    content_tag(:td, value)
   end
 
   # Get annotationlabel
@@ -83,7 +50,16 @@ module CommonHelper
   # @param [date] finished_date project finished date
   # @return [String] label name, "Basis date" or "Finished date"
   def basis_date_label(finished_date)
-    value = finished_date.nil? ? l(:label_basis_date) : l(:label_finished_date)
-    value.html_safe
+    finished_date.nil? ? l(:label_basis_date) : l(:label_finished_date)
+  end
+
+  # Get annotationlabel
+  #
+  # @param [hash] cfg_param params
+  # @return [String] html
+  def explanation_es_unit(cfg_param)
+    value = "#{l(:explanation_es_unit)} "
+    value << "(#{l(:label_exclude_holidays)})" if cfg_param[:exclude_holiday]
+    content_tag(:p, value)
   end
 end

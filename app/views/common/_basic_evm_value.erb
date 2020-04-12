@@ -18,8 +18,8 @@
     <td><%= evm.today_ac %></td>
     <td><%= evm.today_sv %></td>
     <td><%= evm.today_cv %></td>
-    <td <%= spi_color(evm) %>><%= evm.today_spi %></td>
-    <td <%= cpi_color(evm) %>><%= evm.today_cpi %></td>
+    <%= performance_indicator(evm.today_spi, cfg_param[:limit_spi]) %>
+    <%= performance_indicator(evm.today_cpi, cfg_param[:limit_cpi]) %>
   </tr>
 </table>
 <br>
