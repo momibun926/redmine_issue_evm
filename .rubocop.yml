@@ -3,6 +3,18 @@ inherit_from: .rubocop_todo.yml
 require:
   - rubocop-rails
 
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
 Rails/SkipsModelValidations:
   Exclude:
     - "app/controllers/evmbaselines_controller.rb"
