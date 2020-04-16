@@ -165,7 +165,7 @@ module IssueDataFetcher
   def incomplete_project_issues(proj, basis_date)
     Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
-      where("start_date <= ? AND (closed_on IS NULL OR closed_on > ?)",
+      where("start_date <= ? AND done_ratio < 100 AND (closed_on IS NULL OR closed_on > ?)",
             basis_date, basis_date.end_of_day)
   end
 
