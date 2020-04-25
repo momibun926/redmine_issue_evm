@@ -32,33 +32,32 @@
       <td><%=project_evm.today_ac%></td>
       <td><%=project_evm.today_sv%></td>
       <td><%=project_evm.today_cv%></td>
-      <td <%=spi_color(project_evm)%>><%=project_evm.today_spi%></td>
-      <td <%=cpi_color(project_evm)%>><%=project_evm.today_cpi%></td>
-      <td <%=cr_color(project_evm)%>><%=project_evm.today_cr%></td>
-      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.eac)%></td>
-      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.etc)%></td>
-      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.vac)%></td>
-      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.tcpi)%></td>
+      <%=performance_indicator(project_evm.today_spi, cfg_param[:limit_spi])%>
+      <%=performance_indicator(project_evm.today_cpi, cfg_param[:limit_cpi])%>
+      <%=performance_indicator(project_evm.today_cr, cfg_param[:limit_cr])%>
+      <%=forecast_value_finished(project_evm.finished_date, project_evm.eac)%>
+      <%=forecast_value_finished(project_evm.finished_date, project_evm.etc)%>
+      <%=forecast_value_finished(project_evm.finished_date, project_evm.vac)%>
+      <%=forecast_value_finished(project_evm.finished_date, project_evm.tcpi)%>
     </tr>
     <tr>
-      <td><%=project_evm.bac(working_hours)%></td>
-      <td><%=project_evm.complete_ev(working_hours)%> %</td>
-      <td><%=project_evm.today_pv(working_hours)%></td>
-      <td><%=project_evm.today_ev(working_hours)%></td>
-      <td><%=project_evm.today_ac(working_hours)%></td>
-      <td><%=project_evm.today_sv(working_hours)%></td>
-      <td><%=project_evm.today_cv(working_hours)%></td>
-      <td <%=spi_color(project_evm)%>><%=project_evm.today_spi(working_hours)%></td>
-      <td <%=cpi_color(project_evm)%>><%=project_evm.today_cpi(working_hours)%></td>
-      <td <%=cr_color(project_evm)%>><%=project_evm.today_cr(working_hours)%></td>
-      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.eac(working_hours))%></td>
-      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.etc(working_hours))%></td>
-      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.vac(working_hours))%></td>
-      <td><%=forecast_value_finished(project_evm.finished_date, project_evm.tcpi(working_hours))%></td>
+      <td><%=project_evm.bac(cfg_param[:working_hours])%></td>
+      <td><%=project_evm.complete_ev(cfg_param[:working_hours])%> %</td>
+      <td><%=project_evm.today_pv(cfg_param[:working_hours])%></td>
+      <td><%=project_evm.today_ev(cfg_param[:working_hours])%></td>
+      <td><%=project_evm.today_ac(cfg_param[:working_hours])%></td>
+      <td><%=project_evm.today_sv(cfg_param[:working_hours])%></td>
+      <td><%=project_evm.today_cv(cfg_param[:working_hours])%></td>
+      <%=performance_indicator(project_evm.today_spi(cfg_param[:working_hours]), cfg_param[:limit_spi])%>
+      <%=performance_indicator(project_evm.today_cpi(cfg_param[:working_hours]), cfg_param[:limit_cpi])%>
+      <%=performance_indicator(project_evm.today_cr(cfg_param[:working_hours]), cfg_param[:limit_cr])%>
+      <%=forecast_value_finished(project_evm.finished_date, project_evm.eac(cfg_param[:working_hours]))%>
+      <%=forecast_value_finished(project_evm.finished_date, project_evm.etc(cfg_param[:working_hours]))%>
+      <%=forecast_value_finished(project_evm.finished_date, project_evm.vac(cfg_param[:working_hours]))%>
+      <%=forecast_value_finished(project_evm.finished_date, project_evm.tcpi(cfg_param[:working_hours]))%>
     </tr>
   </table>
-  <%= l(:explanation_upper_row)%> <%= l(:explanation_lower_row)%>
+  <p><%= l(:explanation_upper_row)%> <%= l(:explanation_lower_row)%></p>
   <br>
   <br>
 </section>
-

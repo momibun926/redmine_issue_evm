@@ -66,24 +66,24 @@ module CalculateEvmLogic
       Array(issues).each do |issue|
         # 1.closed issue
         if issue.closed?
-          dt = issue.closed_on.to_time.to_date
+          dt = issue.closed_on.in_time_zone.to_date
           temp_ev[dt] = add_daily_evm_value temp_ev[dt],
                                             issue.estimated_hours.to_f
-                                          @finished_issue_count += 1
+          @finished_issue_count += 1
         # progress issue,
         elsif issue.done_ratio.positive?
           # 2.progless issue (setted done ratio)
           journals = issue_journal issue, basis_date
           if journals.present?
-            dt = journals.created_on.to_time.to_date
+            dt = journals.created_on.in_time_zone.to_date
             temp_ev[dt] = add_daily_evm_value temp_ev[dt],
                                               issue.estimated_hours.to_f,
-                                              journals.details.first.value.to_f
+                                              journals.details.first.value.to_i
           # 3.parent issue of children is progress or closed
           elsif issue.children?
             child = issue_child issue
             if child.closed_on.present?
-              dt = child.closed_on.to_time.to_date
+              dt = child.closed_on.in_time_zone.to_date
               temp_ev[dt] = add_daily_evm_value temp_ev[dt],
                                                 issue.estimated_hours.to_f,
                                                 issue.done_ratio
