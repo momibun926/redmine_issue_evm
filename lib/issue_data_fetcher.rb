@@ -67,7 +67,8 @@ module IssueDataFetcher
       where(SQL_COM.to_s).
       where(condition).
       joins(:time_entries).
-      group(:spent_on).sum(:hours)
+      group(:spent_on).sum(:hours).
+      map { |key, val| [key.to_date, val] }.to_h
   end
 
   # Get spent time of parent issue
@@ -80,7 +81,8 @@ module IssueDataFetcher
       where(SQL_COM_ANC.to_s).
       where(ancestors: { id: issue_id }).
       joins(:time_entries).
-      group(:spent_on).sum(:hours)
+      group(:spent_on).sum(:hours).
+      map { |key, val| [key.to_date, val] }.to_h
   end
 
   # Get pair of project id and fixed version id.
