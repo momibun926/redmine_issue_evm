@@ -66,10 +66,10 @@ module ChartDataMaker
     new_pv = complement_evm_value evm.pv.cumulative
     performance_min_date = [new_ev.keys.min,
                             new_ac.keys.min,
-                            new_pv.keys.min].max
+                            new_pv.keys.min].compact.max
     performance_max_date = [new_ev.keys.max,
                             new_ac.keys.max,
-                            new_pv.keys.max].min
+                            new_pv.keys.max].compact.min
     labels = []
     spi = []
     cpi = []
