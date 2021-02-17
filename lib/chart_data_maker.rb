@@ -77,8 +77,13 @@ module ChartDataMaker
     (performance_min_date..performance_max_date).each do |date|
       labels << date.to_time(:local).to_i * 1000
       spi << evm_round((new_ev[date] / new_pv[date]))
-      cpi << evm_round((new_ev[date] / new_ac[date]))
-      cr << evm_round(((new_ev[date] / new_pv[date]) * (new_ev[date] / new_ac[date])))
+      if new_ac[date].nil?
+        cpi << 0.00
+        cr << 0.00
+      else
+        cpi << evm_round((new_ev[date] / new_ac[date]))
+        cr << evm_round(((new_ev[date] / new_pv[date]) * (new_ev[date] / new_ac[date])))
+      end
     end
     chart_data[:labels] = labels
     chart_data[:spi] = spi.to_json
