@@ -206,11 +206,11 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 5. Create new Pull Request
 
 # My Environment
-*  Redmine version                4.1.1.stable
-*  Ruby version                   2.5.8-p224 (2020-03-31) [x86-64-linux]
+*  Redmine version                4.1.1.stable.20740
+*  Ruby version                   2.6.5-p114 (2019-10-01) [x86_64-linux]
 *  Rails version                  5.2.4.2
 *  Environment                    production
-*  Database adapter               Mysql2
+*  Database adapter               PostgreSQL
 *  Mailer queue                   ActiveJob::QueueAdapters::AsyncAdapter
 *  Mailer delivery                smtp
 
