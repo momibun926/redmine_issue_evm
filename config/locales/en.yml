@@ -45,7 +45,7 @@
   indicator_table_header_date: Status date
   indicator_table_header_today: Status date value
   indicator_table_header_difference: Variance
-  indicator_table_header_performance: Perfromance
+  indicator_table_header_performance: Performance
   indicator_table_header_forecast: Forecast
 
   # Indicator table legend
