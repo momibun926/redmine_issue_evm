@@ -5,7 +5,7 @@
 チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。期日が入力されず、バージョンの期日がある場合は、期日としてバージョンの期日を利用します。
 
 # バージョン
-5.3.5
+5.3.6
 
 # 動作環境
 Redmine 4.0.0 以上
@@ -200,10 +200,10 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ![evm sample screenshot](./images/screenshot_common_setting.png "plugin　setting")
 
 # 開発環境
-*  Redmine version                4.1.1.stable
-*  Ruby version                   2.5.8-p224 (2020-03-31) [x86-64-linux]
+*  Redmine version                4.1.1.stable.20740
+*  Ruby version                   2.6.5-p114 (2019-10-01) [x86_64-linux]
 *  Rails version                  5.2.4.2
 *  Environment                    production
-*  Database adapter               Mysql2
+*  Database adapter               PostgreSQL
 *  Mailer queue                   ActiveJob::QueueAdapters::AsyncAdapter
 *  Mailer delivery                smtp
