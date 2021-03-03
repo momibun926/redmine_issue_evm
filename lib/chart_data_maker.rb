@@ -27,7 +27,7 @@ module ChartDataMaker
     # EVM chart
     evm_data_source = create_evm_chart_data_source evm
     (chart_duration[:start_date]..chart_duration[:end_date]).each do |chart_date|
-      plot_data[:labels] << chart_date.to_time(:local).to_i * 1000
+      plot_data[:labels] << chart_date.in_time_zone.to_i * 1000
       plot_data[:pv_baseline] << evm_round(evm_data_source[:pv_baseline][chart_date]) if evm.pv_baseline.present?
       plot_data_kind_evm.each do |kind|
         plot_data[kind] << evm_round(evm_data_source[kind][chart_date])
@@ -75,7 +75,7 @@ module ChartDataMaker
     cpi = []
     cr = []
     (performance_min_date..performance_max_date).each do |date|
-      labels << date.to_time(:local).to_i * 1000
+      labels << date.in_time_zone.to_i * 1000
       spi << evm_round((new_ev[date] / new_pv[date]))
       cpi << evm_round((new_ev[date] / new_ac[date]))
       cr << evm_round(((new_ev[date] / new_pv[date]) * (new_ev[date] / new_ac[date])))

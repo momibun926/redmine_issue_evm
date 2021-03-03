@@ -32,7 +32,7 @@ module CommonHelper
   # @param [date] date date on chart.js eAxis
   # @return [number] data for labels on chart.js
   def convert_to_labels(date)
-    date.to_time(:local).to_i * 1000
+    date.in_time_zone.to_i * 1000
   end
 
   # forecast value of project finished
