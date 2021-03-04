@@ -277,6 +277,6 @@ module IssueDataFetcher
     Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
       where("created_on <= ?", basis_date.end_of_day).
       includes(:details).
-      order(created_on: :DESC).first
+      order("journals.created_on")
   end
 end

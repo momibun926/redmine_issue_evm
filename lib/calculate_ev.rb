@@ -75,10 +75,22 @@ module CalculateEvmLogic
           # 2.progless issue (setted done ratio)
           journals = issue_journal issue, basis_date
           if journals.present?
-            dt = journals.created_on.in_time_zone.to_date
-            temp_ev[dt] = add_daily_evm_value temp_ev[dt],
-                                              issue.estimated_hours.to_f,
-                                              journals.details.first.value.to_i
+            before_dt = nil
+            before_ratio = 0
+            journals.each do |jnl|
+              dt = jnl.created_on.in_time_zone.to_date
+              if (dt != before_dt)
+                Rails.logger.info("----------------")
+                Rails.logger.info(jnl.details.first.value.to_i)
+                Rails.logger.info(before_ratio)
+                ratio = jnl.details.first.value.to_i - before_ratio
+                temp_ev[dt] = add_daily_evm_value temp_ev[dt],
+                                                  issue.estimated_hours.to_f,
+                                                  ratio
+                before_dt = dt
+                before_ratio = jnl.details.first.value.to_i
+              end
+            end
           # 3.parent issue of children is progress or closed
           elsif issue.children?
             child = issue_child issue
