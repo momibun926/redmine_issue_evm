@@ -114,6 +114,7 @@ module CalculateEvmLogic
           child = issue_child issue
           if child.closed_on.present?
             dt = child.closed_on.to_time.to_date
+            Rails.logger.info(dt)
             temp_ev[dt] = add_daily_evm_value temp_ev[dt],
                                               issue.estimated_hours.to_f,
                                               issue.done_ratio
