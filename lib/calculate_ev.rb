@@ -66,40 +66,57 @@ module CalculateEvmLogic
       Array(issues).each do |issue|
         # 1.closed issue
         if issue.closed?
-          dt = issue.closed_on.in_time_zone.to_date
-          temp_ev[dt] = add_daily_evm_value temp_ev[dt],
-                                            issue.estimated_hours.to_f
+          journals = issue_journal issue, basis_date
+          if journals.present?
+            # Update date and ratio of journals
+            temp_ratio_date = {}
+            journals.each do |jnl|
+              temp_ratio_date[jnl.created_on.to_time.to_date] = jnl.details.first.value.to_i
+            end
+            # Finished date and ratio=100
+            temp_ratio_date[issue.closed_on.to_time.to_date] = 100
+            # include ratio update history
+            before_ratio = 0
+            temp_ratio_date.each do |k, v|
+              ratio_dif = v - before_ratio
+              temp_ev[k] = add_daily_evm_value temp_ev[k],
+                                               issue.estimated_hours.to_f,
+                                               ratio_dif
+              before_ratio = v
+            end
+          else
+            dt = issue.closed_on.to_time.to_date
+            temp_ev[dt] = add_daily_evm_value temp_ev[dt],
+                                              issue.estimated_hours.to_f
+
+          end
           @finished_issue_count += 1
         # progress issue,
         elsif issue.done_ratio.positive?
           # 2.progless issue (setted done ratio)
           journals = issue_journal issue, basis_date
           if journals.present?
-            before_dt = nil
-            before_ratio = 0
+            temp_ratio_date = {}
             journals.each do |jnl|
-              dt = jnl.created_on.in_time_zone.to_date
-              if (dt != before_dt)
-                Rails.logger.info("----------------")
-                Rails.logger.info(jnl.details.first.value.to_i)
-                Rails.logger.info(before_ratio)
-                ratio = jnl.details.first.value.to_i - before_ratio
-                temp_ev[dt] = add_daily_evm_value temp_ev[dt],
-                                                  issue.estimated_hours.to_f,
-                                                  ratio
-                before_dt = dt
-                before_ratio = jnl.details.first.value.to_i
-              end
+              temp_ratio_date[jnl.created_on.to_time.to_date] = jnl.details.first.value.to_i
             end
+            before_ratio = 0
+            temp_ratio_date.each do |k, v|
+              ratio_dif = v - before_ratio
+              temp_ev[k] = add_daily_evm_value temp_ev[k],
+                                               issue.estimated_hours.to_f,
+                                               ratio_dif
+              before_ratio = v
+            end
+          end
           # 3.parent issue of children is progress or closed
-          elsif issue.children?
-            child = issue_child issue
-            if child.closed_on.present?
-              dt = child.closed_on.in_time_zone.to_date
-              temp_ev[dt] = add_daily_evm_value temp_ev[dt],
-                                                issue.estimated_hours.to_f,
-                                                issue.done_ratio
-            end
+        elsif issue.children?
+          child = issue_child issue
+          if child.closed_on.present?
+            dt = child.closed_on.to_time.to_date
+            temp_ev[dt] = add_daily_evm_value temp_ev[dt],
+                                              issue.estimated_hours.to_f,
+                                              issue.done_ratio
           end
         end
         @issue_count += 1
