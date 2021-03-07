@@ -68,24 +68,16 @@ module CalculateEvmLogic
         if issue.closed?
           journals = issue_journal issue, basis_date
           if journals.present?
-            # Update date and ratio of journals
-            temp_ratio_date = {}
-            journals.each do |jnl|
-              temp_ratio_date[jnl.created_on.to_time.to_date] = jnl.details.first.value.to_i
-            end
+            # Create date and ratio of journals
+            temp_ratio_date = ratio_in_journal_each_date journals
             # Finished date and ratio=100
-            temp_ratio_date[issue.closed_on.to_time.to_date] = 100
-            # include ratio update history
-            before_ratio = 0
-            temp_ratio_date.each do |k, v|
-              ratio_dif = v - before_ratio
-              temp_ev[k] = add_daily_evm_value temp_ev[k],
-                                               issue.estimated_hours.to_f,
-                                               ratio_dif
-              before_ratio = v
-            end
+            temp_ratio_date[User.current.time_to_date(issue.closed_on)] = 100
+            # create EV from ratio
+            temp_ev = create_ev_from_ration issue.estimated_hours.to_f,
+                                            temp_ev,
+                                            temp_ratio_date
           else
-            dt = issue.closed_on.to_time.to_date
+            dt = User.current.time_to_date(issue.closed_on)
             temp_ev[dt] = add_daily_evm_value temp_ev[dt],
                                               issue.estimated_hours.to_f
 
@@ -96,25 +88,18 @@ module CalculateEvmLogic
           # 2.progless issue (setted done ratio)
           journals = issue_journal issue, basis_date
           if journals.present?
-            temp_ratio_date = {}
-            journals.each do |jnl|
-              temp_ratio_date[jnl.created_on.to_time.to_date] = jnl.details.first.value.to_i
-            end
-            before_ratio = 0
-            temp_ratio_date.each do |k, v|
-              ratio_dif = v - before_ratio
-              temp_ev[k] = add_daily_evm_value temp_ev[k],
-                                               issue.estimated_hours.to_f,
-                                               ratio_dif
-              before_ratio = v
-            end
+            # Create date and ratio of journals
+            temp_ratio_date = ratio_in_journal_each_date journals
+            # create EV from ratio
+            temp_ev = create_ev_from_ration issue.estimated_hours.to_f,
+                                            temp_ev,
+                                            temp_ratio_date
           end
           # 3.parent issue of children is progress or closed
         elsif issue.children?
           child = issue_child issue
           if child.closed_on.present?
-            dt = child.closed_on.to_time.to_date
-            Rails.logger.info(dt)
+            dt = User.current.time_to_date(child.closed_on)
             temp_ev[dt] = add_daily_evm_value temp_ev[dt],
                                               issue.estimated_hours.to_f,
                                               issue.done_ratio
@@ -123,6 +108,37 @@ module CalculateEvmLogic
         @issue_count += 1
       end
       temp_ev
+    end
+
+    # Ratio of journals
+    #
+    # @param [journal] jnls journals of issue
+    # @return [hash] rartio in jouranals
+    def ratio_in_journal_each_date(jnls)
+      ratio_hash = {}
+      jnls.each do |jnl|
+        ratio_hash[User.current.time_to_date(jnl.created_on)] = jnl.details.first.value.to_i
+      end
+      ratio_hash
+    end
+
+    # Create ev from ratio
+    #
+    # @param [float] estimae_hrs estimate hours of issue
+    # @param [hash] ev_hash EV
+    # @param [hash] ratio_date_hash ration each day
+    # @return [hash] EV hash
+    def create_ev_from_ration(estimae_hrs, ev_hash, ratio_date_hash)
+      temp = ev_hash
+      before_ratio = 0
+      ratio_date_hash.each do |k, v|
+        ratio_dif = v - before_ratio
+        temp[k] = add_daily_evm_value temp[k],
+                                      estimae_hrs,
+                                      ratio_dif
+        before_ratio = v
+      end
+      temp
     end
 
     # state on basis date
