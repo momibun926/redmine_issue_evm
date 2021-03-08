@@ -66,24 +66,22 @@ module CalculateEvmLogic
       Array(issues).each do |issue|
         # 1.closed issue
         if issue.closed?
+          closed_dt = User.current.time_to_date(issue.closed_on)
           journals = issue_journal issue, basis_date
           if journals.present?
             # Create date and ratio of journals
             temp_ratio_date = ratio_in_journal_each_date journals
-            # Finished date and ratio=100
-            temp_ratio_date[User.current.time_to_date(issue.closed_on)] = 100
+                                                         closed_dt
             # create EV from ratio
-            temp_ev = create_ev_from_ration issue.estimated_hours.to_f,
-                                            temp_ev,
-                                            temp_ratio_date
+            temp_ev = create_ev_from_ratio issue.estimated_hours.to_f,
+                                           temp_ev,
+                                           temp_ratio_date
           else
-            dt = User.current.time_to_date(issue.closed_on)
-            temp_ev[dt] = add_daily_evm_value temp_ev[dt],
-                                              issue.estimated_hours.to_f
-
+            temp_ev[closed_dt] = add_daily_evm_value temp_ev[closed_dt],
+                                                     issue.estimated_hours.to_f
           end
           @finished_issue_count += 1
-        # progress issue,
+        # progress issue
         elsif issue.done_ratio.positive?
           # 2.progless issue (setted done ratio)
           journals = issue_journal issue, basis_date
@@ -91,9 +89,9 @@ module CalculateEvmLogic
             # Create date and ratio of journals
             temp_ratio_date = ratio_in_journal_each_date journals
             # create EV from ratio
-            temp_ev = create_ev_from_ration issue.estimated_hours.to_f,
-                                            temp_ev,
-                                            temp_ratio_date
+            temp_ev = create_ev_from_ratio issue.estimated_hours.to_f,
+                                           temp_ev,
+                                           temp_ratio_date
           end
           # 3.parent issue of children is progress or closed
         elsif issue.children?
@@ -114,11 +112,13 @@ module CalculateEvmLogic
     #
     # @param [journal] jnls journals of issue
     # @return [hash] rartio in jouranals
-    def ratio_in_journal_each_date(jnls)
+    def ratio_in_journal_each_date(jnls, closed_dt = nil)
       ratio_hash = {}
       jnls.each do |jnl|
         ratio_hash[User.current.time_to_date(jnl.created_on)] = jnl.details.first.value.to_i
       end
+      # when closed date exist, ratio=100
+      ratio_hash[closed_dt] = 100 unless closed_dt.nil?
       ratio_hash
     end
 
@@ -128,7 +128,7 @@ module CalculateEvmLogic
     # @param [hash] ev_hash EV
     # @param [hash] ratio_date_hash ration each day
     # @return [hash] EV hash
-    def create_ev_from_ration(estimae_hrs, ev_hash, ratio_date_hash)
+    def create_ev_from_ratio(estimae_hrs, ev_hash, ratio_date_hash)
       temp = ev_hash
       before_ratio = 0
       ratio_date_hash.each do |k, v|
