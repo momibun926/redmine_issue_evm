@@ -66,24 +66,19 @@ module ChartDataMaker
     new_pv = complement_evm_value evm.pv.cumulative
     performance_min_date = [new_ev.keys.min,
                             new_ac.keys.min,
-                            new_pv.keys.min].compact.max
+                            new_pv.keys.min].compact.min
     performance_max_date = [new_ev.keys.max,
                             new_ac.keys.max,
-                            new_pv.keys.max].compact.min
+                            new_pv.keys.max].compact.max
     labels = []
     spi = []
     cpi = []
     cr = []
     (performance_min_date..performance_max_date).each do |date|
       labels << date.to_time.to_i * 1000
-      spi << evm_round((new_ev[date] / new_pv[date]))
-      if new_ac[date].nil?
-        cpi << 0.00
-        cr << 0.00
-      else
-        cpi << evm_round((new_ev[date] / new_ac[date]))
-        cr << evm_round(((new_ev[date] / new_pv[date]) * (new_ev[date] / new_ac[date])))
-      end
+      spi << calculate_spi(new_ev[date], new_pv[date])
+      cpi << calculate_cpi(new_ev[date], new_ac[date])
+      cr << calculate_cr(new_ev[date], new_ac[date], new_pv[date])
     end
     chart_data[:labels] = labels
     chart_data[:spi] = spi.to_json
@@ -198,5 +193,45 @@ module ChartDataMaker
     data_source[:ev] = evm.ev.cumulative_at chart_adjust_date
     data_source[:ac] = evm.ac.cumulative_at chart_adjust_date
     data_source
+  end
+
+  # calculate spi
+  #
+  # @param [numeric] ev_value EV value at the day
+  # @param [numeric] pv_value PV value at the day
+  # @return [float] SPI
+  def calculate_spi(ev_value, pv_value)
+    if ev_value.nil? || pv_value.nil?
+      nil
+    else
+      evm_round(ev_value / pv_value)
+    end
+  end
+
+  # calculate cpi
+  #
+  # @param [numeric] ev_value EV value at the day
+  # @param [numeric] ac_value AC value at the day
+  # @return [float] CPI
+  def calculate_cpi(ev_value, ac_value)
+    if ev_value.nil? || ac_value.nil?
+      nil
+    else
+      evm_round(ev_value / ac_value)
+    end
+  end
+
+  # calculate cr
+  #
+  # @param [numeric] ev_value EV value at the day
+  # @param [numeric] ac_value AC value at the day
+  # @param [numeric] pv_value PV value at the day
+  # @return [float] CR
+  def calculate_cr(ev_value, ac_value, pv_value)
+    if ev_value.nil? || ac_value.nil? || pv_value.nil?
+      nil
+    else
+      evm_round((ev_value / pv_value) * (ev_value / ac_value))
+    end
   end
 end
