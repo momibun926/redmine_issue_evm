@@ -31,9 +31,9 @@ module CalculateEvmLogic
     # Constractor
     #
     # @param [evmbaseline] baselines selected baseline.
-    # @param [issue] issues
-    # @param [hash] costs spent time.
-    # @param [hash] options calculationEVM options.
+    # @param [Issue] issues
+    # @param [Hash] costs spent time.
+    # @param [Hash] options calculationEVM options.
     # @option options [Numeric] working_hours hours per day.
     # @option options [date] basis_date basis date.
     # @option options [bool] forecast forecast of option.
@@ -50,16 +50,16 @@ module CalculateEvmLogic
       @exclude_holiday = options[:exclude_holiday]
       @region = options[:region]
       # EV
-      @ev = CalculateEv.new @basis_date, issues
+      @ev = CalculateEv.new(@basis_date, issues)
       # AC
-      @ac = CalculateAc.new @basis_date, costs
+      @ac = CalculateAc.new(@basis_date, costs)
       # PV Actual
-      @pv_actual = CalculatePv.new @basis_date, issues, @region, @exclude_holiday
+      @pv_actual = CalculatePv.new(@basis_date, issues, @region, @exclude_holiday)
       # PV Baseline or PV actual
-      @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday if baselines.present?
+      @pv_baseline = CalculatePv.new(@basis_date, baselines, @region, @exclude_holiday) if baselines.present?
       @pv = @pv_baseline || @pv_actual
       # Finished date is set when project is finished
-      @finished_date = check_finished_date @ev, @pv
+      @finished_date = check_finished_date(@ev, @pv)
       # Forecast is invalid when project is finished
       @forecast = false if @finished_date.present?
       # project state, EV and PV
@@ -226,7 +226,7 @@ module CalculateEvmLogic
     def etc(hours = 1)
       return 0.0 if today_cpi(hours).zero? || today_cr(hours).zero?
 
-      div_value = etc_div_value hours
+      div_value = etc_div_value(hour)
       etc = (bac(hours) - today_ev(hours)) / div_value
       etc.round(1)
     end
@@ -274,7 +274,7 @@ module CalculateEvmLogic
 
     # forecast date (Delay)
     #
-    # @return [numeric] delay days
+    # @return [Numeric] delay days
     def delay
       (forecast_finish_date - @pv.due_date).to_i
     end
@@ -297,12 +297,12 @@ module CalculateEvmLogic
 
     # Create data for csv export.
     #
-    # @return [hash] csv data
+    # @return [Hash] csv data
     def to_csv
       Redmine::Export::CSV.generate do |csv|
         # date range
-        csv_min_date = [@ev.min_date, @ac.min_date, @pv.start_date].min
-        csv_max_date = [@ev.max_date, @ac.max_date, @pv.due_date].max
+        csv_min_date   = [@ev.min_date, @ac.min_date, @pv.start_date].min
+        csv_max_date   = [@ev.max_date, @ac.max_date, @pv.due_date].max
         evm_date_range = (csv_min_date..csv_max_date).to_a
         # title
         csv << ["DATE", evm_date_range].flatten!
@@ -327,7 +327,7 @@ module CalculateEvmLogic
     # @return [date] End of project date
     def forecast_finish_date
       # already finished project
-      return @ev.max_date if complete_ev == 100.0
+      return @ev.max_date if format("%.1f", complete_ev) == "100.0"
 
       # not worked yet
       return @pv.due_date if today_ev.zero?
@@ -349,10 +349,10 @@ module CalculateEvmLogic
 
     # rest days
     #
-    # @param [numeric] pv_value pv
-    # @param [numeric] ev_value ev
-    # @param [numeric] spi_value spi
-    # @param [numeric] basis_hours hours of per day is plugin setting
+    # @param [Numeric] pv_value pv
+    # @param [Numeric] ev_value ev
+    # @param [Numeric] spi_value spi
+    # @param [Numeric] basis_hours hours of per day is plugin setting
     # @return [date] rest days
     def rest_days(pv_value, ev_value, spi_value, basis_hours)
       ((pv_value - ev_value) / spi_value / basis_hours).round(0)
@@ -366,8 +366,7 @@ module CalculateEvmLogic
     # @param [CalculatePv] calc_pv PV class
     # @return [date] project finished date, nil is not finished.
     def check_finished_date(calc_ev, calc_pv)
-      ev_finished_date = calc_ev.cumulative.select { |_k, v| calc_pv.bac <= v }.keys.min
-      [ev_finished_date, calc_ev.max_date, @basis_date].compact.min if calc_ev.state(calc_pv) == :finished
+      calc_ev.cumulative.select { |_k, v| calc_pv.bac.round(1) <= v }.keys.min
     end
 
     # div value fo etc

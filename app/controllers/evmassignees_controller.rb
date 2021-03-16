@@ -12,7 +12,7 @@ class EvmassigneesController < BaseevmController
   #
   # 1. set options of view request
   # 2. get selectable list
-  # 3. calculate EVM
+  # 3. calculate EVM of each assignees
   # 4. chart data
   #
   def index
@@ -22,7 +22,7 @@ class EvmassigneesController < BaseevmController
     # default params
     set_default_params_for_other_evm
     # selectable assignee
-    @selectable_assignees = selectable_assignee_list @project
+    @selectable_assignees = selectable_assignee_list(@project)
     # calculate EVM (assignee)
     @assignee_evm = {}
     @assignee_evm_chart = {}
@@ -41,18 +41,18 @@ class EvmassigneesController < BaseevmController
       # search condition
       condition = id.blank? ? { assigned_to_id: nil } : { assigned_to_id: id }
       # issues of assignee
-      assignee_issue = evm_issues @project, condition
+      assignee_issue = evm_issues(@project, condition)
       # spent time of assignee
-      assignee_actual_cost = evm_costs @project, condition
+      assignee_actual_cost = evm_costs(@project, condition)
       # calculate EVM
-      @assignee_evm[id] = CalculateEvm.new nil,
+      @assignee_evm[id] = CalculateEvm.new(nil,
                                            assignee_issue,
                                            assignee_actual_cost,
-                                           @cfg_param
+                                           @cfg_param)
       # description
       @assignee_evm[id].description = assignee_name(id)
       # create chart data
-      @assignee_evm_chart[id] = evm_chart_data @assignee_evm[id]
+      @assignee_evm_chart[id] = evm_chart_data(@assignee_evm[id])
     end
   end
 end

@@ -1,0 +1,17 @@
+<% html_title("Project tracking with EVM") %>
+<section>
+  <h2><%= l(:title_evm_tab) %></h2>
+  <section>
+    <h3><%= l(:subtitle_evm_modify_issues) %></h3>
+    <%= render partial: "/common/issue_list", locals: { issues: @modify_issues, option_value: @baseline_issue } %>
+  </section>
+  <section>
+    <h3><%= l(:subtitle_evm_new_issues) %></h3>
+    <%= render partial: "/common/issue_list", locals: { issues: @new_issues, option_value: {}} %>
+  </section>
+  <section>
+    <h3><%= l(:subtitle_evm_remove_issues) %></h3>
+    <%= render partial: "/common/issue_list", locals: { issues: @remove_issues, option_value: {} } %>
+  </section>
+  <%= link_to l(:button_back), :back, class: "icon icon-cancel" %>
+</section>

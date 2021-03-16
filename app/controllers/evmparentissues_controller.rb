@@ -11,7 +11,7 @@ class EvmparentissuesController < BaseevmController
   #
   # 1. set options of view request
   # 2. get selectable list
-  # 3. calculate EVM
+  # 3. calculate EVM of each parent issues
   #
   def index
     # View options
@@ -20,7 +20,7 @@ class EvmparentissuesController < BaseevmController
     # default params
     set_default_params_for_other_evm
     # selectable parent issue
-    @selectable_parent_issue = selectable_parent_issues_list @project
+    @selectable_parent_issue = selectable_parent_issues_list(@project)
     # calculate EVM (parent issue)
     @parent_issue_evm = {}
     @parent_issue_evm_chart = {}
@@ -37,18 +37,18 @@ class EvmparentissuesController < BaseevmController
   def create_evm_data
     @cfg_param[:selected_parent_issue_id].each do |issue_id|
       # issues of parent issue
-      parent_issue = parent_issues issue_id
+      parent_issue = parent_issues(issue_id)
       # spent time of parent issue
-      parent_issue_actual_cost = parent_issue_costs issue_id
+      parent_issue_actual_cost = parent_issue_costs(issue_id)
       # create array of EVM
-      @parent_issue_evm[issue_id] = CalculateEvm.new nil,
+      @parent_issue_evm[issue_id] = CalculateEvm.new(nil,
                                                      parent_issue,
                                                      parent_issue_actual_cost,
-                                                     @cfg_param
+                                                     @cfg_param)
       # description
       @parent_issue_evm[issue_id].description = Issue.find(issue_id).subject
       # create chart data
-      @parent_issue_evm_chart[issue_id] = evm_chart_data @parent_issue_evm[issue_id]
+      @parent_issue_evm_chart[issue_id] = evm_chart_data(@parent_issue_evm[issue_id])
     end
   end
 end

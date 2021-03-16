@@ -1,22 +1,19 @@
-/*** Option ***/
-.option-col {
-  padding: 0px 30px 0px 5px;
-  float: left;
-}
-.option-col p {
-  font-weight: bold;
-}
-.option-apply {
-  clear:both;
+/*** General ***/
+h4 {
+  font-weight: 800;
 }
 
 /*** metrics ***/
-.metrics-col {
+.evm-div-col {
+  margin-top: 5px;
   padding: 0px 30px 0px 0px;
   float: left;
 }
-.metrics-col fieldset legend{
-  font-weight: bold;
+.evm-div-col fieldset{
+  border-style: none;
+}
+.evm-div-col fieldset legend{
+  font-style: italic;
 }
 .metrics-apply {
   clear:both;
@@ -100,4 +97,10 @@ dt.evmbaseline-edit {
 #wrapper input[readonly],
 #wrapper textarea[readonly] {
   background-color:aliceblue;
+}
+
+/*** for baseline difference detail ***/
+.baseline_diff {
+  font-weight: bold;
+  color: red;
 }

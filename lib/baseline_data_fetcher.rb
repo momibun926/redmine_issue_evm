@@ -6,7 +6,7 @@ module BaselineDataFetcher
   # Get Issues of Baseline.(start date, due date, estimated hours)
   # When baseline_id is nil,latest baseline of project.
   #
-  # @param [numeric] baseline_id baseline id
+  # @param [Numeric] baseline_id baseline id
   # @return [EvmBaseline] evmbaselines
   def project_baseline(baseline_id)
     Evmbaseline.where(id: baseline_id).first.evmbaselineIssues if baseline_id.present?
@@ -14,7 +14,7 @@ module BaselineDataFetcher
 
   # get selectable list of baseline
   #
-  # @param [project] proj porject object
+  # @param [Project] proj porject object
   # @return [EvmBaseline] baselines
   def selectable_baseline_list(proj)
     Evmbaseline.where(project_id: proj.id).
