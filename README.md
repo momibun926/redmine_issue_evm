@@ -5,7 +5,7 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-4.0.3
+4.1.0
 
 ## Compatibility
 Redmine 3.4.0 and above
@@ -18,6 +18,7 @@ Redmine 3.4.0 and above
   * Each asssignee (Shown estimated hours each days on chart)
   * Each parent issues
   * Some Tarckers
+  * Calculating EV based on daily done ratio
 * Project metrics
   * Duration
   * Satus
