@@ -48,7 +48,7 @@ class BaseevmController < ApplicationController
     render_404
   end
 
-  # odefault params for other evm
+  # default params for other evm
   #
   def set_default_params_for_other_evm
     @cfg_param[:no_use_baseline] = true

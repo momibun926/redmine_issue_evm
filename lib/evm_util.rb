@@ -6,7 +6,7 @@ module EvmUtil
   # Variance of baseline and actual plan
   #
   # @param [CalculateEvm] project_evm evm object of project
-  # @return [hash] project state
+  # @return [hash] states of project(difference at baseline) BAC, due date, and schedule.
   def check_baseline_variance(project_evm)
     pv_actual = project_evm.pv_actual
     pv_baseline = project_evm.pv_baseline
@@ -23,7 +23,7 @@ module EvmUtil
   #
   # @param [numeric] bac_actual bac of pv actual
   # @param [numeric] bac_baseline bac of pv baseline
-  # @return [hash] state of bac
+  # @return [string] state of bac
   def check_bac_variance(bac_actual, bac_baseline)
     bac_actual == bac_baseline ? l(:no_changed) : l(:bac_cahnged)
   end
@@ -32,7 +32,7 @@ module EvmUtil
   #
   # @param [date] due_date_actual due date of pv actual
   # @param [date] due_date_baseline due date of pv baseline
-  # @return [hash] state of due date
+  # @return [string] state of due date
   def check_due_date_variance(due_date_actual, due_date_baseline)
     due_date_actual == due_date_baseline ? l(:no_changed) : l(:due_date_changed)
   end
