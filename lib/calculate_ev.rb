@@ -110,6 +110,9 @@ module CalculateEvmLogic
         temp_ev = create_ev_from_ratio issue.estimated_hours.to_f,
                                        temp_ev,
                                        daily_ratio
+      else
+        temp_ev[closed_dt] = add_daily_evm_value temp_ev[closed_dt],
+                                                 issue.estimated_hours.to_f
       end
       temp_ev
     end

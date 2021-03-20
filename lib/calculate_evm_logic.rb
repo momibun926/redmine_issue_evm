@@ -366,7 +366,7 @@ module CalculateEvmLogic
     # @param [CalculatePv] calc_pv PV class
     # @return [date] project finished date, nil is not finished.
     def check_finished_date(calc_ev, calc_pv)
-      calc_ev.cumulative.select { |_k, v| calc_pv.bac <= v }.keys.min
+      calc_ev.cumulative.select { |_k, v| calc_pv.bac.round(1) <= v }.keys.min
     end
 
     # div value fo etc
