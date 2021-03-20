@@ -327,7 +327,7 @@ module CalculateEvmLogic
     # @return [date] End of project date
     def forecast_finish_date
       # already finished project
-      return @ev.max_date if complete_ev == 100.0
+      return @ev.max_date if format("%.1f", complete_ev) == "100.0"
 
       # not worked yet
       return @pv.due_date if today_ev.zero?

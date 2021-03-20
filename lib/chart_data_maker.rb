@@ -204,7 +204,7 @@ module ChartDataMaker
   # @return [hash] EAC daily
   def calculate_eac_daily(bac, ev_hash, ac_hash)
     temp_hash = {}
-    ev_hash.each do | ev_date, ev_value |
+    ev_hash.each do |ev_date, ev_value|
       ac_value = ac_hash.select { |ac_date, _value| (ac_date <= ev_date) }.values.max
       cpi_value = calculate_spi ev_value, ac_value
       temp_hash[ev_date] = ac_value + ((bac - ev_value) / cpi_value) unless cpi_value.nil?

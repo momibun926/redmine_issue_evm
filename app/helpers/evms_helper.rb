@@ -22,7 +22,7 @@ module EvmsHelper
             else
               ""
             end
-    content_tag(:td, str, class: value)
+    tag.td(str, class: value)
   end
 
   # project status
