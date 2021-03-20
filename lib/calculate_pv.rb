@@ -120,6 +120,7 @@ module CalculateEvmLogic
     #
     # @param [Numeric] estimated_hours estimated hours
     # @param [Numeric] days working days
+    # @return [Numeric] estimate hours per days
     def issue_hours_per_day(estimated_hours, days)
       (estimated_hours || 0.0) / days
     end

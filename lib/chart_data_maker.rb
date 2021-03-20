@@ -12,7 +12,7 @@ module ChartDataMaker
   # * forecast AC (forecast finish date)
   # * forecast EV (forecast finish date)
   #
-  # @param [object] evm calculation EVN object
+  # @param [CalculateEvm] evm evm calculation object
   # @return [hash] chart data
   def evm_chart_data(evm)
     # kind of chart data
@@ -54,6 +54,7 @@ module ChartDataMaker
 
   # Create data for display performance chart.
   #
+  # @param [CalculateEvm] evm evm calculation object
   # @return [hash] data for performance chart
   def performance_chart_data(evm)
     chart_data = {}
@@ -111,15 +112,15 @@ module ChartDataMaker
   # round function for evm value
   #
   # @param [number] evm_value EVM hash value
-  # @return [number] EVM value or nil
+  # @return [number] rounded EVM value or nil
   def evm_round(evm_value)
     evm_value.round(2) if evm_value.present?
   end
 
   # Get duretion of chart
   #
-  # @param [evm] evm evm object
-  # @return [hash] duration chart area
+  # @param [CalculateEvm] evm evm calculation object
+  # @return [hash] duration for chart
   def chart_duration(evm)
     # duration
     duration = {}

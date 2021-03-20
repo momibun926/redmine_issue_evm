@@ -117,6 +117,7 @@ module CalculateEvmLogic
     # Ratio of journals
     #
     # @param [journal] jnls journals of issue
+    # @param [datetime] closed_dt closed datetime of issue
     # @return [hash] rartio in jouranals
     def daily_done_ratio(jnls, closed_dt = nil)
       ratio_hash = {}
