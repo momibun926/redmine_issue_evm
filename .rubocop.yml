@@ -86,8 +86,11 @@ Metrics/BlockLength:
   Exclude:
     - "init.rb"
 
+Metrics/CyclomaticComplexity:
+  Max: 10
+
 Metrics/PerceivedComplexity:
-  Max: 8
+  Max: 10
 
 Metrics/AbcSize:
   Max: 100
