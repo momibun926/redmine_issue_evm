@@ -19,6 +19,12 @@ Style/StringConcatenation:
   Exclude:
     - "test/test_helper.rb"
 
+Lint/MissingSuper:
+  Exclude:
+    - "lib/calculate_pv.rb"
+    - "lib/calculate_ev.rb"
+    - "lib/calculate_ac.rb"
+
 Rails/SkipsModelValidations:
   Exclude:
     - "app/controllers/evmbaselines_controller.rb"
