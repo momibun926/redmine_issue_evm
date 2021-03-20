@@ -55,11 +55,23 @@ var myChart = new Chart(ctx, {
             spanGaps: true,
             data: <%= chart_data[:bac] %>,
             borderDash: [5, 2],
-            borderWidth: 2,
+            borderWidth: 1,
             lineTension: 0,
             borderColor: "dodgerblue",
             pointRadius: 0,
             backgroundColor: "dodgerblue",
+            fill: false
+        },{
+            label: "Daily EAC",
+            type: "line",
+            spanGaps: true,
+            data: <%= chart_data[:eac_daily] %>,
+            borderDash: [2, 2],
+            borderWidth: 1,
+            lineTension: 0,
+            borderColor: "gold",
+            pointRadius: 0,
+            backgroundColor: "gold",
             fill: false
         },{
             label: "EAC",
@@ -67,7 +79,7 @@ var myChart = new Chart(ctx, {
             spanGaps: true,
             data: <%= chart_data[:eac] %>,
             borderDash: [5, 2],
-            borderWidth: 2,
+            borderWidth: 1,
             lineTension: 0,
             borderColor: "Orange",
             pointRadius: 0,
