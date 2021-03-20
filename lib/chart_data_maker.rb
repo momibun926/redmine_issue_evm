@@ -16,9 +16,9 @@ module ChartDataMaker
   # @return [hash] chart data
   def evm_chart_data(evm)
     # kind of chart data
-    plot_data_kind = %i[labels pv_actual pv_daily pv_baseline ac ev bac eac ac_forecast ev_forecast]
+    plot_data_kind = %i[labels pv_actual pv_daily pv_baseline ac ev bac eac eac_daily ac_forecast ev_forecast]
     plot_data = Hash.new { |h, k| h[k] = [] }
-    plot_data_kind_evm = %i[pv_actual pv_daily ac ev]
+    plot_data_kind_evm = %i[pv_actual pv_daily ac ev eac_daily]
     plot_data_kind_forecast = %i[bac eac ac_forecast ev_forecast]
 
     # start date and end date of chart
@@ -192,7 +192,24 @@ module ChartDataMaker
     chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
     data_source[:ev] = evm.ev.cumulative_at chart_adjust_date
     data_source[:ac] = evm.ac.cumulative_at chart_adjust_date
+    data_source[:eac_daily] = calculate_eac_daily evm.bac, data_source[:ev], data_source[:ac]
     data_source
+  end
+
+  # calculate daily EAC
+  #
+  # @param [numeric] bac BAC
+  # @param [hash] ev_hash EV adjusted for chart
+  # @param [hash] ac_hash AC adjusted for chart
+  # @return [hash] EAC daily
+  def calculate_eac_daily(bac, ev_hash, ac_hash)
+    temp_hash = {}
+    ev_hash.each do | ev_date, ev_value |
+      ac_value = ac_hash.select { |ac_date, _value| (ac_date <= ev_date) }.values.max
+      cpi_value = calculate_spi ev_value, ac_value
+      temp_hash[ev_date] = ac_value + ((bac - ev_value) / cpi_value) unless cpi_value.nil?
+    end
+    temp_hash
   end
 
   # calculate spi
