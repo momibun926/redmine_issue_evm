@@ -94,7 +94,10 @@ module CalculateEvmLogic
 
     # create ev value from Ratio of journals
     #
-    # @param [journal] jnls journals of issue
+    # @param [issue] issue target issue record
+    # @param [date] basis_date basis date
+    # @param [hash] ev_hash EV hash
+    # @param [datetime] closed_dt closed datetime of issue
     # @return [hash] rartio in jouranals
     def create_ev_from_journals(issue, basis_date, ev_hash, closed_dt = nil)
       temp_ev = ev_hash

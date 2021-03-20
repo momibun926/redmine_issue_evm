@@ -39,9 +39,9 @@ module EvmUtil
 
   # check daily pv variance
   #
-  # @param [hash] bac_actual daily pv of pv actual
-  # @param [hash] bac_baseline daily pv of pv baseline
-  # @return [hash] state of daily pv
+  # @param [hash] pv_actual daily pv of pv actual
+  # @param [hash] pv_baseline daily pv of pv baseline
+  # @return [string] state of daily pv
   def check_pv_daily_variance(pv_actual, pv_baseline)
     pv_actual == pv_baseline ? l(:no_changed) : l(:schedule_changed)
   end
