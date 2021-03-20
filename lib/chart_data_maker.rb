@@ -64,17 +64,12 @@ module ChartDataMaker
     adjusted_ac = evm.ac.cumulative_at chart_adjust_date
     new_ac = complement_evm_value adjusted_ac
     new_pv = complement_evm_value evm.pv.cumulative
-    performance_min_date = [new_ev.keys.min,
-                            new_ac.keys.min,
-                            new_pv.keys.min].compact.min
-    performance_max_date = [new_ev.keys.max,
-                            new_ac.keys.max,
-                            new_pv.keys.max].compact.max
+    chart_duration = chart_duration(evm)
     labels = []
     spi = []
     cpi = []
     cr = []
-    (performance_min_date..performance_max_date).each do |date|
+    (chart_duration[:start_date]..chart_duration[:end_date]).each do |date|
       labels << date.to_time.to_i * 1000
       spi << calculate_spi(new_ev[date], new_pv[date])
       cpi << calculate_cpi(new_ev[date], new_ac[date])
@@ -138,12 +133,12 @@ module ChartDataMaker
     max_date << evm.pv_baseline.due_date if evm.pv_baseline.present?
     if evm.finished_date.present?
       max_date << evm.ev.max_date
-      max_date << evm.ac.max_date
+      max_date << evm.ac.cumulative.select { |ac_date, _value| (ac_date < evm.basis_date) }.keys.max
     else
       max_date << evm.ev.cumulative.keys.max
       max_date << evm.ac.cumulative.keys.max
     end
-    duration[:end_date] = max_date.max + 1
+    duration[:end_date] = max_date.compact.max + 1
     duration
   end
 
