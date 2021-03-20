@@ -1,9 +1,9 @@
 # Base controller.
 # This controller provide common functions.
 #
-# 1. menu
-# 2. before actions
-# 3. read common setting of this plugin
+# 1. before actions
+# 2. read common setting of this plugin
+# 3. default parameter
 #
 class BaseevmController < ApplicationController
   include IssueDataFetcher

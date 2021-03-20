@@ -19,7 +19,7 @@ class EvmsController < BaseevmController
   #
   # 1. set options of view request
   # 2. get selectable list(baseline)
-  # 3. calculate EVM
+  # 3. calculate EVM of project
   # 4. fetch incomplete issues
   # 5. export CSV
   #

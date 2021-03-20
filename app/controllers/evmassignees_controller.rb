@@ -12,7 +12,7 @@ class EvmassigneesController < BaseevmController
   #
   # 1. set options of view request
   # 2. get selectable list
-  # 3. calculate EVM
+  # 3. calculate EVM of each assignees
   # 4. chart data
   #
   def index

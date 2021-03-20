@@ -11,7 +11,7 @@ class EvmtrackersController < BaseevmController
   #
   # 1. set options of view request
   # 2. get selectable list
-  # 3. calculate EVM
+  # 3. calculate EVM of each trackers
   #
   def index
     # View options

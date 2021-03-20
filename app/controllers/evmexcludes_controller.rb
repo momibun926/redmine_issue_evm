@@ -8,8 +8,6 @@ class EvmexcludesController < BaseevmController
   menu_item :issuevm
   # index for exclude issues EVM view.
   #
-  # 1. exclude issue of calculate EVM
-  #
   def index
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
