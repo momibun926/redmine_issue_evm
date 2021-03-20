@@ -17,11 +17,7 @@ module EvmsHelper
   # @param [string] str difference string
   # @return [String] CSS class, except no change is red.
   def difference_color(str)
-    value = if str != l(:no_changed)
-              "difference-red"
-            else
-              ""
-            end
+    value = str == l(:no_changed) ? "" : "difference-red"
     tag.td(str, class: value)
   end
 
