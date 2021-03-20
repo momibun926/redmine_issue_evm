@@ -6,6 +6,11 @@ class Date
   include Holidays::CoreExtensions::Date
 end
 
+# View listener for activity page
+class RedmineIssueEvmHookListener < Redmine::Hook::ViewListener
+  render_on :view_layouts_base_html_head, inline: "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
+end
+
 # for search and activity page
 Rails.configuration.to_prepare do
   Redmine::Activity.register "evmbaseline"
@@ -33,11 +38,6 @@ Redmine::Plugin.register :redmine_issue_evm do
   # menu
   menu :project_menu, :issuevm, { controller: :evms, action: :index },
        caption: :tab_display_name, param: :project_id
-
-  # View listener for activity page
-  class RedmineIssueEvmHookListener < Redmine::Hook::ViewListener
-    render_on :view_layouts_base_html_head, inline: "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
-  end
 
   # load holidays
   Holidays.load_all
