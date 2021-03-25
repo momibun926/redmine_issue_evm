@@ -16,7 +16,7 @@ module CommonHelper
             else
               ""
             end
-    content_tag(:td, value, class: color)
+    tag.td(value, class: color)
   end
 
   # create no date area
@@ -24,7 +24,7 @@ module CommonHelper
   # @param [string] no_data if nno data , true
   # @return [String] html
   def display_no_data(no_data)
-    content_tag(:p, l(:label_no_data), class: "nodata") if no_data.blank?
+    tag.p(l(:label_no_data), class: "nodata") if no_data.blank?
   end
 
   # Convert date to labels on chart.js
@@ -42,7 +42,7 @@ module CommonHelper
   # @return [String] html
   def forecast_value_finished(finished_date, evm_value)
     value = finished_date.nil? ? evm_value : "-"
-    content_tag(:td, value)
+    tag.td(value)
   end
 
   # Get annotationlabel
@@ -60,6 +60,6 @@ module CommonHelper
   def explanation_es_unit(cfg_param)
     value = "#{l(:explanation_es_unit)} "
     value << "(#{l(:label_exclude_holidays)})" if cfg_param[:exclude_holiday]
-    content_tag(:p, value)
+    tag.p(value)
   end
 end

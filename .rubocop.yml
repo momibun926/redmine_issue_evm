@@ -15,6 +15,16 @@ Lint/StructNewOverride:
 Style/ExponentialNotation:
   Enabled: true
 
+Style/StringConcatenation:
+  Exclude:
+    - "test/test_helper.rb"
+
+Lint/MissingSuper:
+  Exclude:
+    - "lib/calculate_pv.rb"
+    - "lib/calculate_ev.rb"
+    - "lib/calculate_ac.rb"
+
 Rails/SkipsModelValidations:
   Exclude:
     - "app/controllers/evmbaselines_controller.rb"
@@ -76,8 +86,11 @@ Metrics/BlockLength:
   Exclude:
     - "init.rb"
 
+Metrics/CyclomaticComplexity:
+  Max: 10
+
 Metrics/PerceivedComplexity:
-  Max: 8
+  Max: 10
 
 Metrics/AbcSize:
   Max: 100

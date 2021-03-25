@@ -94,7 +94,10 @@ module CalculateEvmLogic
 
     # create ev value from Ratio of journals
     #
-    # @param [journal] jnls journals of issue
+    # @param [issue] issue target issue record
+    # @param [date] basis_date basis date
+    # @param [hash] ev_hash EV hash
+    # @param [datetime] closed_dt closed datetime of issue
     # @return [hash] rartio in jouranals
     def create_ev_from_journals(issue, basis_date, ev_hash, closed_dt = nil)
       temp_ev = ev_hash
@@ -107,6 +110,9 @@ module CalculateEvmLogic
         temp_ev = create_ev_from_ratio issue.estimated_hours.to_f,
                                        temp_ev,
                                        daily_ratio
+      elsif closed_dt.present?
+        temp_ev[closed_dt] = add_daily_evm_value temp_ev[closed_dt],
+                                                 issue.estimated_hours.to_f
       end
       temp_ev
     end
@@ -114,6 +120,7 @@ module CalculateEvmLogic
     # Ratio of journals
     #
     # @param [journal] jnls journals of issue
+    # @param [datetime] closed_dt closed datetime of issue
     # @return [hash] rartio in jouranals
     def daily_done_ratio(jnls, closed_dt = nil)
       ratio_hash = {}

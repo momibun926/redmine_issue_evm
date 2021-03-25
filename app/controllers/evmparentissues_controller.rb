@@ -11,7 +11,7 @@ class EvmparentissuesController < BaseevmController
   #
   # 1. set options of view request
   # 2. get selectable list
-  # 3. calculate EVM
+  # 3. calculate EVM of each parent issues
   #
   def index
     # View options

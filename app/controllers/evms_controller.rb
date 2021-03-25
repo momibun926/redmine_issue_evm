@@ -19,7 +19,7 @@ class EvmsController < BaseevmController
   #
   # 1. set options of view request
   # 2. get selectable list(baseline)
-  # 3. calculate EVM
+  # 3. calculate EVM of project
   # 4. fetch incomplete issues
   # 5. export CSV
   #
@@ -55,6 +55,8 @@ class EvmsController < BaseevmController
 
   private
 
+  # create EVN data
+  #
   def create_evm_data
     # baseline
     baselines = project_baseline @cfg_param[:baseline_id]
@@ -74,6 +76,8 @@ class EvmsController < BaseevmController
     @performance_chart_data = performance_chart_data @project_evm
   end
 
+  # create other information data
+  #
   def create_other_information
     # incomplete issues
     if @cfg_param[:display_incomplete]
@@ -90,10 +94,14 @@ class EvmsController < BaseevmController
     @baseline_variance = check_baseline_variance @project_evm
   end
 
+  # set default basis date
+  #
   def default_basis_date
     params[:basis_date].nil? ? User.current.time_to_date(Time.current) : params[:basis_date].to_date
   end
 
+  # set default aseline id
+  #
   def default_baseline_id
     if params[:evmbaseline_id].nil? && params[:no_use_baseline].nil?
       @selectable_baseline.blank? ? nil : @selectable_baseline.first.id

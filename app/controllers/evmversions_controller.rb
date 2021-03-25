@@ -11,7 +11,7 @@ class EvmversionsController < BaseevmController
   #
   # 1. set options of view request
   # 2. get selectable list
-  # 3. calculate EVM
+  # 3. calculate EVM of each versions
   #
   def index
     # View options

@@ -327,7 +327,7 @@ module CalculateEvmLogic
     # @return [date] End of project date
     def forecast_finish_date
       # already finished project
-      return @ev.max_date if complete_ev == 100.0
+      return @ev.max_date if format("%.1f", complete_ev) == "100.0"
 
       # not worked yet
       return @pv.due_date if today_ev.zero?
@@ -366,8 +366,7 @@ module CalculateEvmLogic
     # @param [CalculatePv] calc_pv PV class
     # @return [date] project finished date, nil is not finished.
     def check_finished_date(calc_ev, calc_pv)
-      ev_finished_date = calc_ev.cumulative.select { |_k, v| calc_pv.bac <= v }.keys.min
-      [ev_finished_date, calc_ev.max_date, @basis_date].compact.min if calc_ev.state(calc_pv) == :finished
+      calc_ev.cumulative.select { |_k, v| calc_pv.bac.round(1) <= v }.keys.min
     end
 
     # div value fo etc
