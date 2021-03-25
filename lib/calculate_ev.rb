@@ -102,7 +102,7 @@ module CalculateEvmLogic
     def create_ev_from_journals(issue, basis_date, ev_hash, closed_dt = nil)
       temp_ev = ev_hash
       journals = issue_journal issue, basis_date
-      if journals.present?
+      if journals.present? || closed_dt.present?
         # Create date and ratio of journals
         daily_ratio = daily_done_ratio journals,
                                        closed_dt
@@ -110,9 +110,6 @@ module CalculateEvmLogic
         temp_ev = create_ev_from_ratio issue.estimated_hours.to_f,
                                        temp_ev,
                                        daily_ratio
-      elsif closed_dt.present?
-        temp_ev[closed_dt] = add_daily_evm_value temp_ev[closed_dt],
-                                                 issue.estimated_hours.to_f
       end
       temp_ev
     end
@@ -158,10 +155,13 @@ module CalculateEvmLogic
     def check_state(calc_pv = nil)
       # no finished isshe
       return :no_work if @issue_count.zero?
+
       # bac <= basis date is finished
       return :finished if calc_pv.present? && calc_pv.bac <= @cumulative[@basis_date]
+
       # basis date is before max ev date(latest finished issue)
       return :progress if @basis_date < @max_date
+
       # all issue is finished
       return :finished if @finished_issue_count == @issue_count
 
