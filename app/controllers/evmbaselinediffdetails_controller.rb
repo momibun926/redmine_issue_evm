@@ -52,4 +52,29 @@ class EvmbaselinediffdetailsController < BaseevmController
     end
     temp
   end
+
+  # new issue ids
+  #
+  # @param [hash] issue_detail issue detail.
+  # @param [hash] baseline_detail baseline detail.
+  # @return [array] new issue ids.
+  def new_issue_ids(issue_detail, baseline_detail)
+  end
+
+  # remove issue ids
+  #
+  # @param [hash] issue_detail issue detail.
+  # @param [hash] baseline_detail baseline detail.
+  # @return [array] remove issue ids.
+  def remove_issue_ids(issue_detail, baseline_detail)
+  end
+
+  # modify issue ids
+  #
+  # @param [hash] issue_detail issue detail.
+  # @param [hash] baseline_detail baseline detail.
+  # @return [array] modify issue ids.
+  def modify_issue_ids(issue_detail, baseline_detail)
+  end
+
 end
