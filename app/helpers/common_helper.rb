@@ -62,4 +62,50 @@ module CommonHelper
     value << "(#{l(:label_exclude_holidays)})" if cfg_param[:exclude_holiday]
     tag.p(value)
   end
+
+  # start date difference
+  #
+  # @param [date] actual_date actual date
+  # @param [hash] base_date base date
+  # @return [String] html
+  def diff_start_date(actual_date, base_date = nil)
+    base_date.nil? ? format_date(actual_date) : diff_date base_date[:start_date], actual_date
+  end
+
+  # due date difference
+  #
+  # @param [date] actual_date actual date
+  # @param [hash] base_date base date
+  # @return [String] html
+  def diff_due_date(actual_date, base_date = nil)
+    base_date.nil? ? format_date(actual_date) : diff_date base_date[:due_date], actual_date
+  end
+
+  # date difference
+  #
+  # @param [date] after_date after_date
+  # @param [date] before_date before date
+  # @return [String] html
+  def diff_date(after_date, before_date = nil)
+    if before_date == after_date
+      format_date(after_date)
+    else
+      tag.b("#{format_date(before_date)}->#{format_date(after_date)}")
+    end
+  end
+
+  # estimate hours difference
+  #
+  # @param [numeric] actual_hours actual hours
+  # @param [hash] base_hours base hours
+  # @return [String] html
+  def diff_estimate_hours(actual_hours, base_hours = nil)
+    return actual_hours if base_hours.nil?
+
+    if base_hours[:estimate_hours] == actual_hours
+      actual_hours
+    else
+      tag.b("#{base_hours[:estimate_hours]}->#{actual_hours}")
+    end
+  end
 end

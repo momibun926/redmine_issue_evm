@@ -4,5 +4,5 @@
 <section>
   <h2><%= l(:title_evm_tab) %></h2>
   <h3><%= l(:subtitle_evm_exclude_issues) %></h3>
-  <%= render partial: "/common/issue_list", locals: { issues: @exclude_issues } %>
+  <%= render partial: "/common/issue_list", locals: { issues: @exclude_issues, option_value: {} } %>
 </section>

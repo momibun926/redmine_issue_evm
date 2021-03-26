@@ -25,9 +25,9 @@
           <td><%=issue.status%></td>
           <td><%=issue.assigned_to%></td>
           <td><%=issue.fixed_version%></td>
-          <td><%=format_date(issue.start_date)%></td>
-          <td><%=format_date(issue.due_date)%></td>
-          <td><%=issue.estimated_hours%></td>
+          <td><%=diff_start_date(issue.start_date, option_value[issue.id])%></td>
+          <td><%=diff_due_date(issue.due_date, option_value[issue.id])%></td>
+          <td><%=diff_estimate_hours(issue.estimated_hours, option_value[issue.id])%></td>
         </tr>
       <% end %>
     </tbody>
