@@ -66,19 +66,19 @@ module CommonHelper
   # start date difference
   #
   # @param [date] actual_date actual date
-  # @param [hash] base_date base date
+  # @param [hash] option_value start date
   # @return [String] html
-  def diff_start_date(actual_date, base_date = nil)
-    base_date.nil? ? format_date(actual_date) : diff_date base_date[:start_date], actual_date
+  def diff_start_date(actual_date, option_value = nil)
+    option_value.nil? ? format_date(actual_date) : diff_date(option_value[:start_date], actual_date)
   end
 
   # due date difference
   #
   # @param [date] actual_date actual date
-  # @param [hash] base_date base date
+  # @param [hash] option_value due date
   # @return [String] html
-  def diff_due_date(actual_date, base_date = nil)
-    base_date.nil? ? format_date(actual_date) : diff_date base_date[:due_date], actual_date
+  def diff_due_date(actual_date, option_value = nil)
+    option_value.nil? ? format_date(actual_date) : diff_date(option_value[:due_date], actual_date)
   end
 
   # date difference
@@ -90,22 +90,22 @@ module CommonHelper
     if before_date == after_date
       format_date(after_date)
     else
-      tag.b("#{format_date(before_date)}->#{format_date(after_date)}")
+      tag.b("#{format_date(before_date)} -> #{format_date(after_date)}")
     end
   end
 
   # estimate hours difference
   #
   # @param [numeric] actual_hours actual hours
-  # @param [hash] base_hours base hours
+  # @param [hash] option_value base hours
   # @return [String] html
-  def diff_estimate_hours(actual_hours, base_hours = nil)
-    return actual_hours if base_hours.nil?
+  def diff_estimate_hours(actual_hours, option_value = nil)
+    return actual_hours if option_value.nil?
 
-    if base_hours[:estimate_hours] == actual_hours
+    if option_value[:estimated_hours] == actual_hours
       actual_hours
     else
-      tag.b("#{base_hours[:estimate_hours]}->#{actual_hours}")
+      tag.b("#{option_value[:estimated_hours]} -> #{actual_hours}")
     end
   end
 end
