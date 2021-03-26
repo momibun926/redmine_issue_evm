@@ -17,11 +17,14 @@ class EvmbaselinediffdetailsController < BaseevmController
     # issue detail
     actual_issue = create_actual_issue_data issues
     # baseline detail
-    baseline_issue = create_baseline_issue_data baselines
+    @baseline_issue = create_baseline_issue_data baselines
     # get issue data
-    @modify_issues = diff_modify_issues actual_issue, baseline_issue
-    @new_issues = diff_new_issues actual_issue, baseline_issue
-    @remove_issues = diff_remove_issues actual_issue, baseline_issue
+    @modify_issues = diff_modify_issues actual_issue,
+                                        @baseline_issue
+    @new_issues = diff_new_issues actual_issue,
+                                  @baseline_issue
+    @remove_issues = diff_remove_issues actual_issue,
+                                        @baseline_issue
   end
 
   private

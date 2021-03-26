@@ -79,6 +79,6 @@
   <!-- Incomplete issue list -->
   <% if @cfg_param[:display_incomplete] %>
     <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
-    <%= render partial: "/common/issue_list", locals: { issues: @incomplete_issues } %>
+    <%= render partial: "/common/issue_list", locals: { issues: @incomplete_issues, option_value: {} } %>
   <% end %>
 <% end %>
