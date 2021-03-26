@@ -79,11 +79,6 @@
   <!-- Incomplete issue list -->
   <% if @cfg_param[:display_incomplete] %>
     <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
-    <% if @no_data_incomplete_issues %>
-      <p class="nodata"><%= l(:label_no_data) %></p>
-    <% else %>
-      <%= render partial: "/evms/incomplete_issue_list",
-          locals: { incomplete_issues: @incomplete_issues } %>
-    <% end %>
+    <%= render partial: "/common/issue_list", locals: { issues: @incomplete_issues } %>
   <% end %>
 <% end %>

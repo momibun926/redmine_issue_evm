@@ -19,6 +19,9 @@ zh:
   subtitle_es_indicator: Earned Schedule
   subtitle_evm_incomplete_issues: 未完成工作项列表
   subtitle_evm_exclude_issues: Exclude issues
+  subtitle_evm_modify_issues: Modify issues
+  subtitle_evm_new_issues: New issues
+  subtitle_evm_remove_issues: Remove issues
   subtitle_evm_chart_main: 预估图表
   subtitle_evm_chart_performance: 绩效指数图表
 
@@ -156,7 +159,7 @@ zh:
   tab_display_name: EVM
 
   # incomplete_issue
-  incomplete_issue_parent_id: 父任务#
+  issue_parent_id: 父任务#
 
   # EVM of assignee
   no_assignee: 没有负责人

@@ -10,13 +10,24 @@ class EvmbaselinediffdetailsController < BaseevmController
   #
   def index
     # baseline
+    @cfg_param[:baseline_id] = params[:baseline_id]
     baselines = project_baseline params[:baseline_id]
     # issues of project include disendants
     issues = evm_issues @project
     # issue detail
-    @issue_detail = create_issue_detail_data issues
+    actual_issue = create_actual_issue_data issues
     # baseline detail
-    @baseline_detail = create_baseline_detail_data baselines
+    baseline_issue = create_baseline_issue_data baselines
+    # new issue ids
+    @new_issue_ids = new_issue_ids actual_issue, baseline_issue
+    # remove issue ids
+    @remove_issue_ids = remove_issue_ids actual_issue, baseline_issue
+    # modify issue ids
+    @rmodify_issue_ids = modify_issue_ids actual_issue, baseline_issue
+    # get issue data
+    @modify_issues = Issue.find(@rmodify_issue_ids)
+    @new_issues = Issue.find(@new_issue_ids)
+    @remove_issues = Issue.find(@remove_issue_ids)
   end
 
   private
@@ -25,14 +36,14 @@ class EvmbaselinediffdetailsController < BaseevmController
   #
   # @param [issue] actual issue data.
   # @return [hash] detail of actual issue.
-  def create_issue_detail_data(issues)
+  def create_actual_issue_data(issues)
     temp = {}
     issues.each do |issue|
-      issue_detail = {}
-      issue_detail[:start_date] = issue.start_date
-      issue_detail[:due_date] = issue.due_date
-      issue_detail[:estimated_hours] = issue.estimated_hours
-      temp[issue.id] = issue_detail
+      actual_issue = {}
+      actual_issue[:start_date] = issue.start_date
+      actual_issue[:due_date] = issue.due_date
+      actual_issue[:estimated_hours] = issue.estimated_hours
+      temp[issue.id] = actual_issue
     end
     temp
   end
@@ -41,7 +52,7 @@ class EvmbaselinediffdetailsController < BaseevmController
   #
   # @param [baseline_issue] baselines issue date of baseline.
   # @return [hash] detail of baseline.
-  def create_baseline_detail_data(baselines)
+  def create_baseline_issue_data(baselines)
     temp = {}
     baselines.each do |baseline|
       bl_detail = {}
@@ -55,26 +66,32 @@ class EvmbaselinediffdetailsController < BaseevmController
 
   # new issue ids
   #
-  # @param [hash] issue_detail issue detail.
-  # @param [hash] baseline_detail baseline detail.
+  # @param [array] actual_issue issue detail.
+  # @param [array] baseline_issue baseline detail.
   # @return [array] new issue ids.
-  def new_issue_ids(issue_detail, baseline_detail)
+  def new_issue_ids(actual_issue, baseline_issue)
+    actual_issue.keys - baseline_issue.keys
   end
 
   # remove issue ids
   #
-  # @param [hash] issue_detail issue detail.
-  # @param [hash] baseline_detail baseline detail.
+  # @param [hash] actual_issue issue detail.
+  # @param [hash] baseline_issue baseline detail.
   # @return [array] remove issue ids.
-  def remove_issue_ids(issue_detail, baseline_detail)
+  def remove_issue_ids(actual_issue, baseline_issue)
+    baseline_issue.keys - actual_issue.keys
   end
 
   # modify issue ids
   #
-  # @param [hash] issue_detail issue detail.
-  # @param [hash] baseline_detail baseline detail.
+  # @param [hash] actual_issue issue detail.
+  # @param [hash] baseline_issue baseline detail.
   # @return [array] modify issue ids.
-  def modify_issue_ids(issue_detail, baseline_detail)
+  def modify_issue_ids(actual_issue, baseline_issue)
+    ids = []
+    (actual_issue.keys & baseline_issue.keys).each do | id |
+      ids << id unless actual_issue[id] == baseline_issue[id]
+    end
+    ids
   end
-
 end

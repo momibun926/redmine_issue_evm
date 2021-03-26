@@ -19,6 +19,9 @@ ja:
   subtitle_es_indicator: ES
   subtitle_evm_incomplete_issues: 未完了チケット
   subtitle_evm_exclude_issues: 除外されているチケット
+  subtitle_evm_modify_issues: 変更されたチケット
+  subtitle_evm_new_issues: 追加されたチケット
+  subtitle_evm_remove_issues: 除外になったチケット
   subtitle_evm_chart_main: EVMチャート
   subtitle_evm_chart_performance: パフォーマンスチャート
 
@@ -156,7 +159,7 @@ ja:
   tab_display_name: EVM
 
   # incomplete_issue
-  incomplete_issue_parent_id: 親チケット#
+  issue_parent_id: 親チケット#
 
   # EVM of assignee
   no_assignee: 担当者なし
