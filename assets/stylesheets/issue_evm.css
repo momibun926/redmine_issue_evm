@@ -101,3 +101,9 @@ dt.evmbaseline-edit {
 #wrapper textarea[readonly] {
   background-color:aliceblue;
 }
+
+/*** for baseline difference detail ***/
+.baseline_diff {
+  font-weight: bold;
+  color: red;
+}

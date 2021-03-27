@@ -90,7 +90,7 @@ module CommonHelper
     if before_date == after_date
       format_date(after_date)
     else
-      tag.b("#{format_date(before_date)} -> #{format_date(after_date)}")
+      tag.div("#{format_date(before_date)} -> #{format_date(after_date)}", class: "baseline_diff")
     end
   end
 
@@ -105,7 +105,7 @@ module CommonHelper
     if option_value[:estimated_hours] == actual_hours
       actual_hours
     else
-      tag.b("#{option_value[:estimated_hours]} -> #{actual_hours}")
+      tag.div("#{option_value[:estimated_hours]} -> #{actual_hours}", class: "baseline_diff")
     end
   end
 end
