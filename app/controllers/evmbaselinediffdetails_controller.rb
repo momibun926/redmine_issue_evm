@@ -88,7 +88,7 @@ class EvmbaselinediffdetailsController < BaseevmController
   # @return [issue] modify issue issues.
   def diff_modify_issues(actual_issue, baseline_issue)
     ids = []
-    (actual_issue.keys & baseline_issue.keys).each do | id |
+    (actual_issue.keys & baseline_issue.keys).each do |id|
       ids << id unless actual_issue[id] == baseline_issue[id]
     end
     Issue.find(ids)
