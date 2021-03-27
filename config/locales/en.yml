@@ -43,7 +43,7 @@
   overdue: Over due date
   before_plan: Before project start date
   within_duration: Within the project period
-  more_difference_details: More details
+  more_difference_details: Show more details...
 
   # Indicator table header
   indicator_table_header_date: Status date

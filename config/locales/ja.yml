@@ -45,7 +45,7 @@ ja:
   no_work: 完了しているタスクがありません
   before_plan: プジェクト開始日前です
   within_duration: プロジェクト期間内です
-  more_difference_details: 詳細を見る
+  more_difference_details: 差異の詳細を見る
 
   # Indicator table header
   indicator_table_header_date: 基準日
