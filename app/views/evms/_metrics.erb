@@ -36,6 +36,11 @@
         <td align="right"><%= l(:indicator_schedule) %>:</td>
         <%=difference_color(baseline_variance[:schedule])%>
       </tr>
+      <tr>
+        <td align="right">
+          <%= link_to l(:more_difference_details), { controller: :evmbaselinediffdetails, action: :index, id: project.id, params: cfg_param }%>
+        </td>
+      </tr>
     </table>
     </fieldset>
   </div>
