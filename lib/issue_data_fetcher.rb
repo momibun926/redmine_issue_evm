@@ -279,4 +279,37 @@ module IssueDataFetcher
       includes(:details).
       order("journals.created_on")
   end
+
+  # difference of new issues
+  #
+  # @param [array] actual_issue issue detail.
+  # @param [array] baseline_issue baseline detail.
+  # @return [issue] new issue issues.
+  def diff_new_issues(actual_issue, baseline_issue)
+    ids = actual_issue.keys - baseline_issue.keys
+    Issue.find(ids)
+  end
+
+  # difference of remove issues
+  #
+  # @param [hash] actual_issue issue detail.
+  # @param [hash] baseline_issue baseline detail.
+  # @return [issue] remove issue issues.
+  def diff_remove_issues(actual_issue, baseline_issue)
+    ids = baseline_issue.keys - actual_issue.keys
+    Issue.find(ids)
+  end
+
+  # difference of modify issues
+  #
+  # @param [hash] actual_issue issue detail.
+  # @param [hash] baseline_issue baseline detail.
+  # @return [issue] modify issue issues.
+  def diff_modify_issues(actual_issue, baseline_issue)
+    ids = []
+    (actual_issue.keys & baseline_issue.keys).each do |id|
+      ids << id unless actual_issue[id] == baseline_issue[id]
+    end
+    Issue.find(ids)
+  end
 end

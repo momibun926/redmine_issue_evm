@@ -15,9 +15,9 @@ class EvmbaselinediffdetailsController < BaseevmController
     # issues of project include disendants
     issues = evm_issues @project
     # issue detail
-    actual_issue = create_actual_issue_data issues
+    actual_issue = actual_issue_some_info issues
     # baseline detail
-    @baseline_issue = create_baseline_issue_data baselines
+    @baseline_issue = baseline_issue_some_info baselines
     # get issue data
     @modify_issues = diff_modify_issues actual_issue,
                                         @baseline_issue
@@ -32,8 +32,8 @@ class EvmbaselinediffdetailsController < BaseevmController
   # create issue detail hash
   #
   # @param [issue] actual issue data.
-  # @return [hash] detail of actual issue.
-  def create_actual_issue_data(issues)
+  # @return [hash] issue info of actual issue.
+  def actual_issue_some_info(issues)
     temp = {}
     issues.each do |issue|
       actual_issue = {}
@@ -48,8 +48,8 @@ class EvmbaselinediffdetailsController < BaseevmController
   # create baseline detail hash
   #
   # @param [baseline_issue] baselines issue date of baseline.
-  # @return [hash] detail of baseline.
-  def create_baseline_issue_data(baselines)
+  # @return [hash] issue info of baseline.
+  def baseline_issue_some_info(baselines)
     temp = {}
     baselines.each do |baseline|
       bl_detail = {}
@@ -59,38 +59,5 @@ class EvmbaselinediffdetailsController < BaseevmController
       temp[baseline.issue_id] = bl_detail
     end
     temp
-  end
-
-  # difference of new issues
-  #
-  # @param [array] actual_issue issue detail.
-  # @param [array] baseline_issue baseline detail.
-  # @return [issue] new issue issues.
-  def diff_new_issues(actual_issue, baseline_issue)
-    ids = actual_issue.keys - baseline_issue.keys
-    Issue.find(ids)
-  end
-
-  # difference of remove issues
-  #
-  # @param [hash] actual_issue issue detail.
-  # @param [hash] baseline_issue baseline detail.
-  # @return [issue] remove issue issues.
-  def diff_remove_issues(actual_issue, baseline_issue)
-    ids = baseline_issue.keys - actual_issue.keys
-    Issue.find(ids)
-  end
-
-  # difference of modify issues
-  #
-  # @param [hash] actual_issue issue detail.
-  # @param [hash] baseline_issue baseline detail.
-  # @return [issue] modify issue issues.
-  def diff_modify_issues(actual_issue, baseline_issue)
-    ids = []
-    (actual_issue.keys & baseline_issue.keys).each do |id|
-      ids << id unless actual_issue[id] == baseline_issue[id]
-    end
-    Issue.find(ids)
   end
 end
