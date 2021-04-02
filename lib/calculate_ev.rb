@@ -14,8 +14,8 @@ module CalculateEvmLogic
 
     # Constractor
     #
-    # @param [date] basis_date basis date.
-    # @param [issue] issues culculation of EV.
+    # @param [Date] basis_date basis date.
+    # @param [Issue] issues culculation of EV.
     def initialize(basis_date, issues)
       # basis date
       @basis_date = basis_date
@@ -56,9 +56,9 @@ module CalculateEvmLogic
     # 2.progless issue (setted done ratio)
     # 3.parent issue of children is progress or closed
     #
-    # @param [issue] issues target issues of EVM
-    # @param [date] basis_date basis date of option
-    # @return [hash] EV hash. Key:Date, Value:EV of each days
+    # @param [Issue] issues target issues of EVM
+    # @param [Date] basis_date basis date of option
+    # @return [Hash] EV hash. Key:Date, Value:EV of each days
     def calculate_earned_value(issues, basis_date)
       temp_ev = {}
       @finished_issue_count = 0
@@ -94,11 +94,11 @@ module CalculateEvmLogic
 
     # create ev value from Ratio of journals
     #
-    # @param [issue] issue target issue record
-    # @param [date] basis_date basis date
-    # @param [hash] ev_hash EV hash
+    # @param [Issue] issue target issue record
+    # @param [Date] basis_date basis date
+    # @param [Hash] ev_hash EV hash
     # @param [datetime] closed_dt closed datetime of issue
-    # @return [hash] rartio in jouranals
+    # @return [Hash] rartio in jouranals
     def create_ev_from_journals(issue, basis_date, ev_hash, closed_dt = nil)
       temp_ev = ev_hash
       journals = issue_journal issue, basis_date
@@ -118,7 +118,7 @@ module CalculateEvmLogic
     #
     # @param [journal] jnls journals of issue
     # @param [datetime] closed_dt closed datetime of issue
-    # @return [hash] rartio in jouranals
+    # @return [Hash] rartio in jouranals
     def daily_done_ratio(jnls, closed_dt = nil)
       ratio_hash = {}
       jnls.each do |jnl|
@@ -132,9 +132,9 @@ module CalculateEvmLogic
     # Create ev from ratio
     #
     # @param [float] estimae_hrs estimate hours of issue
-    # @param [hash] ev_hash EV
-    # @param [hash] ratio_date_hash ration each day
-    # @return [hash] EV hash
+    # @param [Hash] ev_hash EV
+    # @param [Hash] ratio_date_hash ration each day
+    # @return [Hash] EV hash
     def create_ev_from_ratio(estimae_hrs, ev_hash, ratio_date_hash)
       temp = ev_hash
       before_ratio = 0

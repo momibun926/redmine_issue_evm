@@ -18,10 +18,10 @@ module CalculateEvmLogic
 
     # Constractor
     #
-    # @param [date] basis_date basis date.
-    # @param [issue] issues for culculation of PV.
-    # @param [string] region setting region use calculation working days.
-    # @param [string] exclude_holiday setting exclude holiday
+    # @param [Date] basis_date basis date.
+    # @param [Issue] issues for culculation of PV.
+    # @param [String] region setting region use calculation working days.
+    # @param [String] exclude_holiday setting exclude holiday
     def initialize(basis_date, issues, region, exclude_holiday)
       # basis date
       @basis_date = basis_date
@@ -71,7 +71,7 @@ module CalculateEvmLogic
     # Actual Time (AT)
     # This is the duration from the beginning of the project to basis date.
     #
-    # @param [date] status_date project finished date or basis date.
+    # @param [Date] status_date project finished date or basis date.
     # @return [Numeric] days: basis date - start date
     def today_at(status_date)
       amount_working_days(@start_date, status_date)
@@ -81,7 +81,7 @@ module CalculateEvmLogic
     # This duration from the beginning of the project to the date
     # on which the PV should have been equal to the current value of EV.
     #
-    # @param [numeric] ev_value EV value of basis date.
+    # @param [Numeric] ev_value EV value of basis date.
     # @return [date] earned shedule
     def today_es(ev_value)
       return 0 if @state == :before_plan
@@ -101,8 +101,8 @@ module CalculateEvmLogic
     # if due date is nil , set varsion due date.
     #
     # @note If the due date has not been entered, we will use the due date of the version
-    # @param [issue] issues target issues of EVM
-    # @return [hash] EVM hash. Key:Date, Value:PV of each days
+    # @param [Issue] issues target issues of EVM
+    # @return [Hash] EVM hash. Key:Date, Value:PV of each days
     def calculate_planed_value(issues)
       temp_pv = {}
       Array(issues).each do |issue|
@@ -128,8 +128,8 @@ module CalculateEvmLogic
     # working days.
     # exclude weekends and holiday or include weekends and holiday.
     #
-    # @param [date] start_date start date of issue
-    # @param [date] end_date end date of issue
+    # @param [Date] start_date start date of issue
+    # @param [Date] end_date end date of issue
     # @return [Array] working days
     def working_days(start_date, end_date)
       issue_days = (start_date..end_date).to_a
@@ -143,8 +143,8 @@ module CalculateEvmLogic
 
     # Amount of working days.
     #
-    # @param [date] start_date start date
-    # @param [date] end_date end date
+    # @param [Date] start_date start date
+    # @param [Date] end_date end date
     # @return [Numeric] Amount of working days
     def amount_working_days(start_date, end_date)
       working_days(start_date, end_date).length

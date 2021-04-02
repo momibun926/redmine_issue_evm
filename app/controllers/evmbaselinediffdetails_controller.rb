@@ -31,8 +31,8 @@ class EvmbaselinediffdetailsController < BaseevmController
 
   # create issue detail hash
   #
-  # @param [issue] actual issue data.
-  # @return [hash] issue info of actual issue.
+  # @param [Issue] issues issue data.
+  # @return [Hash] issue info of actual issue.
   def actual_issue_some_info(issues)
     temp = {}
     issues.each do |issue|
@@ -47,8 +47,8 @@ class EvmbaselinediffdetailsController < BaseevmController
 
   # create baseline detail hash
   #
-  # @param [baseline_issue] baselines issue date of baseline.
-  # @return [hash] issue info of baseline.
+  # @param [EvmbaselineIssue] baselines issue date of baseline.
+  # @return [Hash] issue info of baseline.
   def baseline_issue_some_info(baselines)
     temp = {}
     baselines.each do |baseline|

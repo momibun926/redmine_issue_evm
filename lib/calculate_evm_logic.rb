@@ -31,9 +31,9 @@ module CalculateEvmLogic
     # Constractor
     #
     # @param [evmbaseline] baselines selected baseline.
-    # @param [issue] issues
-    # @param [hash] costs spent time.
-    # @param [hash] options calculationEVM options.
+    # @param [Issue] issues
+    # @param [Hash] costs spent time.
+    # @param [Hash] options calculationEVM options.
     # @option options [Numeric] working_hours hours per day.
     # @option options [date] basis_date basis date.
     # @option options [bool] forecast forecast of option.
@@ -274,7 +274,7 @@ module CalculateEvmLogic
 
     # forecast date (Delay)
     #
-    # @return [numeric] delay days
+    # @return [Numeric] delay days
     def delay
       (forecast_finish_date - @pv.due_date).to_i
     end
@@ -297,7 +297,7 @@ module CalculateEvmLogic
 
     # Create data for csv export.
     #
-    # @return [hash] csv data
+    # @return [Hash] csv data
     def to_csv
       Redmine::Export::CSV.generate do |csv|
         # date range
@@ -349,10 +349,10 @@ module CalculateEvmLogic
 
     # rest days
     #
-    # @param [numeric] pv_value pv
-    # @param [numeric] ev_value ev
-    # @param [numeric] spi_value spi
-    # @param [numeric] basis_hours hours of per day is plugin setting
+    # @param [Numeric] pv_value pv
+    # @param [Numeric] ev_value ev
+    # @param [Numeric] spi_value spi
+    # @param [Numeric] basis_hours hours of per day is plugin setting
     # @return [date] rest days
     def rest_days(pv_value, ev_value, spi_value, basis_hours)
       ((pv_value - ev_value) / spi_value / basis_hours).round(0)

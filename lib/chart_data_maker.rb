@@ -13,7 +13,7 @@ module ChartDataMaker
   # * forecast EV (forecast finish date)
   #
   # @param [CalculateEvm] evm evm calculation object
-  # @return [hash] chart data
+  # @return [Hash] chart data
   def evm_chart_data(evm)
     # kind of chart data
     plot_data_kind = %i[labels pv_actual pv_daily pv_baseline ac ev bac eac eac_daily ac_forecast ev_forecast]
@@ -55,7 +55,7 @@ module ChartDataMaker
   # Create data for display performance chart.
   #
   # @param [CalculateEvm] evm evm calculation object
-  # @return [hash] data for performance chart
+  # @return [Hash] data for performance chart
   def performance_chart_data(evm)
     chart_data = {}
     # less than basis date or finished date
@@ -85,8 +85,8 @@ module ChartDataMaker
 
   # EVM value of Each date. for performance chart.
   #
-  # @param [hash] evm_hash EVM hash
-  # @return [hash] EVM value of All date
+  # @param [Hash] evm_hash EVM hash
+  # @return [Hash] EVM value of All date
   def complement_evm_value(evm_hash)
     before_date = evm_hash.keys.min
     before_value = evm_hash[before_date]
@@ -120,7 +120,7 @@ module ChartDataMaker
   # Get duretion of chart
   #
   # @param [CalculateEvm] evm evm calculation object
-  # @return [hash] duration for chart
+  # @return [Hash] duration for chart
   def chart_duration(evm)
     # duration
     duration = {}
@@ -146,8 +146,8 @@ module ChartDataMaker
   # create forecast data
   #
   # @param [CalculateEvm] evm evm object
-  # @param [hash] chart_duration start date and end date for chart
-  # @return [hash] forechat data fro chart
+  # @param [Hash] chart_duration start date and end date for chart
+  # @return [Hash] forechat data fro chart
   def create_forecast_chart_data_source(evm, chart_duration)
     # init forecast chart data
     bac_top_line = {}
@@ -177,7 +177,7 @@ module ChartDataMaker
   # create evm chart data sourcea
   #
   # @param [CalculateEvm] evm evm object
-  # @return [hash] evm data for chart
+  # @return [Hash] evm data for chart
   def create_evm_chart_data_source(evm)
     # always within dyue date
     data_source = {}
@@ -194,10 +194,10 @@ module ChartDataMaker
 
   # calculate daily EAC
   #
-  # @param [numeric] bac BAC
-  # @param [hash] ev_hash EV adjusted for chart
-  # @param [hash] ac_hash AC adjusted for chart
-  # @return [hash] EAC daily
+  # @param [Numeric] bac BAC
+  # @param [Hash] ev_hash EV adjusted for chart
+  # @param [Hash] ac_hash AC adjusted for chart
+  # @return [Hash] EAC daily
   def calculate_eac_daily(bac, ev_hash, ac_hash)
     temp_hash = {}
     ev_hash.each do |ev_date, ev_value|
@@ -210,8 +210,8 @@ module ChartDataMaker
 
   # calculate spi
   #
-  # @param [numeric] ev_value EV value at the day
-  # @param [numeric] pv_value PV value at the day
+  # @param [Numeric] ev_value EV value at the day
+  # @param [Numeric] pv_value PV value at the day
   # @return [float] SPI
   def calculate_spi(ev_value, pv_value)
     if ev_value.nil? || pv_value.nil?
@@ -223,8 +223,8 @@ module ChartDataMaker
 
   # calculate cpi
   #
-  # @param [numeric] ev_value EV value at the day
-  # @param [numeric] ac_value AC value at the day
+  # @param [Numeric] ev_value EV value at the day
+  # @param [Numeric] ac_value AC value at the day
   # @return [float] CPI
   def calculate_cpi(ev_value, ac_value)
     if ev_value.nil? || ac_value.nil?
@@ -236,9 +236,9 @@ module ChartDataMaker
 
   # calculate cr
   #
-  # @param [numeric] ev_value EV value at the day
-  # @param [numeric] ac_value AC value at the day
-  # @param [numeric] pv_value PV value at the day
+  # @param [Numeric] ev_value EV value at the day
+  # @param [Numeric] ac_value AC value at the day
+  # @param [Numeric] pv_value PV value at the day
   # @return [float] CR
   def calculate_cr(ev_value, ac_value, pv_value)
     if ev_value.nil? || ac_value.nil? || pv_value.nil?

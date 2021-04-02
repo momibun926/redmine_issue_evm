@@ -13,8 +13,8 @@ module CalculateEvmLogic
 
     # Cumulative ac at target date
     #
-    # @param [date] target_date pv at target date
-    # @return [hash] cumulative at ac target date
+    # @param [Date] target_date pv at target date
+    # @return [Hash] cumulative at ac target date
     def cumulative_at(target_date)
       @cumulative.select { |k, _v| k <= target_date }
     end
@@ -23,8 +23,8 @@ module CalculateEvmLogic
 
     # Sort evm hash, Assending date.
     #
-    # @param [hash] evm_hash target issues of EVM
-    # @return [hash] Sorted EVM hash. Key:date, Value:EVM value
+    # @param [Hash] evm_hash target issues of EVM
+    # @return [Hash] Sorted EVM hash. Key:date, Value:EVM value
     def create_cumulative_evm(evm_hash)
       temp_hash = {}
       sum_value = 0.0
@@ -37,10 +37,10 @@ module CalculateEvmLogic
 
     # Add daily EVM value
     #
-    # @param [numeric] evm_value EVM value
-    # @param [numeric] value EVM value
-    # @param [numeric] done_ratio done ratio
-    # @return [numeric] after add value
+    # @param [Numeric] evm_value EVM value
+    # @param [Numeric] value EVM value
+    # @param [Numeric] done_ratio done ratio
+    # @return [Numeric] after add value
     def add_daily_evm_value(evm_value, value, done_ratio = 100)
       add_value = value.to_f * done_ratio.fdiv(100)
       evm_value.nil? ? add_value : evm_value.to_f + add_value
