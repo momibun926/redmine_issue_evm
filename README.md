@@ -5,16 +5,10 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-5.4.1
+5.5.0
 
 ## Compatibility
 Redmine 4.0.0 and above
-
-> *For those who like highchart graph display*
->
-> Charts are displayed using Chart.js from Version 5.0.
-> Use the following version for Highcharts graph display.
-> https://github.com/momibun926/redmine_issue_evm/releases/tag/4.6
 
 > *Notification*
 >
@@ -35,7 +29,7 @@ Redmine 4.0.0 and above
   * Satus
   * Days until due date
   * Amount of calculation issues
-  * Variance at baseline
+  * Variance at baseline and show issue list
   * Amount of issue. (version, assignee, tracker)
   * Chart of EVM(PV,EV,AC), Forecast is invalid when project is finished.
 * Common setting

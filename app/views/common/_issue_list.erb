@@ -1,0 +1,35 @@
+<%= raw display_no_data(issues) %>
+<% if issues.present? %>
+  <table class="list issue">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th><%=l(:issue_parent_id)%></th>
+        <th><%=l(:field_project)%></th>
+        <th><%=l(:field_subject)%></th>
+        <th><%=l(:field_status)%></th>
+        <th><%=l(:field_assigned_to)%></th>
+        <th><%=l(:field_version)%></th>
+        <th><%=l(:field_start_date)%></th>
+        <th><%=l(:field_due_date)%></th>
+        <th><%=l(:field_estimated_hours)%></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% issues.each do |issue| %>
+        <tr id="issue-<%= issue.id %>" class="<%= cycle("odd", "even") %> <%= issue.css_classes %>"></tr>
+          <td><%=link_to(issue.id, issue_path(issue))%></td>
+          <td><%=issue.parent_id%></td>
+          <td><%=issue.project%></td>
+          <td><%=issue.subject%></td>
+          <td><%=issue.status%></td>
+          <td><%=issue.assigned_to%></td>
+          <td><%=issue.fixed_version%></td>
+          <td><%=diff_start_date(issue.start_date, option_value[issue.id])%></td>
+          <td><%=diff_due_date(issue.due_date, option_value[issue.id])%></td>
+          <td><%=diff_estimate_hours(issue.estimated_hours, option_value[issue.id])%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

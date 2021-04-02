@@ -23,7 +23,7 @@ class Evmbaseline < ActiveRecord::Base
 
   # BAC of baseline.
   #
-  # @return [numeric] BAC of baseline
+  # @return [Numeric] BAC of baseline
   def bac
     evmbaselineIssues.sum(:estimated_hours).round(1)
   end

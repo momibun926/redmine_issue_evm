@@ -48,8 +48,8 @@ module IssueDataFetcher
 
   # Get descendants parent issue
   #
-  # @param [numeric] issue_id selected issue
-  # @return [issue] descendants issues
+  # @param [Numeric] issue_id selected issue
+  # @return [Issue] descendants issues
   def parent_issues(issue_id)
     Issue.joins(SQL_JOIN.to_s).
       where(SQL_COM.to_s).
@@ -60,8 +60,8 @@ module IssueDataFetcher
   # Get spent time of project.
   # Include descendants project.require inputted start date and due date.
   #
-  # @param [Object] proj project
-  # @return [hash] Two column,spent_on,sum of hours
+  # @param [Project] proj project
+  # @return [Hash] Two column,spent_on,sum of hours
   def evm_costs(proj, condition = " 1 = 1 ")
     Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
@@ -72,8 +72,8 @@ module IssueDataFetcher
 
   # Get spent time of parent issue
   #
-  # @param [numeric] issue_id selected issue
-  # @return [hash] Two column,spent_on,sum of hours
+  # @param [Numeric] issue_id selected issue
+  # @return [Hash] Two column,spent_on,sum of hours
   def parent_issue_costs(issue_id)
     Issue.joins(SQL_JOIN.to_s).
       where(SQL_COM.to_s).
@@ -85,7 +85,7 @@ module IssueDataFetcher
 
   # Get pair of project id and fixed version id.
   #
-  # @param [project] proj project object
+  # @param [Project] proj project object
   # @return [Array] project_id, fixed_version_id
   def project_varsion_id_pair(proj)
     Issue.cross_project_scope(proj, "descendants").
@@ -98,8 +98,8 @@ module IssueDataFetcher
   # Get assinee ids in project.
   # sort by assignee id.
   #
-  # @param [project] proj project object
-  # @return [issue] assigned_to_id
+  # @param [Project] proj project object
+  # @return [Issue] assigned_to_id
   def assignee_ids(proj)
     Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
@@ -110,8 +110,8 @@ module IssueDataFetcher
   # Selectable assinee list.
   # sort by assignee id.
   #
-  # @param [project] proj project object
-  # @return [hash] assigenee name, assigned_to_id
+  # @param [Project] proj project object
+  # @return [Hash] assigenee name, assigned_to_id
   def selectable_assignee_list(proj)
     ids = assignee_ids proj
     selectable_list = {}
@@ -124,8 +124,8 @@ module IssueDataFetcher
 
   # Selectable version list.
   #
-  # @param [project] proj project object
-  # @return [issue] fixed_version_id, versions.name
+  # @param [Project] proj project object
+  # @return [Issue] fixed_version_id, versions.name
   def selectable_version_list(proj)
     Issue.cross_project_scope(proj, "descendants").
       select(:fixed_version_id, "versions.name").
@@ -136,8 +136,8 @@ module IssueDataFetcher
 
   # Selectable tracker list
   #
-  # @param [project] proj project object
-  # @return [issue] tracker_id, name
+  # @param [Project] proj project object
+  # @return [Issue] tracker_id, name
   def selectable_tracker_list(proj)
     Issue.cross_project_scope(proj, "descendants").
       select(:tracker_id, "trackers.name").
@@ -148,8 +148,8 @@ module IssueDataFetcher
 
   # Selectable parent issue list
   #
-  # @param [project] proj project object
-  # @return [issue] parent issues
+  # @param [Project] proj project object
+  # @return [Issue] parent issues
   def selectable_parent_issues_list(proj)
     Issue.where(project_id: proj.id).
       select(:id, :subject).
@@ -159,8 +159,8 @@ module IssueDataFetcher
 
   # Get imcomplete issuees on basis date.
   #
-  # @param [project] proj project id
-  # @param [date] basis_date basis date
+  # @param [Project] proj project id
+  # @param [Date] basis_date basis date
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
     Issue.cross_project_scope(proj, "descendants").
@@ -172,9 +172,9 @@ module IssueDataFetcher
   # project metrics
   # collect basic information of project.
   #
-  # @param [project] proj project object
+  # @param [Project] proj project object
   # @param [calculateEVM] evm calculate EVN class instance
-  # @return [hash] project metrics
+  # @return [Hash] project metrics
   def project_metrics(proj, evm)
     metrics = {}
     # amount of total issue ids
@@ -197,22 +197,22 @@ module IssueDataFetcher
 
   # amount of issue in project
   #
-  # @return [numeric] array id total issues
+  # @return [Numeric] array id total issues
   def total_issue_amount(proj)
     Issue.cross_project_scope(proj, "descendants").pluck(:id)
   end
 
   # amount of issue in target
   #
-  # @return [numeric] array id of target issues
+  # @return [Numeric] array id of target issues
   def target_issue_amount(proj)
     Issue.cross_project_scope(proj, "descendants").where(SQL_COM.to_s).pluck(:id)
   end
 
   # amount of issue in version
   #
-  # @param [project] proj project object
-  # @return [hash] amount of issues. each versions.
+  # @param [Project] proj project object
+  # @return [Hash] amount of issues. each versions.
   def count_version_list(proj)
     Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
@@ -222,8 +222,8 @@ module IssueDataFetcher
 
   # amount of issue in assignee
   #
-  # @param [project] proj project object
-  # @return [hash] count of issues. each assignees (include noassign).
+  # @param [Project] proj project object
+  # @return [Hash] count of issues. each assignees (include noassign).
   def count_assignee_list(proj)
     issues = Issue.cross_project_scope(proj, "descendants").
                where(SQL_COM.to_s).
@@ -238,8 +238,8 @@ module IssueDataFetcher
 
   # amount of issue in tracker
   #
-  # @param [project] proj project object
-  # @return [hash] count of issues. each trackers.
+  # @param [Project] proj project object
+  # @return [Hash] count of issues. each trackers.
   def count_tracker_list(proj)
     Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
@@ -250,8 +250,8 @@ module IssueDataFetcher
   # user name
   # include nil. When userid is nil, no assigned name.
   #
-  # @param [numeric] id assignee id or user group id
-  # @return [string] assignee name or user group name
+  # @param [Numeric] id assignee id or user group id
+  # @return [String] assignee name or user group name
   def assignee_name(id)
     return l(:no_assignee) if id.blank?
 
@@ -260,8 +260,8 @@ module IssueDataFetcher
 
   # children of parent isuue
   #
-  # @param [issue] issue parent issue
-  # @return [issue] cildren issue
+  # @param [Issue] issue parent issue
+  # @return [Issue] cildren issue
   def issue_child(issue)
     Issue.where(root_id: issue.root_id).
       where("lft > ? AND rgt < ?", issue.lft, issue.rgt).
@@ -270,13 +270,46 @@ module IssueDataFetcher
 
   # latest setted done ratio journal
   #
-  # @param [issue] issue issue record
-  # @param [date] basis_date basis date
-  # @return [journal] first of journals
+  # @param [Issue] issue issue record
+  # @param [Date] basis_date basis date
+  # @return [Journal] first of journals
   def issue_journal(issue, basis_date)
     Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
       where("created_on <= ?", basis_date.end_of_day).
       includes(:details).
       order("journals.created_on")
+  end
+
+  # new issues with a difference from Baseline
+  #
+  # @param [Hash] actual_issue issue detail.
+  # @param [Hash] baseline_issue baseline detail.
+  # @return [Issue] new issue issues.
+  def diff_new_issues(actual_issue, baseline_issue)
+    ids = actual_issue.keys - baseline_issue.keys
+    Issue.find(ids)
+  end
+
+  # remove issues with a difference from Baseline
+  #
+  # @param [Hash] actual_issue issue detail.
+  # @param [Hash] baseline_issue baseline detail.
+  # @return [Issue] remove issue issues.
+  def diff_remove_issues(actual_issue, baseline_issue)
+    ids = baseline_issue.keys - actual_issue.keys
+    Issue.find(ids)
+  end
+
+  # modify issues with a difference from Baseline
+  #
+  # @param [Hash] actual_issue issue detail.
+  # @param [Hash] baseline_issue baseline detail.
+  # @return [Issue] modify issue issues.
+  def diff_modify_issues(actual_issue, baseline_issue)
+    ids = []
+    (actual_issue.keys & baseline_issue.keys).each do |id|
+      ids << id unless actual_issue[id] == baseline_issue[id]
+    end
+    Issue.find(ids)
   end
 end

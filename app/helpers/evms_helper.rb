@@ -4,8 +4,8 @@ module EvmsHelper
 
   # Get used baseline name
   #
-  # @param [baseline] baseline baseline
-  # @param [numeric] baseline_id baseline id
+  # @param [Evmbaseline] baseline baseline
+  # @param [Numeric] baseline_id baseline id
   # @return [String] balseline name (subject)
   def used_baseline_name(baseline, baseline_id)
     "#{l(:label_baseline)} : #{baseline.find(baseline_id).subject}" if baseline_id.present?
@@ -14,7 +14,7 @@ module EvmsHelper
   # Get baseline difference color
   # Except No change is red
   #
-  # @param [string] str difference string
+  # @param [String] str difference string
   # @return [String] CSS class, except no change is red.
   def difference_color(str)
     value = str == l(:no_changed) ? "" : "difference-red"

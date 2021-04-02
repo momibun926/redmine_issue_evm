@@ -18,6 +18,9 @@
   subtitle_es_indicator: Earned Schedule
   subtitle_evm_incomplete_issues: Incomplete Issues
   subtitle_evm_exclude_issues: Exclude issues
+  subtitle_evm_modify_issues: Modify issues
+  subtitle_evm_new_issues: New issues
+  subtitle_evm_remove_issues: Remove issues
   subtitle_evm_chart_main: EVM Charts
   subtitle_evm_chart_performance: Performance Charts
 
@@ -40,6 +43,7 @@
   overdue: Over due date
   before_plan: Before project start date
   within_duration: Within the project period
+  more_difference_details: Show more details...
 
   # Indicator table header
   indicator_table_header_date: Status date
@@ -154,7 +158,7 @@
   tab_display_name: EVM
 
   # incomplete_issue
-  incomplete_issue_parent_id: Parent#
+  issue_parent_id: Parent#
 
   # EVM of assignee
   no_assignee: no assigned

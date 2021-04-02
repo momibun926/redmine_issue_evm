@@ -46,7 +46,9 @@
                 project_metrics: @project_metrics,
                 use_baseline: @project_evm.pv_baseline,
                 baseline_variance: @baseline_variance,
-                finished_date: @project_evm.finished_date } %>
+                finished_date: @project_evm.finished_date,
+                project: @project,
+                cfg_param: @cfg_param } %>
   <!--Indicator value of EVM -->
   <h3><%= l(:subtitle_evm_indicator)%></h3>
   <%= render partial: "/evms/measure_evm",
@@ -79,11 +81,6 @@
   <!-- Incomplete issue list -->
   <% if @cfg_param[:display_incomplete] %>
     <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
-    <% if @no_data_incomplete_issues %>
-      <p class="nodata"><%= l(:label_no_data) %></p>
-    <% else %>
-      <%= render partial: "/evms/incomplete_issue_list",
-          locals: { incomplete_issues: @incomplete_issues } %>
-    <% end %>
+    <%= render partial: "/common/issue_list", locals: { issues: @incomplete_issues, option_value: {} } %>
   <% end %>
 <% end %>
