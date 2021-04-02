@@ -30,7 +30,7 @@ module CommonHelper
   # Convert date to labels on chart.js
   #
   # @param [Date] date date on chart.js eAxis
-  # @return [number] data for labels on chart.js
+  # @return [Numeric] data for labels on chart.js
   def convert_to_labels(date)
     date.to_time.to_i * 1000
   end
