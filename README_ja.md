@@ -10,13 +10,6 @@
 # 動作環境
 Redmine 4.0.0 以上
 
-> *Highchartのグラフ表示が好きな方へ*
->
-> Version5.0からChart.jsを使ってグラフの表示を行っています。
-> Highchartsのグラフ表示が好きな方は下記のバージョンをお使いください。
->
-> https://github.com/momibun926/redmine_issue_evm/releases/tag/4.6
-
 > *redmine3.4.xをお使いの方へ*
 >
 > Redmine3.4.xの対応版は、ブランチ"Redmine3-4-3"を取得してください。

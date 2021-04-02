@@ -10,12 +10,6 @@ This plugin provides the function of calculating evm of projects . EVM can help 
 ## Compatibility
 Redmine 4.0.0 and above
 
-> *For those who like highchart graph display*
->
-> Charts are displayed using Chart.js from Version 5.0.
-> Use the following version for Highcharts graph display.
-> https://github.com/momibun926/redmine_issue_evm/releases/tag/4.6
-
 > *Notification*
 >
 > The redmine3.4.x compatible version in branch "redmine3-4-3".
