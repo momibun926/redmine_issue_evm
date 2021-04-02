@@ -280,7 +280,7 @@ module IssueDataFetcher
       order("journals.created_on")
   end
 
-  # difference of new issues
+  # new issues with a difference from Baseline
   #
   # @param [Hash] actual_issue issue detail.
   # @param [Hash] baseline_issue baseline detail.
@@ -290,7 +290,7 @@ module IssueDataFetcher
     Issue.find(ids)
   end
 
-  # difference of remove issues
+  # remove issues with a difference from Baseline
   #
   # @param [Hash] actual_issue issue detail.
   # @param [Hash] baseline_issue baseline detail.
@@ -300,7 +300,7 @@ module IssueDataFetcher
     Issue.find(ids)
   end
 
-  # difference of modify issues
+  # modify issues with a difference from Baseline
   #
   # @param [Hash] actual_issue issue detail.
   # @param [Hash] baseline_issue baseline detail.
