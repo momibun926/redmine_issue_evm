@@ -24,14 +24,20 @@
   <% @version_evm.each do |ver_id, evm| %>
     <h3><%= evm.description %></h3>
     <!-- EVN value -->
-    <%= render partial: "/common/basic_evm_value", locals: { evm: evm, cfg_param: @cfg_param } %>
+    <section>
+      <h4><%= l(:subtitle_evm_indicator)%></h4>
+      <%= render partial: "/common/basic_evm_value", locals: { evm: evm, cfg_param: @cfg_param } %>
+    </section>
     <br>
     <!-- Charts -->
-    <%= render partial: "/common/basic_evm_chart_js",
-        locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
-                  chart_data: @version_evm_chart[ver_id],
-                  basis_date_label: basis_date_label(evm.finished_date),
-                  id: ver_id,
-                  tittle: evm.description } %>
+    <section>
+      <h4><%= l(:subtitle_evm_chart_main) %></h4>
+      <%= render partial: "/common/basic_evm_chart_js",
+          locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
+                    chart_data: @version_evm_chart[ver_id],
+                    basis_date_label: basis_date_label(evm.finished_date),
+                    id: ver_id,
+                    tittle: evm.description } %>
+    </section>
   <% end %>
 </section>

@@ -24,15 +24,21 @@
   <% @assignee_evm.each do |assignee_id, evm| %>
     <h3><%= evm.description %></h3>
     <!-- EVN value -->
-    <%= render partial: "/common/basic_evm_value", locals: { evm: evm, cfg_param: @cfg_param } %>
+    <section>
+      <h4><%= l(:subtitle_evm_indicator)%></h4>
+      <%= render partial: "/common/basic_evm_value", locals: { evm: evm, cfg_param: @cfg_param } %>
+    </section>
     <br>
     <!-- Charts -->
-    <%= render partial: "/evmassignees/assignee_evm_chart_js",
-        locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
-                  chart_data: @assignee_evm_chart[assignee_id],
-                  working_hours: @cfg_param[:working_hours],
-                  basis_date_label: basis_date_label(evm.finished_date),
-                  id: assignee_id,
-                  tittle: evm.description } %>
+    <section>
+      <h4><%= l(:subtitle_evm_chart_main) %></h4>
+      <%= render partial: "/evmassignees/assignee_evm_chart_js",
+          locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
+                    chart_data: @assignee_evm_chart[assignee_id],
+                    working_hours: @cfg_param[:working_hours],
+                    basis_date_label: basis_date_label(evm.finished_date),
+                    id: assignee_id,
+                    tittle: evm.description } %>
+    </section>
   <% end %>
 </section>

@@ -24,14 +24,20 @@
   <% if @cfg_param[:selected_tracker_id].present? %>
     <h3><%= @tracker_evm.description %></h3>
     <!-- EVN value -->
-    <%= render partial: "/common/basic_evm_value", locals: { evm: @tracker_evm, cfg_param: @cfg_param } %>
+    <section>
+      <h4><%= l(:subtitle_evm_indicator)%></h4>
+      <%= render partial: "/common/basic_evm_value", locals: { evm: @tracker_evm, cfg_param: @cfg_param } %>
+    </section>
     <br>
     <!-- Charts -->
-    <%= render partial: "/common/basic_evm_chart_js",
-        locals: { basis_date: convert_to_labels(@tracker_evm.finished_date || @cfg_param[:basis_date]),
-                  chart_data: @tracker_evm_chart,
-                  basis_date_label: basis_date_label(@tracker_evm.finished_date),
-                  id: "1",
-                  tittle: @tracker_evm.description } %>
+    <section>
+      <h4><%= l(:subtitle_evm_chart_main) %></h4>
+      <%= render partial: "/common/basic_evm_chart_js",
+          locals: { basis_date: convert_to_labels(@tracker_evm.finished_date || @cfg_param[:basis_date]),
+                    chart_data: @tracker_evm_chart,
+                    basis_date_label: basis_date_label(@tracker_evm.finished_date),
+                    id: "1",
+                    tittle: @tracker_evm.description } %>
+    </section>
   <% end %>
 </section>
