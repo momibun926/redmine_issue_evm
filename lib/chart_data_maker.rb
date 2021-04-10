@@ -25,7 +25,7 @@ module ChartDataMaker
     chart_duration = chart_duration(evm)
 
     # EVM chart
-    evm_data_source = create_evm_chart_data_source evm
+    evm_data_source = create_evm_chart_data_source(evm)
     (chart_duration[:start_date]..chart_duration[:end_date]).each do |chart_date|
       plot_data[:labels] << chart_date.to_time.to_i * 1000
       plot_data[:pv_baseline] << evm_round(evm_data_source[:pv_baseline][chart_date]) if evm.pv_baseline.present?
@@ -36,7 +36,7 @@ module ChartDataMaker
 
     # forecast chart
     if evm.forecast
-      forecast_data_source = create_forecast_chart_data_source evm, chart_duration
+      forecast_data_source = create_forecast_chart_data_source(evm, chart_duration)
       (chart_duration[:start_date]..chart_duration[:end_date]).each do |chart_date|
         plot_data_kind_forecast.each do |kind|
           plot_data[kind] << evm_round(forecast_data_source[kind][chart_date])
@@ -60,11 +60,11 @@ module ChartDataMaker
     chart_data = {}
     # less than basis date or finished date
     chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
-    adjusted_ev = evm.ev.cumulative_at chart_adjust_date
-    new_ev = complement_evm_value adjusted_ev
-    adjusted_ac = evm.ac.cumulative_at chart_adjust_date
-    new_ac = complement_evm_value adjusted_ac
-    new_pv = complement_evm_value evm.pv.cumulative
+    adjusted_ev = evm.ev.cumulative_at(chart_adjust_date)
+    new_ev = complement_evm_value(adjusted_ev)
+    adjusted_ac = evm.ac.cumulative_at(chart_adjust_date)
+    new_ac = complement_evm_value(adjusted_ac)
+    new_pv = complement_evm_value(evm.pv.cumulative)
     chart_duration = chart_duration(evm)
     labels = []
     spi = []
@@ -181,14 +181,14 @@ module ChartDataMaker
   def create_evm_chart_data_source(evm)
     # always within dyue date
     data_source = {}
-    data_source[:pv_actual] = evm.pv_actual.cumulative_at evm.pv_actual.due_date
-    data_source[:pv_baseline] = evm.pv_baseline.cumulative_at evm.pv_baseline.due_date if evm.pv_baseline.present?
+    data_source[:pv_actual] = evm.pv_actual.cumulative_at(evm.pv_actual.due_date)
+    data_source[:pv_baseline] = evm.pv_baseline.cumulative_at(evm.pv_baseline.due_date) if evm.pv_baseline.present?
     data_source[:pv_daily] = evm.pv.daily
     # less than basis date or finished date
     chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
-    data_source[:ev] = evm.ev.cumulative_at chart_adjust_date
-    data_source[:ac] = evm.ac.cumulative_at chart_adjust_date
-    data_source[:eac_daily] = calculate_eac_daily evm.bac, data_source[:ev], data_source[:ac]
+    data_source[:ev] = evm.ev.cumulative_at(chart_adjust_date)
+    data_source[:ac] = evm.ac.cumulative_at(chart_adjust_date)
+    data_source[:eac_daily] = calculate_eac_daily(evm.bac, data_source[:ev], data_source[:ac])
     data_source
   end
 
@@ -202,7 +202,7 @@ module ChartDataMaker
     temp_hash = {}
     ev_hash.each do |ev_date, ev_value|
       ac_value = ac_hash.select { |ac_date, _value| (ac_date <= ev_date) }.values.max
-      cpi_value = calculate_spi ev_value, ac_value
+      cpi_value = calculate_spi(ev_value, ac_value)
       temp_hash[ev_date] = ac_value + ((bac - ev_value) / cpi_value) unless cpi_value.nil?
     end
     temp_hash

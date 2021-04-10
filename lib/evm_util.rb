@@ -12,9 +12,9 @@ module EvmUtil
     pv_baseline = project_evm.pv_baseline
     project_state = {}
     if pv_baseline.present?
-      project_state[:bac] = check_bac_variance pv_actual.bac.round(2), pv_baseline.bac.round(2)
-      project_state[:due_date] = check_due_date_variance pv_actual.due_date, pv_baseline.due_date
-      project_state[:schedule] = check_pv_daily_variance pv_actual.daily, pv_baseline.daily
+      project_state[:bac] = check_bac_variance(pv_actual.bac.round(2), pv_baseline.bac.round(2))
+      project_state[:due_date] = check_due_date_variance(pv_actual.due_date, pv_baseline.due_date)
+      project_state[:schedule] = check_pv_daily_variance(pv_actual.daily, pv_baseline.daily)
     end
     project_state
   end

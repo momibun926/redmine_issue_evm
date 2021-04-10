@@ -12,9 +12,9 @@ class EvmexcludesController < BaseevmController
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
     # total amount
-    total_issue_ids = total_issue_amount @project
+    total_issue_ids = total_issue_amount(@project)
     # target amount
-    target_issue_ids = target_issue_amount @project
+    target_issue_ids = target_issue_amount(@project)
     # exclude amount
     exclude_issus_ids = total_issue_ids - target_issue_ids
     # exclude issues

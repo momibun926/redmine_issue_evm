@@ -17,7 +17,7 @@ class EvmbaselinesController < BaseevmController
   def new
     @evm_baselines = Evmbaseline.new
     @evm_baselines.based_on = Time.zone.today
-    issues = evm_issues @project
+    issues = evm_issues(@project)
     @start_date = issues.minimum(:start_date)
     @due_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
     @bac = issues.sum(:estimated_hours).to_f

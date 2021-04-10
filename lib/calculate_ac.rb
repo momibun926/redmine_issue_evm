@@ -29,7 +29,7 @@ module CalculateEvmLogic
       # basis date
       @daily[@basis_date] ||= 0.0
       # cumulative AC
-      @cumulative = create_cumulative_evm @daily
+      @cumulative = create_cumulative_evm(@daily)
       @cumulative.reject! { |k, _v| @basis_date < k }
     end
 

@@ -11,20 +11,17 @@ class EvmbaselinediffdetailsController < BaseevmController
   def index
     # baseline
     @cfg_param[:baseline_id] = params[:baseline_id]
-    baselines = project_baseline params[:baseline_id]
+    baselines = project_baseline(params[:baseline_id])
     # issues of project include disendants
-    issues = evm_issues @project
+    issues = evm_issues(@project)
     # issue detail
     actual_issue = actual_issue_some_info issues
     # baseline detail
     @baseline_issue = baseline_issue_some_info baselines
     # get issue data
-    @modify_issues = diff_modify_issues actual_issue,
-                                        @baseline_issue
-    @new_issues = diff_new_issues actual_issue,
-                                  @baseline_issue
-    @remove_issues = diff_remove_issues actual_issue,
-                                        @baseline_issue
+    @modify_issues = diff_modify_issues(actual_issue, @baseline_issue)
+    @new_issues = diff_new_issues(actual_issue, @baseline_issue)
+    @remove_issues = diff_remove_issues(actual_issue, @baseline_issue)
   end
 
   private
