@@ -17,22 +17,24 @@
   <!-- Content of view option -->
   <% content_for :additional_option do %>
     <!-- calculate use baseline -->
-    <div class="option-col">
-      <p><%= l(:label_baseline_use) %></p>
-      <%= check_box_tag :no_use_baseline, "true",
-                        @cfg_param[:no_use_baseline],
-                        onclick: "disableobject('evmbaseline_id', this.checked);"%>
-      <%= label_tag l(:label_no_use_baseline) %>
-      <%= select_tag :evmbaseline_id,
-                      options_from_collection_for_select(@selectable_baseline, :id, :subject,
-                                                         @cfg_param[:baseline_id]),
-                                                         disabled: @cfg_param[:no_use_baseline] %>
+    <div class="evm-div-col">
+      <fieldset><legend><%= l(:label_baseline_use) %></legend>
+        <%= check_box_tag :no_use_baseline, "true",
+                          @cfg_param[:no_use_baseline],
+                          onclick: "disableobject('evmbaseline_id', this.checked);"%>
+        <%= label_tag l(:label_no_use_baseline) %>
+        <%= select_tag :evmbaseline_id,
+                        options_from_collection_for_select(@selectable_baseline, :id, :subject,
+                                                          @cfg_param[:baseline_id]),
+                                                          disabled: @cfg_param[:no_use_baseline] %>
+      </fieldset>
     </div>
     <!-- explanation evm -->
-    <div class="option-col">
-      <p><%= l(:label_explanation) %></p>
-      <%= check_box_tag :display_explanation, "true", @cfg_param[:display_explanation] %>
-      <%= label_tag l(:label_display_explanation) %>
+    <div class="evm-div-col">
+      <fieldset><legend><%= l(:label_explanation) %></legend>
+        <%= check_box_tag :display_explanation, "true", @cfg_param[:display_explanation] %>
+        <%= label_tag l(:label_display_explanation) %>
+      </fieldset>
     </div>
   <% end %>
   <!-- view option -->

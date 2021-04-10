@@ -8,12 +8,13 @@
 <!-- Content of view option -->
 <% content_for :additional_option do %>
   <!-- select trackers -->
-  <div class="option-col">
-    <p><%= l(:label_select_trackers) %></p>
-    <%= select_tag :selected_tracker_id,
-        options_from_collection_for_select(@selectable_tracker, :tracker_id, :name,
-                                           @cfg_param[:selected_tracker_id]),
-                                           { multiple: true, size: 5 }%>
+  <div class="evm-div-col">
+    <fieldset><legend><%= l(:label_select_trackers) %></legend>
+      <%= select_tag :selected_tracker_id,
+          options_from_collection_for_select(@selectable_tracker, :tracker_id, :name,
+                                            @cfg_param[:selected_tracker_id]),
+                                            { multiple: true, size: 5 }%>
+    </fieldset>
   </div>
 <% end %>
 <!-- view option -->

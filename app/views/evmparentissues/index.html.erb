@@ -8,12 +8,13 @@
 <!-- Content of view option -->
 <% content_for :additional_option do %>
   <!-- selectable parent issues -->
-  <div class="option-col">
-    <p><%= l(:label_select_parent_issue) %></p>
-    <%= select_tag :selected_parent_issue_id,
-        options_from_collection_for_select(@selectable_parent_issue, :id, :subject,
-                                           @cfg_param[:selected_parent_issue_id]),
-                                           { multiple: true, size: 5 }%>
+  <div class="evm-div-col">
+    <fieldset><legend><%= l(:label_select_parent_issue) %></legend>
+      <%= select_tag :selected_parent_issue_id,
+          options_from_collection_for_select(@selectable_parent_issue, :id, :subject,
+                                            @cfg_param[:selected_parent_issue_id]),
+                                            { multiple: true, size: 5 }%>
+    </fieldset>
   </div>
 <% end %>
 <!-- view option -->

@@ -8,12 +8,13 @@
 <!-- Content of view option -->
 <% content_for :additional_option do %>
   <!-- selectable assignee -->
-  <div class="option-col">
-    <p><%= l(:label_select_assignee) %></p>
-    <%= select_tag :selected_assignee_id,
-        options_for_select(@selectable_assignees,
-                           @cfg_param[:selected_assignee_id]),
-                           { multiple: true, size: 5 }%>
+  <div class="evm-div-col">
+    <fieldset><legend><%= l(:label_select_assignee) %></legend>
+      <%= select_tag :selected_assignee_id,
+          options_for_select(@selectable_assignees,
+                            @cfg_param[:selected_assignee_id]),
+                            { multiple: true, size: 5 }%>
+    </fieldset>
   </div>
 <% end %>
 <!-- view option -->
