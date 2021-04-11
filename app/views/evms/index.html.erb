@@ -17,70 +17,84 @@
   <!-- Content of view option -->
   <% content_for :additional_option do %>
     <!-- calculate use baseline -->
-    <div class="option-col">
-      <p><%= l(:label_baseline_use) %></p>
-      <%= check_box_tag :no_use_baseline, "true",
-                        @cfg_param[:no_use_baseline],
-                        onclick: "disableobject('evmbaseline_id', this.checked);"%>
-      <%= label_tag l(:label_no_use_baseline) %>
-      <%= select_tag :evmbaseline_id,
-                      options_from_collection_for_select(@selectable_baseline, :id, :subject,
-                                                         @cfg_param[:baseline_id]),
-                                                         disabled: @cfg_param[:no_use_baseline] %>
+    <div class="evm-div-col">
+      <fieldset><legend><%= l(:label_baseline_use) %></legend>
+        <%= check_box_tag :no_use_baseline, "true",
+                          @cfg_param[:no_use_baseline],
+                          onclick: "disableobject('evmbaseline_id', this.checked);"%>
+        <%= label_tag l(:label_no_use_baseline) %>
+        <%= select_tag :evmbaseline_id,
+                        options_from_collection_for_select(@selectable_baseline, :id, :subject,
+                                                          @cfg_param[:baseline_id]),
+                                                          disabled: @cfg_param[:no_use_baseline] %>
+      </fieldset>
     </div>
     <!-- explanation evm -->
-    <div class="option-col">
-      <p><%= l(:label_explanation) %></p>
-      <%= check_box_tag :display_explanation, "true", @cfg_param[:display_explanation] %>
-      <%= label_tag l(:label_display_explanation) %>
+    <div class="evm-div-col">
+      <fieldset><legend><%= l(:label_explanation) %></legend>
+        <%= check_box_tag :display_explanation, "true", @cfg_param[:display_explanation] %>
+        <%= label_tag l(:label_display_explanation) %>
+      </fieldset>
     </div>
   <% end %>
   <!-- view option -->
   <%= render partial: "/common/option_field"%>
   <!--metrics-->
-  <h3><%= l(:subtitle_evm_summary)%></h3>
-  <%= render partial: "/evms/metrics",
-      locals: { version_list: @count_version_list,
-                assignee_list: @count_assignee_list,
-                tracker_list: @count_tracker_list,
-                project_metrics: @project_metrics,
-                use_baseline: @project_evm.pv_baseline,
-                baseline_variance: @baseline_variance,
-                finished_date: @project_evm.finished_date,
-                project: @project,
-                cfg_param: @cfg_param } %>
+  <section>
+    <h4><%= l(:subtitle_evm_summary)%></h4>
+    <%= render partial: "/evms/metrics",
+        locals: { version_list: @count_version_list,
+                  assignee_list: @count_assignee_list,
+                  tracker_list: @count_tracker_list,
+                  project_metrics: @project_metrics,
+                  use_baseline: @project_evm.pv_baseline,
+                  baseline_variance: @baseline_variance,
+                  finished_date: @project_evm.finished_date,
+                  project: @project,
+                  cfg_param: @cfg_param } %>
+  </section>
   <!--Indicator value of EVM -->
-  <h3><%= l(:subtitle_evm_indicator)%></h3>
-  <%= render partial: "/evms/measure_evm",
-      locals: { project_evm: @project_evm,
-                cfg_param: @cfg_param } %>
+  <section>
+    <h4><%= l(:subtitle_evm_indicator)%></h4>
+    <%= render partial: "/evms/measure_evm",
+        locals: { project_evm: @project_evm,
+                  cfg_param: @cfg_param } %>
+  </section>
   <!--Indicator value of ES -->
-  <h3><%= l(:subtitle_es_indicator)%></h3>
-  <%= render partial: "/evms/measure_es",
-      locals: { project_evm: @project_evm,
-                cfg_param: @cfg_param } %>
+  <section>
+    <h4><%= l(:subtitle_es_indicator)%></h4>
+    <%= render partial: "/evms/measure_es",
+        locals: { project_evm: @project_evm,
+                  cfg_param: @cfg_param } %>
+  </section>
   <!-- Exports -->
   <% other_formats_links do |f| %>
     <%= f.link_to "CSV", :url => {:action => :index} %>
   <% end %>
   <!-- Main Chart -->
-  <h3><%= l(:subtitle_evm_chart_main) %></h3>
-  <h4><%= used_baseline_name(@selectable_baseline, @cfg_param[:baseline_id]) %></h4>
-  <%= render partial: "/evms/project_chart_js",
-      locals: { basis_date: convert_to_labels(@project_evm.finished_date || @cfg_param[:basis_date]),
-                chart_data: @evm_chart_data,
-                basis_date_label: basis_date_label(@project_evm.finished_date) }%>
+  <section>
+    <h4><%= l(:subtitle_evm_chart_main) %></h4>
+    <B><%= used_baseline_name(@selectable_baseline, @cfg_param[:baseline_id]) %></B>
+    <%= render partial: "/evms/project_chart_js",
+        locals: { basis_date: convert_to_labels(@project_evm.finished_date || @cfg_param[:basis_date]),
+                  chart_data: @evm_chart_data,
+                  basis_date_label: basis_date_label(@project_evm.finished_date) }%>
+  </section>
   <br>
   <!-- Performance Chart -->
   <% if @cfg_param[:display_performance] %>
-    <h3><%= l(:subtitle_evm_chart_performance) %></h3>
-    <%= render partial: "/evms/performance_chart_js",
-        locals: { basis_date: convert_to_labels(@cfg_param[:basis_date]) ,
-                  performance_chart_data: @performance_chart_data} %>
+    <section>
+      <h4><%= l(:subtitle_evm_chart_performance) %></h4>
+      <%= render partial: "/evms/performance_chart_js",
+          locals: { basis_date: convert_to_labels(@cfg_param[:basis_date]) ,
+                    performance_chart_data: @performance_chart_data} %>
+    </section>
   <% end %>
   <!-- Incomplete issue list -->
   <% if @cfg_param[:display_incomplete] %>
-    <h3><%= l(:subtitle_evm_incomplete_issues) %></h3>
-    <%= render partial: "/common/issue_list", locals: { issues: @incomplete_issues, option_value: {} } %>
+    <section>
+      <h4><%= l(:subtitle_evm_incomplete_issues) %></h4>
+      <%= render partial: "/common/issue_list", locals: { issues: @incomplete_issues, option_value: {} } %>
+    </section>
   <% end %>
 <% end %>

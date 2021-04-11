@@ -1,6 +1,6 @@
-<div class="metrics-col">
+<div class="evm-div-col">
   <fieldset><legend><%= l(:Indicator_metrics) %></legend>
-  <table id="metrics-col">
+  <table>
     <tr>
       <td align="right"><%= l(:indicator_target_issues_count) %>:</td>
       <td><%= project_metrics[:target_issue_ids] %> / <%= project_metrics[:total_issue_ids] %></td>
@@ -21,9 +21,9 @@
   </fieldset>
 </div>
 <% if use_baseline %>
-  <div class="metrics-col">
+  <div class="evm-div-col">
     <fieldset><legend><%= l(:indicator_baseline_variance) %></legend>
-    <table id="metrics-col">
+    <table>
       <tr>
         <td align="right"><%= l(:indicator_bac) %>:</td>
         <td><%=difference_color(baseline_variance[:bac])%></td>
@@ -41,10 +41,10 @@
     </fieldset>
   </div>
 <% end %>
-<div class="metrics-col">
+<div class="evm-div-col">
   <% if version_list.present? %>
     <fieldset><legend><%=l(:field_version)%></legend>
-    <table id="metrics-table">
+    <table>
       <% version_list.each do |name, count| %>
         <tr>
           <td><%= name %></td>
@@ -55,7 +55,7 @@
     </fieldset>
   <% end %>
 </div>
-<div class="metrics-col">
+<div class="evm-div-col">
   <fieldset><legend><%=l(:field_assigned_to)%></legend>
   <table id="metrics-table">
     <% assignee_list.each do |name, count| %>
@@ -67,9 +67,9 @@
   </table>
   </fieldset>
 </div>
-<div class="metrics-col">
+<div class="evm-div-col">
   <fieldset><legend><%=l(:field_tracker)%></legend>
-  <table id="metrics-table">
+  <table>
     <% tracker_list.each do |name, count| %>
       <tr>
         <td><%= name %></td>

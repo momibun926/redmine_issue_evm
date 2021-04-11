@@ -30,7 +30,7 @@ module CalculateEvmLogic
       # exclude holiday
       @holiday_exclude = exclude_holiday
       # daily PV
-      @daily = calculate_planed_value issues
+      @daily = calculate_planed_value(issues)
       # planed start date
       @start_date = @daily.keys.min || @basis_date
       # planed due date
@@ -40,7 +40,7 @@ module CalculateEvmLogic
       # basis date
       @daily[@basis_date] ||= 0.0
       # cumulative PV
-      @cumulative = create_cumulative_evm @daily
+      @cumulative = create_cumulative_evm(@daily)
       # Rest days
       @rest_days = @basis_date > @due_date ? 0 : amount_working_days(@basis_date, @due_date)
     end
@@ -107,10 +107,10 @@ module CalculateEvmLogic
       temp_pv = {}
       Array(issues).each do |issue|
         issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
-        pv_days = working_days issue.start_date, issue.due_date
-        hours_per_day = issue_hours_per_day issue.estimated_hours.to_f, pv_days.length
+        pv_days = working_days(issue.start_date, issue.due_date)
+        hours_per_day = issue_hours_per_day(issue.estimated_hours.to_f, pv_days.length)
         pv_days.each do |date|
-          temp_pv[date] = add_daily_evm_value temp_pv[date], hours_per_day
+          temp_pv[date] = add_daily_evm_value(temp_pv[date], hours_per_day)
         end
       end
       temp_pv

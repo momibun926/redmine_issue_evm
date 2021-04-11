@@ -50,16 +50,16 @@ module CalculateEvmLogic
       @exclude_holiday = options[:exclude_holiday]
       @region = options[:region]
       # EV
-      @ev = CalculateEv.new @basis_date, issues
+      @ev = CalculateEv.new(@basis_date, issues)
       # AC
-      @ac = CalculateAc.new @basis_date, costs
+      @ac = CalculateAc.new(@basis_date, costs)
       # PV Actual
-      @pv_actual = CalculatePv.new @basis_date, issues, @region, @exclude_holiday
+      @pv_actual = CalculatePv.new(@basis_date, issues, @region, @exclude_holiday)
       # PV Baseline or PV actual
-      @pv_baseline = CalculatePv.new @basis_date, baselines, @region, @exclude_holiday if baselines.present?
+      @pv_baseline = CalculatePv.new(@basis_date, baselines, @region, @exclude_holiday) if baselines.present?
       @pv = @pv_baseline || @pv_actual
       # Finished date is set when project is finished
-      @finished_date = check_finished_date @ev, @pv
+      @finished_date = check_finished_date(@ev, @pv)
       # Forecast is invalid when project is finished
       @forecast = false if @finished_date.present?
       # project state, EV and PV
@@ -226,7 +226,7 @@ module CalculateEvmLogic
     def etc(hours = 1)
       return 0.0 if today_cpi(hours).zero? || today_cr(hours).zero?
 
-      div_value = etc_div_value hours
+      div_value = etc_div_value(hour)
       etc = (bac(hours) - today_ev(hours)) / div_value
       etc.round(1)
     end
@@ -301,8 +301,8 @@ module CalculateEvmLogic
     def to_csv
       Redmine::Export::CSV.generate do |csv|
         # date range
-        csv_min_date = [@ev.min_date, @ac.min_date, @pv.start_date].min
-        csv_max_date = [@ev.max_date, @ac.max_date, @pv.due_date].max
+        csv_min_date   = [@ev.min_date, @ac.min_date, @pv.start_date].min
+        csv_max_date   = [@ev.max_date, @ac.max_date, @pv.due_date].max
         evm_date_range = (csv_min_date..csv_max_date).to_a
         # title
         csv << ["DATE", evm_date_range].flatten!

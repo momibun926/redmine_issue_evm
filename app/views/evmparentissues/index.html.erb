@@ -8,12 +8,13 @@
 <!-- Content of view option -->
 <% content_for :additional_option do %>
   <!-- selectable parent issues -->
-  <div class="option-col">
-    <p><%= l(:label_select_parent_issue) %></p>
-    <%= select_tag :selected_parent_issue_id,
-        options_from_collection_for_select(@selectable_parent_issue, :id, :subject,
-                                           @cfg_param[:selected_parent_issue_id]),
-                                           { multiple: true, size: 5 }%>
+  <div class="evm-div-col">
+    <fieldset><legend><%= l(:label_select_parent_issue) %></legend>
+      <%= select_tag :selected_parent_issue_id,
+          options_from_collection_for_select(@selectable_parent_issue, :id, :subject,
+                                            @cfg_param[:selected_parent_issue_id]),
+                                            { multiple: true, size: 5 }%>
+    </fieldset>
   </div>
 <% end %>
 <!-- view option -->
@@ -24,14 +25,20 @@
   <% @parent_issue_evm.each do |parent_issue_id, evm| %>
     <h3><%= parent_issue_link(parent_issue_id) %> <%= evm.description %></h3>
     <!-- EVN value -->
-    <%= render partial: "/common/basic_evm_value", locals: { evm: evm, cfg_param: @cfg_param } %>
+    <section>
+      <h4><%= l(:subtitle_evm_indicator)%></h4>
+      <%= render partial: "/common/basic_evm_value", locals: { evm: evm, cfg_param: @cfg_param } %>
+    </section>
     <br>
     <!-- Charts -->
-    <%= render partial: "/common/basic_evm_chart_js",
-        locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
-                  chart_data: @parent_issue_evm_chart[parent_issue_id],
-                  basis_date_label: basis_date_label(evm.finished_date),
-                  id: parent_issue_id,
-                  tittle: evm.description } %>
+    <section>
+      <h4><%= l(:subtitle_evm_chart_main) %></h4>
+      <%= render partial: "/common/basic_evm_chart_js",
+          locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
+                    chart_data: @parent_issue_evm_chart[parent_issue_id],
+                    basis_date_label: basis_date_label(evm.finished_date),
+                    id: parent_issue_id,
+                    tittle: evm.description } %>
+    </section>
   <% end %>
 </section>

@@ -20,7 +20,7 @@ class EvmversionsController < BaseevmController
     # default params
     set_default_params_for_other_evm
     # selectable version
-    @selectable_versions = selectable_version_list @project
+    @selectable_versions = selectable_version_list(@project)
     # calculate EVM (version)
     @version_evm = {}
     @version_evm_chart = {}
@@ -41,18 +41,18 @@ class EvmversionsController < BaseevmController
       # search condition
       condition = { fixed_version_id: ver_id }
       # issues of version
-      version_issues = evm_issues proj, condition
+      version_issues = evm_issues(proj, condition)
       # spent time of version
-      version_actual_cost = evm_costs proj, condition
+      version_actual_cost = evm_costs(proj, condition)
       # calculate EVM
-      @version_evm[ver_id] = CalculateEvm.new nil,
+      @version_evm[ver_id] = CalculateEvm.new(nil,
                                               version_issues,
                                               version_actual_cost,
-                                              @cfg_param
+                                              @cfg_param)
       # description
       @version_evm[ver_id].description = "#{proj.name} #{ver.name}"
       # create chart data
-      @version_evm_chart[ver_id] = evm_chart_data @version_evm[ver_id]
+      @version_evm_chart[ver_id] = evm_chart_data(@version_evm[ver_id])
     end
   end
 end
