@@ -226,7 +226,7 @@ module CalculateEvmLogic
     def etc(hours = 1)
       return 0.0 if today_cpi(hours).zero? || today_cr(hours).zero?
 
-      div_value = etc_div_value(hour)
+      div_value = etc_div_value(hours)
       etc = (bac(hours) - today_ev(hours)) / div_value
       etc.round(1)
     end
