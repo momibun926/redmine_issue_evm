@@ -16,8 +16,7 @@ module CalculateEvmLogic
     # @param [Date] basis_date basis date.
     # @param [costs] costs culculation of AC.
     def initialize(basis_date, costs)
-      # basis date
-      @basis_date = basis_date
+      super(basis_date)
       # daily AC
       @daily = Hash[costs]
       # minimum first date
