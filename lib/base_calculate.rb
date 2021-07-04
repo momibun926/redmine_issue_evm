@@ -14,7 +14,7 @@ module CalculateEvmLogic
     # Constractor
     #
     # @param [Date] basis_date basis date.
-    def initialize
+    def initialize(basis_date)
       # basis date
       @basis_date = basis_date
     end
