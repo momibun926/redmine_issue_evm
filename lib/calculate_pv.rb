@@ -23,8 +23,7 @@ module CalculateEvmLogic
     # @param [String] region setting region use calculation working days.
     # @param [String] exclude_holiday setting exclude holiday
     def initialize(basis_date, issues, region, exclude_holiday)
-      # basis date
-      @basis_date = basis_date
+      super(basis_date)
       # region
       @region = region
       # exclude holiday

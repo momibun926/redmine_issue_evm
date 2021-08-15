@@ -17,10 +17,9 @@ module CalculateEvmLogic
     # @param [Date] basis_date basis date.
     # @param [Issue] issues culculation of EV.
     def initialize(basis_date, issues)
-      # basis date
-      @basis_date = basis_date
+      super(basis_date)
       # daily EV
-      @daily = calculate_earned_value(issues, basis_date)
+      @daily = calculate_earned_value(issues, @basis_date)
       # minimum start date
       # if no data, set basis date
       @min_date = @daily.keys.min || @basis_date

@@ -11,6 +11,14 @@ module CalculateEvmLogic
     # cumulative by date
     attr_reader :cumulative
 
+    # Constractor
+    #
+    # @param [Date] basis_date basis date.
+    def initialize(basis_date)
+      # basis date
+      @basis_date = basis_date
+    end
+
     # Cumulative ac at target date
     #
     # @param [Date] target_date pv at target date

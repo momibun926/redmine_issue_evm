@@ -28,11 +28,11 @@ Redmine::Plugin.register :redmine_issue_evm do
   project_module :Issuevm do
     permission :view_evms, evms: :index, require: :member
     permission :manage_evmbaselines,
-               evmbaselines: [:edit, :destroy, :new, :create, :update, :index, :show, :history]
+               evmbaselines: %i[edit destroy new create update index show history]
     permission :view_evmbaselines,
-               evmbaselines: [:index, :history, :show]
+               evmbaselines: %i[index history show]
     permission :manage_evmsettings,
-               evmsettings: [:index, :edit]
+               evmsettings: %i[ndex edit]
   end
 
   # menu
