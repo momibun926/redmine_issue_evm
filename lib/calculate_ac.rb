@@ -18,7 +18,7 @@ module CalculateEvmLogic
     def initialize(basis_date, costs)
       super(basis_date)
       # daily AC
-      @daily = [costs].to_hash
+      @daily = costs.to_h
       # minimum first date
       # if no data, set basis date
       @min_date = @daily.keys.min || @basis_date
