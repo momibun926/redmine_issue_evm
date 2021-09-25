@@ -29,7 +29,7 @@ ja:
   Indicator_metrics: 基本情報
   indicator_duration: プロジェクトの期間
   indicator_status: ステータス
-  indicator_difference: 終了予定日までの日数
+  indicator_difference: 期日までの日数
   indicator_target_issues_count: 対象となっているチケットの件数
   indicator_baseline_variance: ベースラインとの比較
   indicator_bac: BAC
@@ -41,7 +41,7 @@ ja:
   schedule_changed: スケジュールが変更されました
   progress: 作業中です
   finished: プロジェクトは完了しています
-  overdue: 完了予定日を過ぎています
+  overdue: 期日を過ぎています
   no_work: 完了しているタスクがありません
   before_plan: プジェクト開始日前です
   within_duration: プロジェクト期間内です
