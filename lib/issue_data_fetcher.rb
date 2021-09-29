@@ -166,7 +166,8 @@ module IssueDataFetcher
     Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
       where("(due_date <= ? AND (closed_on IS NULL OR closed_on > ?))",
-            basis_date, basis_date.end_of_day)
+            basis_date, basis_date.end_of_day).
+      order("due_date")
   end
 
   # project metrics
