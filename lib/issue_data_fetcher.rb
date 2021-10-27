@@ -167,6 +167,7 @@ module IssueDataFetcher
       where(SQL_COM.to_s).
       where("(due_date <= ? AND (closed_on IS NULL OR closed_on > ?))",
             basis_date, basis_date.end_of_day).
+      where("done_ratio <> 100 ").
       order(due_date: :ASC)
   end
 
