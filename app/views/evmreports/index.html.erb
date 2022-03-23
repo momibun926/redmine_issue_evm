@@ -2,7 +2,7 @@
 <!-- contextual -->
 <div class="contextual">
   <%= link_to l(:label_nav_main), { controller: :evms, action: :index, id: @project.id}, class: "icon icon-projects" %>
-  <%= link_to l(:label_report_create), {controller: :evmreports, action: :new, id: @project.id}, class: "icon icon-add" %>
+  <%= link_to l(:label_report_create), {controller: :evmreports, action: :new, id: @project.id ,params: @report_param}, class: "icon icon-add" %>
 </div>
 <!-- sub title -->
 <h2><%= l(:title_evm_tab) %></h2>

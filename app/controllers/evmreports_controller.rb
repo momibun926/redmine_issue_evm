@@ -10,12 +10,15 @@ class EvmreportsController < BaseevmController
   # 3. calculate EVM of each parent issues
   #
   def index
+    @cfg_param[:bac] = params[:bac]
   end
 
   # Create of report
   #
   def new
     @evm_report = ProjectEvmreport.new
+    @cfg_param[:bac] = params[:bac]
+
   end
 
   # View of report

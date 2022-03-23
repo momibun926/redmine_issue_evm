@@ -2,6 +2,23 @@
 <h2><%= l(:title_evm_tab) %></h2>
 <h3><%= l(:label_report_create) %></h3>
 <%= form_for @evm_report, url: project_evmreports_path do |f| %>
+  <div class="box tabular">
+    <p>
+      <%= f.label :status_date, l(:label_status_date) %>
+      <%= f.date_field :status_date, size: 8, required: true %><%= calendar_for(:status_date) %>
+    </p>
+    <p>
+      <%= label :bac, l(:label_baseline_bac) %>
+      <%= text_field_tag :bac, params[:bac], readonly: true%>
+    </p>
+    <p>
+      <%= f.label :report_text %>
+      <span>
+        <%= f.text_area :report_text, class: "wiki-edit", rows: 20, required: true %>
+      </span>
+    </p>
+    <%= wikitoolbar_for "project_evmreport_report_text" %>
+  </div>
   <%= submit_tag l(:button_create) %>&emsp;
-  <%= link_to l(:button_back), { controller: :evmreports, action: :index, id: @project.id } %>
+  <%= link_to l(:button_back), { controller: :evms, action: :index, id: @project.id } %>
 <% end %>
