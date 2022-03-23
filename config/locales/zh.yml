@@ -12,6 +12,7 @@ zh:
   label_nav_exclude: Exclude issues
   label_nav_baseline_setting: Baseline setting
   label_nav_evm_setting: Common setting
+  label_nav_report: Project report
 
   # Main page
   subtitle_evm_summary: 概览
@@ -75,6 +76,12 @@ zh:
   label_select_assignee: Select assignees
   # Option - versions
   label_select_version: Select versions
+
+  # report page
+  label_report_show: Report Detail
+  label_report_edit: Edit Report
+  label_report_create: New Report
+  label_report_list: Report list
 
   # baseline page
   label_baseline: 基线

@@ -12,6 +12,7 @@ ja:
   label_nav_exclude: EVMの計算から除外されているチケット
   label_nav_baseline_setting: ベースラインの設定
   label_nav_evm_setting: 共通設定
+  label_nav_report: プロジェクト報告
 
   # Main page
   subtitle_evm_summary: サマリー
@@ -75,6 +76,12 @@ ja:
   label_select_assignee: 担当者の選択
   # Option - versions
   label_select_version: Versionの選択
+
+  # report page
+  label_report_show: レポートの詳細
+  label_report_edit: レポートの編集
+  label_report_create: レポートの作成
+  label_report_list: レポート一覧
 
   # baseline page
   label_baseline: ベースライン名

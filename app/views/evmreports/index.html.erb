@@ -1,0 +1,11 @@
+<% html_title("Project tracking with EVM - report ") %>
+<!-- contextual -->
+<div class="contextual">
+  <%= link_to l(:label_nav_main), { controller: :evms, action: :index, id: @project.id}, class: "icon icon-projects" %>
+  <%= link_to l(:label_report_create), {controller: :evmreports, action: :new, id: @project.id}, class: "icon icon-add" %>
+</div>
+<!-- sub title -->
+<h2><%= l(:title_evm_tab) %></h2>
+<h3><%= l(:label_report_list) %></h3>
+
+<p>TEST PAGE</p>
