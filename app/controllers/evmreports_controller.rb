@@ -26,8 +26,8 @@ class EvmreportsController < BaseevmController
     @evm_report.evm_ac = params[:ac]
     @evm_report.evm_sv = params[:sv]
     @evm_report.evm_cv = params[:cv]
-
-    @evm_baseline = Evmbaseline.where(id: params[:baseline_id])
+    @project = Project.find(params[:id])
+    @evmbaseline = Evmbaseline.where(id: params[:baseline_id]).first
   end
 
   # View of report

@@ -4,8 +4,9 @@
 <%= form_for @evm_report, url: project_evmreports_path do |f| %>
   <div class="box tabular">
     <p>
-      <%= f.label :project_id, l(:label_basis_date) %>
+      <%= f.label :project_id, l(:field_project) %>
       <%= f.hidden_field :project_id, value: @evm_report.project_id%>
+      <%= text_field_tag :project_name, @project.name, size: 50, readonly: true%>
     </p>
     <p>
       <%= f.label :status_date, l(:label_basis_date) %>
@@ -14,6 +15,7 @@
     <p>
       <%= f.label :baseline_id, "baseline" %>
       <%= f.hidden_field :baseline_id, value: @evm_report.baseline_id%>
+      <%= text_field_tag :baseline_subject, @evmbaseline.subject, size: 50, readonly: true%>
     </p>
     <p>
       <%= f.label :evm_value, l(:subtitle_evm_indicator) %>
