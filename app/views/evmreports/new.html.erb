@@ -13,12 +13,19 @@
       <%= f.text_field :status_date, size: 11, readonly: true%>
     </p>
     <p>
-      <%= f.label :baseline_id, "baseline" %>
+      <%= f.label :baseline_id, l(:label_baseline) %>
       <%= f.hidden_field :baseline_id, value: @evm_report.baseline_id%>
       <%= text_field_tag :baseline_subject, @evmbaseline.subject, size: 50, readonly: true%>
     </p>
     <p>
       <%= f.label :evm_value, l(:subtitle_evm_indicator) %>
+      BAC:<%= text_field_tag :evm_bac_prev, @evm_report_prev.evm_bac, size: 8, readonly: true%>
+      PV:<%= text_field_tag :evm_pv_prev, @evm_report_prev.evm_pv, size: 8, readonly: true%>
+      EV:<%= text_field_tag :evm_ev_prev, @evm_report_prev.evm_ev, size: 8, readonly: true%>
+      AC:<%= text_field_tag :evm_ac_prev, @evm_report_prev.evm_ac, size: 8, readonly: true%>
+      SV:<%= text_field_tag :evm_sv_prev, @evm_report_prev.evm_sv, size: 8, readonly: true%>
+      CV:<%= text_field_tag :evm_cv_prev, @evm_report_prev.evm_cv, size: 8, readonly: true%>
+      <BR>
       BAC:<%= f.text_field :evm_bac, size: 8, readonly: true%>
       PV:<%= f.text_field :evm_pv, size: 8, readonly: true%>
       EV:<%= f.text_field :evm_ev, size: 8, readonly: true%>
@@ -27,11 +34,11 @@
       CV:<%= f.text_field :evm_cv, size: 8, readonly: true%>
     </p>
     <p>
-      <%= f.label :report_text %>
+      <%= f.label :report_text, l(:label_report_text) %>
       <%= f.text_area :report_text, class: "wiki-edit", rows: 20, required: true %>
     </p>
     <%= wikitoolbar_for "project_evmreport_report_text" %>
   </div>
   <%= submit_tag l(:button_create) %>&emsp;
-  <%= link_to l(:button_back), { controller: :evms, action: :index, id: @project.id } %>
+  <%= link_to l(:button_back), { controller: :evms, action: :index, id: @evm_report.project_id } %>
 <% end %>

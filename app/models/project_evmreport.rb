@@ -1,8 +1,5 @@
 # project evmreport model
 class ProjectEvmreport < ActiveRecord::Base
-  # Relations
-  belongs_to :project
-
   # Validate
   validates :project_id,
             presence: true

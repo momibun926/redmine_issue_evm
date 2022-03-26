@@ -6,5 +6,43 @@
 <!-- sub title -->
 <h2><%= l(:title_evm_tab) %></h2>
 <h3><%= l(:label_report_list) %></h3>
-
-<p>TEST PAGE</p>
+<% if @evm_report.blank? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+    <table class="list versions">
+      <thead>
+        <tr>
+          <th><%= l(:label_basis_date) %></th>
+          <th>BAC</th>
+          <th>PV</th>
+          <th>EV</th>
+          <th>AC</th>
+          <th>AV</th>
+          <th>CV</th>
+          <th><%= l(:field_created_on) %></th>
+          <th><%= l(:field_updated_on) %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @evm_report.each do |report| %>
+          <tr class="baseline">
+            <td class="status_date"><%= format_date(report.status_date) %></td>
+            <td class="bac"><%= report.evm_bac %></td>
+            <td class="pv"><%= report.evm_pv %></td>
+            <td class="ev"><%= report.evm_ev %></td>
+            <td class="ac"><%= report.evm_ac %></td>
+            <td class="sv"><%= report.evm_sv %></td>
+            <td class="cv"><%= report.evm_cv %></td>
+            <td class="created_on"><%= format_time(report.created_on) %></td>
+            <td class="updated_on"><%= format_time(report.updated_on) %></td>
+            <td class="buttons">
+              <%= link_to l(:button_show), {controller: :evmreports, action: :show, id: report.id}, class: "icon icon-move" %>
+              <%= link_to l(:button_edit), {controller: :evmreports, action: :edit, id: report.id}, class: "icon icon-edit" %>
+              <%= link_to l(:button_delete), {controller: :evmreports, action: :destroy, id: report.id} , class: "icon icon-del", method: :delete, data: {confirm: l(:messsage_delete_report)} %>
+            </td>
+          </tr>
+        <% end; reset_cycle %>
+      </tbody>
+    </table>
+<% end %>

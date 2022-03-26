@@ -82,6 +82,7 @@ zh:
   label_report_edit: Edit Report
   label_report_create: New Report
   label_report_list: Report list
+  label_report_text: Report details
 
   # baseline page
   label_baseline: 基线

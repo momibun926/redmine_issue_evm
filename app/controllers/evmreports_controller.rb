@@ -10,14 +10,14 @@ class EvmreportsController < BaseevmController
   # 3. calculate EVM of each parent issues
   #
   def index
-    @cfg_param[:bac] = params[:bac]
+    @evm_report = ProjectEvmreport.where(project_id: @project.id).order(updated_on: :DESC)
   end
 
   # Create of report
   #
   def new
     @evm_report = ProjectEvmreport.new
-    @evm_report.project_id = params[:id]
+    @evm_report.project_id = @project.id
     @evm_report.baseline_id = params[:baseline_id]
     @evm_report.status_date = params[:status_date]
     @evm_report.evm_bac = params[:bac]
@@ -26,8 +26,11 @@ class EvmreportsController < BaseevmController
     @evm_report.evm_ac = params[:ac]
     @evm_report.evm_sv = params[:sv]
     @evm_report.evm_cv = params[:cv]
-    @project = Project.find(params[:id])
+
     @evmbaseline = Evmbaseline.where(id: params[:baseline_id]).first
+    @evm_report_prev = ProjectEvmreport.where(project_id: @project.id).order(updated_on: :DESC).first
+    @evm_report.report_text = @evm_report_prev.report_text
+
   end
 
   # View of report
