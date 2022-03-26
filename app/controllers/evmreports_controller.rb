@@ -17,8 +17,17 @@ class EvmreportsController < BaseevmController
   #
   def new
     @evm_report = ProjectEvmreport.new
-    @cfg_param[:bac] = params[:bac]
+    @evm_report.project_id = params[:id]
+    @evm_report.baseline_id = params[:baseline_id]
+    @evm_report.status_date = params[:status_date]
+    @evm_report.evm_bac = params[:bac]
+    @evm_report.evm_pv = params[:pv]
+    @evm_report.evm_ev = params[:ev]
+    @evm_report.evm_ac = params[:ac]
+    @evm_report.evm_sv = params[:sv]
+    @evm_report.evm_cv = params[:cv]
 
+    @evm_baseline = Evmbaseline.where(id: params[:baseline_id])
   end
 
   # View of report
@@ -49,12 +58,11 @@ class EvmreportsController < BaseevmController
   # Create report
   #
   def create
-    evm_report = ProjectEvmreport.new(evm_baseline_params)
-    evm_report.project_id = @project.id
-    evm_report.report_text = ""
-    evm_report.status_date = l(:label_current_baseline)
-    evm_report.created_user_id = User.current.id
+    evm_report = ProjectEvmreport.new(evm_report_params)
+    evm_report.create_user_id = User.current.id
     evm_report.created_on = Time.now.utc
+    evm_report.update_user_id = User.current.id
+    evm_report.updated_on = Time.now.utc
     # Save
     if evm_report.save
       flash[:notice] = l(:notice_successful_create)
@@ -79,6 +87,15 @@ class EvmreportsController < BaseevmController
   # Strong parameter
   #
   def evm_report_params
-    params.require(:projectevmreport).permit(:report_text, :status_date)
+    params.require(:project_evmreport).permit(:project_id,
+                                              :baseline_id,
+                                              :report_text,
+                                              :status_date,
+                                              :evm_bac,
+                                              :evm_pv,
+                                              :evm_ev,
+                                              :evm_ac,
+                                              :evm_sv,
+                                              :evm_cv)
   end
 end

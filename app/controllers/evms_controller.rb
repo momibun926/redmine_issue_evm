@@ -41,6 +41,7 @@ class EvmsController < BaseevmController
       # for create report
       @report_param = {}
       @report_param[:status_date] = @cfg_param[:basis_date]
+      @report_param[:baseline_id] = @cfg_param[:baseline_id]
       @report_param[:bac] = @project_evm.bac
       @report_param[:pv] = @project_evm.today_pv
       @report_param[:ev] = @project_evm.today_ev

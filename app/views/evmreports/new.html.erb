@@ -4,18 +4,29 @@
 <%= form_for @evm_report, url: project_evmreports_path do |f| %>
   <div class="box tabular">
     <p>
-      <%= f.label :status_date, l(:label_status_date) %>
-      <%= f.date_field :status_date, size: 8, required: true %><%= calendar_for(:status_date) %>
+      <%= f.label :project_id, l(:label_basis_date) %>
+      <%= f.hidden_field :project_id, value: @evm_report.project_id%>
     </p>
     <p>
-      <%= label :bac, l(:label_baseline_bac) %>
-      <%= text_field_tag :bac, params[:bac], readonly: true%>
+      <%= f.label :status_date, l(:label_basis_date) %>
+      <%= f.text_field :status_date, size: 11, readonly: true%>
+    </p>
+    <p>
+      <%= f.label :baseline_id, "baseline" %>
+      <%= f.hidden_field :baseline_id, value: @evm_report.baseline_id%>
+    </p>
+    <p>
+      <%= f.label :evm_value, l(:subtitle_evm_indicator) %>
+      BAC:<%= f.text_field :evm_bac, size: 8, readonly: true%>
+      PV:<%= f.text_field :evm_pv, size: 8, readonly: true%>
+      EV:<%= f.text_field :evm_ev, size: 8, readonly: true%>
+      AC:<%= f.text_field :evm_ac, size: 8, readonly: true%>
+      SV:<%= f.text_field :evm_sv, size: 8, readonly: true%>
+      CV:<%= f.text_field :evm_cv, size: 8, readonly: true%>
     </p>
     <p>
       <%= f.label :report_text %>
-      <span>
-        <%= f.text_area :report_text, class: "wiki-edit", rows: 20, required: true %>
-      </span>
+      <%= f.text_area :report_text, class: "wiki-edit", rows: 20, required: true %>
     </p>
     <%= wikitoolbar_for "project_evmreport_report_text" %>
   </div>
