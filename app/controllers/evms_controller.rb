@@ -48,6 +48,7 @@ class EvmsController < BaseevmController
       @report_param[:ac] = @project_evm.today_ac
       @report_param[:sv] = @project_evm.today_sv
       @report_param[:cv] = @project_evm.today_cv
+      @report_param[:working_hours] = @cfg_param[:working_hours]
       # export
       respond_to do |format|
         format.html

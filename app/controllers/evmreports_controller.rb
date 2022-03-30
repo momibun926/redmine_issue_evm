@@ -20,15 +20,16 @@ class EvmreportsController < BaseevmController
     @evm_report.project_id = @project.id
     @evm_report.baseline_id = params[:baseline_id]
     @evm_report.status_date = params[:status_date]
-    @evm_report.evm_bac = params[:bac]
-    @evm_report.evm_pv = params[:pv]
-    @evm_report.evm_ev = params[:ev]
-    @evm_report.evm_ac = params[:ac]
-    @evm_report.evm_sv = params[:sv]
-    @evm_report.evm_cv = params[:cv]
+    @evm_report.evm_bac = params[:bac].to_f / params[:working_hours].to_f
+    @evm_report.evm_pv = params[:pv].to_f / params[:working_hours].to_f
+    @evm_report.evm_ev = params[:ev].to_f / params[:working_hours].to_f
+    @evm_report.evm_ac = params[:ac].to_f / params[:working_hours].to_f
+    @evm_report.evm_sv = params[:sv].to_f / params[:working_hours].to_f
+    @evm_report.evm_cv = params[:cv].to_f / params[:working_hours].to_f
 
     @evmbaseline = Evmbaseline.where(id: params[:baseline_id]).first
     @evm_report_prev = ProjectEvmreport.where(project_id: @project.id).order(updated_on: :DESC).first
+    # Set previus report text
     @evm_report.report_text = @evm_report_prev.report_text
 
   end

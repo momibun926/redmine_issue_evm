@@ -81,6 +81,8 @@
   label_report_create: New Report
   label_report_list: Report list
   label_report_text: Report details
+  label_report_evm_previus: Previously reported EVM
+  label_report_evm_report: EVM on base date
 
   # baseline page
   label_baseline: Baseline Name

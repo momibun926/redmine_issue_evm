@@ -83,6 +83,8 @@ ja:
   label_report_create: レポートの作成
   label_report_list: レポート一覧
   label_report_text: 報告内容
+  label_report_evm_previus: 前回報告したEVM
+  label_report_evm_report: 報告する基準日のEVM
 
   # baseline page
   label_baseline: ベースライン名
