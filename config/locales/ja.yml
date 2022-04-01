@@ -81,6 +81,7 @@ ja:
   label_report_show: レポートの詳細
   label_report_edit: レポートの編集
   label_report_create: レポートの作成
+  label_report_show: レポートの照会
   label_report_list: レポート一覧
   label_report_text: 報告内容
   label_report_evm_previus: 前回報告したEVM

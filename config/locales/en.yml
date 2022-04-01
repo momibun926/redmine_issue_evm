@@ -79,6 +79,7 @@
   label_report_show: Report Detail
   label_report_edit: Edit Report
   label_report_create: New Report
+  label_report_show: Show Report
   label_report_list: Report list
   label_report_text: Report details
   label_report_evm_previus: Previously reported EVM

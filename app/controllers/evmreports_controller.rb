@@ -10,7 +10,7 @@ class EvmreportsController < BaseevmController
   # 3. calculate EVM of each parent issues
   #
   def index
-    @evm_report = ProjectEvmreport.where(project_id: @project.id).order(updated_on: :DESC)
+    @evm_report = ProjectEvmreport.where(project_id: @project.id).order(created_on: :DESC)
   end
 
   # Create of report
@@ -38,19 +38,30 @@ class EvmreportsController < BaseevmController
   #
   def show
     @evm_report = ProjectEvmreport.find(params[:id])
+    @evm_report = ProjectEvmreport.find(params[:id])
+    @evmbaseline = Evmbaseline.where(id: @evm_report.baseline_id).first
+    @evm_report_prev = ProjectEvmreport.where(project_id: @project.id).
+                         where("project_evmreports.created_on < ?", @evm_report.created_on).
+                         order(updated_on: :DESC).first
   end
 
   # Edit view of report
   #
   def edit
     @evm_report = ProjectEvmreport.find(params[:id])
+    @evmbaseline = Evmbaseline.where(id: @evm_report.baseline_id).first
+    @evm_report_prev = ProjectEvmreport.where(project_id: @project.id).
+                         where("project_evmreports.created_on < ?", @evm_report.created_on).
+                         order(updated_on: :DESC).first
   end
 
   # Update report
   #
   def update
     evm_report = ProjectEvmreport.find(params[:id])
-    evm_report.update(evm_baseline_params)
+    evm_report.update(evm_report_params)
+    evm_report.update_user_id = User.current.id
+    evm_report.updated_on = Time.now.utc
     if evm_report.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: :index
