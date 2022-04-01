@@ -3,11 +3,7 @@
 class EvmreportsController < BaseevmController
   # menu
   menu_item :issuevm
-  # index for parent issue EVM view.
-  #
-  # 1. set options of view request
-  # 2. get selectable list
-  # 3. calculate EVM of each parent issues
+  # index for evm report
   #
   def index
     @evm_report = ProjectEvmreport.where(project_id: @project.id).order(created_on: :DESC)
@@ -45,7 +41,7 @@ class EvmreportsController < BaseevmController
                          order(updated_on: :DESC).first
   end
 
-  # Edit view of report
+  # Edit report
   #
   def edit
     @evm_report = ProjectEvmreport.find(params[:id])
