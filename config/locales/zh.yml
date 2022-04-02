@@ -13,6 +13,7 @@ zh:
   label_nav_baseline_setting: Baseline setting
   label_nav_evm_setting: Common setting
   label_nav_report: Project report
+  label_nav_report_list: Report list
 
   # Main page
   subtitle_evm_summary: 概览

@@ -13,6 +13,7 @@ ja:
   label_nav_baseline_setting: ベースラインの設定
   label_nav_evm_setting: 共通設定
   label_nav_report: プロジェクト報告
+  label_nav_report_list: 報告一覧
 
   # Main page
   subtitle_evm_summary: サマリー
