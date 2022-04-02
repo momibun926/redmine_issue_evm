@@ -15,7 +15,7 @@
     <p>
       <%= f.label :baseline_id, l(:label_baseline) %>
       <%= f.hidden_field :baseline_id, value: @evm_report.baseline_id%>
-      <%= text_field_tag :baseline_subject, @evmbaseline.subject, size: 50, readonly: true%>
+      <%= text_field_tag :baseline_subject, baseline_name(@evmbaseline), size: 50, readonly: true%>
     </p>
     <p>
       <%= f.label :evm_value, l(:label_report_evm_previus) %>
