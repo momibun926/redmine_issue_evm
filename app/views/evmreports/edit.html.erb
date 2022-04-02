@@ -2,45 +2,12 @@
 <h2><%= l(:title_evm_tab) %></h2>
 <h3><%= l(:label_report_edit) %></h3>
 <%= form_for @evm_report, url: {action: :update, method: :get} do |f| %>
-  <div class="box tabular">
-    <p>
-      <%= f.label :project_id, l(:field_project) %>
-      <%= f.hidden_field :project_id, value: @evm_report.project_id%>
-      <%= text_field_tag :project_name, @project.name, size: 50, readonly: true%>
-    </p>
-    <p>
-      <%= f.label :status_date, l(:label_basis_date) %>
-      <%= f.text_field :status_date, size: 11, readonly: true%>
-    </p>
-    <p>
-      <%= f.label :baseline_id, l(:label_baseline) %>
-      <%= f.hidden_field :baseline_id, value: @evm_report.baseline_id%>
-      <%= text_field_tag :baseline_subject, baseline_name(@evmbaseline), size: 50, readonly: true%>
-    </p>
-    <p>
-      <%= f.label :evm_value, l(:label_report_evm_previus) %>
-      BAC:<%= text_field_tag :evm_bac_prev, @evm_report_prev.evm_bac, size: 8, readonly: true%>
-      PV:<%= text_field_tag :evm_pv_prev, @evm_report_prev.evm_pv, size: 8, readonly: true%>
-      EV:<%= text_field_tag :evm_ev_prev, @evm_report_prev.evm_ev, size: 8, readonly: true%>
-      AC:<%= text_field_tag :evm_ac_prev, @evm_report_prev.evm_ac, size: 8, readonly: true%>
-      SV:<%= text_field_tag :evm_sv_prev, @evm_report_prev.evm_sv, size: 8, readonly: true%>
-      CV:<%= text_field_tag :evm_cv_prev, @evm_report_prev.evm_cv, size: 8, readonly: true%>
-    </p>
-    <p>
-      <%= f.label :evm_value, l(:label_report_evm_report) %>
-      BAC:<%= f.text_field :evm_bac, size: 8, readonly: true%>
-      PV:<%= f.text_field :evm_pv, size: 8, readonly: true%>
-      EV:<%= f.text_field :evm_ev, size: 8, readonly: true%>
-      AC:<%= f.text_field :evm_ac, size: 8, readonly: true%>
-      SV:<%= f.text_field :evm_sv, size: 8, readonly: true%>
-      CV:<%= f.text_field :evm_cv, size: 8, readonly: true%>
-    </p>
-    <p>
-      <%= f.label :report_text, l(:label_report_text) %>
-      <%= f.text_area :report_text, class: "wiki-edit", rows: 20, required: true %>
-    </p>
-    <%= wikitoolbar_for "project_evmreport_report_text" %>
-  </div>
+  <%= render partial: "/evmreports/common",
+      locals: { f: f,
+                evm_report: @evm_report,
+                project: @project,
+                evmbaseline: @evmbaseline,
+                evm_report_prev: @evm_report_prev} %>
   <%= submit_tag l(:button_save) %>&emsp;
   <%= link_to l(:button_back), { controller: :evmreports, action: :index, id: @evm_report.project_id } %>
 <% end %>
