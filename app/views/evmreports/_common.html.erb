@@ -15,6 +15,7 @@
   </p>
   <p>
     <%= f.label :evm_value, l(:label_report_evm_previus) %>
+    <%=l(:label_basis_date)%>:<%= text_field_tag :previus_report_date, evm_report_prev.status_date, size: 8, readonly: true%>
     BAC:<%= text_field_tag :evm_bac_prev, evm_report_prev.evm_bac, size: 8, readonly: true%>
     PV:<%= text_field_tag :evm_pv_prev, evm_report_prev.evm_pv, size: 8, readonly: true%>
     EV:<%= text_field_tag :evm_ev_prev, evm_report_prev.evm_ev, size: 8, readonly: true%>
@@ -24,6 +25,7 @@
   </p>
   <p>
     <%= f.label :evm_value, l(:label_report_evm_report) %>
+    <%=l(:label_basis_date)%>:<%= f.text_field :status_date, size: 8, readonly: true%>
     BAC:<%= f.text_field :evm_bac, size: 8, readonly: true%>
     PV:<%= f.text_field :evm_pv, size: 8, readonly: true%>
     EV:<%= f.text_field :evm_ev, size: 8, readonly: true%>
