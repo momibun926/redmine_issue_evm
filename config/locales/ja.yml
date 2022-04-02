@@ -123,7 +123,8 @@ ja:
   label_calc_method3: 悲観的
 
   # Message
-  messsage_delete_baseline: 本当に削除してもよろしいですか?
+  messsage_delete_baseline: ベースラインを削除してもよろしいですか?
+  messsage_delete_report: レポートを削除してもよろしいですか？
 
   # Activity page
   label_evmbaseline_plural: ベースライン

@@ -121,7 +121,8 @@
   label_calc_method3: Pessimistic
 
   # Message
-  messsage_delete_baseline: Are you sure?
+  messsage_delete_baseline: Remove baseline, are you sure?
+  messsage_delete_report: Remove report, Are you sure?
 
   # Activity page
   label_evmbaseline_plural: Baseline

@@ -124,6 +124,7 @@ zh:
 
   # Message
   messsage_delete_baseline: 确定删除基线？
+  messsage_delete_report: 确定删除基线？
 
   # Activity page
   label_evmbaseline_plural: 基线
