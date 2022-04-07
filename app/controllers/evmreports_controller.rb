@@ -69,6 +69,9 @@ class EvmreportsController < BaseevmController
     evm_report.updated_on = Time.now.utc
     # Save
     if evm_report.save
+      # delete previus report of same status date
+      ProjectEvmreport.where(project_id: evm_report.project_id, status_date: evm_report.status_date).
+                       where.not(id: evm_report.id).delete_all
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: :index
     else
@@ -108,6 +111,6 @@ class EvmreportsController < BaseevmController
   #
   def previus_report_and_baseline_data
     @evmbaseline = Evmbaseline.where(id: @evm_report.baseline_id).first
-    @evm_report_prev = ProjectEvmreport.list(@project.id).previus(@evm_report.status_date).first
+    @evm_report_prev = ProjectEvmreport.list(@project.id).previus(@evm_report.status_date).first || ProjectEvmreport.new
   end
 end
