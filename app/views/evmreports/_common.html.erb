@@ -1,22 +1,23 @@
   <div class="evm-div-col">
-	<b><%= f.label :project_id, l(:field_project) %></b>
-  <br>
-  <%= f.hidden_field :project_id, value: evm_report.project_id%>
-  <%= text_field_tag :project_name, project.name, size: 50, readonly: true%>
+    <b><%= l(:field_project) %></b>
+    <br>
+    <%= f.hidden_field :project_id, value: evm_report.project_id%>
+    <%= text_field_tag :project_name, project.name, size: 50, readonly: true%>
   </div>
   <div class="evm-div-col">
-  <b><%= f.label :status_date, l(:label_basis_date) %></b>
-  <br>
-  <%= f.text_field :status_date, size: 11, readonly: true%>
+    <b><%= l(:label_basis_date) %></b>
+    <br>
+    <%= f.text_field :status_date, size: 11, readonly: true%>
   </div>
   <div class="evm-div-col">
-	<b><%= f.label :baseline_id, l(:label_baseline) %></b>
-  <br>
-  <%= f.hidden_field :baseline_id, value: evm_report.baseline_id%><%= text_field_tag :baseline_subject, baseline_name(evmbaseline), size: 50, readonly: true%>
+    <b><%= l(:label_baseline) %></b>
+    <br>
+    <%= f.hidden_field :baseline_id, value: evm_report.baseline_id%>
+    <%= text_field_tag :baseline_subject, baseline_name(evmbaseline), size: 50, readonly: true%>
   </div>
   <div style="clear:both">
-  <br>
-  <b><%= l(:label_report_text) %></b>
+    <br>
+    <b><%= l(:label_report_text) %></b>
   </div>
   <table>
     <tr>
@@ -66,5 +67,5 @@
     </tr>
   </table>
   <br>
-  <%= f.text_area :report_text, class: "wiki-edit", rows: 20, required: true %>
+  <%= f.text_area :report_text, class: "wiki-edit", rows: 20, required: true, autofocus: true %>
   <%= wikitoolbar_for "project_evmreport_report_text" %>
