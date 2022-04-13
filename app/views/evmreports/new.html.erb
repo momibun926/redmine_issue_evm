@@ -7,7 +7,8 @@
                 evm_report: @evm_report,
                 project: @project,
                 evmbaseline: @evmbaseline,
-                evm_report_prev: @evm_report_prev} %>
+                evm_report_prev: @evm_report_prev,
+                evm_setting: @emv_setting} %>
   <%= submit_tag l(:button_create) %>&emsp;
   <%= link_to l(:button_back), { controller: :evms, action: :index, id: @evm_report.project_id } %>
 <% end %>

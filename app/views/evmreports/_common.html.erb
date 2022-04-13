@@ -51,7 +51,12 @@
     </tr>
     <tr>
       <td><%= f.label :evm_value, l(:label_report_evm_difference) %></td>
-      <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.status_date, evm_report_prev.status_date),size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value,
+                             evm_report_status_date_difference(evm_report.status_date,
+                                                               evm_report_prev.status_date,
+                                                               evm_setting.exclude_holidays,
+                                                               evm_setting.region),
+                             size: 8, readonly: true%></td>
       <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.evm_bac, evm_report_prev.evm_bac), size: 8, readonly: true%></td>
       <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.evm_pv, evm_report_prev.evm_pv), size: 8, readonly: true%></td>
       <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.evm_ev, evm_report_prev.evm_ev), size: 8, readonly: true%></td>
