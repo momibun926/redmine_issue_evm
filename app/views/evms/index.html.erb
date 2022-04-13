@@ -13,7 +13,7 @@
     <% end %>
   <% end %>
   <!-- contextual -->
-  <%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param } %>
+  <%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param, report_param: @report_param} %>
   <!-- Content of view option -->
   <% content_for :additional_option do %>
     <!-- calculate use baseline -->

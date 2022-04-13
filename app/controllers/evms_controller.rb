@@ -38,6 +38,17 @@ class EvmsController < BaseevmController
       create_evm_data
       # create other information
       create_other_information
+      # for create report
+      @report_param = {}
+      @report_param[:status_date] = @cfg_param[:basis_date]
+      @report_param[:baseline_id] = @cfg_param[:baseline_id]
+      @report_param[:bac] = @project_evm.bac
+      @report_param[:pv] = @project_evm.today_pv
+      @report_param[:ev] = @project_evm.today_ev
+      @report_param[:ac] = @project_evm.today_ac
+      @report_param[:sv] = @project_evm.today_sv
+      @report_param[:cv] = @project_evm.today_cv
+      @report_param[:working_hours] = @cfg_param[:working_hours]
       # export
       respond_to do |format|
         format.html

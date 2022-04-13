@@ -11,6 +11,8 @@
   label_nav_exclude: Exclude issues
   label_nav_baseline_setting: Baseline setting
   label_nav_evm_setting: Common setting
+  label_nav_report: Project report
+  label_nav_report_list: Report list
 
   # Main page
   subtitle_evm_summary: Summary
@@ -28,7 +30,7 @@
   Indicator_metrics: Metrics
   indicator_duration: Planed duration
   indicator_status: Status
-  indicator_difference: Days of to due date
+  indicator_difference: Working days of to due date
   indicator_target_issues_count: Amount of target issues
   indicator_baseline_variance: Baseline variance
   indicator_bac: BAC
@@ -74,6 +76,17 @@
   # Option - versions
   label_select_version: Select versions
 
+  # report page
+  label_report_show: Report Detail
+  label_report_edit: Edit Report
+  label_report_create: New Report
+  label_report_show: Show Report
+  label_report_list: Report list
+  label_report_text: Report details
+  label_report_evm_previus: Previously reported EVM
+  label_report_evm_report: EVM on status date
+  label_report_evm_difference: Previously reported EVM differences
+
   # baseline page
   label_baseline: Baseline Name
   label_baseline_show: Baseline detail
@@ -110,7 +123,8 @@
   label_calc_method3: Pessimistic
 
   # Message
-  messsage_delete_baseline: Are you sure?
+  messsage_delete_baseline: Remove baseline, are you sure?
+  messsage_delete_report: Remove report, Are you sure?
 
   # Activity page
   label_evmbaseline_plural: Baseline

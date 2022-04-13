@@ -25,13 +25,13 @@
     </tr>
     <tr>
       <td rowspan="2"><%=project_evm.basis_date%></td>
-      <td><%=project_evm.bac%></td>
+      <td id="BAC_HOURS"><%=project_evm.bac%></td>
       <td><%=project_evm.complete_ev%> %</td>
-      <td><%=project_evm.today_pv%></td>
-      <td><%=project_evm.today_ev%></td>
-      <td><%=project_evm.today_ac%></td>
-      <td><%=project_evm.today_sv%></td>
-      <td><%=project_evm.today_cv%></td>
+      <td id="PV_HOURS"><%=project_evm.today_pv%></td>
+      <td id="EV_HOURS"><%=project_evm.today_ev%></td>
+      <td id="AC_HOURS"><%=project_evm.today_ac%></td>
+      <td id="SV_HOURS"><%=project_evm.today_sv%></td>
+      <td id="CV_HOURS"><%=project_evm.today_cv%></td>
       <%=performance_indicator(project_evm.today_spi, cfg_param[:limit_spi])%>
       <%=performance_indicator(project_evm.today_cpi, cfg_param[:limit_cpi])%>
       <%=performance_indicator(project_evm.today_cr, cfg_param[:limit_cr])%>

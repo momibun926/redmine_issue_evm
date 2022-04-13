@@ -12,6 +12,8 @@ zh:
   label_nav_exclude: Exclude issues
   label_nav_baseline_setting: Baseline setting
   label_nav_evm_setting: Common setting
+  label_nav_report: Project report
+  label_nav_report_list: Report list
 
   # Main page
   subtitle_evm_summary: 概览
@@ -29,7 +31,7 @@ zh:
   Indicator_metrics: Metrics
   indicator_duration: planed duration
   indicator_status: Status
-  indicator_difference: Days of to due date
+  indicator_difference: Working days of to due date
   indicator_target_issues_count: Amount of target issues
   indicator_baseline_variance: Baseline variance
   indicator_bac: BAC
@@ -76,6 +78,17 @@ zh:
   # Option - versions
   label_select_version: Select versions
 
+  # report page
+  label_report_show: Report Detail
+  label_report_edit: Edit Report
+  label_report_create: New Report
+  label_report_show: Show Report
+  label_report_list: Report list
+  label_report_text: Report details
+  label_report_evm_previus: Previously reported EVM
+  label_report_evm_report: EVM on Status date
+  label_report_evm_difference: Previously reported EVM differences
+
   # baseline page
   label_baseline: 基线
   label_baseline_show: 显示基线
@@ -113,6 +126,7 @@ zh:
 
   # Message
   messsage_delete_baseline: 确定删除基线？
+  messsage_delete_report: 确定删除基线？
 
   # Activity page
   label_evmbaseline_plural: 基线

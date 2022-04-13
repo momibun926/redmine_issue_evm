@@ -6,6 +6,7 @@ module CalculateEvmLogic
   # PV calculate estimate hours of issues.
   #
   class CalculatePv < BaseCalculateEvm
+    include EvmUtil
     # start date (exclude basis date)
     attr_reader :start_date
     # due date (exclude basis date)
@@ -106,7 +107,7 @@ module CalculateEvmLogic
       temp_pv = {}
       Array(issues).each do |issue|
         issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
-        pv_days = working_days(issue.start_date, issue.due_date)
+        pv_days = working_days(issue.start_date, issue.due_date, @exclude_holiday, @region)
         hours_per_day = issue_hours_per_day(issue.estimated_hours.to_f, pv_days.length)
         pv_days.each do |date|
           temp_pv[date] = add_daily_evm_value(temp_pv[date], hours_per_day)
@@ -124,29 +125,13 @@ module CalculateEvmLogic
       (estimated_hours || 0.0) / days
     end
 
-    # working days.
-    # exclude weekends and holiday or include weekends and holiday.
-    #
-    # @param [Date] start_date start date of issue
-    # @param [Date] end_date end date of issue
-    # @return [Array] working days
-    def working_days(start_date, end_date)
-      issue_days = (start_date..end_date).to_a
-      if @holiday_exclude
-        working_days = issue_days.reject { |e| e.wday.zero? || e.wday == 6 || e.holiday?(@region) }
-        working_days.length.zero? ? issue_days : working_days
-      else
-        issue_days
-      end
-    end
-
     # Amount of working days.
     #
     # @param [Date] start_date start date
     # @param [Date] end_date end date
     # @return [Numeric] Amount of working days
     def amount_working_days(start_date, end_date)
-      working_days(start_date, end_date).length
+      working_days(start_date, end_date, @holiday_exclude, @region).length
     end
 
     # state on basis date

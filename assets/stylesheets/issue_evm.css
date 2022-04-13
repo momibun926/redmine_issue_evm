@@ -104,3 +104,14 @@ dt.evmbaseline-edit {
   font-weight: bold;
   color: red;
 }
+
+/*** for report ***/
+#evm_value,
+#project_evmreport_evm_bac,
+#project_evmreport_evm_pv,
+#project_evmreport_evm_ev,
+#project_evmreport_evm_ac,
+#project_evmreport_evm_sv,
+#project_evmreport_evm_cv {
+  text-align: right;
+}

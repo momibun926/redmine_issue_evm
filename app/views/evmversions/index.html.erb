@@ -4,7 +4,7 @@
   <%= l(:label_nav_version) %>
 <% end %>
 <!-- contextual -->
-<%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param } %>
+<%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param, report_param: nil} %>
 <!-- Content of view option -->
 <% content_for :additional_option do %>
   <!-- selectable version -->
