@@ -84,7 +84,8 @@
   label_report_list: Report list
   label_report_text: Report details
   label_report_evm_previus: Previously reported EVM
-  label_report_evm_report: EVM on base date
+  label_report_evm_report: EVM on status date
+  label_report_evm_difference: Previously reported EVM differences
 
   # baseline page
   label_baseline: Baseline Name

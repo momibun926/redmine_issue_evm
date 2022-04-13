@@ -14,6 +14,7 @@ ja:
   label_nav_evm_setting: 共通設定
   label_nav_report: プロジェクト報告
   label_nav_report_list: 報告一覧
+  label_report_evm_difference: 前回報告したEVMとの差
 
   # Main page
   subtitle_evm_summary: サマリー
