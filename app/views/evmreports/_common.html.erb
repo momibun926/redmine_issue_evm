@@ -1,51 +1,65 @@
-<div class="box tabular">
-  <p>
-    <%= f.label :project_id, l(:field_project) %>
-    <%= f.hidden_field :project_id, value: evm_report.project_id%>
-    <%= text_field_tag :project_name, project.name, size: 50, readonly: true%>
-  </p>
-  <p>
-    <%= f.label :status_date, l(:label_basis_date) %>
-    <%= f.text_field :status_date, size: 11, readonly: true%>
-  </p>
-  <p>
-    <%= f.label :baseline_id, l(:label_baseline) %>
-    <%= f.hidden_field :baseline_id, value: evm_report.baseline_id%>
-    <%= text_field_tag :baseline_subject, baseline_name(evmbaseline), size: 50, readonly: true%>
-  </p>
-  <p>
-    <%= f.label :evm_value, l(:label_report_evm_previus) %>
-    <%=l(:label_basis_date)%>:<%= text_field_tag :previus_report_date, evm_report_prev.status_date, size: 8, readonly: true%>
-    BAC:<%= text_field_tag :evm_value, evm_report_prev.evm_bac, size: 8, readonly: true%>
-    PV:<%= text_field_tag :evm_value, evm_report_prev.evm_pv, size: 8, readonly: true%>
-    EV:<%= text_field_tag :evm_value, evm_report_prev.evm_ev, size: 8, readonly: true%>
-    AC:<%= text_field_tag :evm_value, evm_report_prev.evm_ac, size: 8, readonly: true%>
-    SV:<%= text_field_tag :evm_value, evm_report_prev.evm_sv, size: 8, readonly: true%>
-    CV:<%= text_field_tag :evm_value, evm_report_prev.evm_cv, size: 8, readonly: true%>
-  </p>
-  <p>
-    <%= f.label :evm_value, l(:label_report_evm_report) %>
-    <%=l(:label_basis_date)%>:<%= f.text_field :status_date, size: 8, readonly: true%>
-    BAC:<%= f.text_field :evm_bac, size: 8, readonly: true%>
-    PV:<%= f.text_field :evm_pv, size: 8, readonly: true%>
-    EV:<%= f.text_field :evm_ev, size: 8, readonly: true%>
-    AC:<%= f.text_field :evm_ac, size: 8, readonly: true%>
-    SV:<%= f.text_field :evm_sv, size: 8, readonly: true%>
-    CV:<%= f.text_field :evm_cv, size: 8, readonly: true%>
-  </p>
-  <p>
-    <%= f.label :evm_value, "Diff" %>
-    <%=l(:label_basis_date)%>:<%= f.text_field :status_date, size: 8, readonly: true%>
-    BAC:<%= text_field_tag :evm_value, (evm_report.evm_bac - evm_report_prev.evm_bac).round(1), size: 8, readonly: true%>
-    PV:<%= text_field_tag :evm_value, (evm_report.evm_pv - evm_report_prev.evm_pv).round(1), size: 8, readonly: true%>
-    EV:<%= text_field_tag :evm_value, (evm_report.evm_ev - evm_report_prev.evm_ev).round(1), size: 8, readonly: true%>
-    AC:<%= text_field_tag :evm_value, (evm_report.evm_ac - evm_report_prev.evm_ac).round(1), size: 8, readonly: true%>
-    SV:<%= text_field_tag :evm_value, (evm_report.evm_sv - evm_report_prev.evm_sv).round(1), size: 8, readonly: true%>
-    CV:<%= text_field_tag :evm_value, (evm_report.evm_cv - evm_report_prev.evm_cv).round(1), size: 8, readonly: true%>
-  </p>
-  <p>
-    <%= f.label :report_text, l(:label_report_text) %>
-    <%= f.text_area :report_text, class: "wiki-edit", rows: 20, required: true %>
-  </p>
+  <div class="evm-div-col">
+	<b><%= f.label :project_id, l(:field_project) %></b>
+  <br>
+  <%= f.hidden_field :project_id, value: evm_report.project_id%>
+  <%= text_field_tag :project_name, project.name, size: 50, readonly: true%>
+  </div>
+  <div class="evm-div-col">
+  <b><%= f.label :status_date, l(:label_basis_date) %></b>
+  <br>
+  <%= f.text_field :status_date, size: 11, readonly: true%>
+  </div>
+  <div class="evm-div-col">
+	<b><%= f.label :baseline_id, l(:label_baseline) %></b>
+  <br>
+  <%= f.hidden_field :baseline_id, value: evm_report.baseline_id%><%= text_field_tag :baseline_subject, baseline_name(evmbaseline), size: 50, readonly: true%>
+  </div>
+  <div style="clear:both">
+  <br>
+  <b><%= l(:label_report_text) %></b>
+  </div>
+  <table>
+    <tr>
+      <th></th>
+      <th><%=l(:label_basis_date)%></th>
+      <th>BAC</th>
+      <th>PV</th>
+      <th>EV</th>
+      <th>AC</th>
+      <th>SV</th>
+      <th>CV</th>
+    </tr>
+    <tr>
+      <td><%= f.label :evm_value, l(:label_report_evm_previus) %></td>
+      <td><%= text_field_tag :previus_report_date, evm_report_prev.status_date, size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_prev.evm_bac, size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_prev.evm_pv, size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_prev.evm_ev, size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_prev.evm_ac, size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_prev.evm_sv, size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_prev.evm_cv, size: 8, readonly: true%></td>
+    </tr>
+    <tr>
+      <td><%= f.label :evm_value, l(:label_report_evm_report) %></td>
+      <td><%= f.text_field :status_date, size: 8, readonly: true%></td>
+      <td><%= f.text_field :evm_bac, size: 8, readonly: true%></td>
+      <td><%= f.text_field :evm_pv, size: 8, readonly: true%></td>
+      <td><%= f.text_field :evm_ev, size: 8, readonly: true%></td>
+      <td><%= f.text_field :evm_ac, size: 8, readonly: true%></td>
+      <td><%= f.text_field :evm_sv, size: 8, readonly: true%></td>
+      <td><%= f.text_field :evm_cv, size: 8, readonly: true%></td>
+    </tr>
+    <tr>
+      <td><%= f.label :evm_value, l(:label_report_evm_difference) %></td>
+      <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.status_date, evm_report_prev.status_date),size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.evm_bac, evm_report_prev.evm_bac), size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.evm_pv, evm_report_prev.evm_pv), size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.evm_ev, evm_report_prev.evm_ev), size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.evm_ac, evm_report_prev.evm_ac), size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.evm_sv, evm_report_prev.evm_sv), size: 8, readonly: true%></td>
+      <td><%= text_field_tag :evm_value, evm_report_difference(evm_report.evm_cv, evm_report_prev.evm_cv), size: 8, readonly: true%></td>
+    </tr>
+  </table>
+  <br>
+  <%= f.text_area :report_text, class: "wiki-edit", rows: 20, required: true %>
   <%= wikitoolbar_for "project_evmreport_report_text" %>
-</div>
