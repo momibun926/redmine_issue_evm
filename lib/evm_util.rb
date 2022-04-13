@@ -45,4 +45,22 @@ module EvmUtil
   def check_pv_daily_variance(pv_actual, pv_baseline)
     pv_actual == pv_baseline ? l(:no_changed) : l(:schedule_changed)
   end
+
+  # working days.
+  # exclude weekends and holiday or include weekends and holiday.
+  #
+  # @param [Date] start_date start date of issue
+  # @param [Date] end_date end date of issue
+  # @param [Boolean] holiday_exclude holiday is exclude?
+  # @param [String] region region
+  # @return [Array] working days
+  def working_days(start_date, end_date, holiday_exclude, region)
+    issue_days = (start_date..end_date).to_a
+    if holiday_exclude
+      working_days = issue_days.reject { |e| e.wday.zero? || e.wday == 6 || e.holiday?(region) }
+      working_days.length.zero? ? issue_days : working_days
+    else
+      issue_days
+    end
+  end
 end
