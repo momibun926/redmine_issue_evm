@@ -70,8 +70,9 @@ class EvmreportsController < BaseevmController
     # Save
     if evm_report.save
       # delete previus report of same status date
-      ProjectEvmreport.where(project_id: evm_report.project_id, status_date: evm_report.status_date).
-                       where.not(id: evm_report.id).delete_all
+      ProjectEvmreport.
+        where(project_id: evm_report.project_id, status_date: evm_report.status_date).
+        where.not(id: evm_report.id).delete_all
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: :index
     else
