@@ -12,9 +12,14 @@ class RedmineIssueEvmHookListener < Redmine::Hook::ViewListener
 end
 
 # for search and activity page
-Rails.configuration.to_prepare do
+if Rails.version > '6.0' && Rails.autoloaders.zeitwerk_enabled?
   Redmine::Activity.register "evmbaseline"
   Redmine::Search.available_search_types << "evmbaselines"
+else
+  Rails.configuration.to_prepare do
+    Redmine::Activity.register "evmbaseline"
+    Redmine::Search.available_search_types << "evmbaselines"
+  end
 end
 
 # module define
