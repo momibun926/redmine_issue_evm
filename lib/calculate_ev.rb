@@ -99,12 +99,9 @@ class CalculateEv < BaseCalculateEvm
     journals = issue_journal(issue, basis_date)
     if journals.present? || closed_dt.present?
       # Create date and ratio of journals
-      daily_ratio = daily_done_ratio(journals,
-                                      closed_dt)
+      daily_ratio = daily_done_ratio(journals, closed_dt)
       # create EV from ratio
-      temp_ev = create_ev_from_ratio(issue.estimated_hours.to_f,
-                                      temp_ev,
-                                      daily_ratio)
+      temp_ev = create_ev_from_ratio(issue.estimated_hours.to_f, temp_ev, daily_ratio)
     end
     temp_ev
   end
