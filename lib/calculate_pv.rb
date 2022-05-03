@@ -24,7 +24,7 @@ class CalculatePv < BaseCalculateEvm
     # region
     @region = region
     # exclude holiday
-    @holiday_exclude = exclude_holiday
+    @exclude_holiday = exclude_holiday
     # daily PV
     @daily = calculate_planed_value(issues)
     # planed start date
@@ -127,7 +127,7 @@ class CalculatePv < BaseCalculateEvm
   # @param [Date] end_date end date
   # @return [Numeric] Amount of working days
   def amount_working_days(start_date, end_date)
-    working_days(start_date, end_date, @holiday_exclude, @region).length
+    working_days(start_date, end_date, @exclude_holiday, @region).length
   end
 
   # state on basis date
