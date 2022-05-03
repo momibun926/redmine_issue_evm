@@ -171,7 +171,7 @@ ja:
   permission_manage_evmbaselines: ベースラインの設定
   permission_manage_evmsettings: EVM設定の編集
   permission_view_evmbaselines: ベースラインの一覧表示
-  permission_view_evmreports: プロジェクト報告
+  permission_view_project_evmreports: プロジェクト報告
 
   # Tab Display
   tab_display_name: EVM

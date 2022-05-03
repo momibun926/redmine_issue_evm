@@ -38,5 +38,5 @@ class ProjectEvmreport < ActiveRecord::Base
         ->(status_date) { where("status_date < ?", status_date) }
 
   scope :visible,
-        ->(*args) { joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_evmreports, *args)) }
+        ->(*args) { joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_project_evmreports, *args)) }
 end
