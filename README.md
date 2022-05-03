@@ -14,6 +14,9 @@ Redmine 5.0.0 and above
 >
 > The redmine3.4.x compatible version in branch "redmine3-4-3".
 > https://github.com/momibun926/redmine_issue_evm/tree/redmine3-4-3
+>
+> The redmine4.x.x compatible version in branch "redmine4.0".
+> https://github.com/momibun926/redmine_issue_evm/tree/redmine4.0
 
 # Main features
 * Calculate EVM with chart

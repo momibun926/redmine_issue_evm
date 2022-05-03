@@ -13,8 +13,12 @@ Redmine 5.0.0 以上
 > *redmine3.4.xをお使いの方へ*
 >
 > Redmine3.4.xの対応版は、ブランチ"Redmine3-4-3"を取得してください。
->
 > https://github.com/momibun926/redmine_issue_evm/tree/redmine3-4-3
+
+> *redmine4.x.xをお使いの方へ*
+>
+> Redmine4.x.xの対応版は、ブランチ"Redmine4.0"を取得してください。
+> https://github.com/momibun926/redmine_issue_evm/tree/redmine4.0
 
 # 主な機能
 * EVM値の計算
