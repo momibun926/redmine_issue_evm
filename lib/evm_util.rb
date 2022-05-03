@@ -51,12 +51,12 @@ module EvmUtil
   #
   # @param [Date] start_date start date of issue
   # @param [Date] end_date end date of issue
-  # @param [Boolean] holiday_exclude holiday is exclude?
+  # @param [Boolean] exclude_holiday holiday is exclude?
   # @param [String] region region
   # @return [Array] working days
-  def working_days(start_date, end_date, holiday_exclude, region)
+  def working_days(start_date, end_date, exclude_holiday, region)
     issue_days = (start_date..end_date).to_a
-    if holiday_exclude
+    if exclude_holiday
       working_days = issue_days.reject { |e| e.wday.zero? || e.wday == 6 || e.holiday?(region) }
       working_days.length.zero? ? issue_days : working_days
     else
