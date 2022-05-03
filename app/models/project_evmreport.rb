@@ -1,5 +1,9 @@
 # project evmreport model
 class ProjectEvmreport < ActiveRecord::Base
+  # Relations
+  belongs_to :author, class_name: "User"
+  belongs_to :project
+
   # Validate
   validates :project_id,
             presence: true
@@ -9,6 +13,18 @@ class ProjectEvmreport < ActiveRecord::Base
 
   validates :report_text,
             presence: true
+
+  # for activity page.
+  acts_as_event title: Proc.new{ l(:label_ativity_message_report)},
+                description: :report_text,
+                datetime: :updated_on,
+                type: Proc.new { |o| "evmreports-#{o.created_on = o.updated_on ? 'new' : 'edit'}" },
+                url: Proc.new { |o| { controller: "evmreports", action: :show, project_id: o.project, id: o.id } }
+
+  acts_as_activity_provider scope: joins(:project),
+                            permission: :view_evmreports,
+                            type: "project_evmreport",
+                            author_key: :create_user_id
 
   # for search.
   acts_as_searchable columns: ["#{table_name}.report_text"],

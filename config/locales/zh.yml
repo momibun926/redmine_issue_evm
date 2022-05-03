@@ -132,6 +132,8 @@ zh:
   label_evmbaseline_plural: 基线
   label_ativity_message_new: 基线已建立。
   label_ativity_message_edit: 基线已更新。
+  label_project_evmreport_plural: Project report
+  label_ativity_message_report: Report is created.
 
   # Explanation title
   explanation_basis: 基准
@@ -169,6 +171,7 @@ zh:
   permission_manage_evmbaselines: 编辑基线
   permission_manage_evmsettings: Edit Common Setting
   permission_view_evmbaselines: 查看基线
+  permission_view_evmreports: View Project report
 
   # Tab Display
   tab_display_name: EVM

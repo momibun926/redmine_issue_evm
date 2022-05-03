@@ -132,6 +132,8 @@ ja:
   label_evmbaseline_plural: ベースライン
   label_ativity_message_new: ベースラインが作成されました
   label_ativity_message_edit: ベースラインの説明が更新されました
+  label_project_evmreport_plural: プロジェクト報告
+  label_ativity_message_report: プロジェクト報告が作成されました
 
   # Explanation title
   explanation_basis: 基本
@@ -169,6 +171,7 @@ ja:
   permission_manage_evmbaselines: ベースラインの設定
   permission_manage_evmsettings: EVM設定の編集
   permission_view_evmbaselines: ベースラインの一覧表示
+  permission_view_evmreports: プロジェクト報告
 
   # Tab Display
   tab_display_name: EVM
