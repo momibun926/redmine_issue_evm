@@ -5,16 +5,18 @@
 チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。期日が入力されず、バージョンの期日がある場合は、期日としてバージョンの期日を利用します。
 
 # バージョン
-5.6.0
+6.0.0
 
 # 動作環境
-Redmine 4.0.0 以上
+Redmine 5.0.0 以上
 
-> *redmine3.4.xをお使いの方へ*
+> *redmine5以外をお使いの方へ*
 >
 > Redmine3.4.xの対応版は、ブランチ"Redmine3-4-3"を取得してください。
->
 > https://github.com/momibun926/redmine_issue_evm/tree/redmine3-4-3
+>
+> Redmine4.x.xの対応版は、ブランチ"Redmine4.0"を取得してください。
+> https://github.com/momibun926/redmine_issue_evm/tree/redmine4.0
 
 # 主な機能
 * EVM値の計算
@@ -133,7 +135,7 @@ Redmine3.1から親チケットの予定工数が入力可能になったので�
 
 # チャートの表示
 計算されたEVM値を元に、以下のチャートを表示します。
-チャートの表示には、Chart.jsを利用しています。Redmineに同梱されているものを利用しています。
+チャートの表示には、Chart.jsを利用しています。Redmine4.2で利用されていたChart.bundle.min.jsをこのプラグインインように同梱しています。
 
 **メインチャート**
 
@@ -199,9 +201,9 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ![evm sample screenshot](./images/screenshot_common_setting.png "plugin　setting")
 
 # 開発環境
-* Redmine version                4.2.4.stable.21433
-* Ruby version                   2.7.4-p191 (2021-07-07) [x86_64-linux]
-* Rails version                  5.2.6.2
+* Redmine version                5.0.0.stable.21553
+* Ruby version                   3.1.2-p20 (2022-04-12) [x86_64-linux]
+* Rails version                  6.1.5.1
 * Environment                    production
 * Database adapter               PostgreSQL
 * Mailer queue                   ActiveJob::QueueAdapters::AsyncAdapter

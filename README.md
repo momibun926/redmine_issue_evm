@@ -5,15 +5,18 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-5.6.0
+6.0.0
 
 ## Compatibility
-Redmine 4.0.0 and above
+Redmine 5.0.0 and above
 
 > *Notification*
 >
 > The redmine3.4.x compatible version in branch "redmine3-4-3".
 > https://github.com/momibun926/redmine_issue_evm/tree/redmine3-4-3
+>
+> The redmine4.x.x compatible version in branch "redmine4.0".
+> https://github.com/momibun926/redmine_issue_evm/tree/redmine4.0
 
 # Main features
 * Calculate EVM with chart
@@ -129,7 +132,7 @@ In Japan, May 3, May 4, May 5 are holidays
 |May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days     |4 hours   |
 
 # Chart
-Charts are displayed using Chart.js. This java scripts include Redmine.
+Chart.js is used to display charts, and Chart.bundle.min.js used in Redmine 4.2 is included with this plugin.
 
 **Main chart**
 
@@ -205,9 +208,9 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 5. Create new Pull Request
 
 # My Environment
-* Redmine version                4.2.4.stable.21433
-* Ruby version                   2.7.4-p191 (2021-07-07) [x86_64-linux]
-* Rails version                  5.2.6.2
+* Redmine version                5.0.0.stable.21553
+* Ruby version                   3.1.2-p20 (2022-04-12) [x86_64-linux]
+* Rails version                  6.1.5.1
 * Environment                    production
 * Database adapter               PostgreSQL
 * Mailer queue                   ActiveJob::QueueAdapters::AsyncAdapter
