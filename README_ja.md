@@ -199,10 +199,10 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ![evm sample screenshot](./images/screenshot_common_setting.png "plugin　setting")
 
 # 開発環境
-* Redmine version                5.0.0.stable
-* Ruby version                   3.0.4-p208 (2022-04-12) [x86_64-linux]
-* Rails version                  6.1.4.7
+* Redmine version                5.0.0.stable.21553
+* Ruby version                   3.1.2-p20 (2022-04-12) [x86_64-linux]
+* Rails version                  6.1.5.1
 * Environment                    production
-* Database adapter               Mysql2
+* Database adapter               PostgreSQL
 * Mailer queue                   ActiveJob::QueueAdapters::AsyncAdapter
 * Mailer delivery                smtp
