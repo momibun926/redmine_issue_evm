@@ -24,7 +24,7 @@ class ProjectEvmreport < ActiveRecord::Base
   acts_as_activity_provider scope: joins(:project),
                             permission: :view_evmreports,
                             type: "project_evmreport",
-                            author_key: :create_user_id
+                            author_key: :author_id
 
   # for search.
   acts_as_searchable columns: ["#{table_name}.report_text"],
@@ -38,5 +38,5 @@ class ProjectEvmreport < ActiveRecord::Base
         ->(status_date) { where("status_date < ?", status_date) }
 
   scope :visible,
-        ->(*args) { joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args)) }
+        ->(*args) { joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_evmreports, *args)) }
 end
