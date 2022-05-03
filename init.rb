@@ -14,11 +14,15 @@ end
 # for search and activity page
 if Rails.version > "6.0" && Rails.autoloaders.zeitwerk_enabled?
   Redmine::Activity.register "evmbaseline"
+  Redmine::Activity.register "project_evmreport"
   Redmine::Search.available_search_types << "evmbaselines"
+  Redmine::Search.available_search_types << "project_evmreports"
 else
   Rails.configuration.to_prepare do
     Redmine::Activity.register "evmbaseline"
+    Redmine::Activity.register "project_evmreport"
     Redmine::Search.available_search_types << "evmbaselines"
+    Redmine::Search.available_search_types << "project_evmreports"
   end
 end
 
@@ -38,6 +42,8 @@ Redmine::Plugin.register :redmine_issue_evm do
                evmbaselines: %i[index history show]
     permission :manage_evmsettings,
                evmsettings: %i[ndex edit]
+    permission :view_evmreports,
+               evmreports: %i[index show edit]
   end
 
   # menu
