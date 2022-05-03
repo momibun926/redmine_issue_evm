@@ -67,6 +67,7 @@ class EvmreportsController < BaseevmController
     evm_report.created_on = Time.now.utc
     evm_report.update_user_id = User.current.id
     evm_report.updated_on = Time.now.utc
+    evm_report.author_id = User.current.id
     # Save
     if evm_report.save
       # delete previus report of same status date

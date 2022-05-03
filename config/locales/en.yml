@@ -169,7 +169,7 @@
   permission_manage_evmbaselines: Edit Baseline
   permission_manage_evmsettings: Edit Common Setting
   permission_view_evmbaselines: View Baseline
-  permission_view_evmreports: View Project report
+  permission_view_project_evmreports: View Project report
 
   # Tab Display
   tab_display_name: EVM

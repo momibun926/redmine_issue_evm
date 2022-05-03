@@ -171,7 +171,7 @@ zh:
   permission_manage_evmbaselines: 编辑基线
   permission_manage_evmsettings: Edit Common Setting
   permission_view_evmbaselines: 查看基线
-  permission_view_evmreports: View Project report
+  permission_view_project_evmreports: View Project report
 
   # Tab Display
   tab_display_name: EVM
