@@ -15,7 +15,7 @@ class ProjectEvmreport < ActiveRecord::Base
             presence: true
 
   # for activity page.
-  acts_as_event title: Proc.new{ l(:label_ativity_message_report)},
+  acts_as_event title: Proc.new { l(:label_ativity_message_report) },
                 description: :report_text,
                 datetime: :updated_on,
                 type: Proc.new { |o| "evmreports-#{o.created_on = o.updated_on ? 'new' : 'edit'}" },
