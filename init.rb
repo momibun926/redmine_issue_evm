@@ -14,7 +14,9 @@ end
 # for search and activity page
 Rails.configuration.to_prepare do
   Redmine::Activity.register "evmbaseline"
+  Redmine::Activity.register "project_evmreport"
   Redmine::Search.available_search_types << "evmbaselines"
+  Redmine::Search.available_search_types << "project_evmreports"
 end
 
 # module define
@@ -33,6 +35,8 @@ Redmine::Plugin.register :redmine_issue_evm do
                evmbaselines: %i[index history show]
     permission :manage_evmsettings,
                evmsettings: %i[ndex edit]
+    permission :view_project_evmreports,
+               evmreports: %i[index show new create edit destroy]
   end
 
   # menu

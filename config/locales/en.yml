@@ -1,4 +1,4 @@
-﻿en:
+﻿﻿en:
   # main title
   title_evm_tab: Track with EVM
 
@@ -130,6 +130,8 @@
   label_evmbaseline_plural: Baseline
   label_ativity_message_new: Baseline is created.
   label_ativity_message_edit: Baseline is updated.
+  label_project_evmreport_plural: Project report
+  label_ativity_message_report: Report is created.
 
   # Explanation title
   explanation_basis: Basis
@@ -167,6 +169,7 @@
   permission_manage_evmbaselines: Edit Baseline
   permission_manage_evmsettings: Edit Common Setting
   permission_view_evmbaselines: View Baseline
+  permission_view_project_evmreports: View Project report
 
   # Tab Display
   tab_display_name: EVM
