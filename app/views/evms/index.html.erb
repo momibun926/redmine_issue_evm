@@ -19,7 +19,7 @@
     <!-- calculate use baseline -->
     <div class="evm-div-col">
       <fieldset><legend><%= l(:label_baseline_use) %></legend>
-        <%= check_box_tag :no_use_baseline, "true",
+        <%= check_box_tag :no_use_baseline, true,
                           @cfg_param[:no_use_baseline],
                           onclick: "disableobject('evmbaseline_id', this.checked);"%>
         <%= label_tag l(:label_no_use_baseline) %>

@@ -47,13 +47,4 @@ class BaseevmController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
-  # default params for other evm
-  #
-  def set_default_params_for_other_evm
-    @cfg_param[:no_use_baseline] = true
-    @cfg_param[:forecast] = false
-    @cfg_param[:display_performance] = false
-    @cfg_param[:display_incomplete] = false
-  end
 end

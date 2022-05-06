@@ -17,8 +17,8 @@ class EvmtrackersController < BaseevmController
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
     @cfg_param[:selected_tracker_id] = params[:selected_tracker_id]
-    # default params
-    set_default_params_for_other_evm
+    # baseline(for back to mainpage)
+    @cfg_param[:no_use_baseline] = params[:no_use_baseline]
     # selectable tracker
     @selectable_tracker = selectable_tracker_list(@project)
     # calculate EVM (tracker)
