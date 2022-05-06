@@ -1,4 +1,4 @@
-<div class="evm-div-col">
+<div class="evm-div-col-basic">
   <fieldset><legend><%= l(:Indicator_metrics) %></legend>
   <table>
     <tr>
@@ -21,7 +21,7 @@
   </fieldset>
 </div>
 <% if use_baseline %>
-  <div class="evm-div-col">
+  <div class="evm-div-col-baseline">
     <fieldset><legend><%= l(:indicator_baseline_variance) %></legend>
     <table>
       <tr>
@@ -41,8 +41,8 @@
     </fieldset>
   </div>
 <% end %>
-<div class="evm-div-col">
-  <% if version_list.present? %>
+<% if version_list.present? %>
+  <div class="evm-div-col-version">
     <fieldset><legend><%=l(:field_version)%></legend>
     <table>
       <% version_list.each do |name, count| %>
@@ -53,9 +53,9 @@
       <% end %>
     </table>
     </fieldset>
-  <% end %>
-</div>
-<div class="evm-div-col">
+  </div>
+<% end %>
+<div class="evm-div-col-assignee">
   <fieldset><legend><%=l(:field_assigned_to)%></legend>
   <table id="metrics-table">
     <% assignee_list.each do |name, count| %>
@@ -67,7 +67,7 @@
   </table>
   </fieldset>
 </div>
-<div class="evm-div-col">
+<div class="evm-div-col-tracker">
   <fieldset><legend><%=l(:field_tracker)%></legend>
   <table>
     <% tracker_list.each do |name, count| %>

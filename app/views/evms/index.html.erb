@@ -40,61 +40,60 @@
   <!-- view option -->
   <%= render partial: "/common/option_field"%>
   <!--metrics-->
-  <section>
-    <h4><%= l(:subtitle_evm_summary)%></h4>
-    <%= render partial: "/evms/metrics",
-        locals: { version_list: @count_version_list,
-                  assignee_list: @count_assignee_list,
-                  tracker_list: @count_tracker_list,
-                  project_metrics: @project_metrics,
-                  use_baseline: @project_evm.pv_baseline,
-                  baseline_variance: @baseline_variance,
-                  finished_date: @project_evm.finished_date,
-                  project: @project,
-                  cfg_param: @cfg_param } %>
-  </section>
-  <!--Indicator value of EVM -->
-  <section>
-    <h4><%= l(:subtitle_evm_indicator)%></h4>
-    <%= render partial: "/evms/measure_evm",
-        locals: { project_evm: @project_evm,
-                  cfg_param: @cfg_param } %>
-  </section>
-  <!--Indicator value of ES -->
-  <section>
-    <h4><%= l(:subtitle_es_indicator)%></h4>
-    <%= render partial: "/evms/measure_es",
-        locals: { project_evm: @project_evm,
-                  cfg_param: @cfg_param } %>
-  </section>
-  <!-- Exports -->
-  <% other_formats_links do |f| %>
-    <%= f.link_to "CSV", :url => {:action => :index} %>
-  <% end %>
-  <!-- Main Chart -->
-  <section>
-    <h4><%= l(:subtitle_evm_chart_main) %></h4>
-    <B><%= used_baseline_name(@selectable_baseline, @cfg_param[:baseline_id]) %></B>
-    <%= render partial: "/evms/project_chart_js",
-        locals: { basis_date: convert_to_labels(@project_evm.finished_date || @cfg_param[:basis_date]),
-                  chart_data: @evm_chart_data,
-                  basis_date_label: basis_date_label(@project_evm.finished_date) }%>
-  </section>
-  <br>
-  <!-- Performance Chart -->
-  <% if @cfg_param[:display_performance] %>
-    <section>
-      <h4><%= l(:subtitle_evm_chart_performance) %></h4>
-      <%= render partial: "/evms/performance_chart_js",
-          locals: { basis_date: convert_to_labels(@cfg_param[:basis_date]) ,
-                    performance_chart_data: @performance_chart_data} %>
-    </section>
-  <% end %>
-  <!-- Incomplete issue list -->
-  <% if @cfg_param[:display_incomplete] %>
-    <section>
-      <h4><%= l(:subtitle_evm_incomplete_issues) %></h4>
-      <%= render partial: "/common/issue_list", locals: { issues: @incomplete_issues, option_value: {} } %>
-    </section>
-  <% end %>
+  <%= render partial: "/evms/metrics",
+      locals: { version_list: @count_version_list,
+                assignee_list: @count_assignee_list,
+                tracker_list: @count_tracker_list,
+                project_metrics: @project_metrics,
+                use_baseline: @project_evm.pv_baseline,
+                baseline_variance: @baseline_variance,
+                finished_date: @project_evm.finished_date,
+                project: @project,
+                cfg_param: @cfg_param } %>
+  <!-- More information tab -->
+  <div class="tab-wrap">
+    <input id="TAB-01" type="radio" name="TAB" class="tab-switch" checked="checked" ><label class="tab-label" for="TAB-01"><%= l(:subtitle_evm_indicator)%></label>
+    <div class="tab-content">
+      <!--Indicator value of EVM -->
+      <%= render partial: "/evms/measure_evm",
+          locals: { project_evm: @project_evm,
+                    cfg_param: @cfg_param } %>
+      <!-- Exports -->
+      <% other_formats_links do |f| %>
+        <%= f.link_to "CSV", :url => {:action => :index} %>
+      <% end %>
+    </div>
+    <input id="TAB-02" type="radio" name="TAB" class="tab-switch" ><label class="tab-label" for="TAB-02"><%= l(:subtitle_es_indicator)%></label>
+    <div class="tab-content">
+      <!--Indicator value of ES -->
+      <%= render partial: "/evms/measure_es",
+          locals: { project_evm: @project_evm,
+                    cfg_param: @cfg_param } %>
+    </div>
+    <input id="TAB-03" type="radio" name="TAB" class="tab-switch" ><label class="tab-label" for="TAB-03"><%= l(:subtitle_evm_chart_main) %></label>
+    <div class="tab-content">
+      <!-- Main Chart -->
+      <B><%= used_baseline_name(@selectable_baseline, @cfg_param[:baseline_id]) %></B>
+      <%= render partial: "/evms/project_chart_js",
+          locals: { basis_date: convert_to_labels(@project_evm.finished_date || @cfg_param[:basis_date]),
+                    chart_data: @evm_chart_data,
+                    basis_date_label: basis_date_label(@project_evm.finished_date) }%>
+    </div>
+    <!-- Performance Chart -->
+    <% if @cfg_param[:display_performance] %>
+      <input id="TAB-04" type="radio" name="TAB" class="tab-switch" ><label class="tab-label" for="TAB-04"><%= l(:subtitle_evm_chart_performance) %></label>
+      <div class="tab-content">
+        <%= render partial: "/evms/performance_chart_js",
+            locals: { basis_date: convert_to_labels(@cfg_param[:basis_date]) ,
+                      performance_chart_data: @performance_chart_data } %>
+      </div>
+    <% end %>
+    <!-- Incomplete issue list -->
+    <% if @cfg_param[:display_incomplete] %>
+      <input id="TAB-05" type="radio" name="TAB" class="tab-switch" ><label class="tab-label" for="TAB-05"><%= l(:subtitle_evm_incomplete_issues) %></label>
+      <div class="tab-content">
+        <%= render partial: "/common/issue_list", locals: { issues: @incomplete_issues, option_value: {} } %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
