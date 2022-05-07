@@ -19,8 +19,8 @@ class EvmassigneesController < BaseevmController
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
     @cfg_param[:selected_assignee_id] = params[:selected_assignee_id]
-    # default params
-    set_default_params_for_other_evm
+    # baseline(for back to mainpage)
+    @cfg_param[:no_use_baseline] = params[:no_use_baseline]
     # selectable assignee
     @selectable_assignees = selectable_assignee_list(@project)
     # calculate EVM (assignee)
