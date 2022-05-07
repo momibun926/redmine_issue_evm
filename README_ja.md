@@ -5,7 +5,7 @@
 チケットの開始日、期日、予定工数、作業時間を利用してEVM値の計算とチャートを表示する機能を提供しています。期日が入力されず、バージョンの期日がある場合は、期日としてバージョンの期日を利用します。
 
 # バージョン
-6.0.0
+6.0.1
 
 # 動作環境
 Redmine 5.0.0 以上
@@ -19,7 +19,7 @@ Redmine 5.0.0 以上
 > https://github.com/momibun926/redmine_issue_evm/tree/redmine4.0
 
 # 主な機能
-## プロジェクトの基礎情報の表示
+## 基本情報の表示
 * プロジェクトの期間
 * ステータス
 * プロジェクト期日までの日数
@@ -195,8 +195,16 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ```
 
 # 画面サンプル
-**全体**
-![evm sample screenshot](./images/screenshot_main.png "overview")
+**メインページ-EVM**
+![evm sample screenshot](./images/screenshot_main1.png "overview")
+**メインページ-ES**
+![evm sample screenshot](./images/screenshot_main2.png "overview")
+**メインページ-EVMチャート**
+![evm sample screenshot](./images/screenshot_main3.png "overview")
+**メインページ-Performaneceチャート**
+![evm sample screenshot](./images/screenshot_main4.png "overview")
+**メインページ-未完了チケット**
+![evm sample screenshot](./images/screenshot_main5.png "overview")
 
 **担当別**
 ![evm sample screenshot](./images/screenshot_assignee.png "assgnees")
