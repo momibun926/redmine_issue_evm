@@ -32,7 +32,7 @@ class Evmbaseline < ActiveRecord::Base
   acts_as_event title: Proc.new { |o| (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new)) },
                 description: :description,
                 datetime: :updated_on,
-                type: Proc.new { |o| "evmbaseline- #{o.created_on < o.updated_on ? 'edit' : 'new'}" },
+                type: Proc.new { |o| "evmbaseline-#{o.created_on < o.updated_on ? 'edit' : 'new'}" },
                 url: Proc.new { |o| { controller: "evmbaselines", action: :show, project_id: o.project, id: o.id } }
 
   acts_as_activity_provider scope: joins(:project),

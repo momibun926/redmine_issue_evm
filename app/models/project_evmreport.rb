@@ -22,7 +22,7 @@ class ProjectEvmreport < ActiveRecord::Base
                 url: Proc.new { |o| { controller: "evmreports", action: :show, project_id: o.project, id: o.id } }
 
   acts_as_activity_provider scope: joins(:project),
-                            permission: :view_evmreports,
+                            permission: :view_project_evmreports,
                             type: "project_evmreport",
                             author_key: :author_id
 
