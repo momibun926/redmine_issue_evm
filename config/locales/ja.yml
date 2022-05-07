@@ -1,4 +1,4 @@
-﻿﻿# japanease translation
+﻿# japanease translation
 ja:
   # main title
   title_evm_tab: Track with EVM
@@ -133,7 +133,8 @@ ja:
   label_ativity_message_new: ベースラインが作成されました
   label_ativity_message_edit: ベースラインの説明が更新されました
   label_project_evmreport_plural: プロジェクト報告
-  label_ativity_message_report: プロジェクト報告が作成されました
+  label_ativity_message_report_new: プロジェクト報告を作成しました
+  label_ativity_message_report_edit: プロジェクト報告を編集しました
 
   # Explanation title
   explanation_basis: 基本

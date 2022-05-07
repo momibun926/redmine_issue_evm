@@ -42,6 +42,7 @@ Style/StringLiterals:
 Style/Proc:
   Exclude:
     - "app/models/evmbaseline.rb"
+    - "app/models/project_evmreport.rb"
 
 Style/HashEachMethods:
   Enabled: true
