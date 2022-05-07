@@ -133,7 +133,8 @@ zh:
   label_ativity_message_new: 基线已建立。
   label_ativity_message_edit: 基线已更新。
   label_project_evmreport_plural: Project report
-  label_ativity_message_report: Report is created.
+  label_ativity_message_report_new: Report is created.
+  label_ativity_message_report_edit: Report is modified.
 
   # Explanation title
   explanation_basis: 基准

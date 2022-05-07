@@ -135,10 +135,12 @@ div[class*="evm-explanation"] {
 }
 
 /*** for activity page ***/
-dt.evmbaseline-new {
+dt.evmbaseline-new,
+dt.evmreports-new {
   background-image: url("../images/baseline-add.png");
 }
-dt.evmbaseline-edit {
+dt.evmbaseline-edit,
+dt.evmreports-edit {
   background-image: url("../images/baseline-edit.png");
 }
 

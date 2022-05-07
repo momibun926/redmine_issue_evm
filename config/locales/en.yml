@@ -131,7 +131,8 @@
   label_ativity_message_new: Baseline is created.
   label_ativity_message_edit: Baseline is updated.
   label_project_evmreport_plural: Project report
-  label_ativity_message_report: Report is created.
+  label_ativity_message_report_new: Report is created.
+  label_ativity_message_report_edit: Report is modified.
 
   # Explanation title
   explanation_basis: Basis
