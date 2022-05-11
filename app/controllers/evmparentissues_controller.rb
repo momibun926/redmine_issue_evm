@@ -17,8 +17,9 @@ class EvmparentissuesController < BaseevmController
     # View options
     @cfg_param[:basis_date] = params[:basis_date]
     @cfg_param[:selected_parent_issue_id] = params[:selected_parent_issue_id]
-    # baseline(for back to mainpage)
+    # For back to mainpage
     @cfg_param[:no_use_baseline] = params[:no_use_baseline]
+    @cfg_param[:display_explanation] = params[:display_explanation]
     # selectable parent issue
     @selectable_parent_issue = selectable_parent_issues_list(@project)
     # calculate EVM (parent issue)
