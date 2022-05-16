@@ -16,8 +16,8 @@
                                             { multiple: true, size: 5 }%>
     </fieldset>
   </div>
-  <%= hidden_field_tag :no_use_baseline, @cfg_param[:no_use_baseline] %>
-  <%= hidden_field_tag :display_explanation, @cfg_param[:display_explanation] %>
+  <%= hidden_field_tag :no_use_baseline, @cfg_param[:no_use_baseline] if @cfg_param[:no_use_baseline].present? %>
+  <%= hidden_field_tag :display_explanation, @cfg_param[:display_explanation] if @cfg_param[:display_explanation].present? %>
 <% end %>
 <!-- view option -->
 <%= render partial: "/common/option_field"%>
