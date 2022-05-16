@@ -16,7 +16,7 @@ h4 {
   border-left-width: 10px;
   border-color: darkgreen;
   border-radius: 5px 5px 5px 5px;
-  background-color:rgb(241, 237, 237) ;
+  background-color: rgb(241, 237, 237);
   float: left;
   min-height: 120px;
 }
@@ -27,7 +27,7 @@ h4 {
   border-left-width: 10px;
   border-color: darkblue;
   border-radius: 5px 5px 5px 5px;
-  background-color:rgb(241, 237, 237) ;
+  background-color: rgb(241, 237, 237);
   float: left;
   min-height: 120px;
 }
@@ -38,7 +38,7 @@ h4 {
   border-left-width: 10px;
   border-color: darkorange;
   border-radius: 5px 5px 5px 5px;
-  background-color:rgb(241, 237, 237) ;
+  background-color: rgb(241, 237, 237);
   float: left;
   min-height: 120px;
 }
@@ -49,7 +49,7 @@ h4 {
   border-left-width: 10px;
   border-color: darkmagenta;
   border-radius: 5px 5px 5px 5px;
-  background-color:rgb(241, 237, 237) ;
+  background-color: rgb(241, 237, 237);
   float: left;
   min-height: 120px;
 }
@@ -60,23 +60,23 @@ h4 {
   border-left-width: 10px;
   border-color: darkkhaki;
   border-radius: 5px 5px 5px 5px;
-  background-color:rgb(241, 237, 237) ;
+  background-color: rgb(241, 237, 237);
   float: left;
   min-height: 120px;
 }
-div[class*="evm-div-col"] fieldset{
+div[class*="evm-div-col"] fieldset {
   border-style: none;
 }
-div[class*="evm-div-col"] fieldset legend{
+div[class*="evm-div-col"] fieldset legend {
   font-size: 1.1em;
   font-weight: 800;
 }
 .metrics-apply {
-  clear:both;
+  clear: both;
 }
 td.difference-red {
   font-weight: bold;
-  color: #FF0000;
+  color: #ff0000;
 }
 
 /*** project metrics ***/
@@ -107,10 +107,10 @@ td.difference-red {
   text-align: center;
 }
 td.indicator-red {
-  background-color: #FF0000;
+  background-color: #ff0000;
 }
 td.indicator-orange {
-  background-color: #FF8C00;
+  background-color: #ff8c00;
 }
 
 /*** sidebar ***/
@@ -154,7 +154,7 @@ dt.evmreports-edit {
 /*** for baseline setting ***/
 #wrapper input[readonly],
 #wrapper textarea[readonly] {
-  background-color:aliceblue;
+  background-color: aliceblue;
 }
 
 /*** for baseline difference detail ***/
@@ -193,7 +193,7 @@ dt.evmreports-edit {
 }
 
 /*** active tab ***/
-.tab-switch:checked+.tab-label {
+.tab-switch:checked + .tab-label {
   background: darkblue;
   color: #eee;
 }
