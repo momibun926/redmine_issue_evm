@@ -15,14 +15,14 @@ class ProjectEvmreport < ActiveRecord::Base
             presence: true
 
   # for activity page.
-  acts_as_event title: Proc.new { l(:label_ativity_message_report) },
+  acts_as_event title: Proc.new { |o| (o.created_on < o.updated_on ? l(:label_ativity_message_report_edit) : l(:label_ativity_message_report_new)) },
                 description: :report_text,
                 datetime: :updated_on,
-                type: Proc.new { |o| "evmreports-#{o.created_on = o.updated_on ? 'new' : 'edit'}" },
+                type: Proc.new { |o| "evmreports-#{o.created_on < o.updated_on ? 'edit' : 'new'}" },
                 url: Proc.new { |o| { controller: "evmreports", action: :show, project_id: o.project, id: o.id } }
 
   acts_as_activity_provider scope: joins(:project),
-                            permission: :view_evmreports,
+                            permission: :view_project_evmreports,
                             type: "project_evmreport",
                             author_key: :author_id
 

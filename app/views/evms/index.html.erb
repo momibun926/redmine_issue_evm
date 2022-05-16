@@ -32,7 +32,7 @@
     <!-- explanation evm -->
     <div class="evm-div-col">
       <fieldset><legend><%= l(:label_explanation) %></legend>
-        <%= check_box_tag :display_explanation, "true", @cfg_param[:display_explanation] %>
+        <%= check_box_tag :display_explanation, true, @cfg_param[:display_explanation] %>
         <%= label_tag l(:label_display_explanation) %>
       </fieldset>
     </div>
