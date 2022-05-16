@@ -197,10 +197,6 @@ dt.evmreports-edit {
   background: darkblue;
   color: #eee;
 }
-.tab-switch:checked+.tab-label {
-  background: darkblue;
-  color: #eee;
-}
 .tab-switch:checked+.tab-label+.tab-content {
    display: block;
 }
