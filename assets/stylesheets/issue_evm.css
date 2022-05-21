@@ -18,7 +18,7 @@ h4 {
   border-radius: 5px 5px 5px 5px;
   background-color: rgb(241, 237, 237);
   float: left;
-  min-height: 120px;
+  min-height: 140px;
 }
 .evm-div-col-baseline {
   margin: 10px;
@@ -29,7 +29,7 @@ h4 {
   border-radius: 5px 5px 5px 5px;
   background-color: rgb(241, 237, 237);
   float: left;
-  min-height: 120px;
+  min-height: 140px;
 }
 .evm-div-col-version {
   margin: 10px;
@@ -40,7 +40,7 @@ h4 {
   border-radius: 5px 5px 5px 5px;
   background-color: rgb(241, 237, 237);
   float: left;
-  min-height: 120px;
+  min-height: 140px;
 }
 .evm-div-col-assignee {
   margin: 10px;
@@ -51,7 +51,7 @@ h4 {
   border-radius: 5px 5px 5px 5px;
   background-color: rgb(241, 237, 237);
   float: left;
-  min-height: 120px;
+  min-height: 140px;
 }
 .evm-div-col-tracker {
   margin: 10px;
@@ -62,7 +62,7 @@ h4 {
   border-radius: 5px 5px 5px 5px;
   background-color: rgb(241, 237, 237);
   float: left;
-  min-height: 120px;
+  min-height: 140px;
 }
 div[class*="evm-div-col"] fieldset {
   border-style: none;
