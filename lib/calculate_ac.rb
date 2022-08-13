@@ -14,7 +14,13 @@ class CalculateAc < BaseCalculateEvm
   def initialize(basis_date, costs)
     super(basis_date)
     # daily AC
-    @daily = costs.to_h
+    # The "present_on" is usually of type DATE. However, it is converted to DATE type
+    # because the value may be selected by DATETIME type with TIMEZONE. #228
+    @daily = {}
+    costs.each do |cost|
+      temp = cost[0].to_date
+      @daily[temp] = cost[1]
+    end
     # minimum first date
     # if no data, set basis date
     @min_date = @daily.keys.min || @basis_date
