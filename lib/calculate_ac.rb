@@ -14,7 +14,7 @@ class CalculateAc < BaseCalculateEvm
   def initialize(basis_date, costs)
     super(basis_date)
     # daily AC
-    # The "present_on" is usually of type DATE. However, it is converted to DATE type
+    # The "spent_on" is usually of type DATE. However, it is converted to DATE type
     # because the value may be selected by DATETIME type with TIMEZONE. #228
     @daily = {}
     costs.each do |cost|
