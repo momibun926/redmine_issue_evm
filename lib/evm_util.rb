@@ -25,7 +25,7 @@ module EvmUtil
   # @param [Numeric] bac_baseline bac of pv baseline
   # @return [String] state of bac
   def check_bac_variance(bac_actual, bac_baseline)
-    bac_actual == bac_baseline ? l(:no_changed) : l(:bac_cahnged)
+    bac_actual == bac_baseline ? l(:no_changed) : l(:bac_changed)
   end
 
   # check due date variance

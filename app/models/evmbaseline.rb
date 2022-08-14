@@ -29,7 +29,7 @@ class Evmbaseline < ActiveRecord::Base
   end
 
   # for activity page.
-  acts_as_event title: Proc.new { |o| (o.created_on < o.updated_on ? l(:label_ativity_message_edit) : l(:label_ativity_message_new)) },
+  acts_as_event title: Proc.new { |o| (o.created_on < o.updated_on ? l(:label_activity_message_edit) : l(:label_activity_message_new)) },
                 description: :description,
                 datetime: :updated_on,
                 type: Proc.new { |o| "evmbaseline-#{o.created_on < o.updated_on ? 'edit' : 'new'}" },

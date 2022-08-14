@@ -39,7 +39,7 @@ ja:
   indicator_due_date: プロジェクトの期限
   indicator_schedule: スケジュール
   no_changed: 変更なし
-  bac_cahnged: BACが変更されました
+  bac_changed: BACが変更されました
   due_date_changed: プロジェクトの期限が変更されました
   schedule_changed: スケジュールが変更されました
   progress: 作業中です
@@ -86,7 +86,7 @@ ja:
   label_report_show: レポートの照会
   label_report_list: レポート一覧
   label_report_text: 報告内容
-  label_report_evm_previus: 前回報告したEVM
+  label_report_evm_previous: 前回報告したEVM
   label_report_evm_report: 報告する基準日のEVM
 
   # baseline page
@@ -125,16 +125,16 @@ ja:
   label_calc_method3: 悲観的
 
   # Message
-  messsage_delete_baseline: ベースラインを削除してもよろしいですか?
-  messsage_delete_report: レポートを削除してもよろしいですか？
+  message_delete_baseline: ベースラインを削除してもよろしいですか?
+  message_delete_report: レポートを削除してもよろしいですか？
 
   # Activity page
   label_evmbaseline_plural: ベースライン
-  label_ativity_message_new: ベースラインが作成されました
-  label_ativity_message_edit: ベースラインの説明が更新されました
+  label_activity_message_new: ベースラインが作成されました
+  label_activity_message_edit: ベースラインの説明が更新されました
   label_project_evmreport_plural: プロジェクト報告
-  label_ativity_message_report_new: プロジェクト報告を作成しました
-  label_ativity_message_report_edit: プロジェクト報告を編集しました
+  label_activity_message_report_new: プロジェクト報告を作成しました
+  label_activity_message_report_edit: プロジェクト報告を編集しました
 
   # Explanation title
   explanation_basis: 基本
