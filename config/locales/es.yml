@@ -1,0 +1,182 @@
+﻿es:
+  # main title
+  title_evm_tab: Seguimiento con EVM
+
+  # contextual menu
+  label_nav_main: Proyecto
+  label_nav_version: Versiones
+  label_nav_assignee: Responsables
+  label_nav_parent_issue: Problemas principales
+  label_nav_tracker: Seguimientos
+  label_nav_exclude: Excluir problemas
+  label_nav_baseline_setting: "Configuración de línea base"
+  label_nav_evm_setting: "Configuración común"
+  label_nav_report: Informe del proyecto
+  label_nav_report_list: Lista de informes
+
+  # Main page
+  subtitle_evm_summary: Resumen
+  subtitle_evm_indicator: Elementos de gestión del valor ganado
+  subtitle_es_indicator: "Programación ganada"
+  subtitle_evm_incomplete_issues: Problemas incompletos
+  subtitle_evm_exclude_issues: Excluir problemas
+  subtitle_evm_modify_issues: Modificar problemas
+  subtitle_evm_new_issues: Problemas nuevos
+  subtitle_evm_remove_issues: Eliminar problemas
+  subtitle_evm_chart_main: "Gráficos de EVM"
+  subtitle_evm_chart_performance: "Gráficos de rendimiento"
+
+  # Indicator project metrics
+  indicator_metrics: "Métricas"
+  indicator_duration: Duración planificada
+  indicator_status: Estado
+  indicator_difference: Días de trabajo hasta la fecha de vencimiento
+  indicator_target_issues_count: Cantidad de problemas objetivo
+  indicator_baseline_variance: "Variación de línea base"
+  indicator_bac: BAC
+  indicator_due_date: Fecha de vencimiento del proyecto
+  indicator_schedule: "Programación"
+  no_changed: Sin cambios
+  bac_cahnged: BAC ha cambiado.
+  due_date_changed: La fecha de vencimiento ha cambiado.
+  schedule_changed: "Reprogramado, el plan de algunos problemas ha cambiado."
+  progress: Trabajo en progreso
+  finished: Terminado
+  overdue: Vencido
+  before_plan: Antes de la fecha de inicio del proyecto
+  within_duration: "Dentro del período del proyecto"
+  more_difference_details: Mostrar más detalles...
+
+  # Indicator table header
+  indicator_table_header_date: Fecha de estado
+  indicator_table_header_today: Valor de fecha de estado
+  indicator_table_header_difference: Variación
+  indicator_table_header_performance: "Desempeño"
+  indicator_table_header_forecast: "Pronóstico"
+
+  # Indicator table legend
+  explanation_upper_row: "La fila superior son horas."
+  explanation_lower_row: "La fila inferior son días."
+  explanation_es_unit: "días"
+
+  # Option - common
+  label_basis_date: Fecha de estado
+  label_finished_date: "Fecha de finalización"
+  # Option - main
+  label_baseline_use: "Usar línea base para el valor EVM"
+  label_no_use_baseline: No usar
+  label_explanation: "Explicación"
+  label_display_explanation: "Ver explicación del valor EVM en el panel lateral"
+  # Option - parent issue
+  label_select_parent_issue: Seleccionar issue padre
+  # Option - trackers
+  label_select_trackers: Seleccionar seguimiento
+  # Option - assignees
+  label_select_assignee: Seleccionar asignados
+  # Option - versions
+  label_select_version: Seleccionar versiones
+
+  # report page
+  label_report_show: Detalle del informe
+  label_report_edit: Editar informe
+  label_report_create: Nuevo informe
+  label_report_show: Mostrar informe
+  label_report_list: Lista de informes
+  label_report_text: Detalles del informe
+  label_report_evm_previus: EVM reportado previamente
+  label_report_evm_report: EVM en la fecha de estado
+  label_report_evm_difference: Diferencias previas reportadas de EVM
+
+  # baseline page
+  label_baseline: "Nombre de la línea base"
+  label_baseline_show: "Detalle de la línea base"
+  label_baseline_edit: "Editar línea base"
+  label_baseline_create: "Nueva línea base"
+  label_baseline_version: "Historial de la línea base"
+  label_baseline_set: "Configuración de la línea base"
+  label_baseline_start_date: Fecha de inicio
+  label_baseline_due_date: Fecha de entrega
+  label_baseline_bac: BAC
+  label_created_date: Creado en
+  label_current_baseline: "Último"
+  label_old_baseline: antiguo
+  label_latest_baseline: Ver EVM
+  label_based_on: "fecha de base de la línea base"
+
+  # common setting page
+  label_setting_create: "Crear configuración de EVM"
+  label_setting_edit: "Editar configuración de EVM"
+  label_setting_set: "Configuración de EVM"
+  label_basis_hours_of_day: "Horas básicas del día"
+  label_evm_graph: "Gráfico"
+  label_limit_spi: Umbral de SPI
+  label_limit_cpi: Umbral de CPI
+  label_limit_cr: Umbral de CR
+  label_exclude_holidays: "Excluir días festivos y fines de semana en el cálculo de la duración de los días."
+  label_region: Regiones para obtener un día festivo
+  label_display_incomplete: Problemas incompletos
+  label_display_performance: "Desempeño"
+  label_forecast: "Mostrar línea de pronóstico"
+  label_calculate : "Método de cálculo ETC"
+  label_calc_method1: Optimista
+  label_calc_method2: Normal
+  label_calc_method3: Pessimista
+  
+  # Message
+  messsage_delete_baseline: "Eliminar línea base, ¿estás seguro?"
+  messsage_delete_report: "Eliminar informe, ¿estás seguro?"
+
+  # Activity page
+  label_evmbaseline_plural: "Línea base"
+  label_ativity_message_new: "Se ha creado la línea base."
+  label_ativity_message_edit: "Se ha actualizado la línea base."
+  label_project_evmreport_plural: Informe del proyecto
+  label_ativity_message_report_new: Se ha creado el informe.
+  label_ativity_message_report_edit: Se ha modificado el informe.
+
+  # Explanation title
+  explanation_basis: Base
+  explanation_difference: Diferencia
+  explanation_performance: "Desempeño"
+  explanation_forecast: Pronóstico
+# Explanation
+  explanation_bac: "Presupuesto total asignado al proyecto."
+  explanation_sac: "Esta es la fecha (duración) originalmente prevista de finalización del proyecto."
+  explanation_pv: "Costo total del trabajo programado/previsto hasta una fecha de informe."
+  explanation_ev: "Costo total del trabajo completado/realizado hasta una fecha de informe. Cuando se establece la tasa de progreso, se registra en la fecha de cambio."
+  explanation_es: "Esta duración desde el inicio del proyecto hasta la fecha en que el PV debería haber sido igual al valor actual de EV."
+  explanation_ac: "Costo total para completar el trabajo hasta una fecha de informe."
+  explanation_at: "Esta es la duración desde el inicio del proyecto hasta la fecha de estado."
+  explanation_sv: "Variación positiva del calendario indica que estamos por delante del programa. La variación negativa del calendario indica que estamos detrás del programa."
+  explanation_cv: "Variación positiva de costo indica que el proyecto está bajo presupuesto. Variación negativa de costo indica que el proyecto está por encima del presupuesto."
+  explanation_tv: "Si el valor de TV es negativo, el proyecto está detrás del programa y si es positivo, está por delante del programa."
+  explanation_spi: "Por encima de 1 indica que el equipo del proyecto es muy eficiente en el uso del tiempo asignado al proyecto. Por debajo de 1 indica que el equipo del proyecto es menos eficiente en el uso del tiempo asignado al proyecto."
+  explanation_cpi: "Por encima de 1 indica que la eficiencia en el uso de los recursos asignados al proyecto es buena. Por debajo de 1 indica que la eficiencia en el uso de los recursos asignados al proyecto no es buena."
+  explanation_cr: "Desempeño del proyecto. SPI * CPI"
+  explanation_tpi: "Índice de desempeño temporal, si TPI es mayor que 1, entonces el proyecto está por delante del programa y si es menor que 1, entonces el proyecto está detrás del programa."
+  explanation_complete: "Porcentaje de trabajo planificado para ser completado en la fecha de informe."
+  explanation_eac: "Estimación de costo al final del proyecto (EAC)."
+  explanation_teac: "El trabajo restante se realizará manteniendo la misma tasa de trabajo para el resto del proyecto."
+  explanation_etc: "El costo estimado requerido para completar el resto del proyecto. (BAC－EV) / CPI"
+  explanation_vac: "La variación en el presupuesto total al final del proyecto. BAC－EAC"
+  explanation_tvac: "La Variación de Tiempo al Completarse (TVAC) brinda una indicación de la cantidad estimada de tiempo en que se completará el proyecto antes o después del programa"
+  explanation_difference_end_date: "Diferencia de plan al final del día y previsión de finalización del día."
+  explanation_tcpi: "Mostrando la eficiencia con la que se deben utilizar los recursos en el proyecto para el resto del proyecto."
+
+  # Permission
+  project_module_Issuevm: "EVM"
+  permission_view_evms: "Ver EVM"
+  permission_manage_evmbaselines: "Editar Línea Base"
+  permission_manage_evmsettings: "Editar Configuración Común"
+  permission_view_evmbaselines: "Ver Línea Base"
+  permission_view_project_evmreports: "Ver Informe del Proyecto"
+
+  # Tab Display
+  tab_display_name: "EVM"
+
+  # incomplete_issue
+  issue_parent_id: "Padre#"
+
+  # EVM of assignee
+  no_assignee: "sin asignación"
+  estimated_working_hours: "Horas de trabajo estimadas"
