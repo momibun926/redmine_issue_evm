@@ -2,25 +2,81 @@
 h4 {
   font-weight: 800;
 }
-
-/*** metrics ***/
+/*** option ***/
 .evm-div-col {
   margin-top: 5px;
   padding: 0px 30px 0px 0px;
   float: left;
 }
-.evm-div-col fieldset{
+/*** metrics ***/
+.evm-div-col-basic {
+  margin: 10px;
+  padding: 10px 30px 0px 0px;
+  border-left: solid;
+  border-left-width: 10px;
+  border-color: darkgreen;
+  border-radius: 5px 5px 5px 5px;
+  background-color: rgb(241, 237, 237);
+  float: left;
+  min-height: 140px;
+}
+.evm-div-col-baseline {
+  margin: 10px;
+  padding: 10px 30px 0px 0px;
+  border-left: solid;
+  border-left-width: 10px;
+  border-color: darkblue;
+  border-radius: 5px 5px 5px 5px;
+  background-color: rgb(241, 237, 237);
+  float: left;
+  min-height: 140px;
+}
+.evm-div-col-version {
+  margin: 10px;
+  padding: 10px 30px 0px 0px;
+  border-left: solid;
+  border-left-width: 10px;
+  border-color: darkorange;
+  border-radius: 5px 5px 5px 5px;
+  background-color: rgb(241, 237, 237);
+  float: left;
+  min-height: 140px;
+}
+.evm-div-col-assignee {
+  margin: 10px;
+  padding: 10px 30px 0px 0px;
+  border-left: solid;
+  border-left-width: 10px;
+  border-color: darkmagenta;
+  border-radius: 5px 5px 5px 5px;
+  background-color: rgb(241, 237, 237);
+  float: left;
+  min-height: 140px;
+}
+.evm-div-col-tracker {
+  margin: 10px;
+  padding: 10px 30px 0px 0px;
+  border-left: solid;
+  border-left-width: 10px;
+  border-color: darkkhaki;
+  border-radius: 5px 5px 5px 5px;
+  background-color: rgb(241, 237, 237);
+  float: left;
+  min-height: 140px;
+}
+div[class*="evm-div-col"] fieldset {
   border-style: none;
 }
-.evm-div-col fieldset legend{
-  font-style: italic;
+div[class*="evm-div-col"] fieldset legend {
+  font-size: 1.1em;
+  font-weight: 800;
 }
 .metrics-apply {
-  clear:both;
+  clear: both;
 }
 td.difference-red {
   font-weight: bold;
-  color: #FF0000;
+  color: #ff0000;
 }
 
 /*** project metrics ***/
@@ -51,10 +107,10 @@ td.difference-red {
   text-align: center;
 }
 td.indicator-red {
-  background-color: #FF0000;
+  background-color: #ff0000;
 }
 td.indicator-orange {
-  background-color: #FF8C00;
+  background-color: #ff8c00;
 }
 
 /*** sidebar ***/
@@ -79,10 +135,12 @@ div[class*="evm-explanation"] {
 }
 
 /*** for activity page ***/
-dt.evmbaseline-new {
+dt.evmbaseline-new,
+dt.evmreports-new {
   background-image: url("../images/baseline-add.png");
 }
-dt.evmbaseline-edit {
+dt.evmbaseline-edit,
+dt.evmreports-edit {
   background-image: url("../images/baseline-edit.png");
 }
 
@@ -96,7 +154,7 @@ dt.evmbaseline-edit {
 /*** for baseline setting ***/
 #wrapper input[readonly],
 #wrapper textarea[readonly] {
-  background-color:aliceblue;
+  background-color: aliceblue;
 }
 
 /*** for baseline difference detail ***/
@@ -114,4 +172,36 @@ dt.evmbaseline-edit {
 #project_evmreport_evm_sv,
 #project_evmreport_evm_cv {
   text-align: right;
+}
+
+/*** more inforation tab ***/
+.tab-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tab-label {
+  border-radius: 5px 5px 5px 5px;
+  background: LightGray;
+  margin-right: 5px;
+  padding: 3px 12px;
+  order: -1;
+}
+.tab-content {
+  width: 100%;
+  display: none;
+  padding: 10px;
+}
+
+/*** active tab ***/
+.tab-switch:checked + .tab-label {
+  background: darkblue;
+  color: #eee;
+}
+.tab-switch:checked+.tab-label+.tab-content {
+   display: block;
+}
+
+/*** radio button ***/
+.tab-switch {
+  display: none;
 }

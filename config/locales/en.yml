@@ -2,7 +2,7 @@
   # main title
   title_evm_tab: Track with EVM
 
-  # contextial menu
+  # contextual menu
   label_nav_main: Project
   label_nav_version: Versions
   label_nav_assignee: Assignees
@@ -37,7 +37,7 @@
   indicator_due_date: Due date of project
   indicator_schedule: Schedule
   no_changed: No changed
-  bac_cahnged: BAC is changed.
+  bac_changed: BAC is changed.
   due_date_changed: Due date is changed.
   schedule_changed: Rescheduled, Plan of A few issue is changed.
   progress: Work in progress
@@ -83,7 +83,7 @@
   label_report_show: Show Report
   label_report_list: Report list
   label_report_text: Report details
-  label_report_evm_previus: Previously reported EVM
+  label_report_evm_previous: Previously reported EVM
   label_report_evm_report: EVM on status date
   label_report_evm_difference: Previously reported EVM differences
 
@@ -123,13 +123,16 @@
   label_calc_method3: Pessimistic
 
   # Message
-  messsage_delete_baseline: Remove baseline, are you sure?
-  messsage_delete_report: Remove report, Are you sure?
+  message_delete_baseline: Remove baseline, are you sure?
+  message_delete_report: Remove report, Are you sure?
 
   # Activity page
   label_evmbaseline_plural: Baseline
-  label_ativity_message_new: Baseline is created.
-  label_ativity_message_edit: Baseline is updated.
+  label_activity_message_new: Baseline is created.
+  label_activity_message_edit: Baseline is updated.
+  label_project_evmreport_plural: Project report
+  label_activity_message_report_new: Report is created.
+  label_activity_message_report_edit: Report is modified.
 
   # Explanation title
   explanation_basis: Basis
@@ -167,6 +170,7 @@
   permission_manage_evmbaselines: Edit Baseline
   permission_manage_evmsettings: Edit Common Setting
   permission_view_evmbaselines: View Baseline
+  permission_view_project_evmreports: View Project report
 
   # Tab Display
   tab_display_name: EVM

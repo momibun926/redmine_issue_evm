@@ -3,7 +3,7 @@ zh:
   # main title
   title_evm_tab: Track with EVM
 
-  # contextial menu
+  # contextual menu
   label_nav_main: Project
   label_nav_version: Versions
   label_nav_assignee: Assignees
@@ -38,7 +38,7 @@ zh:
   indicator_due_date: Due date of project
   indicator_schedule: Schedule
   no_changed: No changed
-  bac_cahnged: BAC is changed.
+  bac_changed: BAC is changed.
   due_date_changed: Due date is changed.
   schedule_changed: Rescheduled, Plan of A few issue is changed.
   progress: Work in progress
@@ -85,7 +85,7 @@ zh:
   label_report_show: Show Report
   label_report_list: Report list
   label_report_text: Report details
-  label_report_evm_previus: Previously reported EVM
+  label_report_evm_previous: Previously reported EVM
   label_report_evm_report: EVM on Status date
   label_report_evm_difference: Previously reported EVM differences
 
@@ -125,13 +125,16 @@ zh:
   label_calc_method3: 悲观
 
   # Message
-  messsage_delete_baseline: 确定删除基线？
-  messsage_delete_report: 确定删除基线？
+  message_delete_baseline: 确定删除基线？
+  message_delete_report: 确定删除基线？
 
   # Activity page
   label_evmbaseline_plural: 基线
-  label_ativity_message_new: 基线已建立。
-  label_ativity_message_edit: 基线已更新。
+  label_activity_message_new: 基线已建立。
+  label_activity_message_edit: 基线已更新。
+  label_project_evmreport_plural: Project report
+  label_activity_message_report_new: Report is created.
+  label_activity_message_report_edit: Report is modified.
 
   # Explanation title
   explanation_basis: 基准
@@ -169,6 +172,7 @@ zh:
   permission_manage_evmbaselines: 编辑基线
   permission_manage_evmsettings: Edit Common Setting
   permission_view_evmbaselines: 查看基线
+  permission_view_project_evmreports: View Project report
 
   # Tab Display
   tab_display_name: EVM

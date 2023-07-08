@@ -5,7 +5,7 @@ module CommonHelper
   # performance index content.
   #
   # @param [Numeric] value evn value
-  # @param [float] limit threthold in configuration
+  # @param [float] limit Threshold in configuration
   # @return [String] htm element <td class="color">value</td>
   def performance_indicator(value, limit)
     color = case value
