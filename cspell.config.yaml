@@ -1,0 +1,19 @@
+version: "0.2"
+ignorePaths: []
+dictionaryDefinitions: []
+dictionaries: []
+words:
+  - evmbaseline
+  - evmbaselines
+  - evmreport
+  - evmreports
+  - evms
+  - evmsettings
+  - Issuevm
+  - Redmine
+  - Shen
+  - tcpi
+  - teac
+  - tvac
+ignoreWords: []
+import: []
