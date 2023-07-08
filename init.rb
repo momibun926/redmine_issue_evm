@@ -12,9 +12,18 @@ class RedmineIssueEvmHookListener < Redmine::Hook::ViewListener
 end
 
 # for search and activity page
-Rails.configuration.to_prepare do
+if Rails.version > "6.0" && Rails.autoloaders.zeitwerk_enabled?
   Redmine::Activity.register "evmbaseline"
+  Redmine::Activity.register "project_evmreport"
   Redmine::Search.available_search_types << "evmbaselines"
+  Redmine::Search.available_search_types << "project_evmreports"
+else
+  Rails.configuration.to_prepare do
+    Redmine::Activity.register "evmbaseline"
+    Redmine::Activity.register "project_evmreport"
+    Redmine::Search.available_search_types << "evmbaselines"
+    Redmine::Search.available_search_types << "project_evmreports"
+  end
 end
 
 # module define
@@ -22,7 +31,7 @@ Redmine::Plugin.register :redmine_issue_evm do
   name "Redmine Issue Evm plugin"
   author "Hajime Nakagama"
   description "Earned value management calculation plugin."
-  version "5.6.1"
+  version "6.0.1"
   url "https://github.com/momibun926/redmine_issue_evm"
   author_url "https://github.com/momibun926"
   project_module :Issuevm do
@@ -33,6 +42,8 @@ Redmine::Plugin.register :redmine_issue_evm do
                evmbaselines: %i[index history show]
     permission :manage_evmsettings,
                evmsettings: %i[ndex edit]
+    permission :view_project_evmreports,
+               evmreports: %i[index show new create edit destroy]
   end
 
   # menu

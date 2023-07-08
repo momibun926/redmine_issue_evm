@@ -1,7 +1,3 @@
-require "calculate_pv"
-require "calculate_ev"
-require "calculate_ac"
-
 # Calculation EVM module
 module CalculateEvmLogic
   # Calculation EVM class.

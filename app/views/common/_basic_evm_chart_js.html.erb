@@ -73,8 +73,8 @@ var myChart = new Chart(ctx, {
             intersect: false,
             callbacks: {
                 title: function (tooltipItem, data){
-                    var title = tooltipItem[0].xLabel;
-                    return title.replace(", 12:00:00 am","");
+                    var title = new Date(Date.parse(tooltipItem[0].xLabel));
+                    return title.toDateString();
                 }
             }
         },

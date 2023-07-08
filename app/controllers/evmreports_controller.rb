@@ -67,12 +67,11 @@ class EvmreportsController < BaseevmController
     evm_report.created_on = Time.now.utc
     evm_report.update_user_id = User.current.id
     evm_report.updated_on = Time.now.utc
+    evm_report.author_id = User.current.id
     # Save
     if evm_report.save
       # delete previus report of same status date
-      ProjectEvmreport.
-        where(project_id: evm_report.project_id, status_date: evm_report.status_date).
-        where.not(id: evm_report.id).delete_all
+      ProjectEvmreport.where(project_id: evm_report.project_id, status_date: evm_report.status_date).where.not(id: evm_report.id).delete_all
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: :index
     else

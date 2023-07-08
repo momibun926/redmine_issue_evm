@@ -5,18 +5,21 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-5.6.1
+6.0.1
 
 ## Compatibility
-Redmine 4.0.0 and above
+Redmine 5.0.0 and above
 
 > *Notification*
 >
 > The redmine3.4.x compatible version in branch "redmine3-4-3".
 > https://github.com/momibun926/redmine_issue_evm/tree/redmine3-4-3
+>
+> The redmine4.x.x compatible version in branch "redmine4.0".
+> https://github.com/momibun926/redmine_issue_evm/tree/redmine4.0
 
 # Main features
-* Calculate EVM with chart
+## Calculate EVM with chart
   * All projects with ES
   * Each version
   * Each asssignee (Shown estimated hours each days on chart)
@@ -24,10 +27,10 @@ Redmine 4.0.0 and above
   * Some Tarckers
   * Calculating EV based on daily done ratio
   * Daily EAC
-* Project reporting based on EVM
+## Project reporting based on EVM
   * Project overview can be recorded with EVM values
   * List, query, and edit historical summaries
-* Project metrics
+## Project metrics
   * Duration
   * Satus
   * Days until due date
@@ -35,17 +38,19 @@ Redmine 4.0.0 and above
   * Variance at baseline and show issue list
   * Amount of issue. (version, assignee, tracker)
   * Chart of EVM(PV,EV,AC), Forecast is invalid when project is finished.
-* Common setting
+## Common setting
   * Basic time of day
   * Calculation method of ETC
   * Forcast chart, Performance chart, Threthold value, incomplete issues
-* Create baselines, and view history
+## Create baselines, and view history
+  * Create baseline
+  * View past created baseline
 
 # How to calculate EVM
 The below are used for EVM.
 
 * start date
-* due date　(If empty, effective of version)
+* due date(If empty, effective of version)
 * estimated time (If you set it as 0, you will not get PV, CV)
 * spent time
 
@@ -129,15 +134,26 @@ In Japan, May 3, May 4, May 5 are holidays
 |May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days     |4 hours   |
 
 # Chart
-Charts are displayed using Chart.js. This java scripts include Redmine.
+Chart.js is used to display charts, and Chart.bundle.min.js(Ver2) used in Redmine 4.2 is included with this plugin.
+I will make it compatible with Ver3 someday.
 
-**Main chart**
+**Main Chart**.
+Displays the cumulative PV, EV, and AC values from the issue being calculated in a time series. If a baseline has been set, the baseline is also displayed.
 
-Show PV,EV,AC with baseline. Display unclosed issues according to the baseline.
+**Performance Chart**
+Calculates and displays SPI, CPI, and CR only on days when PV, EV, and AC are calculated. If project members frequently close the ISSUE and enter work hours, the accuracy of measuring and predicting overall project performance will be improved.
 
-**Performance chart**
+**Chart by Version**.
+If your project is utilizing versions, this is a very useful chart. You can select any version in your project to view the chart.
 
-Show SPI,CPI,CR of the days involved with PV,EV,AC
+**Chart by Person**.
+Very useful if you have many members in your project. You can see the performance of each member of the team, which is not possible if you only look at the project as a whole.
+
+**Chart by parent issue**.
+This chart is for those who are managing tasks with a hierarchical structure of issuess.
+
+**Chart by Tracker**
+For those who manage trackers in a subdivided manner and do not want to include trackers in EVM calculations, you can select only the trackers you need and display the chart.
 
 # Installation
 (1) Getting plugin source
@@ -176,8 +192,20 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ```
 
 # Screen shots
-**Overview**
-![evm sample screenshot](./images/screenshot_main.png "overview")
+**Overview-EVM**
+![evm sample screenshot](./images/screenshot_main1.png "overview")
+
+**Overview-ES**
+![evm sample screenshot](./images/screenshot_main2.png "overview")
+
+**Overview-EVM Chart**
+![evm sample screenshot](./images/screenshot_main3.png "overview")
+
+**Overview-EVM Performance chart**
+![evm sample screenshot](./images/screenshot_main4.png "overview")
+
+**Overview-EVM Incomplete issue**
+![evm sample screenshot](./images/screenshot_main5.png "overview")
 
 **Assignees**
 ![evm sample screenshot](./images/screenshot_assignee.png "assgnees")
@@ -205,9 +233,9 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 5. Create new Pull Request
 
 # My Environment
-* Redmine version                4.2.4.stable.21433
-* Ruby version                   2.7.4-p191 (2021-07-07) [x86_64-linux]
-* Rails version                  5.2.6.2
+* Redmine version                5.0.0.stable.21553
+* Ruby version                   3.1.2-p20 (2022-04-12) [x86_64-linux]
+* Rails version                  6.1.5.1
 * Environment                    production
 * Database adapter               PostgreSQL
 * Mailer queue                   ActiveJob::QueueAdapters::AsyncAdapter
