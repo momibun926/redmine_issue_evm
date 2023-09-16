@@ -128,6 +128,9 @@ ja:
   message_delete_baseline: ベースラインを削除してもよろしいですか?
   message_delete_report: レポートを削除してもよろしいですか？
 
+  # Overview page
+  label_no_evm_setting: EVM設定を行う必要があります。EVMタブをクリックしてください。
+
   # Activity page
   label_evmbaseline_plural: ベースライン
   label_activity_message_new: ベースラインが作成されました
