@@ -1,0 +1,183 @@
+﻿cs:
+  # main title
+  title_evm_tab: Sledování pomocí EVM
+
+  # contextual menu
+  label_nav_main: Projekt
+  label_nav_version: Verze
+  label_nav_assignee: Řešitelé
+  label_nav_parent_issue: Rodičovské úkoly
+  label_nav_tracker: Fronty
+  label_nav_exclude: Nezahrnuté úkoly
+  label_nav_baseline_setting: Nastavení Baseline
+  label_nav_evm_setting: Obecná nastavení
+  label_nav_report: Report projektu
+  label_nav_report_list: Seznam reportů
+
+  # Main page
+  subtitle_evm_summary: Shrnutí
+  subtitle_evm_indicator: Hodnoty EVM
+  subtitle_es_indicator: Harmonogram hodnoty
+  subtitle_evm_incomplete_issues: Zpožděné úkoly
+  subtitle_evm_exclude_issues: Nezahrnuté úkoly
+  subtitle_evm_modify_issues: Změněné úkoly
+  subtitle_evm_new_issues: Nové úkoly
+  subtitle_evm_remove_issues: Odstraněné úkoly
+  subtitle_evm_chart_main: Grafy EVM
+  subtitle_evm_chart_performance: Grafy výkonnosti
+
+  # Indicator project metrics
+  Indicator_metrics: Přehled
+  indicator_duration: Plánované trvání
+  indicator_status: Stav
+  indicator_difference: Zbývá pracovních dní
+  indicator_target_issues_count: Počet zařazených úkolů
+  indicator_baseline_variance: Odchylky od Baseline
+  indicator_bac: Celkový rozpočet
+  indicator_due_date: Datum dokončení projektu
+  indicator_schedule: Harmonogram
+  no_changed: Beze změny
+  bac_changed: Změna
+  due_date_changed: Změna
+  schedule_changed: Změna
+  progress: Probíhá
+  finished: Dokončeno
+  overdue: " jsme po termínu"
+  before_plan: " jsme před začátkem projektu"
+  within_duration: " jsme v období průběhu projektu"
+  more_difference_details: Více...
+
+  # Indicator table header
+  indicator_table_header_date: Datum reportu
+  indicator_table_header_today: Hodnoty k datu reportu
+  indicator_table_header_difference: Odchylky
+  indicator_table_header_performance: Výkonnost
+  indicator_table_header_forecast: Předpověď
+
+  # Indicator table legend
+  explanation_upper_row: Horní řádek jsou hodiny.
+  explanation_lower_row: Spodní řádek jsou dny.
+  explanation_es_unit: Hodnoty jsou uvedeny ve dnech
+
+  # Option - common
+  label_basis_date: Datum reportu
+  label_finished_date: Dokončeno dne
+  # Option - main
+  label_baseline_use: Baseline pro hodnoty EVM
+  label_no_use_baseline: Nepoužít
+  label_explanation : Vysvětlivky
+  label_display_explanation: Zobrazit vysvětlivky ke zkratkám v bočním panelu
+  # Option - parent issue
+  label_select_parent_issue : Vyberte rodičovské úkoly
+  # Option - trackers
+  label_select_trackers: Vyberte úkoly
+  # Option - assignees
+  label_select_assignee: Vyberte odpovědné osoby
+  # Option - versions
+  label_select_version: Vyberte verze
+
+  # report page
+  label_report_show: Detail reportu
+  label_report_edit: Upravit report
+  label_report_create: Nový Report
+  label_report_show: Zobrazit Report
+  label_report_list: Seznam reportů
+  label_report_text: Detaily reportu
+  label_report_evm_previous: Minulé hodnoty EVM
+  label_report_evm_report: EVM k datu
+  label_report_evm_difference: Rozdíl mezi minulými a aktuálními hodnotami
+
+  # baseline page
+  label_baseline: Název Baseline
+  label_baseline_show: Detail Baseline
+  label_baseline_edit: Upravit Baseline
+  label_baseline_create: Nová Baseline
+  label_baseline_version: Historie Baseline
+  label_baseline_set: Nastavení Baseline
+  label_baseline_start_date: Start
+  label_baseline_due_date: Konec
+  label_baseline_bac: BAC
+  label_created_date: Vytvořeno
+  label_current_baseline: Poslední
+  label_old_baseline: Stará
+  label_latest_baseline: Zobrazit EVM
+  label_based_on: Datum schválení Baseline
+
+  # common setting page
+  label_setting_create: Vytvořte nastavení EVM
+  label_setting_edit: Upravte nastavení EVM
+  label_setting_set: Nastavení EVM
+  label_basis_hours_of_day: Základní počet hodin denně
+  label_evm_graph: Graf
+  label_limit_spi: SPI práh.
+  label_limit_cpi: CPI práh.
+  label_limit_cr: CR práh.
+  label_exclude_holidays: bez svátků
+  label_region: Svátky podle regionu
+  label_display_incomplete: Nedokončené úkoly
+  label_display_performance: Výkon
+  label_forecast: Zobrazit linii předpovědi
+  label_calculate : Metoda výpočtu ETC
+  label_calc_method1: Optimisticky
+  label_calc_method2: Normálně
+  label_calc_method3: Pesimisticky
+
+  # Message
+  message_delete_baseline: Opravdu smazat Baseline?
+  message_delete_report: Opravdu smazat report?
+
+  # Activity page
+  label_evmbaseline_plural: Baseline
+  label_activity_message_new: Baseline vytvořena.
+  label_activity_message_edit: Baseline aktualizována.
+  label_project_evmreport_plural: Report projektu
+  label_activity_message_report_new: Report vytvořen.
+  label_activity_message_report_edit: Report upraven.
+
+  # Explanation title
+  explanation_basis: Základní
+  explanation_difference: Odchylky
+  explanation_performance: Výkonnost
+  explanation_forecast: Předpověď
+
+  # Explanation
+  explanation_bac: Celkový rozpočet (náklady) projektu.
+  explanation_sac: Původně plánovaná délka projektu ve dnech.
+  explanation_pv: Celková cena plánované práce k datu reportu.
+  explanation_ev: Celková cena odvedené práce k datu reportu. Řídí se podle okamžiku, kdy byl u úkolu změněn údaj Hotovo %.
+  explanation_es: Kdy má/mělo být podle plánu odvedeno současné množství práce? (Počet dní od začátku projektu)
+  explanation_ac: Celkové náklady k datu reportu.
+  explanation_at: Počet dní od začátku projektu do data reportu.
+  explanation_sv: Jsme před (+), nebo za (-) plánem?
+  explanation_cv: Jsme pod (+), nebo nad (-) plánovanými náklady?
+  explanation_tv: O kolik dní jsme napřed (-), nebo pozadu (-) oproti plánu?
+  explanation_spi: Hodnota nad 1 znamená, že tým je efektivnější ve využití přiděleného času, pod 1 je naopak méně efektivní, než byl plán.
+  explanation_cpi: Hodnota nad 1 znamená, že využití zdrojů je lepší, než plánované. Pod 1 naopak horší.
+  explanation_cr: Celková výkonnost projektu = SPI * CPI
+  explanation_tpi: Index časové výkonnosti. Nad 1 jsme před plánem, pod 1 za plánem.
+  explanation_complete: Procento dokončení plánované k datu reportu.
+  explanation_eac: Předpokládané náklady na konci projektu.
+  explanation_teac: Jak dlouho bude projekt trvat při udržení současné výkonnosti.
+  explanation_etc: Předpokládané náklady na dokončení projektu = (BAC－EV) / CPI
+  explanation_vac: Rozdíl plánovaných a předpokládaných celkových nákladů = BAC－EAC
+  explanation_tvac: O kolik dní dříve (+), nebo později (-) projekt skončí?
+  explanation_difference_end_date: Rozdíl mezi plánovaným a předpokládaným datem dokončení projektu.
+  explanation_tcpi: Jaké CPI (využití zdrojů) je potřeba k dokončení projektu podle plánu?
+
+  # Permission
+  project_module_Issuevm: EVM
+  permission_view_evms: Zobrazit EVM
+  permission_manage_evmbaselines: Nastavení Baseline
+  permission_manage_evmsettings: Obecná nastavení
+  permission_view_evmbaselines: Zobrazit Baseline
+  permission_view_project_evmreports: Zobrazit report projektu
+
+  # Tab Display
+  tab_display_name: EVM
+
+  # incomplete_issue
+  issue_parent_id: Rodič#
+
+  # EVM of assignee
+  no_assignee: Nepřiděleno
+  estimated_working_hours: Předpokládaný počet hodin
