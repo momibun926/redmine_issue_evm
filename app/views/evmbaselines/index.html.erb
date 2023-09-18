@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-      　　<% @evm_baselines.each do |baseline| %>
+        <% @evm_baselines.each do |baseline| %>
           <tr class="baseline">
             <td class="subject"><%= link_to baseline.subject, {controller: :evms, action: :index, evmbaseline_id: baseline.id} %></td>
             <td class="description"><%= textilizable truncate_lines(baseline.description, length: 50) %></td>
@@ -44,7 +44,7 @@
               <%= link_to l(:button_delete), {controller: :evmbaselines, action: :destroy, id: baseline.id} , class: "icon icon-del", method: :delete, data: {confirm: l(:message_delete_baseline)} %>
             </td>
           </tr>
-      　　<% end; reset_cycle %>
+        <% end; reset_cycle %>
       </tbody>
     </table>
 <% end %>
