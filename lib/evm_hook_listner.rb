@@ -5,7 +5,13 @@ class EvmHookListner < Redmine::Hook::ViewListener
   include BaselineDataFetcher
   include CalculateEvmLogic
 
-  # hook on overview page
+  # plugin's css use all pages
+  render_on :view_layouts_base_html_head, inline: "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
+
+  # View hooks
+  # view_projects_show_left
+  #
+  # Display EVM on overview page
   def view_projects_show_left(context)
     html = '<div class="issues box">'
     html << '<h3 class="icon icon-issue">EVM</h3>'
