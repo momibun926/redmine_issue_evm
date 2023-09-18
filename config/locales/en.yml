@@ -126,6 +126,9 @@
   message_delete_baseline: Remove baseline, are you sure?
   message_delete_report: Remove report, Are you sure?
 
+  # Overview page
+  label_no_evm_setting: You need to do the initial setup of the EVM plugin, Click on the EVM tab
+
   # Activity page
   label_evmbaseline_plural: Baseline
   label_activity_message_new: Baseline is created.

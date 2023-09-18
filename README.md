@@ -5,7 +5,7 @@
 This plugin provides the function of calculating evm of projects . EVM can help you to track your project progress and its status and to forecast the future performance of the project.
 
 ## Current Version
-6.0.1
+6.0.2
 
 ## Compatibility
 Redmine 5.0.0 and above
@@ -22,17 +22,18 @@ Redmine 5.0.0 and above
 ## Calculate EVM with chart
   * All projects with ES
   * Each version
-  * Each asssignee (Shown estimated hours each days on chart)
+  * Each assignee (Shown estimated hours each days on chart)
   * Each parent issues
-  * Some Tarckers
+  * Some Trackers
   * Calculating EV based on daily done ratio
   * Daily EAC
+  * EVM summary on overview page
 ## Project reporting based on EVM
   * Project overview can be recorded with EVM values
   * List, query, and edit historical summaries
 ## Project metrics
   * Duration
-  * Satus
+  * Status
   * Days until due date
   * Amount of calculation issues
   * Variance at baseline and show issue list
@@ -41,7 +42,7 @@ Redmine 5.0.0 and above
 ## Common setting
   * Basic time of day
   * Calculation method of ETC
-  * Forcast chart, Performance chart, Threthold value, incomplete issues
+  * Forecast chart, Performance chart, Threshold value, incomplete issues
 ## Create baselines, and view history
   * Create baseline
   * View past created baseline
@@ -106,10 +107,10 @@ PV is based on your baseline. In addition, you can set calculation without basel
 * Using baseline
 * Explanation of EVM
 
-## About workig days
+## About working days
 1. Excluding weekends and holidays
 2. If it is only weekends or holidays, make it a working day
-3. Use holidays gem -> Regional settings are set in the common setting page(common setting link in contextial)
+3. Use holidays gem -> Regional settings are set in the common setting page(common setting link in contextual)
 
 Example)
 
@@ -150,7 +151,7 @@ If your project is utilizing versions, this is a very useful chart. You can sele
 Very useful if you have many members in your project. You can see the performance of each member of the team, which is not possible if you only look at the project as a whole.
 
 **Chart by parent issue**.
-This chart is for those who are managing tasks with a hierarchical structure of issuess.
+This chart is for those who are managing tasks with a hierarchical structure of issues.
 
 **Chart by Tracker**
 For those who manage trackers in a subdivided manner and do not want to include trackers in EVM calculations, you can select only the trackers you need and display the chart.
@@ -208,13 +209,13 @@ rake redmine:plugins:migrate NAME=redmine_issue_evm VERSION=0
 ![evm sample screenshot](./images/screenshot_main5.png "overview")
 
 **Assignees**
-![evm sample screenshot](./images/screenshot_assignee.png "assgnees")
+![evm sample screenshot](./images/screenshot_assignee.png "assignees")
 
 **Prent issues**
-![evm sample screenshot](./images/screenshot_parent_issue.png "assgnees")
+![evm sample screenshot](./images/screenshot_parent_issue.png "assignees")
 
 **Trackers**
-![evm sample screenshot](./images/screenshot_tracker.png "assgnees")
+![evm sample screenshot](./images/screenshot_tracker.png "assignees")
 
 **Create baseline**
 ![evm sample screenshot](./images/screenshot_new_baseline.png "New baseline")

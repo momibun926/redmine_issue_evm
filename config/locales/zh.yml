@@ -128,6 +128,9 @@ zh:
   message_delete_baseline: 确定删除基线？
   message_delete_report: 确定删除基线？
 
+  # Overview page
+  label_no_evm_setting: You need to do the initial setup of the EVM plugin, Click on the EVM tab
+
   # Activity page
   label_evmbaseline_plural: 基线
   label_activity_message_new: 基线已建立。

@@ -6,11 +6,6 @@ class Date
   include Holidays::CoreExtensions::Date
 end
 
-# View listener for activity page
-class RedmineIssueEvmHookListener < Redmine::Hook::ViewListener
-  render_on :view_layouts_base_html_head, inline: "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
-end
-
 # for search and activity page
 if Rails.version > "6.0" && Rails.autoloaders.zeitwerk_enabled?
   Redmine::Activity.register "evmbaseline"
@@ -31,7 +26,7 @@ Redmine::Plugin.register :redmine_issue_evm do
   name "Redmine Issue Evm plugin"
   author "Hajime Nakagama"
   description "Earned value management calculation plugin."
-  version "6.0.1"
+  version "6.0.2"
   url "https://github.com/momibun926/redmine_issue_evm"
   author_url "https://github.com/momibun926"
   project_module :Issuevm do

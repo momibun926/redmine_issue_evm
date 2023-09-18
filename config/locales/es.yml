@@ -121,10 +121,13 @@
   label_calc_method1: Optimista
   label_calc_method2: Normal
   label_calc_method3: Pessimista
-  
+
   # Message
   messsage_delete_baseline: "Eliminar línea base, ¿estás seguro?"
   messsage_delete_report: "Eliminar informe, ¿estás seguro?"
+
+  # Overview page
+  label_no_evm_setting: You need to do the initial setup of the EVM plugin, Click on the EVM tab
 
   # Activity page
   label_evmbaseline_plural: "Línea base"
