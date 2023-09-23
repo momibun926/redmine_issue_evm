@@ -1,0 +1,48 @@
+<div class="issues box">
+  <h3 class="icon icon-issue">EVM</h3>
+  <% if evm.nil? %>
+    <p class='nodata'>
+      <%= l(:label_no_evm_setting) %>
+    </p>
+  <% else %>
+    <ul>
+      <li><%= l(:indicator_table_header_date)%>: <%= evm.basis_date %></li>
+      <li><%= l(:label_baseline) %>: <%= baseline_subject %></li>
+    </ul>
+    <table id='evm-indicator-value-table' border='1' bordercolor = '#bbb'>
+      <tr>
+        <th>BAC</th>
+        <th>PV</th>
+        <th>EV</th>
+        <th>AC</th>
+        <th>SV</th>
+        <th>CV</th>
+        <th>SPI</th>
+        <th>CPI</th>
+      </tr>
+      <tr>
+        <td><%= evm.bac %></td>
+        <td><%= evm.today_pv %></td>
+        <td><%= evm.today_ev %></td>
+        <td><%= evm.today_ac %></td>
+        <td><%= evm.today_sv %></td>
+        <td><%= evm.today_cv %></td>
+        <td><%= evm.today_spi %></td>
+        <td><%= evm.today_cpi %></td>
+      </tr>
+      <tr>
+        <td><%= evm.bac(working_hours) %></td>
+        <td><%= evm.today_pv(working_hours) %></td>
+        <td><%= evm.today_ev(working_hours) %></td>
+        <td><%= evm.today_ac(working_hours) %></td>
+        <td><%= evm.today_sv(working_hours) %></td>
+        <td><%= evm.today_cv(working_hours) %></td>
+        <td><%= evm.today_spi(working_hours) %></td>
+        <td><%= evm.today_cpi(working_hours) %></td>
+      </tr>
+    </table>
+    <p>
+      <%= l(:explanation_upper_row) %> <%= l(:explanation_lower_row) %>
+    </p>
+  <% end %>
+</div>
