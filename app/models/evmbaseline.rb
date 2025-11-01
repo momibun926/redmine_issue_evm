@@ -1,5 +1,5 @@
 # baseline model
-class Evmbaseline < ActiveRecord::Base
+class Evmbaseline < ApplicationRecord
   # Relations
   belongs_to :author, class_name: "User"
   belongs_to :project

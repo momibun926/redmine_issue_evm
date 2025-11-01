@@ -1,5 +1,5 @@
 # project evmreport model
-class ProjectEvmreport < ActiveRecord::Base
+class ProjectEvmreport < ApplicationRecord
   # Relations
   belongs_to :author, class_name: "User"
   belongs_to :project
