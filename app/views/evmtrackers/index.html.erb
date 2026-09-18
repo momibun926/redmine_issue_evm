@@ -1,46 +1,16 @@
-<% html_title("Project tracking with EVM") %>
-<!-- sunb title -->
+<% html_title("Project tracking with EVM - #{l(:label_nav_tracker)}") %>
+<!-- sub title -->
 <% content_for :title_sub do %>
   <%= l(:label_nav_tracker) %>
 <% end %>
-<!-- contextual -->
-<%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param, report_param: nil} %>
-<!-- Content of view option -->
-<% content_for :additional_option do %>
-  <!-- select trackers -->
-  <div class="evm-div-col">
-    <fieldset><legend><%= l(:label_select_trackers) %></legend>
-      <%= select_tag :selected_tracker_id,
-          options_from_collection_for_select(@selectable_tracker, :tracker_id, :name,
-                                            @cfg_param[:selected_tracker_id]),
-                                            { multiple: true, size: 5 }%>
-    </fieldset>
-  </div>
-  <%= hidden_field_tag :no_use_baseline, @cfg_param[:no_use_baseline] if @cfg_param[:no_use_baseline].present? %>
-  <%= hidden_field_tag :display_explanation, @cfg_param[:display_explanation] if @cfg_param[:display_explanation].present? %>
-<% end %>
-<!-- view option -->
-<%= render partial: "/common/option_field"%>
-<!-- contents -->
-<section>
-  <%= raw display_no_data(@cfg_param[:selected_tracker_id]) %>
-  <% if @cfg_param[:selected_tracker_id].present? %>
-    <h3><%= @tracker_evm.description %></h3>
-    <!-- EVN value -->
-    <section>
-      <h4><%= l(:subtitle_evm_indicator)%></h4>
-      <%= render partial: "/common/basic_evm_value", locals: { evm: @tracker_evm, cfg_param: @cfg_param } %>
-    </section>
-    <br>
-    <!-- Charts -->
-    <section>
-      <h4><%= l(:subtitle_evm_chart_main) %></h4>
-      <%= render partial: "/common/basic_evm_chart_js",
-          locals: { basis_date: convert_to_labels(@tracker_evm.finished_date || @cfg_param[:basis_date]),
-                    chart_data: @tracker_evm_chart,
-                    basis_date_label: basis_date_label(@tracker_evm.finished_date),
-                    id: "1",
-                    tittle: @tracker_evm.description } %>
-    </section>
-  <% end %>
-</section>
+<%= render partial: "/common/evm_breakdown",
+    locals: { cfg_param: @cfg_param,
+              select_field: :selected_tracker_id,
+              select_legend: l(:label_select_trackers),
+              select_options: options_from_collection_for_select(@selectable_options, :tracker_id, :name,
+                                                                @cfg_param[:selected_tracker_id]),
+              evm_data: @evm_data,
+              chart_data_by_id: @evm_chart_data,
+              chart_partial: "/common/basic_evm_chart_js",
+              extra_chart_locals: {},
+              heading_link_method: nil } %>
