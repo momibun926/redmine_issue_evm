@@ -3,6 +3,10 @@
 class EvmreportsController < BaseevmController
   # menu
   menu_item :issuevm
+  # Before action -- was missing (see the current-state analysis doc,
+  # section 13); view_project_evmreports was declared in init.rb but never
+  # actually enforced without this, and was itself missing :update.
+  before_action :authorize
   # index for evm report
   #
   def index

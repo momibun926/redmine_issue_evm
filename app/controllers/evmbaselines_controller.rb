@@ -6,6 +6,10 @@
 class EvmbaselinesController < BaseevmController
   # menu
   menu_item :issuevm
+  # Before action -- was missing (see the current-state analysis doc,
+  # section 13); manage_evmbaselines/view_evmbaselines were declared in
+  # init.rb but never actually enforced without this.
+  before_action :authorize
   # display baseline list
   #
   def index

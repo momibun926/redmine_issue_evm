@@ -2,6 +2,11 @@
 class EvmsettingsController < BaseevmController
   # menu
   menu_item :issuevm
+  # Before action -- was missing (see the current-state analysis doc,
+  # section 13). manage_evmsettings' action list in init.rb had to be fixed
+  # in the same change, or this would have blocked :new/:update/:create
+  # (they had no permission mapped to them at all beforehand).
+  before_action :authorize
   # New setting
   #
   def new

@@ -23,6 +23,14 @@
 # and this base class follows the same, verified-safe convention rather than
 # risk silently breaking project-menu highlighting.
 class EvmBreakdownController < BaseevmController
+  # Before action -- was missing on all four subclasses, and init.rb had no
+  # permission entry for any of them at all (see the current-state analysis
+  # doc, section 13); now covered by view_evms, same as the main EVM page.
+  # Unlike menu_item above, before_action uses Rails' normal callback chain
+  # (not a class-level instance variable), so declaring it once here safely
+  # applies to all four subclasses.
+  before_action :authorize
+
   # View of the breakdown page.
   #
   # 1. set options of view request
