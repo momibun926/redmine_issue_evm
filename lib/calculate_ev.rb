@@ -76,10 +76,19 @@ class CalculateEv < BaseCalculateEvm
       elsif issue.children?
         child = issue_child(issue)
         if child.closed_on.present?
+          # A parent issue's own EV is the sum of its children's EV, not a
+          # share of the parent's own estimated_hours -- this branch only
+          # runs when the parent itself has no done_ratio set (see the
+          # elsif chain above), so issue.done_ratio here is always 0 and
+          # crediting issue.estimated_hours * issue.done_ratio always added
+          # 0.0, regardless of the child closing. Credit the closed child's
+          # own estimated_hours instead (100, not child.done_ratio: closed
+          # is treated as fully earned everywhere else in this method too,
+          # see the issue.closed? branch above).
           dt = User.current.time_to_date(child.closed_on)
           temp_ev[dt] = add_daily_evm_value(temp_ev[dt],
-                                            issue.estimated_hours.to_f,
-                                            issue.done_ratio)
+                                            child.estimated_hours.to_f,
+                                            100)
         end
       end
       @issue_count += 1

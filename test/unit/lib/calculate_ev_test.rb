@@ -8,9 +8,10 @@ require File.expand_path("evm_calculation_test_helper", __dir__)
 #   2. open issue with a   -> EV built from its done_ratio journal history
 #      positive done_ratio
 #   3. open parent issue   -> only looked at when its own done_ratio is NOT positive
-#      whose child closed     (see the elsif chain), and adds
-#                              issue.estimated_hours * issue.done_ratio / 100 on the
-#                              child's close date
+#      whose child closed     (see the elsif chain), and credits the closed child's
+#                              own estimated_hours (in full) on the child's close
+#                              date -- a parent's EV is the sum of its children's
+#                              EV, not a share of the parent's own estimated_hours.
 #
 # See evm_calculation_test_helper.rb for FakeIssue/FakeJournal and for why
 # issue_journal/issue_child are stubbed instead of hitting the database.
@@ -54,18 +55,34 @@ class CalculateEvTest < ActiveSupport::TestCase
     assert_equal 10.0, ev.today_value
   end
 
-  def test_parent_issue_with_a_closed_child_uses_the_parent_own_done_ratio_not_100_percent
+  def test_parent_issue_with_a_closed_child_credits_the_child_own_estimated_hours
     # Reachable only when the parent's own done_ratio is 0 (see the elsif chain in
-    # calculate_earned_value), so this branch currently always contributes 0 hours of
-    # EV even though the child closed -- this test documents that actual, possibly
-    # unintended, behavior rather than the presumably-intended "child closed -> full
-    # credit" behavior. Worth a second look during the refactor.
-    child = FakeIssue.new(nil, nil, 0.0, 100, Time.utc(2026, 1, 6, 0, 0, 0), false)
+    # calculate_earned_value). Fixed 2026-09-19 (see the current-state analysis doc,
+    # section 8/14): this branch used to add
+    # issue.estimated_hours * issue.done_ratio / 100, but issue.done_ratio is
+    # guaranteed 0 to even reach this branch, so it always contributed 0.0 EV no
+    # matter what the child did. A parent's EV is the sum of its children's EV, so
+    # the fix credits the closed child's own estimated_hours in full (child closed
+    # == 100%, same convention the issue.closed? branch above already uses) on the
+    # child's close date, instead of a (always-zero) share of the parent's own
+    # estimated_hours.
+    child = FakeIssue.new(nil, nil, 5.0, 100, Time.utc(2026, 1, 6, 0, 0, 0), false)
     parent = FakeIssue.new(nil, nil, 12.0, 0, nil, true, nil, child)
 
     ev = CalculateEv.new(Date.new(2026, 1, 10), [parent])
 
     assert ev.daily.key?(Date.new(2026, 1, 6))
+    assert_equal 5.0, ev.daily[Date.new(2026, 1, 6)]
+  end
+
+  def test_parent_issue_with_a_closed_child_that_has_no_estimated_hours_still_adds_nothing
+    # Not a regression: if the child itself has no estimated_hours, there is
+    # nothing to credit, same as any other 0-estimated-hours issue in this class.
+    child = FakeIssue.new(nil, nil, 0.0, 100, Time.utc(2026, 1, 6, 0, 0, 0), false)
+    parent = FakeIssue.new(nil, nil, 12.0, 0, nil, true, nil, child)
+
+    ev = CalculateEv.new(Date.new(2026, 1, 10), [parent])
+
     assert_equal 0.0, ev.daily[Date.new(2026, 1, 6)]
   end
 
