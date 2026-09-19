@@ -2,10 +2,10 @@
 #
 class EvmHookViewListner < Redmine::Hook::ViewListener
   include IssueDataFetcher
-  include BaselineDataFetcher
-  include CalculateEvmLogic
   include ProjectEvmBuilder
   include EvmSettingParamBuilder
+  # BaselineDataFetcher and CalculateEvmLogic are not included here -- see
+  # BaseevmController for why (the same reasoning applies to this class).
 
   # plugin's css use all pages
   render_on :view_layouts_base_html_head, inline: "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
@@ -23,7 +23,7 @@ class EvmHookViewListner < Redmine::Hook::ViewListener
       cfg_param = cfg_param_from_setting(evm_setting)
       cfg_param[:basis_date] = User.current.time_to_date(Time.current)
       # baseline
-      selectable_baseline = selectable_baseline_list(context[:project])
+      selectable_baseline = BaselineDataFetcher.selectable_baseline_list(context[:project])
       if selectable_baseline.present?
         cfg_param[:baseline_id] = selectable_baseline.first.id
         baseline_subject = selectable_baseline.first.subject

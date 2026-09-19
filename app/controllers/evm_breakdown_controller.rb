@@ -78,10 +78,10 @@ class EvmBreakdownController < BaseevmController
   def create_evm_data
     Array(selected_ids).each do |id|
       issues, costs, description = evm_inputs_for(id)
-      evm = CalculateEvm.new(nil, issues, costs, @cfg_param)
+      evm = CalculateEvmLogic::CalculateEvm.new(nil, issues, costs, @cfg_param)
       evm.description = description
       @evm_data[id] = evm
-      @evm_chart_data[id] = evm_chart_data(evm)
+      @evm_chart_data[id] = ChartDataMaker.evm_chart_data(evm)
     end
   end
 end

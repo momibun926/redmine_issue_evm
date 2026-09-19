@@ -33,7 +33,7 @@ class EvmsController < BaseevmController
       # evm explanation
       @cfg_param[:display_explanation] = params[:display_explanation]
       # selectable baseline
-      @selectable_baseline = selectable_baseline_list(@project)
+      @selectable_baseline = BaselineDataFetcher.selectable_baseline_list(@project)
       @cfg_param[:baseline_id] = default_baseline_id
       # calculate EVM (project)
       create_evm_data
@@ -75,9 +75,9 @@ class EvmsController < BaseevmController
     # calculate EVM (shared with EvmHookViewListner, see ProjectEvmBuilder)
     @project_evm = build_project_evm(@project, @cfg_param)
     # create chart data
-    @evm_chart_data = evm_chart_data(@project_evm)
+    @evm_chart_data = ChartDataMaker.evm_chart_data(@project_evm)
     # create performance chart data
-    @performance_chart_data = performance_chart_data(@project_evm)
+    @performance_chart_data = ChartDataMaker.performance_chart_data(@project_evm)
   end
 
   # create other information data

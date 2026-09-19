@@ -8,10 +8,14 @@
 # the two drift apart over time -- see the current-state analysis doc,
 # section 2 -- so this module is the one place that logic lives now.
 #
-# Include it alongside IssueDataFetcher and BaselineDataFetcher (both
-# EvmsController and EvmHookViewListner already do, via BaseevmController /
-# their own includes), since #build_project_evm calls straight through to
-# #project_baseline / #evm_issues / #evm_costs on self.
+# Include it alongside IssueDataFetcher (both EvmsController and
+# EvmHookViewListner already do, via BaseevmController / their own
+# includes), since #build_project_evm calls straight through to
+# #evm_issues / #evm_costs on self -- Ruby resolves a bare *method* call via
+# the receiver's ancestor chain at call time, so this works regardless of
+# where ProjectEvmBuilder itself is included from. BaselineDataFetcher is
+# called explicitly below instead (it is no longer include-based; see that
+# file's own comment).
 module ProjectEvmBuilder
   # @param [Project] project project (descendants are included, same as
   #   evm_issues/evm_costs).
@@ -19,15 +23,16 @@ module ProjectEvmBuilder
   #   Only :baseline_id is read directly here; the rest is forwarded as-is.
   # @return [CalculateEvm] project-level EVM
   def build_project_evm(project, cfg_param)
-    baselines = project_baseline(cfg_param[:baseline_id])
+    baselines = BaselineDataFetcher.project_baseline(cfg_param[:baseline_id])
     issues = evm_issues(project)
     actual_cost = evm_costs(project)
-    # Not CalculateEvm.new directly: this module can be included by classes
-    # that don't lexically sit inside CalculateEvmLogic (e.g. it is defined
-    # at the top level here), and Ruby resolves bare constants lexically,
-    # not via the including class's ancestors -- so the unqualified name
-    # would not be found even though #include CalculateEvmLogic makes the
-    # *methods* available fine.
+    # Fully qualified, not bare CalculateEvm.new: Ruby resolves a bare
+    # *constant* lexically (by where the code is textually written), unlike
+    # a bare *method* call (resolved via the receiver's ancestor chain at
+    # call time, which is why evm_issues/evm_costs above work unqualified).
+    # This module is defined at the top level, not lexically inside
+    # CalculateEvmLogic, so an unqualified CalculateEvm would raise
+    # NameError here regardless of what includes ProjectEvmBuilder.
     CalculateEvmLogic::CalculateEvm.new(baselines, issues, actual_cost, cfg_param)
   end
 end

@@ -7,10 +7,13 @@
 #
 class BaseevmController < ApplicationController
   include IssueDataFetcher
-  include BaselineDataFetcher
-  include CalculateEvmLogic
-  include ChartDataMaker
   include EvmSettingParamBuilder
+  # BaselineDataFetcher, ChartDataMaker and CalculateEvmLogic are not
+  # included here (see each file's own comment): the first two are called
+  # explicitly (BaselineDataFetcher.foo(...), ChartDataMaker.foo(...)) and
+  # the third is only ever referenced fully-qualified
+  # (CalculateEvmLogic::CalculateEvm), so none of them need to be in this
+  # controller's ancestor chain.
 
   # Before action
   before_action :find_project, :find_common_setting

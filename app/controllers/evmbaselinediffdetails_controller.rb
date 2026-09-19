@@ -11,7 +11,7 @@ class EvmbaselinediffdetailsController < BaseevmController
   def index
     # baseline
     @cfg_param[:baseline_id] = params[:baseline_id]
-    baselines = project_baseline(params[:baseline_id])
+    baselines = BaselineDataFetcher.project_baseline(params[:baseline_id])
     # issues of project include disendants
     issues = evm_issues(@project)
     # issue detail
