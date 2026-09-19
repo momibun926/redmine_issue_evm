@@ -5,6 +5,7 @@ class EvmHookViewListner < Redmine::Hook::ViewListener
   include BaselineDataFetcher
   include CalculateEvmLogic
   include ProjectEvmBuilder
+  include EvmSettingParamBuilder
 
   # plugin's css use all pages
   render_on :view_layouts_base_html_head, inline: "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
@@ -16,7 +17,10 @@ class EvmHookViewListner < Redmine::Hook::ViewListener
   def view_projects_show_left(context)
     evm_setting = Evmsetting.find_by(project_id: context[:project].id)
     if evm_setting.present?
-      cfg_param = {}
+      # same shape as BaseevmController#find_common_setting, so the numbers
+      # this widget shows can't silently drift from the main EVM page's
+      # (see EvmSettingParamBuilder)
+      cfg_param = cfg_param_from_setting(evm_setting)
       cfg_param[:basis_date] = User.current.time_to_date(Time.current)
       # baseline
       selectable_baseline = selectable_baseline_list(context[:project])

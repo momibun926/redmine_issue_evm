@@ -10,6 +10,7 @@ class BaseevmController < ApplicationController
   include BaselineDataFetcher
   include CalculateEvmLogic
   include ChartDataMaker
+  include EvmSettingParamBuilder
 
   # Before action
   before_action :find_project, :find_common_setting
@@ -24,20 +25,7 @@ class BaseevmController < ApplicationController
     @cfg_param = {}
     return if @emv_setting.blank?
 
-    # plugin setting: chart
-    @cfg_param[:display_performance] = @emv_setting.view_performance
-    @cfg_param[:display_incomplete] = @emv_setting.view_issuelist
-    # plugin setting: chart and EVM value table
-    @cfg_param[:forecast] = @emv_setting.view_forecast
-    @cfg_param[:limit_spi] = @emv_setting.threshold_spi
-    @cfg_param[:limit_cpi] = @emv_setting.threshold_cpi
-    @cfg_param[:limit_cr] = @emv_setting.threshold_cr
-    # plugin setting: calculation evm
-    @cfg_param[:calcetc] = @emv_setting.etc_method
-    @cfg_param[:working_hours] = @emv_setting.basis_hours
-    # plugin setting: holyday region
-    @cfg_param[:exclude_holiday] = @emv_setting.exclude_holidays
-    @cfg_param[:region] = @emv_setting.region
+    @cfg_param = cfg_param_from_setting(@emv_setting)
   end
 
   # find project object
