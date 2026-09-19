@@ -9,6 +9,7 @@
 #
 class EvmsController < BaseevmController
   include EvmUtil
+  include ProjectEvmBuilder
   # menu
   menu_item :issuevm
   # Before action (override)
@@ -69,18 +70,10 @@ class EvmsController < BaseevmController
   # create EVN data
   #
   def create_evm_data
-    # baseline
-    baselines = project_baseline @cfg_param[:baseline_id]
-    # issues of project include disendants
-    issues = evm_issues(@project)
-    # spent time of project include disendants
-    actual_cost = evm_costs(@project)
-    @no_data = issues.blank?
-    # calculate EVM
-    @project_evm = CalculateEvm.new(baselines,
-                                    issues,
-                                    actual_cost,
-                                    @cfg_param)
+    # no data when the project has no eligible issues at all
+    @no_data = evm_issues(@project).blank?
+    # calculate EVM (shared with EvmHookViewListner, see ProjectEvmBuilder)
+    @project_evm = build_project_evm(@project, @cfg_param)
     # create chart data
     @evm_chart_data = evm_chart_data(@project_evm)
     # create performance chart data

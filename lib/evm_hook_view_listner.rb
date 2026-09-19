@@ -4,6 +4,7 @@ class EvmHookViewListner < Redmine::Hook::ViewListener
   include IssueDataFetcher
   include BaselineDataFetcher
   include CalculateEvmLogic
+  include ProjectEvmBuilder
 
   # plugin's css use all pages
   render_on :view_layouts_base_html_head, inline: "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
@@ -23,18 +24,10 @@ class EvmHookViewListner < Redmine::Hook::ViewListener
         cfg_param[:baseline_id] = selectable_baseline.first.id
         baseline_subject = selectable_baseline.first.subject
       end
-      baselines = project_baseline(cfg_param[:baseline_id])
       # working hours
       working_hours = evm_setting.basis_hours
-      # issues of project include disendants
-      issues = evm_issues(context[:project])
-      # spent time of project include disendants
-      actual_cost = evm_costs(context[:project])
-      # calculate EVM
-      project_evm = CalculateEvm.new(baselines,
-                                     issues,
-                                     actual_cost,
-                                     cfg_param)
+      # calculate EVM (shared with EvmsController, see ProjectEvmBuilder)
+      project_evm = build_project_evm(context[:project], cfg_param)
     else
       project_evm = nil
       working_hours = nil
