@@ -18,7 +18,8 @@ module EvmreportsHelper
   # @param [String] region region
   # @return [Array] working days
   def evm_report_status_date_difference(status_date, prev_status_date, exclude_holiday, region)
-    working_days(prev_status_date.to_date, status_date.to_date, exclude_holiday, region).size unless prev_status_date.nil?
+    working_days(prev_status_date.to_date, status_date.to_date,
+                 exclude_holiday, region).size unless prev_status_date.nil?
   end
 
   # EVM Difference

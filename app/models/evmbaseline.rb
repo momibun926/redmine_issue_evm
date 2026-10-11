@@ -46,5 +46,7 @@ class Evmbaseline < ApplicationRecord
                      date_column: :updated_on
   # scope
   scope :visible,
-        ->(*args) { joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args)) }
+        lambda { |*args|
+          joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_evmbaselines, *args))
+        }
 end

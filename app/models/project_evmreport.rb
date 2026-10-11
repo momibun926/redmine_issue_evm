@@ -15,7 +15,7 @@ class ProjectEvmreport < ApplicationRecord
             presence: true
 
   # for activity page.
-  acts_as_event title: Proc.new { |o| (o.created_on < o.updated_on ? l(:label_activity_message_report_edit) : l(:label_activity_message_report_new)) },
+  acts_as_event title: Proc.new { |o| o.created_on < o.updated_on ? l(:label_activity_message_report_edit) : l(:label_activity_message_report_new) },
                 description: :report_text,
                 datetime: :updated_on,
                 type: Proc.new { |o| "evmreports-#{o.created_on < o.updated_on ? 'edit' : 'new'}" },
@@ -38,5 +38,7 @@ class ProjectEvmreport < ApplicationRecord
         ->(status_date) { where("status_date < ?", status_date) }
 
   scope :visible,
-        ->(*args) { joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_project_evmreports, *args)) }
+        lambda { |*args|
+          joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_project_evmreports, *args))
+        }
 end
