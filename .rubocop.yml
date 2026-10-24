@@ -56,31 +56,14 @@ Style/HashTransformValues:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Metrics/ClassLength:
-  Max: 190
-
-Metrics/ModuleLength:
-  Max: 180
-
-Metrics/MethodLength:
-  Max: 30
-
-Layout/LineLength:
-  Max: 150
-
 Metrics/BlockLength:
-  Max: 25
   Exclude:
     - "init.rb"
 
-Metrics/CyclomaticComplexity:
-  Max: 9
-
-Metrics/PerceivedComplexity:
-  Max: 9
-
-Metrics/AbcSize:
-  Max: 70
+# Migrations are long by nature
+Metrics/MethodLength:
+  Exclude:
+    - "db/migrate/*"
 
 Gemspec/DeprecatedAttributeAssignment: # (renamed from DateAssignment)
   Enabled: true
