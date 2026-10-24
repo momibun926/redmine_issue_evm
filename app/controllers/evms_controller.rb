@@ -25,47 +25,66 @@ class EvmsController < BaseevmController
   # 5. export CSV
   #
   def index
-    if @emv_setting.present?
-      # Basis date of calculate
-      @cfg_param[:basis_date] = default_basis_date
-      # baseline
-      @cfg_param[:no_use_baseline] = params[:no_use_baseline]
-      # evm explanation
-      @cfg_param[:display_explanation] = params[:display_explanation]
-      # selectable baseline
-      @selectable_baseline = BaselineDataFetcher.selectable_baseline_list(@project)
-      @cfg_param[:baseline_id] = default_baseline_id
-      # calculate EVM (project)
-      create_evm_data
-      # create other information
-      create_other_information
-      # for create report
-      @report_param = {}
-      @report_param[:status_date] = @cfg_param[:basis_date]
-      @report_param[:baseline_id] = @cfg_param[:baseline_id]
-      @report_param[:bac] = @project_evm.bac
-      @report_param[:pv] = @project_evm.today_pv
-      @report_param[:ev] = @project_evm.today_ev
-      @report_param[:ac] = @project_evm.today_ac
-      @report_param[:sv] = @project_evm.today_sv
-      @report_param[:cv] = @project_evm.today_cv
-      @report_param[:working_hours] = @cfg_param[:working_hours]
-      # export
-      respond_to do |format|
-        format.html
-        format.csv do
-          send_data @project_evm.to_csv,
-                    type: "text/csv; header=present",
-                    filename: "evm_#{@project.name}_#{Date.current}.csv"
-        end
-      end
-    else
-      # redirect emv setting
-      redirect_to new_project_evmsetting_path
+    # redirect emv setting
+    return redirect_to(new_project_evmsetting_path) if @emv_setting.blank?
+
+    assign_view_options
+    # calculate EVM (project)
+    create_evm_data
+    # create other information
+    create_other_information
+    # for create report
+    create_report_param
+    # export
+    respond_to do |format|
+      format.html
+      format.csv { send_evm_csv }
     end
   end
 
   private
+
+  # Set the options of the view request to the cfg_param,
+  # and the selectable baseline (and the selected one).
+  #
+  def assign_view_options
+    # Basis date of calculate
+    @cfg_param[:basis_date] = default_basis_date
+    # baseline
+    @cfg_param[:no_use_baseline] = params[:no_use_baseline]
+    # evm explanation
+    @cfg_param[:display_explanation] = params[:display_explanation]
+    # selectable baseline
+    @selectable_baseline = BaselineDataFetcher.selectable_baseline_list(@project)
+    @cfg_param[:baseline_id] = default_baseline_id
+  end
+
+  # Create the values handed to the report page (today's EVM values).
+  #
+  def create_report_param
+    report_param = { status_date: @cfg_param[:basis_date], baseline_id: @cfg_param[:baseline_id] }
+    @report_param = report_param.merge(today_evm_values).merge(working_hours: @cfg_param[:working_hours])
+  end
+
+  # BAC and today's EVM values.
+  #
+  # @return [Hash] bac, pv, ev, ac, sv and cv
+  def today_evm_values
+    { bac: @project_evm.bac,
+      pv: @project_evm.today_pv,
+      ev: @project_evm.today_ev,
+      ac: @project_evm.today_ac,
+      sv: @project_evm.today_sv,
+      cv: @project_evm.today_cv }
+  end
+
+  # Send the EVM as a CSV file.
+  #
+  def send_evm_csv
+    send_data @project_evm.to_csv,
+              type: "text/csv; header=present",
+              filename: "evm_#{@project.name}_#{Date.current}.csv"
+  end
 
   # create EVN data
   #

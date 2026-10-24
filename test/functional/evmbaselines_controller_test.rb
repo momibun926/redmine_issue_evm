@@ -144,6 +144,15 @@ class EvmbaselinesControllerTest < Redmine::ControllerTest
     assert_equal I18n.t(:label_current_baseline), @old.reload.state
   end
 
+  def test_destroy_promotes_the_newest_of_the_remaining_baselines
+    middle = create_baseline("middle baseline", Time.utc(2026, 1, 2), [])
+
+    delete :destroy, params: { project_id: @project.id, id: @latest.id }
+
+    assert_equal [I18n.t(:label_old_baseline), I18n.t(:label_current_baseline)],
+                 [@old.reload.state, middle.reload.state]
+  end
+
   # ---- access control ----------------------------------------------------
 
   def test_the_view_permission_allows_reading_but_not_creating

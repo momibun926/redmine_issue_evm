@@ -39,11 +39,7 @@ class EvmBreakdownController < BaseevmController
   #
   def index
     # View options
-    @cfg_param[:basis_date] = params[:basis_date]
-    @cfg_param[breakdown_param] = params[breakdown_param]
-    # For back to mainpage
-    @cfg_param[:no_use_baseline] = params[:no_use_baseline]
-    @cfg_param[:display_explanation] = params[:display_explanation]
+    assign_view_options
     # selectable list
     @selectable_options = selectable_options
     # calculate EVM (one per selected id)
@@ -53,6 +49,15 @@ class EvmBreakdownController < BaseevmController
   end
 
   private
+
+  # Set the options of the view request to the cfg_param.
+  def assign_view_options
+    @cfg_param[:basis_date] = params[:basis_date]
+    @cfg_param[breakdown_param] = params[breakdown_param]
+    # For back to mainpage
+    @cfg_param[:no_use_baseline] = params[:no_use_baseline]
+    @cfg_param[:display_explanation] = params[:display_explanation]
+  end
 
   # ---- template methods: every subclass implements these four ----
 

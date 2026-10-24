@@ -20,12 +20,7 @@ class EvmreportsController < BaseevmController
     @evm_report.project_id = @project.id
     @evm_report.baseline_id = params[:baseline_id]
     @evm_report.status_date = params[:status_date]
-    @evm_report.evm_bac = params[:bac].to_f.fdiv(params[:working_hours].to_f).round(1)
-    @evm_report.evm_pv = params[:pv].to_f.fdiv(params[:working_hours].to_f).round(1)
-    @evm_report.evm_ev = params[:ev].to_f.fdiv(params[:working_hours].to_f).round(1)
-    @evm_report.evm_ac = params[:ac].to_f.fdiv(params[:working_hours].to_f).round(1)
-    @evm_report.evm_sv = params[:sv].to_f.fdiv(params[:working_hours].to_f).round(1)
-    @evm_report.evm_cv = params[:cv].to_f.fdiv(params[:working_hours].to_f).round(1)
+    assign_evm_values_in_days(@evm_report)
     # previus report and baseline
     previus_report_and_baseline_data
     # Set previus report text
@@ -53,8 +48,7 @@ class EvmreportsController < BaseevmController
   def update
     evm_report = ProjectEvmreport.find(params[:id])
     evm_report.update(evm_report_params)
-    evm_report.update_user_id = User.current.id
-    evm_report.updated_on = Time.now.utc
+    stamp_updater(evm_report)
     if evm_report.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: :index
@@ -67,17 +61,10 @@ class EvmreportsController < BaseevmController
   #
   def create
     evm_report = ProjectEvmreport.new(evm_report_params)
-    evm_report.create_user_id = User.current.id
-    evm_report.created_on = Time.now.utc
-    evm_report.update_user_id = User.current.id
-    evm_report.updated_on = Time.now.utc
-    evm_report.author_id = User.current.id
+    stamp_creator(evm_report)
     # Save
     if evm_report.save
-      # delete previus report of same status date
-      same_date_reports = ProjectEvmreport.where(project_id: evm_report.project_id,
-                                                 status_date: evm_report.status_date)
-      same_date_reports.where.not(id: evm_report.id).delete_all
+      delete_same_date_reports(evm_report)
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: :index
     else
@@ -97,6 +84,51 @@ class EvmreportsController < BaseevmController
   end
 
   private
+
+  # EVM values of a report (attribute) and the request parameter holding it (hours)
+  EVM_REPORT_VALUES = { evm_bac: :bac,
+                        evm_pv: :pv,
+                        evm_ev: :ev,
+                        evm_ac: :ac,
+                        evm_sv: :sv,
+                        evm_cv: :cv }.freeze
+  private_constant :EVM_REPORT_VALUES
+
+  # Set the EVM values of the request (hours) to the report, in days of working hours.
+  #
+  # @param [ProjectEvmreport] evm_report new report
+  def assign_evm_values_in_days(evm_report)
+    EVM_REPORT_VALUES.each do |attribute, param|
+      evm_report[attribute] = params[param].to_f.fdiv(params[:working_hours].to_f).round(1)
+    end
+  end
+
+  # Record the current user and time as the updater of the report.
+  #
+  # @param [ProjectEvmreport] evm_report report
+  def stamp_updater(evm_report)
+    evm_report.update_user_id = User.current.id
+    evm_report.updated_on = Time.now.utc
+  end
+
+  # Record the current user and time as the creator (and updater) of the report.
+  #
+  # @param [ProjectEvmreport] evm_report new report
+  def stamp_creator(evm_report)
+    evm_report.create_user_id = User.current.id
+    evm_report.created_on = Time.now.utc
+    stamp_updater(evm_report)
+    evm_report.author_id = User.current.id
+  end
+
+  # Delete the previus reports of the same status date.
+  #
+  # @param [ProjectEvmreport] evm_report saved report
+  def delete_same_date_reports(evm_report)
+    same_date_reports = ProjectEvmreport.where(project_id: evm_report.project_id,
+                                               status_date: evm_report.status_date)
+    same_date_reports.where.not(id: evm_report.id).delete_all
+  end
 
   # Strong parameter
   #
