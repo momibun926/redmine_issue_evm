@@ -11,6 +11,12 @@ class IssueDataFetcherTest < ActiveSupport::TestCase
     assert_equal ids(:issue1, :issue2, :dated, :parent, :child1, :child2, :sub), sorted_ids(@fetcher.evm_issues(@project))
   end
 
+  def test_an_issue_without_a_start_date_is_not_counted_even_when_its_version_has_a_due_date
+    versioned = create_scenario_issue(@project, "no dates, dated version", [nil, nil], 6, fixed_version: @late)
+
+    assert_not_includes sorted_ids(@fetcher.evm_issues(@project)), versioned.id
+  end
+
   def test_evm_issues_include_the_sub_projects_and_leave_out_other_projects
     result = sorted_ids(@fetcher.evm_issues(@project))
 
@@ -30,6 +36,12 @@ class IssueDataFetcherTest < ActiveSupport::TestCase
     assert_equal ids(:child1), sorted_ids(@fetcher.parent_issues(@child1.id))
     assert_equal ids(:issue1), sorted_ids(@fetcher.parent_issues(@issue1.id))
     assert_empty @fetcher.parent_issues(0)
+  end
+
+  def test_parent_issues_are_empty_when_the_issue_itself_has_no_dates
+    update_issue_columns(@parent, start_date: nil, due_date: nil)
+
+    assert_empty @fetcher.parent_issues(@parent.id)
   end
 
   def test_parent_issues_leave_out_the_issues_without_dates

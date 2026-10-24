@@ -3,46 +3,52 @@
 # It also collects a selectable list that is optionally specified
 #
 module IssueDataFetcher
-  # Common condition of issue's select
-  SQL_COM = <<-SQL_COM.freeze
-  (issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL)
-  OR
-  (issues.start_date IS NOT NULL
-   AND
-   issues.due_date IS NULL
-   AND
-   issues.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))
-  SQL_COM
+  # Condition of the issues the EVM is calculated from: an issue that has
+  # a start date, and a due date or, when it has none, a version that has
+  # a due date.
+  #
+  # @param [Arel::Table, Arel::Nodes::TableAlias] table the table of the issues
+  #   (an alias for the ancestors of an issue, see #ancestor_join)
+  # @return [Arel::Nodes::Grouping] condition
+  def evm_target_condition(table = Issue.arel_table)
+    started = table[:start_date].not_eq(nil)
+    dated = started.and(table[:due_date].not_eq(nil))
+    version_dated = started.and(table[:due_date].eq(nil)).
+                      and(table[:fixed_version_id].in(Version.where.not(effective_date: nil).select(:id).arel))
+    dated.or(version_dated)
+  end
 
-  # Common condition of issue's select for parent issue
-  SQL_COM_ANC = <<-SQL_COM_ANC.freeze
-  (ancestors.start_date IS NOT NULL AND ancestors.due_date IS NOT NULL)
-  OR
-  (ancestors.start_date IS NOT NULL
-   AND
-   ancestors.due_date IS NULL
-   AND
-   ancestors.fixed_version_id IN (SELECT id FROM versions WHERE effective_date IS NOT NULL))
-  SQL_COM_ANC
+  # The issues above an issue in the tree (itself and its parents), joined as "ancestors".
+  #
+  # @return [Arel::Nodes::TableAlias] table of the ancestors
+  def ancestor_table
+    Issue.arel_table.alias("ancestors")
+  end
 
-  # Common condition of issue's join for parent issue
-  SQL_JOIN = <<-"SQL_JOIN".freeze
-  JOIN #{Issue.table_name} ancestors
-    ON ancestors.root_id = #{Issue.table_name}.root_id
-    AND ancestors.lft <= #{Issue.table_name}.lft
-    AND ancestors.rgt >= #{Issue.table_name}.rgt
-  SQL_JOIN
+  # Join of the issues to the issues above them in the tree (themselves and
+  # their parents), which are named "ancestors" in the query.
+  #
+  # @return [Array<Arel::Nodes::Join>] join
+  def ancestor_join
+    issues = Issue.arel_table
+    ancestors = ancestor_table
+    issues.join(ancestors).
+      on(ancestors[:root_id].eq(issues[:root_id]).
+           and(ancestors[:lft].lteq(issues[:lft])).
+           and(ancestors[:rgt].gteq(issues[:rgt]))).
+      join_sources
+  end
 
   # Get issues of EVM for PV and EV.
   # Include descendants project. Rerequires inputted start date and due date.
   # for use calculate PV and EV.
   #
   # @param [object] proj project object
-  # @param [hush] condition fieldname(symbol) conditon value
+  # @param [Hash, nil] condition fieldname(symbol) conditon value, nil is no condition
   # @return [Issue] issue object
-  def evm_issues(proj, condition = " 1 = 1 ")
+  def evm_issues(proj, condition = nil)
     Issue.cross_project_scope(proj, "descendants").
-      where(SQL_COM.to_s).
+      where(evm_target_condition).
       where(condition)
   end
 
@@ -51,9 +57,9 @@ module IssueDataFetcher
   # @param [Numeric] issue_id selected issue
   # @return [Issue] descendants issues
   def parent_issues(issue_id)
-    Issue.joins(SQL_JOIN.to_s).
-      where(SQL_COM.to_s).
-      where(SQL_COM_ANC.to_s).
+    Issue.joins(ancestor_join).
+      where(evm_target_condition).
+      where(evm_target_condition(ancestor_table)).
       where(ancestors: { id: issue_id })
   end
 
@@ -62,9 +68,9 @@ module IssueDataFetcher
   #
   # @param [Project] proj project
   # @return [Hash] Two column,spent_on,sum of hours
-  def evm_costs(proj, condition = " 1 = 1 ")
+  def evm_costs(proj, condition = nil)
     Issue.cross_project_scope(proj, "descendants").
-      where(SQL_COM.to_s).
+      where(evm_target_condition).
       where(condition).
       joins(:time_entries).
       group(:spent_on).sum(:hours)
@@ -75,9 +81,9 @@ module IssueDataFetcher
   # @param [Numeric] issue_id selected issue
   # @return [Hash] Two column,spent_on,sum of hours
   def parent_issue_costs(issue_id)
-    Issue.joins(SQL_JOIN.to_s).
-      where(SQL_COM.to_s).
-      where(SQL_COM_ANC.to_s).
+    Issue.joins(ancestor_join).
+      where(evm_target_condition).
+      where(evm_target_condition(ancestor_table)).
       where(ancestors: { id: issue_id }).
       joins(:time_entries).
       group(:spent_on).sum(:hours)
@@ -89,7 +95,7 @@ module IssueDataFetcher
   # @return [Array] project_id, fixed_version_id
   def project_varsion_id_pair(proj)
     Issue.cross_project_scope(proj, "descendants").
-      where(SQL_COM.to_s).
+      where(evm_target_condition).
       where.not(fixed_version_id: nil).
       distinct.
       pluck(:project_id, :fixed_version_id)
@@ -102,7 +108,7 @@ module IssueDataFetcher
   # @return [Issue] assigned_to_id
   def assignee_ids(proj)
     Issue.cross_project_scope(proj, "descendants").
-      where(SQL_COM.to_s).
+      where(evm_target_condition).
       distinct.
       pluck(:assigned_to_id)
   end
@@ -129,7 +135,7 @@ module IssueDataFetcher
   def selectable_version_list(proj)
     Issue.cross_project_scope(proj, "descendants").
       select(:fixed_version_id, "versions.name").
-      where(SQL_COM.to_s).
+      where(evm_target_condition).
       joins(:fixed_version).
       group(:fixed_version_id, "versions.name")
   end
@@ -141,7 +147,7 @@ module IssueDataFetcher
   def selectable_tracker_list(proj)
     Issue.cross_project_scope(proj, "descendants").
       select(:tracker_id, "trackers.name").
-      where(SQL_COM.to_s).
+      where(evm_target_condition).
       joins(:tracker).
       group(:tracker_id, "trackers.name")
   end
@@ -154,7 +160,7 @@ module IssueDataFetcher
     Issue.where(project_id: proj.id).
       select(:id, :subject).
       where(parent_id: nil).
-      where("( rgt - lft ) > 1")
+      where((Issue.arel_table[:rgt] - Issue.arel_table[:lft]).gt(1))
   end
 
   # Get imcomplete issuees on basis date.
@@ -163,11 +169,12 @@ module IssueDataFetcher
   # @param [Date] basis_date basis date
   # @return [Issue] issue object
   def incomplete_project_issues(proj, basis_date)
+    issues = Issue.arel_table
     Issue.cross_project_scope(proj, "descendants").
-      where(SQL_COM.to_s).
-      where("(due_date <= ? AND (closed_on IS NULL OR closed_on > ?))",
-            basis_date, basis_date.end_of_day).
-      where("done_ratio <> 100 ").
+      where(evm_target_condition).
+      where(issues[:due_date].lteq(basis_date).
+              and(issues[:closed_on].eq(nil).or(issues[:closed_on].gt(basis_date.end_of_day)))).
+      where.not(done_ratio: 100).
       order(due_date: :ASC)
   end
 
@@ -208,7 +215,7 @@ module IssueDataFetcher
   #
   # @return [Numeric] array id of target issues
   def target_issue_amount(proj)
-    Issue.cross_project_scope(proj, "descendants").where(SQL_COM.to_s).pluck(:id)
+    Issue.cross_project_scope(proj, "descendants").where(evm_target_condition).pluck(:id)
   end
 
   # amount of issue in version
@@ -217,7 +224,7 @@ module IssueDataFetcher
   # @return [Hash] amount of issues. each versions.
   def count_version_list(proj)
     Issue.cross_project_scope(proj, "descendants").
-      where(SQL_COM.to_s).
+      where(evm_target_condition).
       joins(:fixed_version).
       group("versions.name").count
   end
@@ -228,7 +235,7 @@ module IssueDataFetcher
   # @return [Hash] count of issues. each assignees (include noassign).
   def count_assignee_list(proj)
     issues = Issue.cross_project_scope(proj, "descendants").
-               where(SQL_COM.to_s).
+               where(evm_target_condition).
                group(:assigned_to_id).count
     count_list = {}
     issues.each do |id, count|
@@ -244,7 +251,7 @@ module IssueDataFetcher
   # @return [Hash] count of issues. each trackers.
   def count_tracker_list(proj)
     Issue.cross_project_scope(proj, "descendants").
-      where(SQL_COM.to_s).
+      where(evm_target_condition).
       joins(:tracker).
       group("trackers.name").count
   end
@@ -266,7 +273,8 @@ module IssueDataFetcher
   # @return [Issue] cildren issue
   def issue_child(issue)
     Issue.where(root_id: issue.root_id).
-      where("lft > ? AND rgt < ?", issue.lft, issue.rgt).
+      where(Issue.arel_table[:lft].gt(issue.lft)).
+      where(Issue.arel_table[:rgt].lt(issue.rgt)).
       order(closed_on: :DESC).first
   end
 

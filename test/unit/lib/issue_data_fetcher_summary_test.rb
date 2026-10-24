@@ -26,6 +26,12 @@ class IssueDataFetcherSummaryTest < ActiveSupport::TestCase
     assert_equal ids(:issue1, :child1), @fetcher.incomplete_project_issues(@project, Date.new(2026, 1, 20)).map(&:id).sort
   end
 
+  def test_an_issue_closed_on_the_basis_date_is_complete
+    update_issue_columns(@child1, closed_on: Time.utc(2026, 1, 20, 12))
+
+    assert_not_includes @fetcher.incomplete_project_issues(@project, Date.new(2026, 1, 20)).map(&:id), @child1.id
+  end
+
   def test_an_issue_with_100_percent_done_is_complete
     update_issue_columns(@issue1, done_ratio: 100)
 
@@ -75,6 +81,7 @@ class IssueDataFetcherSummaryTest < ActiveSupport::TestCase
   def test_issue_child_is_the_descendant_closed_last
     update_issue_columns(@child1, closed_on: Time.utc(2026, 1, 20, 3))
     update_issue_columns(@child2, closed_on: Time.utc(2026, 1, 23, 3))
+    update_issue_columns(@parent, closed_on: Time.utc(2026, 1, 30, 3)) # the issue itself is not its child
 
     assert_equal @child2, @fetcher.issue_child(@parent.reload)
   end
