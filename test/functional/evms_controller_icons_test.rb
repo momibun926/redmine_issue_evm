@@ -51,6 +51,16 @@ class EvmsControllerIconsTest < Redmine::ControllerTest
     assert_link_icon I18n.t(:button_clear), "reload"
   end
 
+  def test_the_options_can_be_opened_with_a_marker_in_front_of_the_title
+    get :index, params: { project_id: @project.id, basis_date: "2026-01-08" }
+
+    assert_select "fieldset#filters.collapsible.collapsed > legend.icon-collapsed" do |legends|
+      assert_equal "svg", legends.first.element_children.first.name
+      assert_match(/#icon--angle-right\z/, legends.first.at("use")["href"])
+      assert_includes legends.first.at("svg")["class"], "icon-rtl"
+    end
+  end
+
   def test_every_icon_is_in_the_sprite_it_points_at
     get :index, params: { project_id: @project.id, basis_date: "2026-01-08" }
 
