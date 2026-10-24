@@ -16,6 +16,14 @@ class EvmsettingsControllerTest < Redmine::ControllerTest
     assert_select "form"
   end
 
+  def test_edit_has_the_back_link_with_an_icon
+    create_evm_setting
+
+    get :edit, params: { project_id: @project.id, id: 1 }
+
+    assert_link_icon I18n.t(:button_back), "arrow-narrow-left"
+  end
+
   def test_create_saves_the_setting_for_the_project_and_the_current_user
     assert_difference "Evmsetting.count", 1 do
       post :create, params: { project_id: @project.id, evmsetting: setting_params }

@@ -9,5 +9,5 @@
   <%= f.label :updated_on %>&emsp;<%= format_time(@evm_settings.updated_on) %><br>
   <%= f.label :user_id %>&emsp;<%= @update_user if @update_user.present? %><br><br>
   <%= submit_tag l(:button_save) %>&emsp;
-  <%= link_to l(:button_back), :back %>
+  <%= link_to sprite_icon("arrow-narrow-left", l(:button_back)), :back, class: "icon icon-arrow-narrow-left" %>
 <% end %>

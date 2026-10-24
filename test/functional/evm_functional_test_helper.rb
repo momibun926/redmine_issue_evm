@@ -97,6 +97,15 @@ module EvmFunctionalTestSupport
     baseline
   end
 
+  # The link with the label (a link of class "icon") has the icon, a symbol of the sprite of
+  # Redmine, in front of the label.
+  def assert_link_icon(label, icon)
+    link = css_select("a.icon").find { |a| a.text.strip == label }
+    assert link, "no link #{label}"
+    assert_equal "svg", link.children.first.name, "the icon comes before the label of #{label}"
+    assert_match(/#icon--#{Regexp.escape(icon)}\z/, link.at("use")["href"], label)
+  end
+
   # Instance variable of the controller that handled the last request
   def controller_ivar(name)
     @controller.instance_variable_get("@#{name}")

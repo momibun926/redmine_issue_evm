@@ -48,8 +48,8 @@
   </fieldset>
   <!-- Apply button -->
   <p class="buttons">
-    <%= link_to "#", {onclick: "$(this).closest('form').submit()", class: "icon icon-checked" } do l(:button_apply) end %>
-    <%= link_to l(:button_clear), { basis_date: User.current.time_to_date(Time.current) },
+    <%= link_to "#", {onclick: "$(this).closest('form').submit()", class: "icon icon-checked" } do sprite_icon("checked", l(:button_apply)) end %>
+    <%= link_to sprite_icon("reload", l(:button_clear)), { basis_date: User.current.time_to_date(Time.current) },
                 :class => "icon icon-reload",
                 :onclick => "this.search = '?basis_date=' + evmBrowserToday();" %>
   </p>

@@ -9,5 +9,5 @@
                 evmbaseline: @evmbaseline,
                 evm_report_prev: @evm_report_prev,
                 evm_setting: @emv_setting} %>
-  <%= link_to l(:button_back), { controller: :evmreports, action: :index, id: @evm_report.project_id } %>
+  <%= link_to sprite_icon("arrow-narrow-left", l(:button_back)), { controller: :evmreports, action: :index, id: @evm_report.project_id }, class: "icon icon-arrow-narrow-left" %>
 <% end %>

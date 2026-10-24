@@ -30,6 +30,12 @@ class EvmbaselinediffdetailsControllerTest < Redmine::ControllerTest
     assert_equal @baseline.id.to_s, controller_ivar(:cfg_param)[:baseline_id]
   end
 
+  def test_index_has_the_back_link_with_an_icon
+    get :index, params: { project_id: @project.id, baseline_id: @baseline.id }
+
+    assert_link_icon I18n.t(:button_back), "arrow-narrow-left"
+  end
+
   def test_an_issue_that_is_the_same_as_in_the_baseline_is_not_listed
     other = create_baseline("same", Time.utc(2026, 1, 2),
                             [[@issue1, Date.new(2026, 1, 5), Date.new(2026, 1, 9), 40.0],

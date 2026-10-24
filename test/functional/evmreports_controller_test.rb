@@ -22,6 +22,23 @@ class EvmreportsControllerTest < Redmine::ControllerTest
     assert_equal [@same_day.id, @previous.id, @earlier.id], controller_ivar(:evm_report).map(&:id)
   end
 
+  def test_index_links_have_icons
+    get :index, params: { project_id: @project.id }
+
+    assert_link_icon I18n.t(:label_nav_main), "projects"
+    assert_select "td.buttons a.icon", 9
+    assert_select "td.buttons a.icon use[href$=?]", "#icon--zoom-in", 3
+    assert_select "td.buttons a.icon use[href$=?]", "#icon--edit", 3
+    assert_select "td.buttons a.icon use[href$=?]", "#icon--del", 3
+  end
+
+  def test_show_and_edit_have_the_back_link_with_an_icon
+    get :show, params: { project_id: @project.id, id: @same_day.id }
+    assert_link_icon I18n.t(:button_back), "arrow-narrow-left"
+    get :edit, params: { project_id: @project.id, id: @same_day.id }
+    assert_link_icon I18n.t(:button_back), "arrow-narrow-left"
+  end
+
   # ---- new ---------------------------------------------------------------
 
   def test_new_converts_the_evm_values_from_hours_to_days

@@ -11,5 +11,5 @@
                 evm_report_prev: @evm_report_prev,
                 evm_setting: @emv_setting} %>
   <%= submit_tag l(:button_create) %>&emsp;
-  <%= link_to l(:button_back), { controller: :evms, action: :index, id: @evm_report.project_id } %>
+  <%= link_to sprite_icon("arrow-narrow-left", l(:button_back)), { controller: :evms, action: :index, id: @evm_report.project_id }, class: "icon icon-arrow-narrow-left" %>
 <% end %>

@@ -1,7 +1,7 @@
 <% html_title("Project tracking with EVM - report ") %>
 <!-- contextual -->
 <div class="contextual">
-  <%= link_to l(:label_nav_main), { controller: :evms, action: :index, id: params[:project_id]}, class: "icon icon-projects" %>
+  <%= link_to sprite_icon("projects", l(:label_nav_main)), { controller: :evms, action: :index, id: params[:project_id]}, class: "icon icon-projects" %>
 </div>
 <!-- sub title -->
 <h2><%= l(:title_evm_tab) %></h2>
@@ -37,9 +37,9 @@
             <td class="created_on"><%= format_time(report.created_on) %></td>
             <td class="updated_on"><%= format_time(report.updated_on) %></td>
             <td class="buttons">
-              <%= link_to l(:button_show), {controller: :evmreports, action: :show, id: report.id}, class: "icon icon-move" %>
-              <%= link_to l(:button_edit), {controller: :evmreports, action: :edit, id: report.id}, class: "icon icon-edit" %>
-              <%= link_to l(:button_delete), {controller: :evmreports, action: :destroy, id: report.id} , class: "icon icon-del", method: :delete, data: {confirm: l(:message_delete_report)} %>
+              <%= link_to sprite_icon("zoom-in", l(:button_show)), {controller: :evmreports, action: :show, id: report.id}, class: "icon icon-zoom-in" %>
+              <%= link_to sprite_icon("edit", l(:button_edit)), {controller: :evmreports, action: :edit, id: report.id}, class: "icon icon-edit" %>
+              <%= link_to sprite_icon("del", l(:button_delete)), {controller: :evmreports, action: :destroy, id: report.id} , class: "icon icon-del", method: :delete, data: {confirm: l(:message_delete_report)} %>
             </td>
           </tr>
         <% end; reset_cycle %>

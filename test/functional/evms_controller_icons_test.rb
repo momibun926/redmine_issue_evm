@@ -44,6 +44,13 @@ class EvmsControllerIconsTest < Redmine::ControllerTest
     assert_select "div.contextual a[href*=?] use[href$=?]", "evmreports", "#icon--list"
   end
 
+  def test_the_apply_and_clear_links_have_icons
+    get :index, params: { project_id: @project.id, basis_date: "2026-01-08" }
+
+    assert_link_icon I18n.t(:button_apply), "checked"
+    assert_link_icon I18n.t(:button_clear), "reload"
+  end
+
   def test_every_icon_is_in_the_sprite_it_points_at
     get :index, params: { project_id: @project.id, basis_date: "2026-01-08" }
 
