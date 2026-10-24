@@ -154,6 +154,17 @@ dt.evmbaseline-edit,
 dt.evmreports-edit {
   background-image: url("../images/baseline-edit.png");
 }
+/* Same as the icons of the links above: no-repeat (the image was tiled over
+   the whole line), at the left bottom of the line where Redmine 7 puts the
+   icon of the other events. The room for it is already there, as the empty
+   SVG icon of the event type. */
+dt.evmbaseline-new,
+dt.evmbaseline-edit,
+dt.evmreports-new,
+dt.evmreports-edit {
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+}
 
 /*** for validate ***/
 .field_with_errors {
