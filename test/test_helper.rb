@@ -1,2 +1,3 @@
 # Load the Redmine helper
-require File.expand_path("#{File.dirname(__dir__)}/../../../test/test_helper")
+# (Redmine root/plugins/redmine_issue_evm/test -> Redmine root/test/test_helper)
+require File.expand_path("../../../test/test_helper", __dir__)
