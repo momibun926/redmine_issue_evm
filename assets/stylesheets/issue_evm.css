@@ -120,31 +120,6 @@ div[class*="evm-explanation"] {
   padding-bottom: 20px;
 }
 
-/*** icon image ***/
-.icon-parent-issue-evm {
-  background-image: url("../images/parent-issue-evm.png");
-}
-.icon-tracker-evm {
-  background-image: url("../images/tracker-evm.png");
-}
-.icon-version-evm {
-  background-image: url("../images/version-evm.png");
-}
-.icon-exclude-evm {
-  background-image: url("../images/issue-exclude.png");
-}
-/* Redmine 7 draws the standard icons as inline SVG, so a link with only a
-   background image gets neither the room for it nor no-repeat (the image was
-   tiled behind the text). Same rule as Redmine 7's legacy-icons-compat.css. */
-.icon-parent-issue-evm,
-.icon-tracker-evm,
-.icon-version-evm,
-.icon-exclude-evm {
-  background-position: 0% 50%;
-  background-repeat: no-repeat;
-  padding-left: 20px;
-}
-
 /*** for activity page ***/
 dt.evmbaseline-new,
 dt.evmreports-new {
@@ -154,8 +129,8 @@ dt.evmbaseline-edit,
 dt.evmreports-edit {
   background-image: url("../images/baseline-edit.png");
 }
-/* Same as the icons of the links above: no-repeat (the image was tiled over
-   the whole line), at the left bottom of the line where Redmine 7 puts the
+/* No-repeat (Redmine 7 draws its icons as inline SVG, so the image was tiled
+   over the whole line), at the left bottom of the line where Redmine 7 puts the
    icon of the other events. The room for it is already there, as the empty
    SVG icon of the event type. */
 dt.evmbaseline-new,

@@ -1,15 +1,15 @@
 <!-- contextual (Basline setting) -->
 <div class="contextual">
-  <%= link_to l(:label_nav_main), { controller: :evms, action: :index, id: project.id, params: cfg_param }, class: "icon icon-projects" %>
-  <%= link_to l(:label_nav_version), { controller: :evmversions, action: :index, id: project.id, params: cfg_param }, class: "icon icon-version-evm" %>
-  <%= link_to l(:label_nav_assignee), { controller: :evmassignees, action: :index, id: project.id, params: cfg_param }, class: "icon icon-user" %>
-  <%= link_to l(:label_nav_parent_issue), { controller: :evmparentissues, action: :index, id: project.id, params: cfg_param }, class: "icon icon-parent-issue-evm" %>
-  <%= link_to l(:label_nav_tracker), { controller: :evmtrackers, action: :index, id: project.id, params: cfg_param }, class: "icon icon-tracker-evm" %>
-  <%= link_to l(:label_nav_exclude), { controller: :evmexcludes, action: :index, id: project.id, params: cfg_param }, class: "icon icon-exclude-evm" %>
+  <%= link_to sprite_icon("projects", l(:label_nav_main)), { controller: :evms, action: :index, id: project.id, params: cfg_param }, class: "icon icon-projects" %>
+  <%= link_to sprite_icon("package", l(:label_nav_version)), { controller: :evmversions, action: :index, id: project.id, params: cfg_param }, class: "icon icon-package" %>
+  <%= link_to sprite_icon("user", l(:label_nav_assignee)), { controller: :evmassignees, action: :index, id: project.id, params: cfg_param }, class: "icon icon-user" %>
+  <%= link_to sprite_icon("evm-parent-issue", l(:label_nav_parent_issue), plugin: "redmine_issue_evm"), { controller: :evmparentissues, action: :index, id: project.id, params: cfg_param }, class: "icon icon-evm-parent-issue" %>
+  <%= link_to sprite_icon("evm-tracker", l(:label_nav_tracker), plugin: "redmine_issue_evm"), { controller: :evmtrackers, action: :index, id: project.id, params: cfg_param }, class: "icon icon-evm-tracker" %>
+  <%= link_to sprite_icon("circle-minus", l(:label_nav_exclude)), { controller: :evmexcludes, action: :index, id: project.id, params: cfg_param }, class: "icon icon-circle-minus" %>
   <% unless report_param.nil? then %>
-  <%= link_to l(:label_nav_report), { controller: :evmreports, action: :new, id: project.id, params: report_param }, class: "icon icon-document" %>
-  <%= link_to l(:label_nav_report_list), { controller: :evmreports, action: :index, id: project.id, params: report_param }, class: "icon icon-document" %>
+  <%= link_to sprite_icon("document", l(:label_nav_report)), { controller: :evmreports, action: :new, id: project.id, params: report_param }, class: "icon icon-document" %>
+  <%= link_to sprite_icon("list", l(:label_nav_report_list)), { controller: :evmreports, action: :index, id: project.id, params: report_param }, class: "icon icon-list" %>
   <% end %>
-  <%= link_to_if_authorized l(:label_nav_baseline_setting), { controller: :evmbaselines, action: :index, id: project.id }, class: "icon icon-settings" %>
-  <%= link_to_if_authorized l(:label_nav_evm_setting), { controller: :evmsettings, action: :edit, id: project.id }, class: "icon icon-settings" %>
+  <%= link_to_if_authorized sprite_icon("history", l(:label_nav_baseline_setting)), { controller: :evmbaselines, action: :index, id: project.id }, class: "icon icon-history" %>
+  <%= link_to_if_authorized sprite_icon("settings", l(:label_nav_evm_setting)), { controller: :evmsettings, action: :edit, id: project.id }, class: "icon icon-settings" %>
 </div>
