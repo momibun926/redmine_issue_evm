@@ -74,10 +74,7 @@ class CalculateEv < BaseCalculateEvm
   def add_issue_earned_value(issue, basis_date, temp_ev)
     # 1.closed issue
     if issue.closed?
-      closed_dt = User.current.time_to_date(issue.closed_on)
-      temp_ev = create_ev_from_journals(issue, basis_date, temp_ev, closed_dt)
-      @finished_issue_count += 1
-      temp_ev
+      add_closed_issue_earned_value(issue, basis_date, temp_ev)
     # 2.progless issue (setted done ratio)
     elsif issue.done_ratio.positive?
       create_ev_from_journals(issue, basis_date, temp_ev)
@@ -87,6 +84,19 @@ class CalculateEv < BaseCalculateEvm
     else
       temp_ev
     end
+  end
+
+  # Add EV of a closed issue, and count it as finished.
+  #
+  # @param [Issue] issue closed issue
+  # @param [Date] basis_date basis date of option
+  # @param [Hash] temp_ev EV hash
+  # @return [Hash] EV hash. Key:Date, Value:EV of each days
+  def add_closed_issue_earned_value(issue, basis_date, temp_ev)
+    closed_dt = User.current.time_to_date(issue.closed_on)
+    temp_ev = create_ev_from_journals(issue, basis_date, temp_ev, closed_dt)
+    @finished_issue_count += 1
+    temp_ev
   end
 
   # Add EV of the closed child of a parent issue.
