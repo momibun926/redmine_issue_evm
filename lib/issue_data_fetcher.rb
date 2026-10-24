@@ -91,7 +91,7 @@ module IssueDataFetcher
     Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
       where.not(fixed_version_id: nil).
-      distinct(:project_id, :fixed_version_id).
+      distinct.
       pluck(:project_id, :fixed_version_id)
   end
 
@@ -103,7 +103,7 @@ module IssueDataFetcher
   def assignee_ids(proj)
     Issue.cross_project_scope(proj, "descendants").
       where(SQL_COM.to_s).
-      distinct(:assigned_to_id).
+      distinct.
       pluck(:assigned_to_id)
   end
 
