@@ -97,17 +97,25 @@ class EvmreportsControllerTest < Redmine::ControllerTest
     assert_equal 3, ProjectEvmreport.where(project_id: @project.id).count
   end
 
-  # KNOWN BUG (kept as is by the refactoring): on a validation error #create
-  # re-renders the form, but the controller keeps the record in a local
-  # variable while the view reads @evm_report, so rendering raises (HTTP 500).
-  # Nothing is saved. Update this test together with the fix.
-  def test_create_without_a_text_saves_nothing_and_fails_to_render_the_form
+  def test_create_without_a_text_shows_the_form_again_with_the_error_and_saves_nothing
     assert_no_difference "ProjectEvmreport.count" do
-      assert_raises(ActionView::Template::Error) do
-        post :create, params: { project_id: @project.id,
-                                project_evmreport: report_params(Date.new(2026, 1, 9)).merge(report_text: "") }
-      end
+      post :create, params: { project_id: @project.id,
+                              project_evmreport: report_params(Date.new(2026, 1, 9)).merge(report_text: "") }
     end
+
+    assert_response :success
+    assert_select "form#new_project_evmreport"
+    assert_select "div#errorExplanation"
+    assert_empty flash
+    assert_equal @baseline, controller_ivar(:evmbaseline)
+    assert_equal @same_day, controller_ivar(:evm_report_prev)
+  end
+
+  def test_a_failed_create_keeps_the_report_of_the_same_status_date
+    post :create, params: { project_id: @project.id,
+                            project_evmreport: report_params(Date.new(2026, 1, 8)).merge(report_text: "") }
+
+    assert_not_nil ProjectEvmreport.find_by(id: @same_day.id)
   end
 
   # ---- update ------------------------------------------------------------
@@ -123,12 +131,13 @@ class EvmreportsControllerTest < Redmine::ControllerTest
     assert_in_delta Time.now.utc, @same_day.updated_on, 60
   end
 
-  # KNOWN BUG (kept as is): same as #create above, for #update.
-  def test_update_without_a_text_changes_nothing_and_fails_to_render_the_form
-    assert_raises(ActionView::Template::Error) do
-      patch :update, params: { project_id: @project.id, id: @same_day.id, project_evmreport: { report_text: "" } }
-    end
+  def test_update_without_a_text_shows_the_form_again_with_the_error_and_changes_nothing
+    patch :update, params: { project_id: @project.id, id: @same_day.id, project_evmreport: { report_text: "" } }
 
+    assert_response :success
+    assert_select "form.edit_project_evmreport"
+    assert_select "div#errorExplanation"
+    assert_empty flash
     assert_equal "report of the 8th", @same_day.reload.report_text
   end
 

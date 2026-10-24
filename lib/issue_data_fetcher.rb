@@ -296,10 +296,11 @@ module IssueDataFetcher
   #
   # @param [Hash] actual_issue issue detail.
   # @param [Hash] baseline_issue baseline detail.
-  # @return [Issue] remove issue issues.
+  # @return [Array<Issue>] remove issue issues. An issue that has been deleted
+  #   from Redmine is not included, since there is nothing left to show.
   def diff_remove_issues(actual_issue, baseline_issue)
     ids = baseline_issue.keys - actual_issue.keys
-    Issue.find(ids)
+    Issue.where(id: ids).index_by(&:id).values_at(*ids).compact
   end
 
   # modify issues with a difference from Baseline

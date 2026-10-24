@@ -1,6 +1,7 @@
 <% html_title("Project tracking with EVM - New report ") %>
 <h2><%= l(:title_evm_tab) %></h2>
 <h3><%= l(:label_report_create) %></h3>
+<%= error_messages_for "evm_report" %>
 <%= form_for @evm_report, url: project_evmreports_path do |f| %>
   <%= render partial: "/evmreports/common",
       locals: { f: f,

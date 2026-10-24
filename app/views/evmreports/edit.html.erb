@@ -1,6 +1,7 @@
 <% html_title("Project tracking with EVM - Edit report ") %>
 <h2><%= l(:title_evm_tab) %></h2>
 <h3><%= l(:label_report_edit) %></h3>
+<%= error_messages_for "evm_report" %>
 <%= form_for @evm_report, url: {action: :update, method: :get} do |f| %>
   <%= render partial: "/evmreports/common",
       locals: { f: f,

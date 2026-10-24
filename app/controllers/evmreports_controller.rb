@@ -46,13 +46,14 @@ class EvmreportsController < BaseevmController
   # Update report
   #
   def update
-    evm_report = ProjectEvmreport.find(params[:id])
-    evm_report.update(evm_report_params)
-    stamp_updater(evm_report)
-    if evm_report.save
+    @evm_report = ProjectEvmreport.find(params[:id])
+    @evm_report.update(evm_report_params)
+    stamp_updater(@evm_report)
+    if @evm_report.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: :index
     else
+      previus_report_and_baseline_data
       render :edit
     end
   end
@@ -60,14 +61,15 @@ class EvmreportsController < BaseevmController
   # Create report
   #
   def create
-    evm_report = ProjectEvmreport.new(evm_report_params)
-    stamp_creator(evm_report)
+    @evm_report = ProjectEvmreport.new(evm_report_params)
+    stamp_creator(@evm_report)
     # Save
-    if evm_report.save
-      delete_same_date_reports(evm_report)
+    if @evm_report.save
+      delete_same_date_reports(@evm_report)
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: :index
     else
+      previus_report_and_baseline_data
       render :new
     end
   end

@@ -11,6 +11,8 @@ class EvmbaselinesControllerTest < Redmine::ControllerTest
                            [[@issue1, Date.new(2026, 1, 5), Date.new(2026, 1, 9), 40.0]])
     @latest = create_baseline("latest baseline", Time.utc(2026, 1, 3),
                               [[@issue1, Date.new(2026, 1, 5), Date.new(2026, 1, 9), 30.0]])
+    @old.update!(state: I18n.t(:label_old_baseline))
+    @latest.update!(state: I18n.t(:label_current_baseline))
   end
 
   def test_index_lists_the_baselines_newest_first
@@ -85,28 +87,25 @@ class EvmbaselinesControllerTest < Redmine::ControllerTest
     assert_equal [I18n.t(:label_old_baseline)] * 2, [@old.reload.state, @latest.reload.state]
   end
 
-  # KNOWN BUG (kept as is by the refactoring): when validation fails, #create
-  # and #update re-render the form, but the controller keeps the record in a
-  # local variable while the views read @evm_baselines, so rendering raises
-  # "First argument in form cannot contain nil or be empty" (HTTP 500)
-  # instead of showing the form with the error. Nothing is saved. Update
-  # these two tests together with the fix.
-  def test_create_without_a_subject_saves_nothing_and_fails_to_render_the_form
+  def test_create_without_a_subject_shows_the_form_again_with_the_error_and_saves_nothing
     assert_no_difference "Evmbaseline.count" do
-      assert_raises(ActionView::Template::Error) do
-        post :create, params: { project_id: @project.id, evmbaseline: { subject: "", based_on: "2026-01-08" } }
-      end
-    end
-  end
-
-  # KNOWN QUIRK (kept as is): the earlier baselines are already marked "old"
-  # before the new one is validated, so a failed create leaves no current baseline.
-  def test_a_failed_create_still_marks_the_earlier_baselines_as_old
-    assert_raises(ActionView::Template::Error) do
       post :create, params: { project_id: @project.id, evmbaseline: { subject: "", based_on: "2026-01-08" } }
     end
 
-    assert_equal [I18n.t(:label_old_baseline)] * 2, [@old.reload.state, @latest.reload.state]
+    assert_response :success
+    assert_select "form#new_evmbaseline"
+    assert_select "div#errorExplanation"
+    assert_empty flash
+    assert_select "input#bac[value=?]", "60.0"
+    assert_select "input#start_date[value=?]", "2026-01-05"
+    assert_select "input#due_date[value=?]", "2026-01-16"
+  end
+
+  def test_a_failed_create_leaves_the_current_baseline_as_it_was
+    post :create, params: { project_id: @project.id, evmbaseline: { subject: "", based_on: "2026-01-08" } }
+
+    assert_equal [I18n.t(:label_old_baseline), I18n.t(:label_current_baseline)],
+                 [@old.reload.state, @latest.reload.state]
   end
 
   # ---- update ------------------------------------------------------------
@@ -121,11 +120,13 @@ class EvmbaselinesControllerTest < Redmine::ControllerTest
     assert_equal %w[renamed changed], [@latest.subject, @latest.description]
   end
 
-  def test_update_without_a_subject_changes_nothing_and_fails_to_render_the_form
-    assert_raises(ActionView::Template::Error) do
-      patch :update, params: { project_id: @project.id, id: @latest.id, evmbaseline: { subject: "" } }
-    end
+  def test_update_without_a_subject_shows_the_form_again_with_the_error_and_changes_nothing
+    patch :update, params: { project_id: @project.id, id: @latest.id, evmbaseline: { subject: "" } }
 
+    assert_response :success
+    assert_select "form.edit_evmbaseline"
+    assert_select "div#errorExplanation"
+    assert_empty flash
     assert_equal "latest baseline", @latest.reload.subject
   end
 
@@ -151,6 +152,25 @@ class EvmbaselinesControllerTest < Redmine::ControllerTest
 
     assert_equal [I18n.t(:label_old_baseline), I18n.t(:label_current_baseline)],
                  [@old.reload.state, middle.reload.state]
+  end
+
+  def test_destroy_does_not_promote_a_baseline_of_another_project
+    other = create_baseline("other project", Time.utc(2026, 1, 10), [], Project.find(1))
+    other.update!(state: "other state")
+
+    delete :destroy, params: { project_id: @project.id, id: @latest.id }
+
+    assert_equal "other state", other.reload.state
+    assert_equal I18n.t(:label_current_baseline), @old.reload.state
+  end
+
+  def test_destroying_the_only_baseline_leaves_none
+    @old.destroy
+
+    delete :destroy, params: { project_id: @project.id, id: @latest.id }
+
+    assert_redirected_to "/projects/#{@project.id}/evmbaselines"
+    assert_equal 0, Evmbaseline.where(project_id: @project.id).count
   end
 
   # ---- access control ----------------------------------------------------

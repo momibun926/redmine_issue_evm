@@ -42,15 +42,18 @@ class EvmbaselinediffdetailsControllerTest < Redmine::ControllerTest
     assert_empty controller_ivar(:remove_issues)
   end
 
-  # KNOWN BUG (kept as is by the refactoring): a baseline issue that has been
-  # deleted from Redmine makes Issue.find raise RecordNotFound, so the page
-  # cannot be shown at all for that baseline. Update this test with the fix.
-  def test_a_baseline_issue_that_was_deleted_makes_the_page_fail
-    Issue.where(id: @removed.id).delete_all
+  def test_a_baseline_issue_that_was_deleted_is_left_out_of_the_removed_issues
+    deleted = create_scenario_issue(@project, "Deleted later", [Date.new(2026, 1, 5), Date.new(2026, 1, 6)], 4)
+    baseline = create_baseline("with deleted", Time.utc(2026, 1, 2),
+                               [[@issue1, Date.new(2026, 1, 5), Date.new(2026, 1, 9), 40.0],
+                                [deleted, Date.new(2026, 1, 5), Date.new(2026, 1, 6), 4.0],
+                                [@removed, Date.new(2026, 1, 5), Date.new(2026, 1, 6), 4.0]])
+    Issue.where(id: deleted.id).delete_all
 
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get :index, params: { project_id: @project.id, baseline_id: @baseline.id }
-    end
+    get :index, params: { project_id: @project.id, baseline_id: baseline.id }
+
+    assert_response :success
+    assert_equal [@removed.id], controller_ivar(:remove_issues).map(&:id)
   end
 
   def test_a_user_who_is_not_a_member_is_denied
