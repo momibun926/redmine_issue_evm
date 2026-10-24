@@ -89,6 +89,7 @@
 
   # baseline page
   label_baseline: Název Baseline
+  label_baseline_none: Žádný
   label_baseline_show: Detail Baseline
   label_baseline_edit: Upravit Baseline
   label_baseline_create: Nová Baseline

@@ -5,10 +5,11 @@ module EvmsHelper
   # Get used baseline name
   #
   # @param [Evmbaseline] baseline baseline
-  # @param [Numeric] baseline_id baseline id
-  # @return [String] balseline name (subject)
+  # @param [Numeric] baseline_id baseline id, blank when no baseline is used
+  # @return [String] "Baseline name : subject of the baseline", or "none" in place of the subject
   def used_baseline_name(baseline, baseline_id)
-    "#{l(:label_baseline)} : #{baseline.find(baseline_id).subject}" if baseline_id.present?
+    name = baseline_id.present? ? baseline.find(baseline_id).subject : l(:label_baseline_none)
+    "#{l(:label_baseline)} : #{name}"
   end
 
   # Get baseline difference color

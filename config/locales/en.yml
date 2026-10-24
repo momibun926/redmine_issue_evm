@@ -89,6 +89,7 @@
 
   # baseline page
   label_baseline: Baseline Name
+  label_baseline_none: None
   label_baseline_show: Baseline detail
   label_baseline_edit: Edit Baseline
   label_baseline_create: New Baseline

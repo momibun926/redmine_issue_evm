@@ -89,6 +89,7 @@
 
   # baseline page
   label_baseline: "Nombre de la línea base"
+  label_baseline_none: Ninguno
   label_baseline_show: "Detalle de la línea base"
   label_baseline_edit: "Editar línea base"
   label_baseline_create: "Nueva línea base"
