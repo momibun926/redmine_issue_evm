@@ -1,5 +1,4 @@
 require File.expand_path("evm_calculation_test_helper", __dir__)
-require "minitest/mock"
 
 # Unit tests for ProjectEvmBuilder#build_project_evm (lib/project_evm_builder.rb),
 # the one place EvmsController and EvmHookViewListner now build the project-level
@@ -94,7 +93,7 @@ class ProjectEvmBuilderTest < ActiveSupport::TestCase
       baseline_issues
     end
 
-    evm = BaselineDataFetcher.stub(:project_baseline, finder) do
+    evm = stub_method(BaselineDataFetcher, :project_baseline, finder) do
       host.build_project_evm(@project, @cfg_param.merge(baseline_id: 5))
     end
 

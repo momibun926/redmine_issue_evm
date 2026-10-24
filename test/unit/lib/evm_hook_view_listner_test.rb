@@ -1,5 +1,4 @@
 require File.expand_path("evm_calculation_test_helper", __dir__)
-require "minitest/mock"
 
 # Unit tests for EvmHookViewListner#view_projects_show_left
 # (lib/evm_hook_view_listner.rb), the hook that renders the EVM widget on the
@@ -44,8 +43,8 @@ class EvmHookViewListnerTest < ActiveSupport::TestCase
   end
 
   def test_without_an_evm_setting_it_renders_the_partial_with_nothing_and_builds_no_evm
-    result = Evmsetting.stub(:find_by, nil) do
-      @listener.stub(:build_project_evm, @build_stub) do
+    result = stub_method(Evmsetting, :find_by, nil) do
+      stub_method(@listener, :build_project_evm, @build_stub) do
         @listener.view_projects_show_left(@context)
       end
     end
@@ -63,7 +62,7 @@ class EvmHookViewListnerTest < ActiveSupport::TestCase
       nil
     end
 
-    Evmsetting.stub(:find_by, finder) do
+    stub_method(Evmsetting, :find_by, finder) do
       @listener.view_projects_show_left(@context)
     end
 
@@ -102,9 +101,9 @@ class EvmHookViewListnerTest < ActiveSupport::TestCase
 
   # Runs the hook with the setting / baseline list stubbed in
   def render_with(setting, baselines)
-    Evmsetting.stub(:find_by, setting) do
-      BaselineDataFetcher.stub(:selectable_baseline_list, baselines) do
-        @listener.stub(:build_project_evm, @build_stub) do
+    stub_method(Evmsetting, :find_by, setting) do
+      stub_method(BaselineDataFetcher, :selectable_baseline_list, baselines) do
+        stub_method(@listener, :build_project_evm, @build_stub) do
           @listener.view_projects_show_left(@context)
         end
       end

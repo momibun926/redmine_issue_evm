@@ -42,15 +42,55 @@ FakeIssue = Struct.new(:start_date, :due_date, :estimated_hours, :done_ratio,
 end
 
 class CalculateEv
-  # Test seam: replaces the DB-backed IssueDataFetcher#issue_journal for the
-  # duration of the test process. See file comment above.
-  def issue_journal(issue, _basis_date)
+  # Test seam: replaces the DB-backed IssueDataFetcher#issue_journal for
+  # FakeIssue objects. Real issues still go through IssueDataFetcher, so
+  # loading this file does not change other tests that run in the same
+  # process (e.g. under `rake redmine:plugins:test`). See file comment above.
+  def issue_journal(issue, basis_date)
+    return super unless issue.is_a?(FakeIssue)
+
     issue.journal_entries || []
   end
 
-  # Test seam: replaces the DB-backed IssueDataFetcher#issue_child. See file
-  # comment above.
+  # Test seam: replaces the DB-backed IssueDataFetcher#issue_child for
+  # FakeIssue objects. See file comment above.
   def issue_child(issue)
+    return super unless issue.is_a?(FakeIssue)
+
     issue.child_issue
   end
 end
+
+# Temporarily replaces a method of an object (class method, or a method of one
+# instance) for the duration of a block.
+#
+# Minitest 6 no longer ships "minitest/mock" (it moved to the separate
+# minitest-mock gem), so this keeps the tests independent of the Minitest
+# version. It behaves like Minitest::Mock's #stub: a value is returned as it
+# is, a callable (lambda) is called with the arguments of the stubbed call.
+module EvmTestStubs
+  # @param [Object] target class, module or instance whose method is replaced
+  # @param [Symbol] name method name
+  # @param [Object] value_or_callable return value, or a callable that receives the call's arguments
+  # @return the value of the block
+  def stub_method(target, name, value_or_callable)
+    singleton = target.singleton_class
+    original = singleton.instance_method(name) if own_singleton_method?(singleton, name)
+    singleton.send(:define_method, name) do |*args, **kwargs, &blk|
+      next value_or_callable unless value_or_callable.respond_to?(:call)
+
+      kwargs.empty? ? value_or_callable.call(*args, &blk) : value_or_callable.call(*args, **kwargs, &blk)
+    end
+    yield
+  ensure
+    original ? singleton.send(:define_method, name, original) : singleton.send(:remove_method, name)
+  end
+
+  private
+
+  def own_singleton_method?(singleton, name)
+    singleton.instance_methods(false).include?(name) || singleton.private_instance_methods(false).include?(name)
+  end
+end
+
+ActiveSupport::TestCase.include(EvmTestStubs)
