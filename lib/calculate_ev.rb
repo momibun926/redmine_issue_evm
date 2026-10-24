@@ -59,40 +59,58 @@ class CalculateEv < BaseCalculateEvm
     @finished_issue_count = 0
     @issue_count = 0
     Array(issues).each do |issue|
-      # 1.closed issue
-      if issue.closed?
-        closed_dt = User.current.time_to_date(issue.closed_on)
-        temp_ev = create_ev_from_journals(issue,
-                                          basis_date,
-                                          temp_ev,
-                                          closed_dt)
-        @finished_issue_count += 1
-      # 2.progless issue (setted done ratio)
-      elsif issue.done_ratio.positive?
-        temp_ev = create_ev_from_journals(issue,
-                                          basis_date,
-                                          temp_ev)
-      # 3.parent issue of children is progress or closed
-      elsif issue.children?
-        child = issue_child(issue)
-        if child.closed_on.present?
-          # A parent issue's own EV is the sum of its children's EV, not a
-          # share of the parent's own estimated_hours -- this branch only
-          # runs when the parent itself has no done_ratio set (see the
-          # elsif chain above), so issue.done_ratio here is always 0 and
-          # crediting issue.estimated_hours * issue.done_ratio always added
-          # 0.0, regardless of the child closing. Credit the closed child's
-          # own estimated_hours instead (100, not child.done_ratio: closed
-          # is treated as fully earned everywhere else in this method too,
-          # see the issue.closed? branch above).
-          dt = User.current.time_to_date(child.closed_on)
-          temp_ev[dt] = add_daily_evm_value(temp_ev[dt],
-                                            child.estimated_hours.to_f,
-                                            100)
-        end
-      end
+      temp_ev = add_issue_earned_value(issue, basis_date, temp_ev)
       @issue_count += 1
     end
+    temp_ev
+  end
+
+  # Add EV of an issue.
+  #
+  # @param [Issue] issue target issue
+  # @param [Date] basis_date basis date of option
+  # @param [Hash] temp_ev EV hash
+  # @return [Hash] EV hash. Key:Date, Value:EV of each days
+  def add_issue_earned_value(issue, basis_date, temp_ev)
+    # 1.closed issue
+    if issue.closed?
+      closed_dt = User.current.time_to_date(issue.closed_on)
+      temp_ev = create_ev_from_journals(issue, basis_date, temp_ev, closed_dt)
+      @finished_issue_count += 1
+      temp_ev
+    # 2.progless issue (setted done ratio)
+    elsif issue.done_ratio.positive?
+      create_ev_from_journals(issue, basis_date, temp_ev)
+    # 3.parent issue of children is progress or closed
+    elsif issue.children?
+      add_child_earned_value(issue, temp_ev)
+    else
+      temp_ev
+    end
+  end
+
+  # Add EV of the closed child of a parent issue.
+  #
+  # A parent issue's own EV is the sum of its children's EV, not a
+  # share of the parent's own estimated_hours -- this runs only when the
+  # parent itself has no done_ratio set (see add_issue_earned_value), so
+  # issue.done_ratio here is always 0 and crediting
+  # issue.estimated_hours * issue.done_ratio always added 0.0, regardless
+  # of the child closing. Credit the closed child's own estimated_hours
+  # instead (100, not child.done_ratio: closed is treated as fully earned
+  # everywhere else in this class too, see the issue.closed? branch).
+  #
+  # @param [Issue] issue parent issue
+  # @param [Hash] temp_ev EV hash
+  # @return [Hash] EV hash. Key:Date, Value:EV of each days
+  def add_child_earned_value(issue, temp_ev)
+    child = issue_child(issue)
+    return temp_ev if child.closed_on.blank?
+
+    dt = User.current.time_to_date(child.closed_on)
+    temp_ev[dt] = add_daily_evm_value(temp_ev[dt],
+                                      child.estimated_hours.to_f,
+                                      100)
     temp_ev
   end
 

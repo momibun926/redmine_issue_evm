@@ -31,6 +31,12 @@ module EvmSettingParamBuilder
   #   :region). Callers still need to add their own request-specific keys
   #   (:basis_date, :baseline_id, ...) on top of this.
   def cfg_param_from_setting(evm_setting)
+    chart_param_from_setting(evm_setting).merge(calculation_param_from_setting(evm_setting))
+  end
+
+  # @param [Evmsetting] evm_setting the project's EVM plugin settings record
+  # @return [Hash] chart and EVM value table options
+  def chart_param_from_setting(evm_setting)
     {
       # plugin setting: chart
       display_performance: evm_setting.view_performance,
@@ -39,7 +45,14 @@ module EvmSettingParamBuilder
       forecast: evm_setting.view_forecast,
       limit_spi: evm_setting.threshold_spi,
       limit_cpi: evm_setting.threshold_cpi,
-      limit_cr: evm_setting.threshold_cr,
+      limit_cr: evm_setting.threshold_cr
+    }
+  end
+
+  # @param [Evmsetting] evm_setting the project's EVM plugin settings record
+  # @return [Hash] options of EVM calculation
+  def calculation_param_from_setting(evm_setting)
+    {
       # plugin setting: calculation evm
       etc_method: evm_setting.etc_method,
       working_hours: evm_setting.basis_hours,

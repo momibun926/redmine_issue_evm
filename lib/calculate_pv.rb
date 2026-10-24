@@ -101,15 +101,21 @@ class CalculatePv < BaseCalculateEvm
   # @return [Hash] EVM hash. Key:Date, Value:PV of each days
   def calculate_planed_value(issues)
     temp_pv = {}
-    Array(issues).each do |issue|
-      issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
-      pv_days = working_days(issue.start_date, issue.due_date, @exclude_holiday, @region)
-      hours_per_day = issue_hours_per_day(issue.estimated_hours.to_f, pv_days.length)
-      pv_days.each do |date|
-        temp_pv[date] = add_daily_evm_value(temp_pv[date], hours_per_day)
-      end
-    end
+    Array(issues).each { |issue| add_issue_planed_value(issue, temp_pv) }
     temp_pv
+  end
+
+  # Add planed value of an issue to each working day.
+  #
+  # @param [Issue] issue target issue
+  # @param [Hash] temp_pv PV hash. Key:Date, Value:PV of each days. It is updated.
+  def add_issue_planed_value(issue, temp_pv)
+    issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
+    pv_days = working_days(issue.start_date, issue.due_date, @exclude_holiday, @region)
+    hours_per_day = issue_hours_per_day(issue.estimated_hours.to_f, pv_days.length)
+    pv_days.each do |date|
+      temp_pv[date] = add_daily_evm_value(temp_pv[date], hours_per_day)
+    end
   end
 
   # Estimated time per day.

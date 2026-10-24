@@ -57,7 +57,7 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 
 Metrics/ClassLength:
-  Max: 180
+  Max: 190
 
 Metrics/ModuleLength:
   Max: 180

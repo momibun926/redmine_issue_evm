@@ -38,29 +38,16 @@ module CalculateEvmLogic
     # @option options [bool] exclude_holiday Exclude holiday when calculate PV.
     # @option options [String] holiday region.
     def initialize(baselines, issues, costs, options = {})
-      # set options
-      @working_hours = options[:working_hours]
-      @basis_date = options[:basis_date].to_date
-      @forecast = options[:forecast]
-      @etc_method = options[:etc_method]
-      @exclude_holiday = options[:exclude_holiday]
-      @region = options[:region]
-      # EV
-      @ev = CalculateEv.new(@basis_date, issues)
-      # AC
-      @ac = CalculateAc.new(@basis_date, costs)
-      # PV Actual
-      @pv_actual = CalculatePv.new(@basis_date, issues, @region, @exclude_holiday)
-      # PV Baseline or PV actual
-      @pv_baseline = CalculatePv.new(@basis_date, baselines, @region, @exclude_holiday) if baselines.present?
-      @pv = @pv_baseline || @pv_actual
+      assign_options(options)
+      calculate_ev_ac_pv(baselines, issues, costs)
       # Finished date is set when project is finished
       @finished_date = check_finished_date(@ev, @pv)
       # Forecast is invalid when project is finished
       @forecast = false if @finished_date.present?
       # project state, EV and PV
-      @project_state = [@ev.state(@pv)]
-      @project_state << @pv.state if @ev.state(@pv) != :finished
+      ev_state = @ev.state(@pv)
+      @project_state = [ev_state]
+      @project_state << @pv.state if ev_state != :finished
     end
 
     # Badget at completion.
@@ -297,24 +284,13 @@ module CalculateEvmLogic
     def to_csv
       Redmine::Export::CSV.generate do |csv|
         # date range
-        csv_min_date   = [@ev.min_date, @ac.min_date, @pv.start_date].min
-        csv_max_date   = [@ev.max_date, @ac.max_date, @pv.due_date].max
-        evm_date_range = (csv_min_date..csv_max_date).to_a
+        evm_date_range = csv_date_range
         # title
-        csv << ["DATE", evm_date_range].flatten!
-        # set evm values each date
-        pv_csv = {}
-        ev_csv = {}
-        ac_csv = {}
-        evm_date_range.each do |csv_date|
-          pv_csv[csv_date] = @pv.cumulative[csv_date] && @pv.cumulative[csv_date].round(2)
-          ev_csv[csv_date] = @ev.cumulative[csv_date] && @ev.cumulative[csv_date].round(2)
-          ac_csv[csv_date] = @ac.cumulative[csv_date] && @ac.cumulative[csv_date].round(2)
-        end
-        # evm values
-        csv << ["PV", pv_csv.values.to_a].flatten!
-        csv << ["EV", ev_csv.values.to_a].flatten!
-        csv << ["AC", ac_csv.values.to_a].flatten!
+        csv << ["DATE", *evm_date_range]
+        # evm values each date
+        csv << ["PV", *csv_cumulative_values(@pv, evm_date_range)]
+        csv << ["EV", *csv_cumulative_values(@ev, evm_date_range)]
+        csv << ["AC", *csv_cumulative_values(@ac, evm_date_range)]
       end
     end
 
@@ -331,16 +307,7 @@ module CalculateEvmLogic
       # before schedule date
       return @basis_date if @basis_date < @pv.start_date
 
-      # After completion schedule date
-      if @pv.due_date < @basis_date
-        @basis_date + rest_days(@pv.cumulative[@pv.due_date],
-                                @ev.cumulative.values.max,
-                                today_spi,
-                                @working_hours)
-      # After completion schedule date
-      else
-        @pv.due_date + rest_days(today_pv, today_ev, today_spi, @working_hours)
-      end
+      @pv.due_date < @basis_date ? overdue_forecast_finish_date : in_progress_forecast_finish_date
     end
 
     # rest days
@@ -380,6 +347,72 @@ module CalculateEvmLogic
       else
         today_cpi(hours)
       end
+    end
+
+    private
+
+    # Set the calculation options.
+    #
+    # @param [Hash] options calculationEVM options. See #initialize.
+    def assign_options(options)
+      @working_hours = options[:working_hours]
+      @basis_date = options[:basis_date].to_date
+      @forecast = options[:forecast]
+      @etc_method = options[:etc_method]
+      @exclude_holiday = options[:exclude_holiday]
+      @region = options[:region]
+    end
+
+    # Calculate EV, AC and PV (actual, and baseline when it is selected).
+    #
+    # @param [evmbaseline] baselines selected baseline.
+    # @param [Issue] issues
+    # @param [Hash] costs spent time.
+    def calculate_ev_ac_pv(baselines, issues, costs)
+      # EV
+      @ev = CalculateEv.new(@basis_date, issues)
+      # AC
+      @ac = CalculateAc.new(@basis_date, costs)
+      # PV Actual
+      @pv_actual = CalculatePv.new(@basis_date, issues, @region, @exclude_holiday)
+      # PV Baseline or PV actual
+      @pv_baseline = CalculatePv.new(@basis_date, baselines, @region, @exclude_holiday) if baselines.present?
+      @pv = @pv_baseline || @pv_actual
+    end
+
+    # Dates of csv export, from the first to the last date of PV, EV and AC.
+    #
+    # @return [Array] dates
+    def csv_date_range
+      csv_min_date = [@ev.min_date, @ac.min_date, @pv.start_date].min
+      csv_max_date = [@ev.max_date, @ac.max_date, @pv.due_date].max
+      (csv_min_date..csv_max_date).to_a
+    end
+
+    # Cumulative values of each date for csv export.
+    #
+    # @param [BaseCalculateEvm] calc_evm PV, EV or AC
+    # @param [Array] dates dates of csv
+    # @return [Array] cumulative value of each date, rounded. nil is no value on the date.
+    def csv_cumulative_values(calc_evm, dates)
+      dates.map { |csv_date| calc_evm.cumulative[csv_date]&.round(2) }
+    end
+
+    # forecast finish date, after completion schedule date.
+    #
+    # @return [date] basis date + rest days
+    def overdue_forecast_finish_date
+      @basis_date + rest_days(@pv.cumulative[@pv.due_date],
+                              @ev.cumulative.values.max,
+                              today_spi,
+                              @working_hours)
+    end
+
+    # forecast finish date, until completion schedule date.
+    #
+    # @return [date] due date + rest days
+    def in_progress_forecast_finish_date
+      @pv.due_date + rest_days(today_pv, today_ev, today_spi, @working_hours)
     end
   end
 end

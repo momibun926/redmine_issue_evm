@@ -197,6 +197,17 @@ class CalculateEvmScenariosTest < ActiveSupport::TestCase
     assert_equal ["AC", nil, 6.0, 8.0, nil, nil], numeric_row(rows[3])
   end
 
+  def test_to_csv_rounds_cumulative_values_to_two_decimals
+    issue = FakeIssue.new(Date.new(2026, 1, 1), Date.new(2026, 1, 3), 1.0, 0)
+    evm = build(issue, Date.new(2026, 1, 3), { Date.new(2026, 1, 2) => 1.0 / 3 })
+
+    rows = parse_csv(evm.to_csv)
+
+    # PV: 1/3 per day accumulated and rounded; AC: 1/3 rounded to 0.33
+    assert_equal ["PV", 0.33, 0.67, 1.0], numeric_row(rows[1])
+    assert_equal ["AC", nil, 0.33, 0.33], numeric_row(rows[3])
+  end
+
   private
 
   # Redmine's CSV helper picks the column separator (and encoding) from the
