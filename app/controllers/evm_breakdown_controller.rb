@@ -52,16 +52,11 @@ class EvmBreakdownController < BaseevmController
 
   # Set the options of the view request to the cfg_param.
   def assign_view_options
-    @cfg_param[:basis_date] = basis_date_param
+    @cfg_param[:basis_date] = basis_date_or_today
     @cfg_param[breakdown_param] = params[breakdown_param]
     # For back to mainpage
     @cfg_param[:no_use_baseline] = params[:no_use_baseline]
     @cfg_param[:display_explanation] = params[:display_explanation]
-  end
-
-  # The requested basis date; today when it is not given (same as the main EVM page).
-  def basis_date_param
-    params[:basis_date].presence || User.current.time_to_date(Time.current)
   end
 
   # ---- template methods: every subclass implements these four ----

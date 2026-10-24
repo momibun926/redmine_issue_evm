@@ -14,6 +14,8 @@ class EvmsController < BaseevmController
   menu_item :issuevm
   # Before action (override)
   before_action :authorize
+  # A baseline that is not of this project is not found
+  before_action :find_selected_baseline, only: :index
 
   # View of main page.
   # If the settings are not entry, go to the settings page.
@@ -49,7 +51,7 @@ class EvmsController < BaseevmController
   #
   def assign_view_options
     # Basis date of calculate
-    @cfg_param[:basis_date] = default_basis_date
+    @cfg_param[:basis_date] = basis_date_or_today
     # baseline
     @cfg_param[:no_use_baseline] = params[:no_use_baseline]
     # evm explanation
@@ -117,10 +119,11 @@ class EvmsController < BaseevmController
     @baseline_variance = check_baseline_variance(@project_evm)
   end
 
-  # set default basis date
-  #
-  def default_basis_date
-    params[:basis_date].blank? ? User.current.time_to_date(Time.current) : params[:basis_date].to_date
+  # The baseline selected by the request must be one of the project.
+  def find_selected_baseline
+    return if params[:evmbaseline_id].blank?
+
+    render_404 unless Evmbaseline.exists?(id: params[:evmbaseline_id], project_id: @project.id)
   end
 
   # set default aseline id

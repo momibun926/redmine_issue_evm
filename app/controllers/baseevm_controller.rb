@@ -31,6 +31,23 @@ class BaseevmController < ApplicationController
     @cfg_param = cfg_param_from_setting(@emv_setting)
   end
 
+  # The basis date of the request.
+  #
+  # @return [Date, nil] nil when it is not given, blank or not a date
+  def requested_basis_date
+    value = params[:basis_date]
+    value.to_date if value.is_a?(String)
+  rescue ArgumentError
+    nil
+  end
+
+  # The basis date of the request; today when it is not usable.
+  #
+  # @return [Date] basis date
+  def basis_date_or_today
+    requested_basis_date || User.current.time_to_date(Time.current)
+  end
+
   # find project object
   #
   def find_project

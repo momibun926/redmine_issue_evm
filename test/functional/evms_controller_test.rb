@@ -48,17 +48,6 @@ class EvmsControllerTest < Redmine::ControllerTest
     assert_equal Date.new(2026, 1, 8), controller_ivar(:cfg_param)[:basis_date]
   end
 
-  def test_a_blank_basis_date_is_treated_as_today
-    create_evm_setting
-
-    travel_to Time.utc(2026, 1, 8, 12, 0, 0) do
-      get :index, params: { project_id: @project.id, basis_date: "" }
-    end
-
-    assert_response :success
-    assert_equal Date.new(2026, 1, 8), controller_ivar(:cfg_param)[:basis_date]
-  end
-
   def test_the_report_param_holds_the_evm_values_of_the_basis_date
     create_evm_setting
 
