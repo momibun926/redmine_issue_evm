@@ -117,11 +117,20 @@ class EvmbaselinesController < BaseevmController
                          leaf: issue.leaf?)
   end
 
+  # Latest due date of the versions of the issues. It is the due date of an
+  # issue that has no due date of its own (see baseline_issue_of).
+  #
+  # @param [ActiveRecord::Relation] issues issues of the project
+  # @return [Date, nil] nil when no issue has a version with a due date
+  def version_due_date(issues)
+    Version.where(id: issues.select(:fixed_version_id)).maximum(:effective_date)
+  end
+
   # Dates and hours of the project's issues, shown in the form of a new baseline.
   def assign_new_form_values
     issues = evm_issues(@project)
     @start_date = issues.minimum(:start_date)
-    @due_date = issues.maximum(:due_date) || issues.maximum(:effective_date)
+    @due_date = issues.maximum(:due_date) || version_due_date(issues)
     @bac = issues.sum(:estimated_hours).to_f
   end
 

@@ -120,7 +120,7 @@ class EvmsController < BaseevmController
   # set default basis date
   #
   def default_basis_date
-    params[:basis_date].nil? ? User.current.time_to_date(Time.current) : params[:basis_date].to_date
+    params[:basis_date].blank? ? User.current.time_to_date(Time.current) : params[:basis_date].to_date
   end
 
   # set default aseline id

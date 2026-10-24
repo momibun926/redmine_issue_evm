@@ -42,6 +42,29 @@ module EvmBreakdownContract
     assert_equal ChartDataMaker.evm_chart_data(evm), controller_ivar(:evm_chart_data)[first.to_s]
   end
 
+  def test_without_a_basis_date_the_evm_is_calculated_for_today
+    first, = selected_values
+
+    travel_to Time.utc(2026, 1, 8, 12, 0, 0) do
+      get :index, params: { project_id: @project.id, selected_param => [first] }
+    end
+
+    assert_response :success
+    assert_equal Date.new(2026, 1, 8), controller_ivar(:evm_data)[first.to_s].basis_date
+    assert_equal Date.new(2026, 1, 8), controller_ivar(:cfg_param)[:basis_date]
+  end
+
+  def test_a_blank_basis_date_is_treated_as_today
+    first, = selected_values
+
+    travel_to Time.utc(2026, 1, 8, 12, 0, 0) do
+      get :index, params: { project_id: @project.id, basis_date: "", selected_param => [first] }
+    end
+
+    assert_response :success
+    assert_equal Date.new(2026, 1, 8), controller_ivar(:evm_data)[first.to_s].basis_date
+  end
+
   def test_several_selected_ids_get_one_evm_each_in_the_order_selected
     first, second = selected_values
 

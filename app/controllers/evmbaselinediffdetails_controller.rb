@@ -15,8 +15,19 @@ class EvmbaselinediffdetailsController < BaseevmController
   def index
     # baseline
     @cfg_param[:baseline_id] = params[:baseline_id]
-    baselines = BaselineDataFetcher.project_baseline(params[:baseline_id])
-    # issues of project include disendants
+    # A baseline of this project only: not found when it is missing, unknown or of another project
+    baseline = Evmbaseline.find_by(id: params[:baseline_id], project_id: @project.id)
+    return render_404 if baseline.nil?
+
+    assign_differences(baseline.evmbaselineIssues)
+  end
+
+  private
+
+  # Compare the issues of the project (include descendants) with the issues of the baseline.
+  #
+  # @param [ActiveRecord::Relation] baselines issues of the baseline.
+  def assign_differences(baselines)
     issues = evm_issues(@project)
     # issue detail
     actual_issue = actual_issue_some_info issues
@@ -27,8 +38,6 @@ class EvmbaselinediffdetailsController < BaseevmController
     @new_issues = diff_new_issues(actual_issue, @baseline_issue)
     @remove_issues = diff_remove_issues(actual_issue, @baseline_issue)
   end
-
-  private
 
   # create issue detail hash
   #

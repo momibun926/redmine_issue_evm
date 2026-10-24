@@ -56,6 +56,32 @@ class EvmbaselinediffdetailsControllerTest < Redmine::ControllerTest
     assert_equal [@removed.id], controller_ivar(:remove_issues).map(&:id)
   end
 
+  def test_without_a_baseline_id_the_page_is_not_found
+    get :index, params: { project_id: @project.id }
+
+    assert_response :not_found
+  end
+
+  def test_a_blank_baseline_id_is_not_found
+    get :index, params: { project_id: @project.id, baseline_id: "" }
+
+    assert_response :not_found
+  end
+
+  def test_an_unknown_baseline_id_is_not_found
+    get :index, params: { project_id: @project.id, baseline_id: Evmbaseline.maximum(:id).to_i + 1 }
+
+    assert_response :not_found
+  end
+
+  def test_a_baseline_of_another_project_is_not_found
+    other = create_baseline("other project", Time.utc(2026, 1, 2), [], Project.find(1))
+
+    get :index, params: { project_id: @project.id, baseline_id: other.id }
+
+    assert_response :not_found
+  end
+
   def test_a_user_who_is_not_a_member_is_denied
     @request.session[:user_id] = 3
 

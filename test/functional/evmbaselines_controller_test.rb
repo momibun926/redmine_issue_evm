@@ -40,6 +40,28 @@ class EvmbaselinesControllerTest < Redmine::ControllerTest
     assert_equal 60.0, controller_ivar(:bac)
   end
 
+  def test_new_proposes_the_due_date_of_the_version_when_no_issue_has_a_due_date
+    version = Version.create!(project: @project, name: "Release 9", effective_date: Date.new(2026, 3, 1))
+    Issue.where(project_id: @project.id).
+      update_all(due_date: nil, fixed_version_id: version.id) # rubocop:disable Rails/SkipsModelValidations
+
+    get :new, params: { project_id: @project.id }
+
+    assert_response :success
+    assert_equal Date.new(2026, 3, 1), controller_ivar(:due_date)
+    assert_select "input#due_date[value=?]", "2026-03-01"
+  end
+
+  def test_new_shows_an_empty_due_date_when_the_project_has_no_issues
+    Issue.where(project_id: @project.id).delete_all
+
+    get :new, params: { project_id: @project.id }
+
+    assert_response :success
+    assert_nil controller_ivar(:due_date)
+    assert_equal 0.0, controller_ivar(:bac)
+  end
+
   def test_show
     get :show, params: { project_id: @project.id, id: @latest.id }
 
