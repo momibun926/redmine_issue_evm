@@ -15,7 +15,9 @@ class ActivitiesControllerEvmIconsTest < Redmine::ControllerTest
     @baseline = create_baseline("baseline", 2.days.ago, [[@issue1, Date.new(2026, 1, 5), Date.new(2026, 1, 9), 40.0]])
     @edited = create_baseline("edited baseline", 3.days.ago, [])
     @edited.update!(updated_on: 1.day.ago)
-    create_report("report", 2.days.ago, 2.days.ago)
+    # the same time for the creation and the last update, or the event is one of an edit
+    created_on = 2.days.ago
+    create_report("report", created_on, created_on)
     create_report("edited report", 3.days.ago, 1.day.ago)
   end
 
