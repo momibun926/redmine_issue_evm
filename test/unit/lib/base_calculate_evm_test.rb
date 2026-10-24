@@ -32,7 +32,7 @@ class BaseCalculateEvmTest < ActiveSupport::TestCase
     assert_equal 15.0, value
   end
 
-  def test_add_daily_evm_value_defaults_done_ratio_to_100
+  def test_add_daily_evm_value_defaults_to_a_fully_done_ratio
     assert_equal 8.0, @base.send(:add_daily_evm_value, nil, 8.0)
   end
 

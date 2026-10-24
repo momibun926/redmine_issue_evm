@@ -18,7 +18,7 @@ class CalculateEvmScenariosTest < ActiveSupport::TestCase
     FakeIssue.new(Date.new(2026, 1, 1), Date.new(2026, 1, 5), 10.0, done_ratio, nil, false, journals)
   end
 
-  def options(basis_date, etc_method = "method2", forecast = true)
+  def options(basis_date, etc_method = "method2", forecast: true)
     { basis_date: basis_date, working_hours: 8, forecast: forecast,
       etc_method: etc_method, exclude_holiday: false, region: nil }
   end
@@ -40,7 +40,7 @@ class CalculateEvmScenariosTest < ActiveSupport::TestCase
     assert_equal 8.0, evm.today_ac
     assert_equal(-2.0, evm.today_sv) # EV - PV
     assert_equal(-4.0, evm.today_cv) # EV - AC
-    assert_equal [:progress, :within_duration], evm.project_state
+    assert_equal %i[progress within_duration], evm.project_state
     assert_nil evm.finished_date
   end
 
@@ -125,7 +125,7 @@ class CalculateEvmScenariosTest < ActiveSupport::TestCase
 
     evm = build(issue, Date.new(2025, 12, 28), {})
 
-    assert_equal [:progress, :before_plan], evm.project_state
+    assert_equal %i[progress before_plan], evm.project_state
     assert_equal Date.new(2025, 12, 28), evm.forecast_finish_date
     assert_equal(-8, evm.delay)
   end
@@ -133,7 +133,7 @@ class CalculateEvmScenariosTest < ActiveSupport::TestCase
   def test_forecast_finish_date_for_an_overdue_project_counts_from_the_basis_date
     evm = build(in_progress_issue, Date.new(2026, 1, 10))
 
-    assert_equal [:progress, :overdue], evm.project_state
+    assert_equal %i[progress overdue], evm.project_state
     assert_equal 10.0, evm.today_pv
     assert_equal 0.4, evm.today_spi
     # rest days = ((10 - 4) / 0.4 / 8h).round = 2 -> Jan 10 + 2
@@ -170,7 +170,7 @@ class CalculateEvmScenariosTest < ActiveSupport::TestCase
 
     assert_not_nil evm.pv_baseline
     assert_same evm.pv_baseline, evm.pv
-    assert_equal 20.0, evm.bac           # baseline BAC, not the actual 10h
+    assert_equal 20.0, evm.bac # baseline BAC, not the actual 10h
     assert_equal 10.0, evm.pv_actual.bac
     assert_equal 10, evm.sac
   end

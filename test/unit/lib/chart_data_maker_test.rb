@@ -27,7 +27,7 @@ class ChartDataMakerTest < ActiveSupport::TestCase
     chart = ChartDataMaker.evm_chart_data(evm)
 
     assert_equal %i[labels pv_actual pv_daily pv_baseline ac ev bac eac eac_daily ac_forecast ev_forecast],
-                chart.keys
+                 chart.keys
     assert_equal 6, chart[:labels].length
     assert_equal "[2.0,4.0,6.0,8.0,10.0,null]", chart[:pv_actual]
     assert_equal "[null,6.0,null,10.0,null,null]", chart[:ev]

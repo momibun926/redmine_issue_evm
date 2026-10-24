@@ -58,7 +58,7 @@ module EvmUtil
     issue_days = (start_date..end_date).to_a
     if exclude_holiday
       working_days = issue_days.reject { |e| e.wday.zero? || e.wday == 6 || e.holiday?(region) }
-      working_days.length.zero? ? issue_days : working_days
+      working_days.empty? ? issue_days : working_days
     else
       issue_days
     end

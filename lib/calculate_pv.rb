@@ -83,11 +83,11 @@ class CalculatePv < BaseCalculateEvm
     return 0 if @state == :before_plan
 
     es_date_pv = if @state == :overdue
-                   @cumulative.select { |k, _v| (k < @basis_date) }
+                   @cumulative.select { |k, _v| k < @basis_date }
                  else
                    @cumulative
                  end
-    es_date = es_date_pv.select { |_k, v| (v <= ev_value) }.keys.max
+    es_date = es_date_pv.select { |_k, v| v <= ev_value }.keys.max
     es_date.nil? ? 0 : amount_working_days(@start_date, es_date)
   end
 

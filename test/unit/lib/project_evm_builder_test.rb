@@ -122,6 +122,6 @@ class ProjectEvmBuilderTest < ActiveSupport::TestCase
     evm = host.build_project_evm(@project, @cfg_param)
 
     assert_equal 0.0, evm.bac
-    assert_equal [:no_work, :within_duration], evm.project_state
+    assert_equal %i[no_work within_duration], evm.project_state
   end
 end

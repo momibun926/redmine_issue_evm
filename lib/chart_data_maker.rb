@@ -129,7 +129,7 @@ module ChartDataMaker
   # @param [number] evm_value EVM hash value
   # @return [number] rounded EVM value or nil
   def evm_round(evm_value)
-    evm_value.round(2) if evm_value.present?
+    evm_value.presence&.round(2)
   end
 
   # Get duretion of chart
@@ -149,7 +149,7 @@ module ChartDataMaker
     max_date << evm.pv_baseline.due_date if evm.pv_baseline.present?
     if evm.finished_date.present?
       max_date << evm.ev.max_date
-      max_date << evm.ac.cumulative.select { |ac_date, _value| (ac_date < evm.basis_date) }.keys.max
+      max_date << evm.ac.cumulative.select { |ac_date, _value| ac_date < evm.basis_date }.keys.max
     else
       max_date << evm.ev.cumulative.keys.max
       max_date << evm.ac.cumulative.keys.max
@@ -216,7 +216,7 @@ module ChartDataMaker
   def calculate_eac_daily(bac, ev_hash, ac_hash)
     temp_hash = {}
     ev_hash.each do |ev_date, ev_value|
-      ac_value = ac_hash.select { |ac_date, _value| (ac_date <= ev_date) }.values.max
+      ac_value = ac_hash.select { |ac_date, _value| ac_date <= ev_date }.values.max
       cpi_value = calculate_spi(ev_value, ac_value)
       temp_hash[ev_date] = ac_value + ((bac - ev_value) / cpi_value) unless cpi_value.nil?
     end
