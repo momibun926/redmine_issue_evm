@@ -133,6 +133,17 @@ div[class*="evm-explanation"] {
 .icon-exclude-evm {
   background-image: url("../images/issue-exclude.png");
 }
+/* Redmine 7 draws the standard icons as inline SVG, so a link with only a
+   background image gets neither the room for it nor no-repeat (the image was
+   tiled behind the text). Same rule as Redmine 7's legacy-icons-compat.css. */
+.icon-parent-issue-evm,
+.icon-tracker-evm,
+.icon-version-evm,
+.icon-exclude-evm {
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  padding-left: 20px;
+}
 
 /*** for activity page ***/
 dt.evmbaseline-new,
