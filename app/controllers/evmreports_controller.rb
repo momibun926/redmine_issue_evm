@@ -7,6 +7,8 @@ class EvmreportsController < BaseevmController
   # section 13); view_project_evmreports was declared in init.rb but never
   # actually enforced without this, and was itself missing :update.
   before_action :authorize
+  # The report of the project in the URL: one of another project is not found
+  before_action :find_report, only: %i[show edit update destroy]
   # index for evm report
   #
   def index
@@ -30,7 +32,6 @@ class EvmreportsController < BaseevmController
   # View of report
   #
   def show
-    @evm_report = ProjectEvmreport.find(params[:id])
     # previus report and baseline
     previus_report_and_baseline_data
   end
@@ -38,7 +39,6 @@ class EvmreportsController < BaseevmController
   # Edit report
   #
   def edit
-    @evm_report = ProjectEvmreport.find(params[:id])
     # previus report and baseline
     previus_report_and_baseline_data
   end
@@ -46,7 +46,6 @@ class EvmreportsController < BaseevmController
   # Update report
   #
   def update
-    @evm_report = ProjectEvmreport.find(params[:id])
     @evm_report.update(evm_report_params)
     stamp_updater(@evm_report)
     if @evm_report.save
@@ -61,8 +60,7 @@ class EvmreportsController < BaseevmController
   # Create report
   #
   def create
-    @evm_report = ProjectEvmreport.new(evm_report_params)
-    stamp_creator(@evm_report)
+    @evm_report = build_report
     # Save
     if @evm_report.save
       delete_same_date_reports(@evm_report)
@@ -77,15 +75,21 @@ class EvmreportsController < BaseevmController
   # Delete report
   #
   def destroy
-    # destroy
-    evm_report = ProjectEvmreport.find(params[:id])
-    evm_report.destroy
+    @evm_report.destroy
     # Message
     flash[:notice] = l(:notice_successful_delete)
     redirect_to action: :index
   end
 
   private
+
+  # Find the report of the request in the project of the URL (not found when it belongs to
+  # another project, as when there is no such report).
+  #
+  def find_report
+    @evm_report = ProjectEvmreport.find_by(id: params[:id], project_id: @project.id)
+    render_404 unless @evm_report
+  end
 
   # EVM values of a report (attribute) and the request parameter holding it (hours)
   EVM_REPORT_VALUES = { evm_bac: :bac,
@@ -103,6 +107,17 @@ class EvmreportsController < BaseevmController
     EVM_REPORT_VALUES.each do |attribute, param|
       evm_report[attribute] = params[param].to_f.fdiv(params[:working_hours].to_f).round(1)
     end
+  end
+
+  # New report of the project of the URL (whatever project the form says), by the current user.
+  # It is not saved.
+  #
+  # @return [ProjectEvmreport] new report
+  def build_report
+    evm_report = ProjectEvmreport.new(evm_report_params)
+    evm_report.project_id = @project.id
+    stamp_creator(evm_report)
+    evm_report
   end
 
   # Record the current user and time as the updater of the report.
@@ -135,16 +150,7 @@ class EvmreportsController < BaseevmController
   # Strong parameter
   #
   def evm_report_params
-    params.require(:project_evmreport).permit(:project_id,
-                                              :baseline_id,
-                                              :report_text,
-                                              :status_date,
-                                              :evm_bac,
-                                              :evm_pv,
-                                              :evm_ev,
-                                              :evm_ac,
-                                              :evm_sv,
-                                              :evm_cv)
+    params.require(:project_evmreport).permit(:baseline_id, :report_text, :status_date, *EVM_REPORT_VALUES.keys)
   end
 
   # Get previus report and baseline

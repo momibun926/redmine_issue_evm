@@ -106,6 +106,12 @@ module EvmFunctionalTestSupport
     assert_match(/#icon--#{Regexp.escape(icon)}\z/, link.at("use")["href"], label)
   end
 
+  # A private project with the plugin's module, of which the signed-in user is not a member
+  def create_private_project
+    Project.create!(name: "Private", identifier: "private-evm", is_public: false,
+                    enabled_module_names: %w[issue_tracking Issuevm])
+  end
+
   # Instance variable of the controller that handled the last request
   def controller_ivar(name)
     @controller.instance_variable_get("@#{name}")

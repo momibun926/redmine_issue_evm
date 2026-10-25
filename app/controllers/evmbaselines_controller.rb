@@ -10,6 +10,8 @@ class EvmbaselinesController < BaseevmController
   # section 13); manage_evmbaselines/view_evmbaselines were declared in
   # init.rb but never actually enforced without this.
   before_action :authorize
+  # The baseline of the project in the URL: one of another project is not found
+  before_action :find_baseline, only: %i[show edit update destroy]
   # display baseline list
   #
   def index
@@ -26,20 +28,15 @@ class EvmbaselinesController < BaseevmController
 
   # View of Baseline
   #
-  def show
-    @evm_baselines = Evmbaseline.find(params[:id])
-  end
+  def show; end
 
   # Edit view of Baseline
   #
-  def edit
-    @evm_baselines = Evmbaseline.find(params[:id])
-  end
+  def edit; end
 
   # Update baselie
   #
   def update
-    @evm_baselines = Evmbaseline.find(params[:id])
     @evm_baselines.update(evm_baseline_params)
     if @evm_baselines.save
       flash[:notice] = l(:notice_successful_update)
@@ -66,9 +63,7 @@ class EvmbaselinesController < BaseevmController
   # Delete baseline
   #
   def destroy
-    # destroy
-    evm_baselines = Evmbaseline.find(params[:id])
-    evm_baselines.destroy
+    @evm_baselines.destroy
     # update status
     mark_baselines_old
     promote_latest_baseline
@@ -78,6 +73,14 @@ class EvmbaselinesController < BaseevmController
   end
 
   private
+
+  # Find the baseline of the request in the project of the URL (not found when it belongs to
+  # another project, as when there is no such baseline).
+  #
+  def find_baseline
+    @evm_baselines = Evmbaseline.find_by(id: params[:id], project_id: @project.id)
+    render_404 unless @evm_baselines
+  end
 
   # Build a baseline of the current plan: the posted values, the current
   # user, and a copy of the start date, due date and estimated hours of each
