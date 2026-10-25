@@ -33,6 +33,14 @@ class ActivitiesControllerEvmIconsTest < Redmine::ControllerTest
     end
   end
 
+  def test_the_events_are_found_without_a_deprecation_warning_of_redmine
+    assert_not_deprecated(Rails.application.deprecators[:redmine]) do
+      get :index, params: { id: @project.id, from: Date.current.to_s, show_evmbaselines: 1, show_project_evmreports: 1 }
+    end
+
+    assert_response :success
+  end
+
   def test_the_sprite_of_the_plugin_has_the_symbol_of_every_type_of_event
     symbols = File.read(File.expand_path("../../assets/images/icons.svg", __dir__)).scan(/\sid="icon--([^"]+)"/).flatten
 

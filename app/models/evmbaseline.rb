@@ -37,7 +37,7 @@ class Evmbaseline < ApplicationRecord
                 url: Proc.new { |o| { controller: "evmbaselines", action: :show, project_id: o.project, id: o.id } }
   # rubocop:enable Layout/LineLength
 
-  acts_as_activity_provider scope: joins(:project),
+  acts_as_activity_provider scope: proc { joins(:project) },
                             permission: :view_evmbaselines,
                             type: "evmbaseline",
                             author_key: :author_id

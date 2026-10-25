@@ -23,7 +23,7 @@ class ProjectEvmreport < ApplicationRecord
                 url: Proc.new { |o| { controller: "evmreports", action: :show, project_id: o.project, id: o.id } }
   # rubocop:enable Layout/LineLength
 
-  acts_as_activity_provider scope: joins(:project),
+  acts_as_activity_provider scope: proc { joins(:project) },
                             permission: :view_project_evmreports,
                             type: "project_evmreport",
                             author_key: :author_id
