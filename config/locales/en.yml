@@ -43,6 +43,7 @@
   progress: Work in progress
   finished: Finished
   overdue: Over due date
+  no_work: No finished issues
   before_plan: Before project start date
   within_duration: Within the project period
   more_difference_details: Show more details...

@@ -43,6 +43,7 @@
   progress: Trabajo en progreso
   finished: Terminado
   overdue: Vencido
+  no_work: No hay problemas terminados
   before_plan: Antes de la fecha de inicio del proyecto
   within_duration: "Dentro del período del proyecto"
   more_difference_details: Mostrar más detalles...
@@ -128,7 +129,7 @@
   message_delete_report: "Eliminar informe, ¿estás seguro?"
 
   # Overview page
-  label_no_evm_setting: You need to do the initial setup of the EVM plugin, Click on the EVM tab
+  label_no_evm_setting: Es necesario realizar la configuración inicial del plugin EVM. Haga clic en la pestaña EVM.
 
   # Activity page
   label_evmbaseline_plural: "Línea base"

@@ -43,6 +43,7 @@
   progress: Probíhá
   finished: Dokončeno
   overdue: " jsme po termínu"
+  no_work: Žádné dokončené úkoly
   before_plan: " jsme před začátkem projektu"
   within_duration: " jsme v období průběhu projektu"
   more_difference_details: Více...
@@ -182,4 +183,4 @@
   # EVM of assignee
   no_assignee: Nepřiděleno
   estimated_working_hours: Předpokládaný počet hodin
-  label_no_evm_setting: You need to do the initial setup of the EVM plugin, Click on the EVM tab
+  label_no_evm_setting: Je třeba provést počáteční nastavení pluginu EVM. Klikněte na záložku EVM.

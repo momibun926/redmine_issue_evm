@@ -1,6 +1,6 @@
 pt:
   # main title
-  title_evm_tab: Track with EVM
+  title_evm_tab: Acompanhar com EVM
 
   # contextual menu
   label_nav_main: Projecto
@@ -43,12 +43,13 @@ pt:
   progress: Trabalho em curso
   finished: Acabado
   overdue: Vencido
+  no_work: Nenhuma questão acabada
   before_plan: Antes da data de início do projecto
   within_duration: Dentro do período do projecto
   more_difference_details: Mostrar mais detalhes...
 
   # Indicator table header
-  indicator_table_header_date: Status date
+  indicator_table_header_date: Data do estado
   indicator_table_header_today: Valor da data de estado
   indicator_table_header_difference: Variância
   indicator_table_header_performance: Desempenho
@@ -60,7 +61,7 @@ pt:
   explanation_es_unit: dias
 
   # Option - common
-  label_basis_date: Data_do_estado
+  label_basis_date: Data do estado
   label_finished_date: Data de conclusão
   # Option - main
   label_baseline_use: Usar Baseline para o valor EVM
@@ -78,7 +79,7 @@ pt:
 
   # report page
   label_report_show: Detalhe do relatório
-  label_report_edit: Edit Report
+  label_report_edit: Editar relatório
   label_report_create: Novo relatório
   label_report_show: Mostrar Relatório
   label_report_list: Lista de relatórios
@@ -91,12 +92,12 @@ pt:
   label_baseline: Nome de base
   label_baseline_none: Nenhum
   label_baseline_show: Detalhe da Baseline
-  label_baseline_edit: Editar Baseline_edit
+  label_baseline_edit: Editar Baseline
   label_baseline_create: Nova Baseline
   label_baseline_version: História da Baseline
   label_baseline_set: Definição da Baseline
-  label_baseline_start_date: Data_de_início
-  label_baseline_due_date: Due Date
+  label_baseline_start_date: Data de início
+  label_baseline_due_date: Data de vencimento
   label_baseline_bac: BAC
   label_created_date: Criado em
   label_current_baseline: Mais recente
@@ -107,12 +108,12 @@ pt:
   # common setting page
   label_setting_create: Criar configuração EVM
   label_setting_edit: Editar configuração EVM
-  label_setting_set: EVM setting
-  label_basis_hours_of_day: Horas_base do_dia
+  label_setting_set: Configuração EVM
+  label_basis_hours_of_day: Horas base do dia
   label_evm_graph: Gráfico
-  label_limit_spi: Limite_limite_spi.
-  label_limit_cpi: Limiar_limite_cpi.
-  label_limit_cr: limiar CR.
+  label_limit_spi: Limite do SPI.
+  label_limit_cpi: Limite do CPI.
+  label_limit_cr: Limite do CR.
   label_exclude_holidays: Excluir feriados e fins-de-semana na duração dos dias de cálculo.
   label_region: Regiões para obter um feriado
   label_display_incomplete: Questões Incompletas
@@ -128,7 +129,7 @@ pt:
   message_delete_report: Remover relatório, tem a certeza?
 
   # Overview page
-  label_no_evm_setting: You need to do the initial setup of the EVM plugin, Click on the EVM tab
+  label_no_evm_setting: É necessário fazer a configuração inicial do plugin EVM. Clique no separador EVM.
 
   # Activity page
   label_evmbaseline_plural: Baseline
@@ -172,7 +173,7 @@ pt:
   project_module_Issuevm: EVM
   permission_view_evms: Ver EVM
   permission_manage_evmbaselines: Editar Baseline
-  permission_manage_evmsettings: Edit Common Setting
+  permission_manage_evmsettings: Editar configuração comum
   permission_view_evmbaselines: Ver Baseline
   permission_view_project_evmreports: Ver relatório do projecto
 
@@ -180,8 +181,8 @@ pt:
   tab_display_name: EVM
 
   # incomplete_issue
-  issue_parent_id: Pai_parente#
+  issue_parent_id: Pai#
 
   # EVM of assignee
   no_assignee: não atribuído
-  estimated_working_hours: Horas_de_trabalho estimadas
+  estimated_working_hours: Horas de trabalho estimadas
