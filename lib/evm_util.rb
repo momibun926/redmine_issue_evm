@@ -10,13 +10,13 @@ module EvmUtil
   def check_baseline_variance(project_evm)
     pv_actual = project_evm.pv_actual
     pv_baseline = project_evm.pv_baseline
-    project_state = {}
-    if pv_baseline.present?
-      project_state[:bac] = check_bac_variance(pv_actual.bac.round(2), pv_baseline.bac.round(2))
-      project_state[:due_date] = check_due_date_variance(pv_actual.due_date, pv_baseline.due_date)
-      project_state[:schedule] = check_pv_daily_variance(pv_actual.daily, pv_baseline.daily)
-    end
-    project_state
+    return {} if pv_baseline.blank?
+
+    {
+      bac: check_bac_variance(pv_actual.bac.round(2), pv_baseline.bac.round(2)),
+      due_date: check_due_date_variance(pv_actual.due_date, pv_baseline.due_date),
+      schedule: check_pv_daily_variance(pv_actual.daily, pv_baseline.daily)
+    }
   end
 
   # check bac variance
@@ -58,7 +58,7 @@ module EvmUtil
     issue_days = (start_date..end_date).to_a
     if exclude_holiday
       working_days = issue_days.reject { |e| e.wday.zero? || e.wday == 6 || e.holiday?(region) }
-      working_days.length.zero? ? issue_days : working_days
+      working_days.empty? ? issue_days : working_days
     else
       issue_days
     end

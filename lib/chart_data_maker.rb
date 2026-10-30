@@ -2,7 +2,39 @@
 # This module is a function of create data to display chart.
 # Requires CalculateEvm class.
 #
+# Called as ChartDataMaker.evm_chart_data(...) / ChartDataMaker.performance_chart_data(...)
+# -- not included into controllers -- since every method here is a pure
+# function of its arguments (an already-built CalculateEvm, or plain values):
+# no DB access, no Redmine/Rails helpers, nothing controller-specific. See
+# the current-state analysis doc, section 4/12: this is the first of the
+# lib/ mixins to be moved out of BaseevmController's ancestor chain and into
+# an explicit, visible call, per the priority #4 proposal there.
+#
+# `module_function` below makes every method here both callable as
+# ChartDataMaker.foo(...) and (should anything ever `include ChartDataMaker`
+# again) a private instance method reachable by its bare name -- which is
+# exactly what lets these methods keep calling each other by bare name
+# (chart_duration(evm), evm_round(...), ...) unchanged below.
 module ChartDataMaker
+  # The helpers of the chart range and of the performance chart live in their
+  # own files (lib/chart_data_maker/). They are extended (ChartDataMaker.foo)
+  # and included, so they are reachable by their bare name from the methods
+  # below either way. When ChartDataMaker is mixed in, these helpers are public
+  # instance methods there (the methods below stay private, see above).
+  include ChartRange
+  include PerformanceSeries
+  extend ChartRange
+  extend PerformanceSeries
+
+  module_function
+
+  # Series of the EVM chart, in the order they are returned.
+  PLOT_DATA_KIND = %i[labels pv_actual pv_daily pv_baseline ac ev bac eac eac_daily ac_forecast ev_forecast].freeze
+  # Series drawn from the daily EVM values
+  PLOT_DATA_KIND_EVM = %i[pv_actual pv_daily ac ev eac_daily].freeze
+  # Series drawn only when the forecast option is on
+  PLOT_DATA_KIND_FORECAST = %i[bac eac ac_forecast ev_forecast].freeze
+
   # Create data for display chart for chartjs.
   #
   # 1. basis EVM data for chart
@@ -15,41 +47,54 @@ module ChartDataMaker
   # @param [CalculateEvm] evm evm calculation object
   # @return [Hash] chart data
   def evm_chart_data(evm)
-    # kind of chart data
-    plot_data_kind = %i[labels pv_actual pv_daily pv_baseline ac ev bac eac eac_daily ac_forecast ev_forecast]
     plot_data = Hash.new { |h, k| h[k] = [] }
-    plot_data_kind_evm = %i[pv_actual pv_daily ac ev eac_daily]
-    plot_data_kind_forecast = %i[bac eac ac_forecast ev_forecast]
-
     # start date and end date of chart
-    chart_duration = chart_duration(evm)
-
-    # EVM chart
-    evm_data_source = create_evm_chart_data_source(evm)
-    (chart_duration[:start_date]..chart_duration[:end_date]).each do |chart_date|
-      plot_data[:labels] << chart_date.to_time.to_i * 1000
-      plot_data[:pv_baseline] << evm_round(evm_data_source[:pv_baseline][chart_date]) if evm.pv_baseline.present?
-      plot_data_kind_evm.each do |kind|
-        plot_data[kind] << evm_round(evm_data_source[kind][chart_date])
-      end
-    end
-
-    # forecast chart
-    if evm.forecast
-      forecast_data_source = create_forecast_chart_data_source(evm, chart_duration)
-      (chart_duration[:start_date]..chart_duration[:end_date]).each do |chart_date|
-        plot_data_kind_forecast.each do |kind|
-          plot_data[kind] << evm_round(forecast_data_source[kind][chart_date])
-        end
-      end
-    end
-
+    duration = chart_duration(evm)
+    add_evm_plot_data(plot_data, evm, duration)
+    add_forecast_plot_data(plot_data, evm, duration) if evm.forecast
     # change to JSON
-    chart_data = {}
-    plot_data_kind.each do |kind|
+    PLOT_DATA_KIND.each_with_object({}) do |kind, chart_data|
       chart_data[kind] = kind.equal?(:labels) ? plot_data[kind] : plot_data[kind].to_json
     end
-    chart_data
+  end
+
+  # Add the EVM chart series (PV, AC, EV, ...) of each date in the chart duration.
+  #
+  # @param [Hash] plot_data series of chart, kind => values of each date
+  # @param [CalculateEvm] evm evm calculation object
+  # @param [Hash] duration start date and end date for chart
+  def add_evm_plot_data(plot_data, evm, duration)
+    evm_data_source = create_evm_chart_data_source(evm)
+    (duration[:start_date]..duration[:end_date]).each do |chart_date|
+      plot_data[:labels] << chart_label(chart_date)
+      plot_data[:pv_baseline] << evm_round(evm_data_source[:pv_baseline][chart_date]) if evm.pv_baseline.present?
+      add_evm_plot_values(plot_data, evm_data_source, chart_date)
+    end
+  end
+
+  # Add the values of PV, EV, AC, ... on a date to the EVM chart series.
+  #
+  # @param [Hash] plot_data series of chart, kind => values of each date
+  # @param [Hash] evm_data_source evm data for chart, kind => values of each date
+  # @param [Date] chart_date date on the chart
+  def add_evm_plot_values(plot_data, evm_data_source, chart_date)
+    PLOT_DATA_KIND_EVM.each do |kind|
+      plot_data[kind] << evm_round(evm_data_source[kind][chart_date])
+    end
+  end
+
+  # Add the forecast series (BAC, EAC top line, forecast AC and EV) of each date in the chart duration.
+  #
+  # @param [Hash] plot_data series of chart, kind => values of each date
+  # @param [CalculateEvm] evm evm calculation object
+  # @param [Hash] duration start date and end date for chart
+  def add_forecast_plot_data(plot_data, evm, duration)
+    forecast_data_source = create_forecast_chart_data_source(evm, duration)
+    (duration[:start_date]..duration[:end_date]).each do |chart_date|
+      PLOT_DATA_KIND_FORECAST.each do |kind|
+        plot_data[kind] << evm_round(forecast_data_source[kind][chart_date])
+      end
+    end
   end
 
   # Create data for display performance chart.
@@ -57,90 +102,9 @@ module ChartDataMaker
   # @param [CalculateEvm] evm evm calculation object
   # @return [Hash] data for performance chart
   def performance_chart_data(evm)
-    chart_data = {}
-    # less than basis date or finished date
-    chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
-    adjusted_ev = evm.ev.cumulative_at(chart_adjust_date)
-    new_ev = complement_evm_value(adjusted_ev)
-    adjusted_ac = evm.ac.cumulative_at(chart_adjust_date)
-    new_ac = complement_evm_value(adjusted_ac)
-    new_pv = complement_evm_value(evm.pv.cumulative)
-    chart_duration = chart_duration(evm)
-    labels = []
-    spi = []
-    cpi = []
-    cr = []
-    (chart_duration[:start_date]..chart_duration[:end_date]).each do |date|
-      labels << date.to_time.to_i * 1000
-      spi << calculate_spi(new_ev[date], new_pv[date])
-      cpi << calculate_cpi(new_ev[date], new_ac[date])
-      cr << calculate_cr(new_ev[date], new_ac[date], new_pv[date])
-    end
-    chart_data[:labels] = labels
-    chart_data[:spi] = spi.to_json
-    chart_data[:cpi] = cpi.to_json
-    chart_data[:cr] = cr.to_json
-    chart_data
-  end
-
-  # EVM value of Each date. for performance chart.
-  #
-  # @param [Hash] evm_hash EVM hash
-  # @return [Hash] EVM value of All date
-  def complement_evm_value(evm_hash)
-    before_date = evm_hash.keys.min
-    before_value = evm_hash[before_date]
-    temp = {}
-    evm_hash.each do |date, value|
-      dif_days = (date - before_date - 1).to_i
-      dif_value = (value - before_value) / dif_days
-      if dif_days.positive?
-        sum_value = 0.0
-        (1..dif_days).each do |add_days|
-          tmpdate = before_date + add_days
-          sum_value += dif_value
-          temp[tmpdate] = before_value + sum_value
-        end
-      end
-      before_date = date
-      before_value = value
-      temp[date] = value
-    end
-    temp
-  end
-
-  # round function for evm value
-  #
-  # @param [number] evm_value EVM hash value
-  # @return [number] rounded EVM value or nil
-  def evm_round(evm_value)
-    evm_value.round(2) if evm_value.present?
-  end
-
-  # Get duretion of chart
-  #
-  # @param [CalculateEvm] evm evm calculation object
-  # @return [Hash] duration for chart
-  def chart_duration(evm)
-    # duration
-    duration = {}
-    # start date
-    min_date = [evm.pv.start_date, evm.pv_actual.start_date, evm.ev.min_date, evm.ac.min_date]
-    min_date << evm.pv_baseline.start_date if evm.pv_baseline.present?
-    duration[:start_date] = min_date.min
-    # end date
-    max_date = [evm.pv.due_date, evm.pv_actual.due_date]
-    max_date << evm.forecast_finish_date if evm.forecast
-    max_date << evm.pv_baseline.due_date if evm.pv_baseline.present?
-    if evm.finished_date.present?
-      max_date << evm.ev.max_date
-      max_date << evm.ac.cumulative.select { |ac_date, _value| (ac_date < evm.basis_date) }.keys.max
-    else
-      max_date << evm.ev.cumulative.keys.max
-      max_date << evm.ac.cumulative.keys.max
-    end
-    duration[:end_date] = max_date.compact.max + 1
-    duration
+    source = performance_chart_source(evm)
+    dates = chart_dates(evm)
+    { labels: dates.map { |date| chart_label(date) } }.merge(performance_chart_series(dates, *source))
   end
 
   # create forecast data
@@ -149,29 +113,18 @@ module ChartDataMaker
   # @param [Hash] chart_duration start date and end date for chart
   # @return [Hash] forechat data fro chart
   def create_forecast_chart_data_source(evm, chart_duration)
-    # init forecast chart data
-    bac_top_line = {}
-    eac_top_line = {}
-    actual_cost_forecast = {}
-    earned_value_forecast = {}
-    forecast_chart_data = {}
-    # top line of BAC
-    bac_top_line[chart_duration[:start_date]] = evm.bac
-    bac_top_line[chart_duration[:end_date]] = evm.bac
-    forecast_chart_data[:bac] = bac_top_line
-    # top line of EAC
-    eac_top_line[chart_duration[:start_date]] = evm.eac
-    eac_top_line[chart_duration[:end_date]] = evm.eac
-    forecast_chart_data[:eac] = eac_top_line
-    # forecast line of AC
-    actual_cost_forecast[evm.basis_date] = evm.today_ac
-    actual_cost_forecast[evm.forecast_finish_date] = evm.eac
-    forecast_chart_data[:ac_forecast] = actual_cost_forecast
-    # forecast line of EV
-    earned_value_forecast[evm.basis_date] = evm.today_ev
-    earned_value_forecast[evm.forecast_finish_date] = evm.bac
-    forecast_chart_data[:ev_forecast] = earned_value_forecast
-    forecast_chart_data
+    start_date = chart_duration[:start_date]
+    end_date = chart_duration[:end_date]
+    {
+      # top line of BAC
+      bac: { start_date => evm.bac, end_date => evm.bac },
+      # top line of EAC
+      eac: { start_date => evm.eac, end_date => evm.eac },
+      # forecast line of AC
+      ac_forecast: { evm.basis_date => evm.today_ac, evm.forecast_finish_date => evm.eac },
+      # forecast line of EV
+      ev_forecast: { evm.basis_date => evm.today_ev, evm.forecast_finish_date => evm.bac }
+    }
   end
 
   # create evm chart data sourcea
@@ -179,16 +132,22 @@ module ChartDataMaker
   # @param [CalculateEvm] evm evm object
   # @return [Hash] evm data for chart
   def create_evm_chart_data_source(evm)
-    # always within dyue date
-    data_source = {}
-    data_source[:pv_actual] = evm.pv_actual.cumulative_at(evm.pv_actual.due_date)
+    adjust_date = chart_adjust_date(evm)
+    ev_hash = evm.ev.cumulative_at(adjust_date)
+    ac_hash = evm.ac.cumulative_at(adjust_date)
+    pv_chart_data_source(evm).merge(pv_daily: evm.pv.daily,
+                                    ev: ev_hash,
+                                    ac: ac_hash,
+                                    eac_daily: calculate_eac_daily(evm.bac, ev_hash, ac_hash))
+  end
+
+  # PV data of actual (and baseline) for chart. Always within due date.
+  #
+  # @param [CalculateEvm] evm evm object
+  # @return [Hash] pv_actual, and pv_baseline when baseline is selected
+  def pv_chart_data_source(evm)
+    data_source = { pv_actual: evm.pv_actual.cumulative_at(evm.pv_actual.due_date) }
     data_source[:pv_baseline] = evm.pv_baseline.cumulative_at(evm.pv_baseline.due_date) if evm.pv_baseline.present?
-    data_source[:pv_daily] = evm.pv.daily
-    # less than basis date or finished date
-    chart_adjust_date = [evm.finished_date, evm.basis_date].compact.min
-    data_source[:ev] = evm.ev.cumulative_at(chart_adjust_date)
-    data_source[:ac] = evm.ac.cumulative_at(chart_adjust_date)
-    data_source[:eac_daily] = calculate_eac_daily(evm.bac, data_source[:ev], data_source[:ac])
     data_source
   end
 
@@ -201,50 +160,10 @@ module ChartDataMaker
   def calculate_eac_daily(bac, ev_hash, ac_hash)
     temp_hash = {}
     ev_hash.each do |ev_date, ev_value|
-      ac_value = ac_hash.select { |ac_date, _value| (ac_date <= ev_date) }.values.max
+      ac_value = ac_hash.select { |ac_date, _value| ac_date <= ev_date }.values.max
       cpi_value = calculate_spi(ev_value, ac_value)
       temp_hash[ev_date] = ac_value + ((bac - ev_value) / cpi_value) unless cpi_value.nil?
     end
     temp_hash
-  end
-
-  # calculate spi
-  #
-  # @param [Numeric] ev_value EV value at the day
-  # @param [Numeric] pv_value PV value at the day
-  # @return [float] SPI
-  def calculate_spi(ev_value, pv_value)
-    if ev_value.nil? || pv_value.nil?
-      nil
-    else
-      evm_round(ev_value / pv_value)
-    end
-  end
-
-  # calculate cpi
-  #
-  # @param [Numeric] ev_value EV value at the day
-  # @param [Numeric] ac_value AC value at the day
-  # @return [float] CPI
-  def calculate_cpi(ev_value, ac_value)
-    if ev_value.nil? || ac_value.nil?
-      nil
-    else
-      evm_round(ev_value / ac_value)
-    end
-  end
-
-  # calculate cr
-  #
-  # @param [Numeric] ev_value EV value at the day
-  # @param [Numeric] ac_value AC value at the day
-  # @param [Numeric] pv_value PV value at the day
-  # @return [float] CR
-  def calculate_cr(ev_value, ac_value, pv_value)
-    if ev_value.nil? || ac_value.nil? || pv_value.nil?
-      nil
-    else
-      evm_round((ev_value / pv_value) * (ev_value / ac_value))
-    end
   end
 end

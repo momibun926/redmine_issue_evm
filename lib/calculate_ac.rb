@@ -16,11 +16,7 @@ class CalculateAc < BaseCalculateEvm
     # daily AC
     # The "spent_on" is usually of type DATE. However, it is converted to DATE type
     # because the value may be selected by DATETIME type with TIMEZONE. #228
-    @daily = {}
-    costs.each do |cost|
-      temp = cost[0].to_date
-      @daily[temp] = cost[1]
-    end
+    @daily = costs.to_h { |spent_on, cost| [spent_on.to_date, cost] }
     # minimum first date
     # if no data, set basis date
     @min_date = @daily.keys.min || @basis_date

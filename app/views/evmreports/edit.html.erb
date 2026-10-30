@@ -1,6 +1,7 @@
 <% html_title("Project tracking with EVM - Edit report ") %>
 <h2><%= l(:title_evm_tab) %></h2>
 <h3><%= l(:label_report_edit) %></h3>
+<%= error_messages_for "evm_report" %>
 <%= form_for @evm_report, url: {action: :update, method: :get} do |f| %>
   <%= render partial: "/evmreports/common",
       locals: { f: f,
@@ -10,5 +11,5 @@
                 evm_report_prev: @evm_report_prev,
                 evm_setting: @emv_setting} %>
   <%= submit_tag l(:button_save) %>&emsp;
-  <%= link_to l(:button_back), { controller: :evmreports, action: :index, id: @evm_report.project_id } %>
+  <%= link_to sprite_icon("arrow-narrow-left", l(:button_back)), { controller: :evmreports, action: :index, id: @evm_report.project_id }, class: "icon icon-arrow-narrow-left" %>
 <% end %>

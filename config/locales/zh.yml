@@ -1,53 +1,53 @@
 ﻿# chinese translation
 zh:
   # main title
-  title_evm_tab: Track with EVM
+  title_evm_tab: 使用EVM跟踪项目
 
   # contextual menu
-  label_nav_main: Project
-  label_nav_version: Versions
-  label_nav_assignee: Assignees
-  label_nav_parent_issue: Parent issues
-  label_nav_tracker: Trackers
-  label_nav_exclude: Exclude issues
-  label_nav_baseline_setting: Baseline setting
-  label_nav_evm_setting: Common setting
-  label_nav_report: Project report
-  label_nav_report_list: Report list
+  label_nav_main: 项目
+  label_nav_version: 版本
+  label_nav_assignee: 负责人
+  label_nav_parent_issue: 父工作项
+  label_nav_tracker: 跟踪标签
+  label_nav_exclude: 排除的工作项
+  label_nav_baseline_setting: 基线设置
+  label_nav_evm_setting: 通用设置
+  label_nav_report: 项目报告
+  label_nav_report_list: 报告列表
 
   # Main page
   subtitle_evm_summary: 概览
-  subtitle_evm_indicator: Elements of Earned Value Management
-  subtitle_es_indicator: Earned Schedule
+  subtitle_evm_indicator: 挣值管理(EVM)要素
+  subtitle_es_indicator: 挣得进度(ES)
   subtitle_evm_incomplete_issues: 未完成工作项列表
-  subtitle_evm_exclude_issues: Exclude issues
-  subtitle_evm_modify_issues: Modify issues
-  subtitle_evm_new_issues: New issues
-  subtitle_evm_remove_issues: Remove issues
+  subtitle_evm_exclude_issues: 排除的工作项
+  subtitle_evm_modify_issues: 已变更的工作项
+  subtitle_evm_new_issues: 新增的工作项
+  subtitle_evm_remove_issues: 已移除的工作项
   subtitle_evm_chart_main: 预估图表
   subtitle_evm_chart_performance: 绩效指数图表
 
   # Indicator project metrics
-  Indicator_metrics: Metrics
-  indicator_duration: planed duration
-  indicator_status: Status
-  indicator_difference: Working days of to due date
-  indicator_target_issues_count: Amount of target issues
-  indicator_baseline_variance: Baseline variance
+  Indicator_metrics: 指标
+  indicator_duration: 计划工期
+  indicator_status: 状态
+  indicator_difference: 距截止日期的工作日数
+  indicator_target_issues_count: 计算对象的工作项数
+  indicator_baseline_variance: 与基线的差异
   indicator_bac: BAC
-  indicator_due_date: Due date of project
-  indicator_schedule: Schedule
-  no_changed: No changed
-  bac_changed: BAC is changed.
-  due_date_changed: Due date is changed.
-  schedule_changed: Rescheduled, Plan of A few issue is changed.
-  progress: Work in progress
-  finished: Finished
-  overdue: Over due date
-  no_work: No finished issue
-  before_plan: Before project start date
-  within_duration: Within the project period
-  more_difference_details: Show more details...
+  indicator_due_date: 项目截止日期
+  indicator_schedule: 进度计划
+  no_changed: 无变更
+  bac_changed: BAC已变更。
+  due_date_changed: 截止日期已变更。
+  schedule_changed: 已重新安排，部分工作项的计划已变更。
+  progress: 进行中
+  finished: 已完成
+  overdue: 已超过截止日期
+  no_work: 没有已完成的工作项
+  before_plan: 项目开始日期之前
+  within_duration: 在项目期间内
+  more_difference_details: 显示更多详情...
 
   # Indicator table header
   indicator_table_header_date: 基准日期
@@ -59,38 +59,39 @@ zh:
   # Indicator table legend
   explanation_upper_row: 上面一行按小时计算。
   explanation_lower_row: 下面一行按天数计算。
-  explanation_es_unit: days
+  explanation_es_unit: 天
 
   # Option - common
   label_basis_date: 基准日期
-  label_finished_date: Finished date
+  label_finished_date: 完成日期
   # Option - main
   label_baseline_use: 使用基线计算EVM
   label_no_use_baseline: 不使用
-  label_explanation : Explanation
-  label_display_explanation: View explanation of EVM value to sidebar
+  label_explanation : 说明
+  label_display_explanation: 在侧边栏显示EVM值的说明
   # Option - parent issue
-  label_select_parent_issue : Select parent issue
+  label_select_parent_issue : 选择父工作项
   # Option - trackers
-  label_select_trackers: Select trackers
+  label_select_trackers: 选择跟踪标签
   # Option - assignees
-  label_select_assignee: Select assignees
+  label_select_assignee: 选择负责人
   # Option - versions
-  label_select_version: Select versions
+  label_select_version: 选择版本
 
   # report page
-  label_report_show: Report Detail
-  label_report_edit: Edit Report
-  label_report_create: New Report
-  label_report_show: Show Report
-  label_report_list: Report list
-  label_report_text: Report details
-  label_report_evm_previous: Previously reported EVM
-  label_report_evm_report: EVM on Status date
-  label_report_evm_difference: Previously reported EVM differences
+  label_report_show: 报告详情
+  label_report_edit: 编辑报告
+  label_report_create: 新增报告
+  label_report_show: 显示报告
+  label_report_list: 报告列表
+  label_report_text: 报告详情
+  label_report_evm_previous: 上次报告的EVM
+  label_report_evm_report: 基准日期的EVM
+  label_report_evm_difference: 与上次报告EVM的差异
 
   # baseline page
   label_baseline: 基线
+  label_baseline_none: 无
   label_baseline_show: 显示基线
   label_baseline_edit: 编辑基线
   label_baseline_create: 新增基线
@@ -103,19 +104,19 @@ zh:
   label_current_baseline: 最近
   label_old_baseline: 过去
   label_latest_baseline: 使用最新的基线计算
-  label_based_on: basis date of baseline
+  label_based_on: 基线的基准日期
 
   # common setting page
   label_setting_create: 创建EVM设置
   label_setting_edit: 编辑EVM设置
   label_setting_set: EVM设置
   label_basis_hours_of_day: 基准工时/日
-  label_evm_graph: Chart
+  label_evm_graph: 图表
   label_limit_spi: SPI阈值，必须小于0.99。
   label_limit_cpi: CPI阈值，必须小于0.99。
   label_limit_cr: CR阈值，必须小于0.99。
-  label_exclude_holidays: Exclude holidays and weekend in duration of days calculation.
-  label_region: Regions to get a holiday
+  label_exclude_holidays: 计算天数时排除节假日和周末。
+  label_region: 获取节假日的地区
   label_display_performance: 绩效指数图表
   label_display_incomplete: 未完成工作项列表
   label_forecast: 预估图表
@@ -126,18 +127,18 @@ zh:
 
   # Message
   message_delete_baseline: 确定删除基线？
-  message_delete_report: 确定删除基线？
+  message_delete_report: 确定删除报告？
 
   # Overview page
-  label_no_evm_setting: You need to do the initial setup of the EVM plugin, Click on the EVM tab
+  label_no_evm_setting: 需要先进行EVM的初始设置，请点击EVM标签。
 
   # Activity page
   label_evmbaseline_plural: 基线
   label_activity_message_new: 基线已建立。
   label_activity_message_edit: 基线已更新。
-  label_project_evmreport_plural: Project report
-  label_activity_message_report_new: Report is created.
-  label_activity_message_report_edit: Report is modified.
+  label_project_evmreport_plural: 项目报告
+  label_activity_message_report_new: 报告已建立。
+  label_activity_message_report_edit: 报告已更新。
 
   # Explanation title
   explanation_basis: 基准
@@ -147,25 +148,25 @@ zh:
 
   # Explanation
   explanation_bac: Budget cost At Completion，完工预算：(BAC)全部工作的预算是多少？不改变成本基准，BAC就不会发生变化。
-  explanation_sac: This is the original planned completion duration (date) of the project.
+  explanation_sac: Schedule At Completion，完工进度：(SAC)项目最初计划的完工工期（日期）。
   explanation_pv: Planned Value，计划值：(PV)应该完成多少工作？
   explanation_ev: Earned Value，挣值：(EV)完成了多少预算工作？
-  explanation_es: Earned schedule, This duration from the beginning of the project to the date on which the PV should have been equal to the current value of EV.
+  explanation_es: Earned Schedule，挣得进度：(ES)从项目开始到PV等于当前EV值的那一天的时长。
   explanation_ac: Actual Cost，实际成本：(AC)完成工作的实际成本是多少？这里成本指代工作时间
-  explanation_at: Actual time, This is the duration from the beginning of the project to status date.
+  explanation_at: Actual Time，实际时间：(AT)从项目开始到基准日期的时长。
   explanation_sv: Schedule Variance，进度偏差：(SV)是指已完工程实际时间和已完工程计划时间之间的差异。当SV<0时，表示进度拖延；当SV=0时，表示实际与计划相符。当SV>0时，表示进度提前。计算公式：SV = EV-PV。
   explanation_cv: Cost Variance，成本偏差：当CV<0时，表示项目运行超出预算费用；当CV>0时，表示项目运行实际费用没有超出预算费用。此处费用用时间标识。计算公式：CV = EV-AC。
-  explanation_tv: Time variance, If TV value is negative, the project is behind schedule and if it is positive, it is ahead of schedule.
+  explanation_tv: Time Variance，时间偏差：(TV)为负表示项目进度落后，为正表示项目进度提前。
   explanation_spi: Schedule Performance Index，进度绩效指数：SPI>1说明进度超前；SPI<1说明进度延迟。计算公式：SPI = EV/PV。
   explanation_cpi: Cost Performance Index，成本绩效指数：CPI<1时，表示超支，即实际费用高于预算费用；CPI>1时，表示节支，即实际费用低于预算费用。计算公式：CPI = EV/AC。
   explanation_cr: Critical Ratio，关键比率：(CR)。当CR在0.9-1.2之间，表示项目进展正常，偏差可以接受；CR在0.8-0.9或1.2-1.3之间，表示需要对项目进展进行检查，项目偏差需要纠正；CR在1.3以上或0.8以下，表示需要对项目立即采取行动，项目偏差已经严重失控。计算公式：CR = SPI * CPI。
-  explanation_tpi: Time performance index, If TPI is greater than 1, then the project is ahead of schedule and if it is less than 1, then the project is behind schedule.
+  explanation_tpi: Time Performance Index，时间绩效指数：(TPI)大于1表示项目进度超前，小于1表示项目进度落后。
   explanation_complete: 完成率。计算公式：Complete = EV/BAC。
   explanation_eac: Estimate At Completion，完工估算：(EAC)是根据项目绩效和风险量化对项目总成本的预测。计算公式：EAC = AC＋ETC。
-  explanation_teac: The remaining work will be performed while maintaining the same rate of doing work for the rest of the project
+  explanation_teac: Time Estimate At Completion，完工时间估算：(TEAC)假设在项目剩余期间内，剩余工作以相同的工作速率进行。
   explanation_etc: Estimate To Completion，完工尚需估算：(ETC)是指剩余工作在当前的预测。计算公式：ETC = (BAC－EV)/CPI。
   explanation_vac: Variance At Completion，完工偏差(VAC)。当VAC>0时，成本有节余；当VAC<0时，成本超支。计算公式：VAC = BAC－EAC。
-  explanation_tvac: The Time Variance at Completion (TVAC) gives an indication of the estimated amount of time that the project will be completed ahead or behind schedule
+  explanation_tvac: Time Variance At Completion，完工时间偏差：(TVAC)用于估计项目提前或延期完成的时间量。
   explanation_difference_end_date: Delay，延期：是指计划完成日期和预估完成日期的差异(天数)
   explanation_tcpi: To Complete Performance Index，完工尚需绩效指数：是指为了在既定的预算内完工（如BAC或EAC），未来实施剩余工作必须达到的成本绩效指标（预测值）。当TCPI<1时，说明生产力水平符合或超过预期；若TCPI>1，则应提高生产力(EV)。TCPI有两种计算公式。公式1-TCPI按照原定预算BAC完成：TCPI = (BAC–EV)/(BAC–AC)；公式2-TCPI按照新预算EAC完成：TCPI = (BAC–EV)/(EAC–AC)。
 
@@ -173,9 +174,9 @@ zh:
   project_module_Issuevm: EVM
   permission_view_evms: 查看EVM
   permission_manage_evmbaselines: 编辑基线
-  permission_manage_evmsettings: Edit Common Setting
+  permission_manage_evmsettings: 编辑通用设置
   permission_view_evmbaselines: 查看基线
-  permission_view_project_evmreports: View Project report
+  permission_view_project_evmreports: 查看项目报告
 
   # Tab Display
   tab_display_name: EVM
@@ -185,4 +186,4 @@ zh:
 
   # EVM of assignee
   no_assignee: 没有负责人
-  estimated_working_hours: Estimated working hours
+  estimated_working_hours: 预计工时

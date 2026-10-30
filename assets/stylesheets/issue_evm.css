@@ -120,28 +120,26 @@ div[class*="evm-explanation"] {
   padding-bottom: 20px;
 }
 
-/*** icon image ***/
-.icon-parent-issue-evm {
-  background-image: url("../images/parent-issue-evm.png");
-}
-.icon-tracker-evm {
-  background-image: url("../images/tracker-evm.png");
-}
-.icon-version-evm {
-  background-image: url("../images/version-evm.png");
-}
-.icon-exclude-evm {
-  background-image: url("../images/issue-exclude.png");
-}
-
-/*** for activity page ***/
-dt.evmbaseline-new,
-dt.evmreports-new {
+/*** for search page ***/
+/* The activity page draws the icons of the events as SVG (the symbols of icons.svg,
+   named like the types of the events). The search page asks Redmine for the symbols
+   without the plugin, so it keeps the images: no-repeat (Redmine 7 draws its icons as
+   inline SVG, so the image was tiled over the whole line), at the left bottom of the
+   line where Redmine 7 puts the icon of the other results. */
+#search-results dt.evmbaseline-new,
+#search-results dt.evmreports-new {
   background-image: url("../images/baseline-add.png");
 }
-dt.evmbaseline-edit,
-dt.evmreports-edit {
+#search-results dt.evmbaseline-edit,
+#search-results dt.evmreports-edit {
   background-image: url("../images/baseline-edit.png");
+}
+#search-results dt.evmbaseline-new,
+#search-results dt.evmbaseline-edit,
+#search-results dt.evmreports-new,
+#search-results dt.evmreports-edit {
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
 }
 
 /*** for validate ***/

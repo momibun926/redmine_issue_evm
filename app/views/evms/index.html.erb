@@ -55,6 +55,7 @@
     <input id="TAB-01" type="radio" name="TAB" class="tab-switch" checked="checked" ><label class="tab-label" for="TAB-01"><%= l(:subtitle_evm_indicator)%></label>
     <div class="tab-content">
       <!--Indicator value of EVM -->
+      <B class="used-baseline"><%= used_baseline_name(@selectable_baseline, @cfg_param[:baseline_id]) %></B>
       <%= render partial: "/evms/measure_evm",
           locals: { project_evm: @project_evm,
                     cfg_param: @cfg_param } %>
@@ -66,6 +67,7 @@
     <input id="TAB-02" type="radio" name="TAB" class="tab-switch" ><label class="tab-label" for="TAB-02"><%= l(:subtitle_es_indicator)%></label>
     <div class="tab-content">
       <!--Indicator value of ES -->
+      <B class="used-baseline"><%= used_baseline_name(@selectable_baseline, @cfg_param[:baseline_id]) %></B>
       <%= render partial: "/evms/measure_es",
           locals: { project_evm: @project_evm,
                     cfg_param: @cfg_param } %>
@@ -73,7 +75,7 @@
     <input id="TAB-03" type="radio" name="TAB" class="tab-switch" ><label class="tab-label" for="TAB-03"><%= l(:subtitle_evm_chart_main) %></label>
     <div class="tab-content">
       <!-- Main Chart -->
-      <B><%= used_baseline_name(@selectable_baseline, @cfg_param[:baseline_id]) %></B>
+      <B class="used-baseline"><%= used_baseline_name(@selectable_baseline, @cfg_param[:baseline_id]) %></B>
       <%= render partial: "/evms/project_chart_js",
           locals: { basis_date: convert_to_labels(@project_evm.finished_date || @cfg_param[:basis_date]),
                     chart_data: @evm_chart_data,

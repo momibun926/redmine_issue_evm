@@ -3,6 +3,10 @@ module CalculateEvmLogic
   # Calculation EVM class.
   # Calculate EVM and create data for chart
   class CalculateEvm
+    include PerformanceIndicators
+    include CompletionForecast
+    include CsvExport
+
     # Basis date
     attr_reader :basis_date
     # calculation PV class ojbject, basis
@@ -38,29 +42,16 @@ module CalculateEvmLogic
     # @option options [bool] exclude_holiday Exclude holiday when calculate PV.
     # @option options [String] holiday region.
     def initialize(baselines, issues, costs, options = {})
-      # set options
-      @working_hours = options[:working_hours]
-      @basis_date = options[:basis_date].to_date
-      @forecast = options[:forecast]
-      @etc_method = options[:etc_method]
-      @exclude_holiday = options[:exclude_holiday]
-      @region = options[:region]
-      # EV
-      @ev = CalculateEv.new(@basis_date, issues)
-      # AC
-      @ac = CalculateAc.new(@basis_date, costs)
-      # PV Actual
-      @pv_actual = CalculatePv.new(@basis_date, issues, @region, @exclude_holiday)
-      # PV Baseline or PV actual
-      @pv_baseline = CalculatePv.new(@basis_date, baselines, @region, @exclude_holiday) if baselines.present?
-      @pv = @pv_baseline || @pv_actual
+      assign_options(options)
+      calculate_ev_ac_pv(baselines, issues, costs)
       # Finished date is set when project is finished
       @finished_date = check_finished_date(@ev, @pv)
       # Forecast is invalid when project is finished
       @forecast = false if @finished_date.present?
       # project state, EV and PV
-      @project_state = [@ev.state(@pv)]
-      @project_state << @pv.state if @ev.state(@pv) != :finished
+      ev_state = @ev.state(@pv)
+      @project_state = [ev_state]
+      @project_state << @pv.state if ev_state != :finished
     end
 
     # Badget at completion.
@@ -131,28 +122,6 @@ module CalculateEvmLogic
       sv.round(1)
     end
 
-    # Earned shedule (ES)
-    #
-    # @return [Numeric] days
-    def today_es
-      @pv.today_es(today_ev).to_i
-    end
-
-    # Actual time (AT)
-    #
-    # @return [Numeric] days
-    def today_at
-      @pv.today_at(@finished_date || @basis_date)
-    end
-
-    # Time variance (TV)
-    # How much ahead or behind the schedule a project is running on time base.
-    #
-    # @return [Numeric] days
-    def today_tv
-      (today_es - today_at).to_i
-    end
-
     # Cost variance
     # Cost Variance (CV) is a very important factor to measure project performance.
     # CV indicates how much over - or under-budget the project is.
@@ -162,196 +131,6 @@ module CalculateEvmLogic
     def today_cv(hours = 1)
       cv = today_ev(hours) - today_ac(hours)
       cv.round(1)
-    end
-
-    # Schedule Performance Indicator
-    # Schedule Performance Indicator (SPI) is an index showing
-    # the efficiency of the time utilized on the project.
-    #
-    # @param [Numeric] hours hours per day
-    # @return [Numeric] EV / PV on basis date
-    def today_spi(hours = 1)
-      spi = if today_ev(hours).zero? || today_pv(hours).zero?
-              0.0
-            else
-              today_ev(hours) / today_pv(hours)
-            end
-      spi.round(2)
-    end
-
-    # Time Performance Indicator
-    # TPI is greater than 1, then the project is ahead of schedule and
-    # if it is less than 1, then the project is behind schedule.
-    #
-    # @return [Numeric] earned schedule (days) / Actual time (days)
-    def today_tpi
-      tpi = today_es.zero? ? 0 : today_es.fdiv(today_at)
-      tpi.round(2)
-    end
-
-    # Cost Performance Indicator
-    # Cost Performance Indicator (CPI) is an index showing
-    # the efficiency of the utilization of the resources on the project.
-    #
-    # @param [Numeric] hours hours per day
-    # @return [Numeric] EV / AC on basis date
-    def today_cpi(hours = 1)
-      cpi = if today_ev(hours).zero? || today_ac(hours).zero?
-              0.0
-            else
-              today_ev(hours) / today_ac(hours)
-            end
-      cpi.round(2)
-    end
-
-    # Critical ratio
-    #
-    # @param [Numeric] hours hours per day
-    # @return [Numeric] SPI * CPI
-    def today_cr(hours = 1)
-      cr = today_spi(hours) * today_cpi(hours)
-      cr.round(2)
-    end
-
-    # Estimate to Complete
-    # Estimate to Complete (ETC) is the estimated cost required
-    # to complete the remainder of the project.
-    #
-    # @param [Numeric] hours hours per day
-    # @return [Numeric] (BAC - EV) / CPI
-    def etc(hours = 1)
-      return 0.0 if today_cpi(hours).zero? || today_cr(hours).zero?
-
-      div_value = etc_div_value(hours)
-      etc = (bac(hours) - today_ev(hours)) / div_value
-      etc.round(1)
-    end
-
-    # Estimate at Completion
-    # Estimate at Completion (EAC) is the estimated cost of the project
-    # at the end of the project.
-    #
-    # @param [Numeric] hours hours per day
-    # @return [Numeric] BAC - EAC
-    def eac(hours = 1)
-      eac = today_ac(hours) + etc(hours)
-      eac.round(1)
-    end
-
-    # Time estimate at completion (TEAC).
-    # Whereas the estimated time at completion has to be called the time estimate at completion (TEAC)
-    #
-    # @return [Numeric] SAC / TPI
-    def teac
-      teac = today_tpi.zero? ? 0 : @pv.sac / today_tpi
-      teac.round(0)
-    end
-
-    # Variance at Completion
-    # Variance at completion (VAC) is the variance
-    # on the total budget at the end of the project.
-    #
-    # @param [Numeric] hours hours per day
-    # @return [Numeric] BAC - EAC
-    def vac(hours = 1)
-      vac = bac(hours) - eac(hours)
-      vac.round(1)
-    end
-
-    # Time Variance at Completion (TVAC)
-    # Indication of the estimated amount of time
-    # that the project will be completed ahead or behind schedule.
-    #
-    # @return [Numeric] SAC - TEAC
-    def tvac
-      tvac = @pv.sac - teac
-      tvac.round(1)
-    end
-
-    # forecast date (Delay)
-    #
-    # @return [Numeric] delay days
-    def delay
-      (forecast_finish_date - @pv.due_date).to_i
-    end
-
-    # To Complete Cost Performance Indicator
-    # To Complete Cost Performance Indicator (TCPI) is an index showing
-    # the efficiency at which the resources on the project should be utilized
-    # for the remainder of the project.
-    #
-    # @param [Numeric] hours hours per day
-    # @return [Numeric] (BAC - EV) / (BAC - AC)
-    def tcpi(hours = 1)
-      tcpi = if bac(hours).zero?
-               0.0
-             else
-               (bac(hours) - today_ev(hours)) / (bac(hours) - today_ac(hours))
-             end
-      tcpi.round(1)
-    end
-
-    # Create data for csv export.
-    #
-    # @return [Hash] csv data
-    def to_csv
-      Redmine::Export::CSV.generate do |csv|
-        # date range
-        csv_min_date   = [@ev.min_date, @ac.min_date, @pv.start_date].min
-        csv_max_date   = [@ev.max_date, @ac.max_date, @pv.due_date].max
-        evm_date_range = (csv_min_date..csv_max_date).to_a
-        # title
-        csv << ["DATE", evm_date_range].flatten!
-        # set evm values each date
-        pv_csv = {}
-        ev_csv = {}
-        ac_csv = {}
-        evm_date_range.each do |csv_date|
-          pv_csv[csv_date] = @pv.cumulative[csv_date] && @pv.cumulative[csv_date].round(2)
-          ev_csv[csv_date] = @ev.cumulative[csv_date] && @ev.cumulative[csv_date].round(2)
-          ac_csv[csv_date] = @ac.cumulative[csv_date] && @ac.cumulative[csv_date].round(2)
-        end
-        # evm values
-        csv << ["PV", pv_csv.values.to_a].flatten!
-        csv << ["EV", ev_csv.values.to_a].flatten!
-        csv << ["AC", ac_csv.values.to_a].flatten!
-      end
-    end
-
-    # End of project day.(forecast)
-    #
-    # @return [date] End of project date
-    def forecast_finish_date
-      # already finished project
-      return @ev.max_date if format("%.1f", complete_ev) == "100.0"
-
-      # not worked yet
-      return @pv.due_date if today_ev.zero?
-
-      # before schedule date
-      return @basis_date if @basis_date < @pv.start_date
-
-      # After completion schedule date
-      if @pv.due_date < @basis_date
-        @basis_date + rest_days(@pv.cumulative[@pv.due_date],
-                                @ev.cumulative.values.max,
-                                today_spi,
-                                @working_hours)
-      # After completion schedule date
-      else
-        @pv.due_date + rest_days(today_pv, today_ev, today_spi, @working_hours)
-      end
-    end
-
-    # rest days
-    #
-    # @param [Numeric] pv_value pv
-    # @param [Numeric] ev_value ev
-    # @param [Numeric] spi_value spi
-    # @param [Numeric] basis_hours hours of per day is plugin setting
-    # @return [date] rest days
-    def rest_days(pv_value, ev_value, spi_value, basis_hours)
-      ((pv_value - ev_value) / spi_value / basis_hours).round(0)
     end
 
     # Check finished date
@@ -365,21 +144,35 @@ module CalculateEvmLogic
       calc_ev.cumulative.select { |_k, v| calc_pv.bac.round(1) <= v }.keys.min
     end
 
-    # div value fo etc
+    private
+
+    # Set the calculation options.
     #
-    # @param [Numeric] hours hours per day
-    # @return [nymeric] div value
-    def etc_div_value(hours = 1)
-      case @etc_method
-      when "method1"
-        1.0
-      when "method2"
-        today_cpi(hours)
-      when "method3"
-        today_cr(hours)
-      else
-        today_cpi(hours)
-      end
+    # @param [Hash] options calculationEVM options. See #initialize.
+    def assign_options(options)
+      @working_hours = options[:working_hours]
+      @basis_date = options[:basis_date].to_date
+      @forecast = options[:forecast]
+      @etc_method = options[:etc_method]
+      @exclude_holiday = options[:exclude_holiday]
+      @region = options[:region]
+    end
+
+    # Calculate EV, AC and PV (actual, and baseline when it is selected).
+    #
+    # @param [evmbaseline] baselines selected baseline.
+    # @param [Issue] issues
+    # @param [Hash] costs spent time.
+    def calculate_ev_ac_pv(baselines, issues, costs)
+      # EV
+      @ev = CalculateEv.new(@basis_date, issues)
+      # AC
+      @ac = CalculateAc.new(@basis_date, costs)
+      # PV Actual
+      @pv_actual = CalculatePv.new(@basis_date, issues, @region, @exclude_holiday)
+      # PV Baseline or PV actual
+      @pv_baseline = CalculatePv.new(@basis_date, baselines, @region, @exclude_holiday) if baselines.present?
+      @pv = @pv_baseline || @pv_actual
     end
   end
 end

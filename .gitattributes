@@ -1,0 +1,9 @@
+# Text files have LF line endings in the repository and in the working tree (also on Windows),
+# so patches apply without "git am --keep-cr".
+* text=auto eol=lf
+
+# Not text
+*.png binary
+*.gif binary
+*.jpg binary
+*.ico binary

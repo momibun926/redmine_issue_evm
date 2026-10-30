@@ -7,13 +7,37 @@
   function disableobject( object, ischecked ) {
     document.getElementById(object).disabled = ischecked;
   }
+
+  // Today's date (YYYY-MM-DD) on the device that shows this page.
+  function evmBrowserToday() {
+    var now = new Date();
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var day = ("0" + now.getDate()).slice(-2);
+    return now.getFullYear() + "-" + month + "-" + day;
+  }
+<% if request.get? && params[:basis_date].blank? %>
+
+  // The server only knows its own clock (or the time zone of the account), so
+  // when no basis date is given the date of the device is used: open the page
+  // again with it, unless it is the date the server has used already.
+  (function () {
+    var today = evmBrowserToday();
+    if (today === "<%= j @cfg_param[:basis_date].to_s %>") { return; }
+    var url = new URL(window.location.href);
+    url.searchParams.set("basis_date", today);
+    window.location.replace(url.toString());
+  })();
+<% end %>
 </script>
 <!--option -->
 <h2><%= l(:title_evm_tab) %></h2>
 <h3><%= yield :title_sub %></h3>
 <%= form_tag url_for(action: :index), method: :get, id: "query_form" do %>
-  <fieldset id="filters" class="collapsible">
-    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_options) %></legend>
+  <fieldset id="filters" class="collapsible collapsed">
+    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+      <%= sprite_icon("angle-right", rtl: true) %>
+      <%= l(:label_options) %>
+    </legend>
     <div style="display: none;">
       <!-- basis date -->
       <div class="evm-div-col">
@@ -27,7 +51,9 @@
   </fieldset>
   <!-- Apply button -->
   <p class="buttons">
-    <%= link_to "#", {onclick: "$(this).closest('form').submit()", class: "icon icon-checked" } do l(:button_apply) end %>
-    <%= link_to l(:button_clear), { basis_date: Date.today }, :class => "icon icon-reload"  %>
+    <%= link_to "#", {onclick: "$(this).closest('form').submit()", class: "icon icon-checked" } do sprite_icon("checked", l(:button_apply)) end %>
+    <%= link_to sprite_icon("reload", l(:button_clear)), { basis_date: User.current.time_to_date(Time.current) },
+                :class => "icon icon-reload",
+                :onclick => "this.search = '?basis_date=' + evmBrowserToday();" %>
   </p>
 <% end %>

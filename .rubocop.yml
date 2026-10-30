@@ -1,6 +1,6 @@
 inherit_from: .rubocop_todo.yml
 
-require:
+plugins:
   - rubocop-rails
   - rubocop-performance
 
@@ -56,33 +56,16 @@ Style/HashTransformValues:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Metrics/ClassLength:
-  Max: 200
-
-Metrics/ModuleLength:
-  Max: 200
-
-Metrics/MethodLength:
-  Max: 30
-
-Layout/LineLength:
-  Max: 150
-
 Metrics/BlockLength:
-  Max: 25
   Exclude:
     - "init.rb"
 
-Metrics/CyclomaticComplexity:
-  Max: 10
+# Migrations are long by nature
+Metrics/MethodLength:
+  Exclude:
+    - "db/migrate/*"
 
-Metrics/PerceivedComplexity:
-  Max: 10
-
-Metrics/AbcSize:
-  Max: 100
-
-Gemspec/DateAssignment: # (new in 1.10)
+Gemspec/DeprecatedAttributeAssignment: # (renamed from DateAssignment)
   Enabled: true
 
 Layout/LineEndStringConcatenationIndentation: # (new in 1.18)

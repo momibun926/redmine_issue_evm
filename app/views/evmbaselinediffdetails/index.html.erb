@@ -13,5 +13,5 @@
     <h3><%= l(:subtitle_evm_remove_issues) %></h3>
     <%= render partial: "/common/issue_list", locals: { issues: @remove_issues, option_value: {} } %>
   </section>
-  <%= link_to l(:button_back), :back, class: "icon icon-cancel" %>
+  <%= link_to sprite_icon("arrow-narrow-left", l(:button_back)), :back, class: "icon icon-arrow-narrow-left" %>
 </section>

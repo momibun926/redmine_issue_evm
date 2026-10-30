@@ -27,7 +27,7 @@
   subtitle_evm_chart_performance: "Gráficos de rendimiento"
 
   # Indicator project metrics
-  indicator_metrics: "Métricas"
+  Indicator_metrics: "Métricas"
   indicator_duration: Duración planificada
   indicator_status: Estado
   indicator_difference: Días de trabajo hasta la fecha de vencimiento
@@ -37,12 +37,13 @@
   indicator_due_date: Fecha de vencimiento del proyecto
   indicator_schedule: "Programación"
   no_changed: Sin cambios
-  bac_cahnged: BAC ha cambiado.
+  bac_changed: BAC ha cambiado.
   due_date_changed: La fecha de vencimiento ha cambiado.
   schedule_changed: "Reprogramado, el plan de algunos problemas ha cambiado."
   progress: Trabajo en progreso
   finished: Terminado
   overdue: Vencido
+  no_work: No hay problemas terminados
   before_plan: Antes de la fecha de inicio del proyecto
   within_duration: "Dentro del período del proyecto"
   more_difference_details: Mostrar más detalles...
@@ -83,12 +84,13 @@
   label_report_show: Mostrar informe
   label_report_list: Lista de informes
   label_report_text: Detalles del informe
-  label_report_evm_previus: EVM reportado previamente
+  label_report_evm_previous: EVM reportado previamente
   label_report_evm_report: EVM en la fecha de estado
   label_report_evm_difference: Diferencias previas reportadas de EVM
 
   # baseline page
   label_baseline: "Nombre de la línea base"
+  label_baseline_none: Ninguno
   label_baseline_show: "Detalle de la línea base"
   label_baseline_edit: "Editar línea base"
   label_baseline_create: "Nueva línea base"
@@ -123,19 +125,19 @@
   label_calc_method3: Pessimista
 
   # Message
-  messsage_delete_baseline: "Eliminar línea base, ¿estás seguro?"
-  messsage_delete_report: "Eliminar informe, ¿estás seguro?"
+  message_delete_baseline: "Eliminar línea base, ¿estás seguro?"
+  message_delete_report: "Eliminar informe, ¿estás seguro?"
 
   # Overview page
-  label_no_evm_setting: You need to do the initial setup of the EVM plugin, Click on the EVM tab
+  label_no_evm_setting: Es necesario realizar la configuración inicial del plugin EVM. Haga clic en la pestaña EVM.
 
   # Activity page
   label_evmbaseline_plural: "Línea base"
-  label_ativity_message_new: "Se ha creado la línea base."
-  label_ativity_message_edit: "Se ha actualizado la línea base."
+  label_activity_message_new: "Se ha creado la línea base."
+  label_activity_message_edit: "Se ha actualizado la línea base."
   label_project_evmreport_plural: Informe del proyecto
-  label_ativity_message_report_new: Se ha creado el informe.
-  label_ativity_message_report_edit: Se ha modificado el informe.
+  label_activity_message_report_new: Se ha creado el informe.
+  label_activity_message_report_edit: Se ha modificado el informe.
 
   # Explanation title
   explanation_basis: Base

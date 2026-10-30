@@ -1,47 +1,15 @@
-<% html_title("Project tracking with EVM - assignee issues ") %>
+<% html_title("Project tracking with EVM - #{l(:label_nav_assignee)}") %>
 <!-- sub title -->
 <% content_for :title_sub do %>
   <%= l(:label_nav_assignee) %>
 <% end %>
-<!-- contextual -->
-<%= render partial: "/common/contextual", locals: { project: @project, cfg_param: @cfg_param, report_param: nil} %>
-<!-- Content of view option -->
-<% content_for :additional_option do %>
-  <!-- selectable assignee -->
-  <div class="evm-div-col">
-    <fieldset><legend><%= l(:label_select_assignee) %></legend>
-      <%= select_tag :selected_assignee_id,
-          options_for_select(@selectable_assignees,
-                            @cfg_param[:selected_assignee_id]),
-                            { multiple: true, size: 5 }%>
-    </fieldset>
-  </div>
-  <%= hidden_field_tag :no_use_baseline, @cfg_param[:no_use_baseline] if @cfg_param[:no_use_baseline].present? %>
-  <%= hidden_field_tag :display_explanation, @cfg_param[:display_explanation] if @cfg_param[:display_explanation].present? %>
-<% end %>
-<!-- view option -->
-<%= render partial: "/common/option_field"%>
-<!-- contents -->
-<section>
-  <%= raw display_no_data(@cfg_param[:selected_assignee_id]) %>
-  <% @assignee_evm.each do |assignee_id, evm| %>
-    <h3><%= evm.description %></h3>
-    <!-- EVN value -->
-    <section>
-      <h4><%= l(:subtitle_evm_indicator)%></h4>
-      <%= render partial: "/common/basic_evm_value", locals: { evm: evm, cfg_param: @cfg_param } %>
-    </section>
-    <br>
-    <!-- Charts -->
-    <section>
-      <h4><%= l(:subtitle_evm_chart_main) %></h4>
-      <%= render partial: "/evmassignees/assignee_evm_chart_js",
-          locals: { basis_date: convert_to_labels(evm.finished_date || @cfg_param[:basis_date]),
-                    chart_data: @assignee_evm_chart[assignee_id],
-                    working_hours: @cfg_param[:working_hours],
-                    basis_date_label: basis_date_label(evm.finished_date),
-                    id: assignee_id,
-                    tittle: evm.description } %>
-    </section>
-  <% end %>
-</section>
+<%= render partial: "/common/evm_breakdown",
+    locals: { cfg_param: @cfg_param,
+              select_field: :selected_assignee_id,
+              select_legend: l(:label_select_assignee),
+              select_options: options_for_select(@selectable_options, @cfg_param[:selected_assignee_id]),
+              evm_data: @evm_data,
+              chart_data_by_id: @evm_chart_data,
+              chart_partial: "/evmassignees/assignee_evm_chart_js",
+              extra_chart_locals: { working_hours: @cfg_param[:working_hours] },
+              heading_link_method: nil } %>

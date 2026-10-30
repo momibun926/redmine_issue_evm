@@ -15,13 +15,15 @@ class ProjectEvmreport < ApplicationRecord
             presence: true
 
   # for activity page.
-  acts_as_event title: Proc.new { |o| (o.created_on < o.updated_on ? l(:label_activity_message_report_edit) : l(:label_activity_message_report_new)) },
+  # rubocop:disable Layout/LineLength
+  acts_as_event title: Proc.new { |o| o.created_on < o.updated_on ? l(:label_activity_message_report_edit) : l(:label_activity_message_report_new) },
                 description: :report_text,
                 datetime: :updated_on,
                 type: Proc.new { |o| "evmreports-#{o.created_on < o.updated_on ? 'edit' : 'new'}" },
                 url: Proc.new { |o| { controller: "evmreports", action: :show, project_id: o.project, id: o.id } }
+  # rubocop:enable Layout/LineLength
 
-  acts_as_activity_provider scope: joins(:project),
+  acts_as_activity_provider scope: proc { joins(:project) },
                             permission: :view_project_evmreports,
                             type: "project_evmreport",
                             author_key: :author_id
@@ -38,5 +40,8 @@ class ProjectEvmreport < ApplicationRecord
         ->(status_date) { where("status_date < ?", status_date) }
 
   scope :visible,
-        ->(*args) { joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :view_project_evmreports, *args)) }
+        lambda { |*args|
+          joins(:project).where(Project.allowed_to_condition(args.shift || User.current,
+                                                             :view_project_evmreports, *args))
+        }
 end

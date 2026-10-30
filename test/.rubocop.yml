@@ -1,0 +1,15 @@
+# Test code: scenario setup and the checks of one scenario make the methods and the
+# test classes longer than the application code. The limits are the longest in use.
+inherit_from: ../.rubocop.yml
+
+Metrics/MethodLength:
+  Max: 21
+
+Metrics/AbcSize:
+  Max: 47
+
+Metrics/ClassLength:
+  Max: 163
+
+Layout/LineLength:
+  Max: 130
