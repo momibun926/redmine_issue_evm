@@ -38,7 +38,7 @@ pt:
   indicator_schedule: Cronograma
   no_changed: Sem alterações
   bac_changed: BAC é alterado.
-  due_date_change: Data_de_vencimento é alterada.
+  due_date_changed: Data de vencimento é alterada.
   schedule_changed: Reprogramado, Plano de alguns números é alterado.
   progress: Trabalho em curso
   finished: Acabado
@@ -96,7 +96,7 @@ pt:
   label_baseline_version: História da Baseline
   label_baseline_set: Definição da Baseline
   label_baseline_start_date: Data_de_início
-  label_baseline_due_date: Due Sate
+  label_baseline_due_date: Due Date
   label_baseline_bac: BAC
   label_created_date: Criado em
   label_current_baseline: Mais recente
