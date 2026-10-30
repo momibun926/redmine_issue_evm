@@ -42,6 +42,9 @@ class EvmBreakdownController < BaseevmController
     assign_view_options
     # selectable list
     @selectable_options = selectable_options
+    # an id that the page does not offer is not found
+    return render_404 unless selected_ids_offered?
+
     # calculate EVM (one per selected id)
     @evm_data = {}
     @evm_chart_data = {}
@@ -71,6 +74,13 @@ class EvmBreakdownController < BaseevmController
     raise NotImplementedError, "#{self.class} must implement #selectable_options"
   end
 
+  # The ids that the page offers for selection, as strings. A page returns nil to accept any id.
+  #
+  # @return [Array<String>, nil] ids that may be selected, or nil for no restriction
+  def offered_ids
+    nil
+  end
+
   # @param [String] id one selected id, as received from params
   # @return [Array(Issue, Hash, String)] issues, costs and EVM description for that id
   def evm_inputs_for(id)
@@ -81,6 +91,14 @@ class EvmBreakdownController < BaseevmController
 
   def selected_ids
     @cfg_param[breakdown_param]
+  end
+
+  # Whether every selected id is one that the page offers (see #offered_ids). The id is looked up
+  # with no other check of the project, so an id of a project that the user may not see would
+  # otherwise show its name and EVM values.
+  def selected_ids_offered?
+    offered = offered_ids
+    offered.nil? || Array(selected_ids).all? { |id| offered.include?(id.to_s) }
   end
 
   # Create evm data

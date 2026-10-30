@@ -15,6 +15,10 @@ class EvmparentissuesController < EvmBreakdownController
     selectable_parent_issues_list(@project)
   end
 
+  def offered_ids
+    @selectable_options.map { |issue| issue.id.to_s }
+  end
+
   def evm_inputs_for(id)
     [parent_issues(id), parent_issue_costs(id), Issue.find(id).subject]
   end

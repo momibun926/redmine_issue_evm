@@ -15,6 +15,10 @@ class EvmversionsController < EvmBreakdownController
     selectable_version_list(@project)
   end
 
+  def offered_ids
+    @selectable_options.map { |issue| issue.fixed_version_id.to_s }
+  end
+
   def evm_inputs_for(id)
     version = Version.find(id)
     # a version can belong to a different (sub)project than the current one
