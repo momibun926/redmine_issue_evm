@@ -4,6 +4,8 @@
 
 This plugin calculates the EVM (Earned Value Management) values of your projects from the start date, due date, estimated time and spent time of the issues, and shows them with charts. EVM helps you to track the progress and status of a project and to forecast its future performance.
 
+For how to use the plugin, what each feature does and the simplest way to run it, see the [User Guide](docs/en/index.md).
+
 # Version and compatibility
 * Plugin version: 7.0.0
 * Compatible with **Redmine 7.0 and above only**.
@@ -95,6 +97,8 @@ Then remove the `redmine_issue_evm` folder from `[redmine_root]/plugins/` and re
 (2) Enable the module "EVM" in Settings > Modules of the project.
 
 (3) Click the "EVM" tab of the project. The first time, the common setting page is shown. Save the setting to start using the plugin.
+
+For recommended setting values and the rules for daily use, see [Getting started with the minimum setup](docs/en/quick-start.md).
 
 ## Permissions
 | Permission | What you can do |
