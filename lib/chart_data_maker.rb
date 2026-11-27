@@ -2,19 +2,11 @@
 # This module is a function of create data to display chart.
 # Requires CalculateEvm class.
 #
-# Called as ChartDataMaker.evm_chart_data(...) / ChartDataMaker.performance_chart_data(...)
-# -- not included into controllers -- since every method here is a pure
-# function of its arguments (an already-built CalculateEvm, or plain values):
-# no DB access, no Redmine/Rails helpers, nothing controller-specific. See
-# the current-state analysis doc, section 4/12: this is the first of the
-# lib/ mixins to be moved out of BaseevmController's ancestor chain and into
-# an explicit, visible call, per the priority #4 proposal there.
-#
-# `module_function` below makes every method here both callable as
-# ChartDataMaker.foo(...) and (should anything ever `include ChartDataMaker`
-# again) a private instance method reachable by its bare name -- which is
-# exactly what lets these methods keep calling each other by bare name
-# (chart_duration(evm), evm_round(...), ...) unchanged below.
+# Called as ChartDataMaker.evm_chart_data(...) /
+# ChartDataMaker.performance_chart_data(...). Every method is a pure function
+# of its arguments (a CalculateEvm, or plain values): no DB access and no
+# Redmine/Rails helpers. `module_function` lets the methods call each other
+# by bare name.
 module ChartDataMaker
   # The helpers of the chart range and of the performance chart live in their
   # own files (lib/chart_data_maker/). They are extended (ChartDataMaker.foo)
@@ -45,17 +37,14 @@ module ChartDataMaker
   # * forecast EV (forecast finish date)
   #
   # @param [CalculateEvm] evm evm calculation object
-  # @return [Hash] chart data
+  # @return [Hash{Symbol => Array}] labels and the values of each series, one for each label
   def evm_chart_data(evm)
     plot_data = Hash.new { |h, k| h[k] = [] }
     # start date and end date of chart
     duration = chart_duration(evm)
     add_evm_plot_data(plot_data, evm, duration)
     add_forecast_plot_data(plot_data, evm, duration) if evm.forecast
-    # change to JSON
-    PLOT_DATA_KIND.each_with_object({}) do |kind, chart_data|
-      chart_data[kind] = kind.equal?(:labels) ? plot_data[kind] : plot_data[kind].to_json
-    end
+    PLOT_DATA_KIND.index_with { |kind| plot_data[kind] }
   end
 
   # Add the EVM chart series (PV, AC, EV, ...) of each date in the chart duration.

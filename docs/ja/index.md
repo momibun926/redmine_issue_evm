@@ -1,6 +1,6 @@
 # redmine_issue_evm 利用ガイド
 
-このガイドは、EVMプラグイン（redmine_issue_evm 7.0.0、Redmine 7.0 以上）の使い方をまとめたものです。インストール手順は [README](../../README_ja.md) を参照してください。
+このガイドは、EVMプラグイン（redmine_issue_evm 7.0.2、Redmine 7.0 以上）の使い方をまとめたものです。インストール手順は [README](../../README_ja.md) を参照してください。
 
 [English](../en/index.md)
 

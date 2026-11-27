@@ -58,7 +58,9 @@ class CalculateEv < BaseCalculateEvm
     temp_ev = {}
     @finished_issue_count = 0
     @issue_count = 0
-    Array(issues).each do |issue|
+    issues = Array(issues)
+    @journals_by_issue = ev_journals_by_issue(issues, basis_date)
+    issues.each do |issue|
       temp_ev = add_issue_earned_value(issue, basis_date, temp_ev)
       @issue_count += 1
     end
@@ -133,7 +135,7 @@ class CalculateEv < BaseCalculateEvm
   # @return [Hash] rartio in jouranals
   def create_ev_from_journals(issue, basis_date, ev_hash, closed_dt = nil)
     temp_ev = ev_hash
-    journals = issue_journal(issue, basis_date)
+    journals = journals_of(issue, basis_date)
     if journals.present? || closed_dt.present?
       # Create date and ratio of journals
       daily_ratio = daily_done_ratio(journals, closed_dt)
@@ -141,6 +143,19 @@ class CalculateEv < BaseCalculateEvm
       temp_ev = create_ev_from_ratio(issue.estimated_hours.to_f, temp_ev, daily_ratio)
     end
     temp_ev
+  end
+
+  # Done ratio journals of an issue, from the journals read in one query
+  # by #calculate_earned_value (see IssueDataFetcher#ev_journals_by_issue).
+  # Objects other than Issue records (test doubles) go through #issue_journal.
+  #
+  # @param [Issue] issue target issue
+  # @param [Date] basis_date basis date
+  # @return [Array<Journal>] journals, oldest first
+  def journals_of(issue, basis_date)
+    return issue_journal(issue, basis_date) unless issue.is_a?(Issue)
+
+    @journals_by_issue.fetch(issue.id, [])
   end
 
   # Ratio of journals

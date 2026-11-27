@@ -1,7 +1,7 @@
 require File.expand_path("evm_calculation_test_helper", __dir__)
 
 # Unit tests for ProjectEvmBuilder#build_project_evm (lib/project_evm_builder.rb),
-# the one place EvmsController and EvmHookViewListner now build the project-level
+# the one place EvmsController and EvmHookViewListener now build the project-level
 # CalculateEvm.
 #
 # build_project_evm calls #evm_issues / #evm_costs on self (they come from
@@ -14,7 +14,7 @@ require File.expand_path("evm_calculation_test_helper", __dir__)
 # is not exercised here -- only that its result is used as the baseline.
 class ProjectEvmBuilderTest < ActiveSupport::TestCase
   # Host that mixes in ProjectEvmBuilder, standing in for EvmsController /
-  # EvmHookViewListner.
+  # EvmHookViewListener.
   class Host
     include ProjectEvmBuilder
 

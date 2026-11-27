@@ -19,12 +19,14 @@ class EvmversionsController < EvmBreakdownController
     @selectable_options.map { |issue| issue.fixed_version_id.to_s }
   end
 
+  # The EVM of a version is calculated from the issues of the project in the
+  # URL and its subprojects, like the other breakdowns. A version can belong
+  # to another project (a subproject, or a project that shares it), but the
+  # issues of the other projects that use it are not counted.
   def evm_inputs_for(id)
     version = Version.find(id)
-    # a version can belong to a different (sub)project than the current one
-    project = Project.find(version.project_id)
     condition = { fixed_version_id: id }
-    description = "#{project.name} #{version.name}"
-    [evm_issues(project, condition), evm_costs(project, condition), description]
+    description = "#{version.project.name} #{version.name}"
+    [evm_issues(@project, condition), evm_costs(@project, condition), description]
   end
 end

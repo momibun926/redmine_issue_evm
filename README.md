@@ -7,10 +7,45 @@ This plugin calculates the EVM (Earned Value Management) values of your projects
 For how to use the plugin, what each feature does and the simplest way to run it, see the [User Guide](docs/en/index.md).
 
 # Version and compatibility
-* Plugin version: 7.0.0
+* Plugin version: 7.0.2
 * Compatible with **Redmine 7.0 and above only**.
 
 This plugin uses the features of Redmine 7 (for example, the SVG icons). It does not work with earlier versions of Redmine.
+
+# Important changes
+## Working days (non-working days)
+**If you upgrade from an earlier version, check this.**
+
+When "Exclude the non-working days of Redmine and the public holidays (from the holidays gem)" is checked in the common setting, the days of the week that are excluded have changed.
+
+| | Earlier versions | This version |
+|---|---|---|
+| Days of the week to exclude | Saturday and Sunday (fixed) | "Non-working days" in **Administration > Settings > Issue tracking** of Redmine |
+| Public holidays | Holidays of the region from the holidays gem | No change |
+
+* If the non-working days of Redmine are the default (Saturday and Sunday), the results do not change.
+* If the non-working days are not Saturday and Sunday, the working days of the PV change, and so do the values such as PV, SPI and the forecast finish date. The same days of the week are non-working days as in the other pages of Redmine, such as the Gantt chart.
+* If all seven days are selected as non-working days, no day of the week is excluded, as in Redmine.
+* The PV of the baselines is recalculated in the same way, so the change in the non-working days does not cause a variance from the baseline.
+* The values recorded in the reports that were created earlier (PV and SV) do not change. They can differ from the reports that you create after the upgrade by the change in the non-working days.
+
+After the upgrade, check the non-working days of Redmine. If they are not Saturday and Sunday, tell your users about this change.
+
+## "View EVM" is for the members of the project only
+**If you upgrade from an earlier version, check this.**
+
+The "View EVM" permission has been described as "only the members of the project can use it", but this was not in effect. This version fixes it.
+
+| | Earlier versions | This version |
+|---|---|---|
+| The "Non member" and "Anonymous" roles | The permission could be given | The permission is not shown in **Administration > Roles and permissions** and cannot be given |
+| The roles of the members of the project | The permission can be given | No change |
+
+* If you gave this permission to the "Non member" or "Anonymous" role in an earlier version, the setting stays in the database, and those users can still see the EVM pages until the role is saved again.
+* When the role is saved again, the permission is removed. Then the users who are not members of the project, and the users who are not logged in, can no longer see the EVM pages.
+* If you showed the EVM of a public project to people who are not its members, add them to the members of the project.
+
+After the upgrade, open the "Non member" and "Anonymous" roles in **Administration > Roles and permissions** and save them again to remove this permission.
 
 # Main features
 ## Calculate EVM with charts
@@ -42,7 +77,7 @@ This plugin uses the features of Redmine 7 (for example, the SVG icons). It does
 * List, show and edit the past reports
 
 ## Common setting
-* Basis hours of a day, excluding holidays and weekends (and the region of the holidays)
+* Basis hours of a day, excluding the non-working days of Redmine and the public holidays from the holidays gem (and the region of the holidays)
 * Calculation method of ETC
 * Forecast chart, performance chart, threshold values and the list of incomplete issues
 
@@ -175,8 +210,8 @@ You can also look at the baselines created in the past.
 * Show the explanation of the EVM values
 
 ## About working days
-1. Weekends and holidays can be excluded from the calculation of PV (set it in the common setting page).
-2. If the period of an issue consists only of weekends and holidays, all of the days are working days.
+1. The non-working days of Redmine and the public holidays (from the holidays gem) can be excluded from the calculation of PV (set it in the common setting page). The non-working days are "Non-working days" in **Administration > Settings > Issue tracking** of Redmine (Saturday and Sunday by default; the examples below use the default).
+2. If the period of an issue consists only of non-working days and holidays, all of the days are working days.
 3. Holidays are provided by the holidays gem. Set the region in the common setting page (the "Common setting" link in the contextual menu).
 
 Example)
@@ -202,7 +237,7 @@ In Japan, May 3, May 4 and May 5 are holidays.
 |May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days      |4 hours   |
 
 # Charts
-The charts are drawn with Chart.js. Chart.bundle.min.js (Chart.js v2.8.0) and chartjs-plugin-annotation (v0.5.7) are included in this plugin.
+The charts are drawn with the Chart.js that comes with Redmine (v4.5.1 in Redmine 7.0). Chart.js is not included in this plugin.
 
 **Main chart**
 Displays the cumulative PV, EV and AC values of the calculated issues in a time series. If a baseline has been set, the baseline is also displayed.
@@ -278,6 +313,9 @@ The style is checked with RuboCop (RuboCop 1.72 or later, rubocop-rails and rubo
 ```
 rubocop
 ```
+
+## Continuous integration (GitHub Actions)
+On every push and pull request to the master and redmine7 branches, GitHub Actions runs RuboCop, the autoload check and the tests (Redmine 7.0.2, Ruby 4.0, PostgreSQL). The settings are in `.github/workflows/tests.yml`. The results are on the "Actions" tab of the repository, where you can also start a run by hand.
 
 ## Contributing
 1. Fork it

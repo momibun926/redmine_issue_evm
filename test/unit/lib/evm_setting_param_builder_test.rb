@@ -8,18 +8,17 @@ FakeEvmSetting = Struct.new(:view_performance, :view_issuelist, :view_forecast,
 
 # Unit tests for EvmSettingParamBuilder (lib/evm_setting_param_builder.rb), the
 # module both BaseevmController#find_common_setting and
-# EvmHookViewListner#view_projects_show_left use to turn an Evmsetting record
+# EvmHookViewListener#view_projects_show_left use to turn an Evmsetting record
 # into the cfg_param hash CalculateEvm and the views read.
 #
-# Two behaviors this test exists specifically to pin down (see the current-state
-# analysis doc, section 10):
+# Two behaviors this test exists specifically to pin down:
 #
 # 1. The hash is keyed :etc_method, matching what CalculateEvm#initialize reads
 #    (options[:etc_method]) -- not :calcetc, the key BaseevmController used to
 #    write it under, which CalculateEvm never read back. Selecting method1 or
 #    method3 in the EVM settings silently had no effect until this was fixed.
 # 2. Every key CalculateEvm#initialize accepts is present, so a caller that
-#    forgets one (as EvmHookViewListner used to forget all but basis_date and
+#    forgets one (as EvmHookViewListener used to forget all but basis_date and
 #    baseline_id) can't happen again -- the hook's sidebar widget could
 #    otherwise show different PV/SV than the main EVM page for any project
 #    using exclude_holiday or region.

@@ -57,11 +57,13 @@ EV is counted **on the day % Done is changed**. If you set % Done when you creat
 
 Check that you have not entered estimated time on both a parent issue and its children. The plugin calculates each issue on its own, so if the parent also has the total of its children, it is counted twice. We recommend entering estimated time only on child issues.
 
-### Weekends and holidays are included in PV
+### Days off and holidays are included in PV
 
-In the **common setting**, check that "Exclude holidays and weekend in duration of days calculation" is checked and that "Regions to get a holiday" is your region.
+In the **common setting**, check that "Exclude the non-working days of Redmine and the public holidays (from the holidays gem) in duration of days calculation" is checked and that "Regions to get a holiday" is your region.
 
-Note that when an issue's whole period is on weekends or holidays, all its days are treated as working days.
+The days of the week off follow "Non-working days" in Redmine's **Administration > Settings > Issue tracking** (Saturday and Sunday by default), the same days as the Gantt chart. The public holidays are those of the region in the holidays gem.
+
+Note that when an issue's whole period is on non-working days or holidays, all its days are treated as working days.
 
 ### Dates are off by one day
 
@@ -98,3 +100,19 @@ Yes. The project's EVM includes the issues of all its subprojects.
 ### I want to calculate with an older baseline
 
 In **Options > Use baseline for EVM value** on the EVM page, choose the baseline and click **Apply**.
+
+### What happens to the EVM data when a project is deleted?
+
+The common setting, baselines and project reports are deleted with it (including those of its subprojects). Archiving a project deletes nothing.
+
+In older versions of the plugin, the EVM data stayed after the project was deleted. To see how many such records are left, run this in the Redmine folder:
+
+```
+bundle exec rake redmine_issue_evm:orphans:count RAILS_ENV=production
+```
+
+To delete them, run the following. This cannot be undone, so back up the database first.
+
+```
+bundle exec rake redmine_issue_evm:orphans:delete RAILS_ENV=production
+```

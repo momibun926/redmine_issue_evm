@@ -1,6 +1,6 @@
-# View Listner
+# View Listener
 #
-class EvmHookViewListner < Redmine::Hook::ViewListener
+class EvmHookViewListener < Redmine::Hook::ViewListener
   include IssueDataFetcher
   include ProjectEvmBuilder
   include EvmSettingParamBuilder

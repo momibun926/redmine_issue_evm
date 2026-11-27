@@ -105,15 +105,55 @@ module IssueDataFetcher
       order(closed_on: :DESC).first
   end
 
-  # latest setted done ratio journal
+  # Journals of an issue that changed its done ratio, until the end of the
+  # basis date, oldest first.
   #
   # @param [Issue] issue issue record
   # @param [Date] basis_date basis date
-  # @return [Journal] first of journals
+  # @return [ActiveRecord::Relation<Journal>] journals
   def issue_journal(issue, basis_date)
-    Journal.where(journalized_id: issue.id, journal_details: { prop_key: "done_ratio" }).
-      where("created_on <= ?", basis_date.end_of_day).
+    done_ratio_journals([issue.id], basis_date)
+  end
+
+  # The journals the EV calculation reads (CalculateEv), in one query: those
+  # of the closed issues and of the issues with a done ratio. The statuses of
+  # the issues, which Issue#closed? reads, are loaded in one query too.
+  #
+  # @param [Array] issues target issues of EVM; only Issue records are read
+  # @param [Date] basis_date basis date
+  # @return [Hash{Integer => Array<Journal>}] journals of each issue, oldest first
+  def ev_journals_by_issue(issues, basis_date)
+    records = issues.grep(Issue)
+    preload_statuses(records)
+    ids = records.select { |issue| issue.closed? || issue.done_ratio.positive? }.map(&:id)
+    issue_journals_by_issue(ids, basis_date)
+  end
+
+  # Load the statuses of the issues in one query.
+  #
+  # @param [Array<Issue>] issues issues
+  def preload_statuses(issues)
+    ActiveRecord::Associations::Preloader.new(records: issues, associations: :status).call if issues.any?
+  end
+
+  # The same journals as #issue_journal for many issues, in one query.
+  #
+  # @param [Array<Integer>] issue_ids ids of the issues
+  # @param [Date] basis_date basis date
+  # @return [Hash{Integer => Array<Journal>}] journals of each issue, oldest first
+  def issue_journals_by_issue(issue_ids, basis_date)
+    return {} if issue_ids.empty?
+
+    done_ratio_journals(issue_ids, basis_date).group_by(&:journalized_id)
+  end
+
+  private
+
+  def done_ratio_journals(issue_ids, basis_date)
+    Journal.where(journalized_type: "Issue", journalized_id: issue_ids,
+                  journal_details: { prop_key: "done_ratio" }).
+      where("journals.created_on <= ?", basis_date.end_of_day).
       includes(:details).
-      order("journals.created_on")
+      order("journals.created_on", "journals.id")
   end
 end

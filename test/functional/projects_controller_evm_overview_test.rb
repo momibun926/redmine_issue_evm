@@ -9,7 +9,7 @@ class ProjectsControllerEvmOverviewTest < Redmine::ControllerTest
   def setup
     # Redmine registers a hook listener when its class is loaded (the test environment does not
     # load the classes of lib/ before they are used)
-    EvmHookViewListner.instance
+    EvmHookViewListener.instance
     sign_in_as_project_member
     create_evm_setting
   end

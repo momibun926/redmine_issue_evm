@@ -66,7 +66,7 @@ EVM for the whole project, including subprojects.
 
 For each chosen item, shows the EVM values (BAC, Complete EV, PV, EV, AC, SV, CV, SPI, CPI) and a chart. Baselines are not used; the values come from the current issues.
 
-- **Versions**: calculated from the issues with that target version.
+- **Versions**: calculated from the issues of this project (and its subprojects) with that target version. For a version that another project shares, the issues of the other projects are not included.
 - **Assignees**: calculated for each assignee. Issues with no assignee are grouped as "no assigned". The chart shows the estimated working hours per day and a line for "Basis hours of day".
 - **Parent issues**: calculated from the chosen parent issue and its descendants.
 - **Trackers**: calculated for each tracker.
@@ -117,7 +117,7 @@ A setting for each project. The page to create it opens the first time you open 
 | Field | Content | Allowed values |
 | --- | --- | --- |
 | Basis hours of day | Hours per day, used to convert hours into days | a number greater than 0 |
-| Exclude holidays and weekend in duration of days calculation | Leaves weekends and public holidays out of the working days | checkbox |
+| Exclude the non-working days of Redmine and the public holidays (from the holidays gem) in duration of days calculation | Leaves the non-working days of Redmine ("Non-working days" in **Administration > Settings > Issue tracking**) and the public holidays (holidays gem) out of the working days | checkbox |
 | Regions to get a holiday | Region of the public holidays (holidays gem) | choose from the list |
 | ETC calculation method | Optimistic / Normal / Pessimistic | one of them (required) |
 | Show forecast line | Shows forecast lines in the EVM chart | checkbox |

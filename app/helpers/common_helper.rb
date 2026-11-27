@@ -27,12 +27,29 @@ module CommonHelper
     tag.p(l(:label_no_data), class: "nodata") if no_data.blank?
   end
 
-  # Convert date to labels on chart.js
+  # A chart drawn by the evm-chart Stimulus controller
+  # (assets/javascripts/evm_chart_controller.js), the same way as the charts
+  # of Redmine itself: the data is in a template, as JSON.
   #
-  # @param [Date] date date on chart.js eAxis
-  # @return [Numeric] data for labels on chart.js
-  def convert_to_labels(date)
-    date.to_time.to_i * 1000
+  # @param [String] kind "project", "basic", "assignee" or "performance"
+  # @param [Hash] data labels, series and the options of the kind of chart
+  # @return [String] html
+  def evm_chart_tag(kind, data)
+    tag.div(class: "evm-chart", data: { controller: "evm-chart", evm_chart_kind_value: kind }) do
+      tag.template(data.to_json, data: { evm_chart_target: "data" }) +
+        tag.canvas(width: 900, height: 200, data: { evm_chart_target: "canvas" })
+    end
+  end
+
+  # Data of a chart of EVM values (see #evm_chart_tag).
+  #
+  # @param [Hash] chart_data labels and series (see ChartDataMaker.evm_chart_data)
+  # @param [Date] basis_date date of the vertical line: the finished date, or the basis date
+  # @param [Date, nil] finished_date finished date of the project, if finished
+  # @return [Hash] data
+  def evm_chart_data(chart_data, basis_date, finished_date)
+    { labels: chart_data[:labels], series: chart_data.except(:labels),
+      basisDate: (finished_date || basis_date).to_date.iso8601, basisDateLabel: basis_date_label(finished_date) }
   end
 
   # forecast value of project finished
@@ -45,7 +62,7 @@ module CommonHelper
     tag.td(value)
   end
 
-  # Get annotationlabel
+  # Label of the basis date line on the charts
   #
   # @param [Date] finished_date project finished date
   # @return [String] label name, "Basis date" or "Finished date"
@@ -53,7 +70,7 @@ module CommonHelper
     finished_date.nil? ? l(:label_basis_date) : l(:label_finished_date)
   end
 
-  # Get annotationlabel
+  # Unit of the ES values, shown below the ES table
   #
   # @param [Hash] cfg_param params
   # @return [String] html

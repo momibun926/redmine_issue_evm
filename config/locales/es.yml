@@ -114,7 +114,7 @@
   label_limit_spi: Umbral de SPI
   label_limit_cpi: Umbral de CPI
   label_limit_cr: Umbral de CR
-  label_exclude_holidays: "Excluir días festivos y fines de semana en el cálculo de la duración de los días."
+  label_exclude_holidays: "Excluir los días no laborables de Redmine y los días festivos (de la gema holidays) en el cálculo de la duración de los días."
   label_region: Regiones para obtener un día festivo
   label_display_incomplete: Problemas incompletos
   label_display_performance: "Desempeño"

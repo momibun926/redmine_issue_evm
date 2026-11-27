@@ -1,27 +1,11 @@
 # Builds the shared cfg_param hash (EVM calculation + display options) from
 # an Evmsetting record.
 #
-# BaseevmController#find_common_setting (used by EvmsController and the four
-# breakdown controllers) and EvmHookViewListner#view_projects_show_left (the
-# project overview sidebar widget) used to each build this hash by hand, and
-# the two copies had drifted apart -- see the current-state analysis doc,
-# sections 2 and 10:
-#
-# 1. The hook's copy only ever set :basis_date and :baseline_id, never
-#    :exclude_holiday, :region, :forecast, :working_hours or the ETC method.
-#    :exclude_holiday and :region feed CalculatePv directly, so the sidebar
-#    widget's PV (and anything derived from it, like SV) could silently
-#    differ from the main EVM page's for any project using those settings.
-# 2. BaseevmController stored the ETC method under :calcetc, but
-#    CalculateEvm#initialize reads options[:etc_method] -- a key-name
-#    mismatch, so the ETC method setting (method1/method2/method3, see
-#    Evmsetting#etc_method and CalculateEvm#etc_div_value) never actually
-#    reached CalculateEvm from either call path; ETC/EAC/TCPI silently
-#    behaved as method2 no matter what was selected in the EVM settings.
-#
-# Building the hash in one place, from the same Evmsetting record, keeps
-# both callers in sync going forward instead of relying on two hand-written
-# copies staying identical.
+# Used by BaseevmController#find_common_setting (the EVM pages) and
+# EvmHookViewListener#view_projects_show_left (the project overview), so that
+# both pass the same options -- holidays, region, ETC method and so on -- to
+# the calculation. The ETC method goes under :etc_method, the key
+# CalculateEvm reads.
 module EvmSettingParamBuilder
   # @param [Evmsetting] evm_setting the project's EVM plugin settings record
   # @return [Hash] cfg_param: the display options BaseevmController's views

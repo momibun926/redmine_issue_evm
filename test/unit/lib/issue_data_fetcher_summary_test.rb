@@ -101,6 +101,35 @@ class IssueDataFetcherSummaryTest < ActiveSupport::TestCase
     assert_not_includes @fetcher.issue_journal(@issue1, Date.new(2026, 1, 10)).map(&:id), note.id
   end
 
+  def test_issue_journal_leaves_out_journals_of_other_objects_with_the_same_id
+    # rubocop:disable Rails/SkipsModelValidations
+    other = Journal.insert!({ journalized_type: "Project", journalized_id: @issue1.id, user_id: 2,
+                              created_on: Time.utc(2026, 1, 8, 3), private_notes: false })
+    JournalDetail.insert!({ journal_id: other.rows.first.first, property: "attr", prop_key: "done_ratio",
+                            old_value: "0", value: "90" })
+    # rubocop:enable Rails/SkipsModelValidations
+
+    assert_not_includes @fetcher.issue_journal(@issue1, Date.new(2026, 1, 10)).map(&:id), other.rows.first.first
+  end
+
+  def test_issue_journals_by_issue_are_the_journals_of_issue_journal_for_each_issue
+    create_journal(@issue1, Time.utc(2026, 1, 9, 3), done_ratio: %w[50 80])
+    create_journal(@issue2, Time.utc(2026, 1, 13, 3), done_ratio: %w[0 40])
+    create_journal(@issue2, Time.utc(2026, 1, 20, 3), done_ratio: %w[40 70])
+    basis_date = Date.new(2026, 1, 15)
+
+    journals = @fetcher.issue_journals_by_issue([@issue1.id, @issue2.id, @dated.id], basis_date)
+
+    [@issue1, @issue2].each do |issue|
+      assert_equal @fetcher.issue_journal(issue, basis_date).map(&:id), journals[issue.id].map(&:id)
+    end
+    assert_not journals.key?(@dated.id)
+  end
+
+  def test_issue_journals_by_issue_is_empty_without_issues
+    assert_no_queries { assert_equal({}, @fetcher.issue_journals_by_issue([], Date.new(2026, 1, 15))) }
+  end
+
   # ---- difference from a baseline --------------------------------------------
 
   def test_diff_new_issues_are_the_issues_that_are_not_in_the_baseline

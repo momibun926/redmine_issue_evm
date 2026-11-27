@@ -2,12 +2,13 @@ module ChartDataMaker
   # Range of the dates on the chart: the label of a date, the start and end dates and the last dates with a value.
   # Extended into ChartDataMaker (and included, for the case the module is mixed in).
   module ChartRange
-    # Label of a date on the chart axis (chart.js: milliseconds)
+    # Label of a date on the chart axis: "YYYY-MM-DD". The browser formats
+    # it, without a time zone (see assets/javascripts/evm_chart_controller.js).
     #
     # @param [Date] date date on the axis
-    # @return [Numeric] label
+    # @return [String] label
     def chart_label(date)
-      date.to_time.to_i * 1000
+      date.iso8601
     end
 
     # All dates on the chart, from the start date to the end date.

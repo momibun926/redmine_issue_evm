@@ -6,9 +6,7 @@
 class EvmbaselinesController < BaseevmController
   # menu
   menu_item :issuevm
-  # Before action -- was missing (see the current-state analysis doc,
-  # section 13); manage_evmbaselines/view_evmbaselines were declared in
-  # init.rb but never actually enforced without this.
+  # Permissions: view_evmbaselines / manage_evmbaselines (init.rb)
   before_action :authorize
   # The baseline of the project in the URL: one of another project is not found
   before_action :find_baseline, only: %i[show edit update destroy]
@@ -49,7 +47,7 @@ class EvmbaselinesController < BaseevmController
   # Create baseline
   #
   def create
-    @evm_baselines = build_baseline
+    @evm_baselines = new_baseline
     # Save, and the earlier baselines are old from now on
     if save_current_baseline(@evm_baselines)
       flash[:notice] = l(:notice_successful_create)
@@ -82,19 +80,6 @@ class EvmbaselinesController < BaseevmController
     render_404 unless @evm_baselines
   end
 
-  # Build a baseline of the current plan: the posted values, the current
-  # user, and a copy of the start date, due date and estimated hours of each
-  # issue of the project. It is not saved.
-  #
-  # @return [Evmbaseline] new baseline (state: current)
-  def build_baseline
-    evm_baselines = new_baseline
-    evm_issues(@project).each do |issue|
-      evm_baselines.evmbaselineIssues << baseline_issue_of(issue)
-    end
-    evm_baselines
-  end
-
   # New baseline of the project, by the current user.
   #
   # @return [Evmbaseline] new baseline (state: current), without issues
@@ -107,21 +92,35 @@ class EvmbaselinesController < BaseevmController
     evm_baselines
   end
 
+  # Save a copy of the start date, due date and estimated hours of each issue
+  # of the project in the baseline, in one INSERT.
+  #
+  # @param [Evmbaseline] evm_baselines saved baseline
+  def insert_baseline_issues(evm_baselines)
+    issues = evm_issues(@project).to_a
+    return if issues.empty?
+
+    version_dates = Version.where(id: issues.filter_map(&:fixed_version_id)).pluck(:id, :effective_date).to_h
+    EvmbaselineIssue.insert_all(issues.map { |issue| baseline_issue_row(evm_baselines, issue, version_dates) })
+  end
+
   # Copy of the plan of an issue.
   #
+  # @param [Evmbaseline] evm_baselines baseline
   # @param [Issue] issue target issue. When it has no due date, the due date of its version is used.
-  # @return [EvmbaselineIssue] new baseline issue
-  def baseline_issue_of(issue)
-    issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
-    EvmbaselineIssue.new(issue_id: issue.id,
-                         start_date: issue.start_date,
-                         due_date: issue.due_date,
-                         estimated_hours: issue.estimated_hours,
-                         leaf: issue.leaf?)
+  # @param [Hash{Integer => Date}] version_dates due date of each version
+  # @return [Hash] attributes of a baseline issue
+  def baseline_issue_row(evm_baselines, issue, version_dates)
+    { evmbaseline_id: evm_baselines.id,
+      issue_id: issue.id,
+      start_date: issue.start_date,
+      due_date: issue.due_date || version_dates[issue.fixed_version_id],
+      estimated_hours: issue.estimated_hours,
+      leaf: issue.leaf? }
   end
 
   # Latest due date of the versions of the issues. It is the due date of an
-  # issue that has no due date of its own (see baseline_issue_of).
+  # issue that has no due date of its own (see baseline_issue_row).
   #
   # @param [ActiveRecord::Relation] issues issues of the project
   # @return [Date, nil] nil when no issue has a version with a due date
@@ -145,7 +144,10 @@ class EvmbaselinesController < BaseevmController
   def save_current_baseline(evm_baselines)
     Evmbaseline.transaction do
       saved = evm_baselines.save
-      mark_baselines_old(except: evm_baselines) if saved
+      if saved
+        insert_baseline_issues(evm_baselines)
+        mark_baselines_old(except: evm_baselines)
+      end
       saved
     end
   end

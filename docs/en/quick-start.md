@@ -38,7 +38,7 @@ EVM is calculated from standard Redmine fields, so the following must be availab
 | Field | Recommended value | Meaning |
 | --- | --- | --- |
 | Basis hours of day | `8.0` | Working hours per day, used to convert hours into days |
-| Exclude holidays and weekend in duration of days calculation | checked | PV is spread over working days only |
+| Exclude the non-working days of Redmine and the public holidays (from the holidays gem) in duration of days calculation | checked | PV is spread over working days only (not over the non-working days of Redmine and the public holidays) |
 | Regions to get a holiday | your region (for example `us`, `gb`, `jp`) | Where the public holidays come from |
 | ETC calculation method | Normal | How the remaining work is estimated. If unsure, choose "Normal" |
 | Show forecast line | checked | Shows forecast lines up to completion in the chart |

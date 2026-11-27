@@ -14,7 +14,7 @@ module EvmreportsHelper
   #
   # @param [String] status_date report date
   # @param [String] prev_status_date previusly reported date
-  # @param [String] exclude_holiday include weekend and holiday?
+  # @param [Boolean] exclude_holiday leave out the non-working days and holidays?
   # @param [String] region region
   # @return [Array] working days
   def evm_report_status_date_difference(status_date, prev_status_date, exclude_holiday, region)

@@ -2,15 +2,9 @@
 # This module is a function to collect baseline records necessary to calculate EVM
 # It also collects a selectable list that is optionally specified
 #
-# Called as BaselineDataFetcher.project_baseline(...) / .selectable_baseline_list(...)
-# -- not included into controllers -- since both methods only ever take an
-# explicit id/project and return an ActiveRecord query; nothing here reads
-# controller state. See the current-state analysis doc, section 4/12
-# (priority #4): moved out of BaseevmController's ancestor chain for the
-# same reason as ChartDataMaker.
-#
-# `module_function` (see ChartDataMaker for why) keeps this usable as a
-# mixin too, though nothing in the plugin currently includes it.
+# Called as BaselineDataFetcher.project_baseline(...) /
+# .selectable_baseline_list(...): the methods take an explicit id/project
+# and read no controller state.
 module BaselineDataFetcher
   module_function
 

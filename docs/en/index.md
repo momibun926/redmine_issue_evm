@@ -1,6 +1,6 @@
 # redmine_issue_evm User Guide
 
-This guide explains how to use the EVM plugin (redmine_issue_evm 7.0.0, for Redmine 7.0 or later). For installation, see the [README](../../README.md).
+This guide explains how to use the EVM plugin (redmine_issue_evm 7.0.2, for Redmine 7.0 or later). For installation, see the [README](../../README.md).
 
 [日本語](../ja/index.md)
 

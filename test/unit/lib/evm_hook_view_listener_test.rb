@@ -1,7 +1,7 @@
 require File.expand_path("evm_calculation_test_helper", __dir__)
 
-# Unit tests for EvmHookViewListner#view_projects_show_left
-# (lib/evm_hook_view_listner.rb), the hook that renders the EVM widget on the
+# Unit tests for EvmHookViewListener#view_projects_show_left
+# (lib/evm_hook_view_listener.rb), the hook that renders the EVM widget on the
 # project overview page.
 #
 # The database-backed collaborators are stubbed:
@@ -12,7 +12,7 @@ require File.expand_path("evm_calculation_test_helper", __dir__)
 # so what is tested is the hook's own logic: which cases render an EVM at
 # all, how the cfg_param is assembled, and what is handed to the partial.
 # (ProjectEvmBuilder and EvmSettingParamBuilder have their own tests.)
-class EvmHookViewListnerTest < ActiveSupport::TestCase
+class EvmHookViewListenerTest < ActiveSupport::TestCase
   HookFakeSetting = Struct.new(:view_performance, :view_issuelist, :view_forecast,
                                :threshold_spi, :threshold_cpi, :threshold_cr,
                                :etc_method, :basis_hours, :exclude_holidays, :region)
@@ -30,7 +30,7 @@ class EvmHookViewListnerTest < ActiveSupport::TestCase
   end
 
   def setup
-    @listener = EvmHookViewListner.instance
+    @listener = EvmHookViewListener.instance
     @controller = HookFakeController.new
     @project = HookFakeProject.new(7)
     @context = { project: @project, controller: @controller }

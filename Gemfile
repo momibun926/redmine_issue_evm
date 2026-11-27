@@ -1,3 +1,1 @@
-source "https://rubygems.org"
-
-gem "holidays"
+gem "holidays", "~> 11.8"

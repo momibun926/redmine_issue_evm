@@ -8,12 +8,12 @@ module ChartDataMaker
     # @param [Hash] new_ev EV of all dates
     # @param [Hash] new_ac AC of all dates
     # @param [Hash] new_pv PV of all dates
-    # @return [Hash] spi, cpi and cr (JSON)
+    # @return [Hash{Symbol => Array}] spi, cpi and cr of each date
     def performance_chart_series(dates, new_ev, new_ac, new_pv)
       {
-        spi: dates.map { |date| calculate_spi(new_ev[date], new_pv[date]) }.to_json,
-        cpi: dates.map { |date| calculate_cpi(new_ev[date], new_ac[date]) }.to_json,
-        cr: dates.map { |date| calculate_cr(new_ev[date], new_ac[date], new_pv[date]) }.to_json
+        spi: dates.map { |date| calculate_spi(new_ev[date], new_pv[date]) },
+        cpi: dates.map { |date| calculate_cpi(new_ev[date], new_ac[date]) },
+        cr: dates.map { |date| calculate_cr(new_ev[date], new_ac[date], new_pv[date]) }
       }
     end
 
