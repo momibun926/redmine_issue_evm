@@ -7,7 +7,7 @@ This plugin calculates the EVM (Earned Value Management) values of your projects
 For how to use the plugin, what each feature does and the simplest way to run it, see the [User Guide](docs/en/index.md).
 
 # Version and compatibility
-* Plugin version: 7.0.0
+* Plugin version: 7.0.2
 * Compatible with **Redmine 7.0 and above only**.
 
 This plugin uses the features of Redmine 7 (for example, the SVG icons). It does not work with earlier versions of Redmine.
