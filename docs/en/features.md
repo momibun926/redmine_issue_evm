@@ -66,7 +66,7 @@ EVM for the whole project, including subprojects.
 
 For each chosen item, shows the EVM values (BAC, Complete EV, PV, EV, AC, SV, CV, SPI, CPI) and a chart. Baselines are not used; the values come from the current issues.
 
-- **Versions**: calculated from the issues with that target version.
+- **Versions**: calculated from the issues of this project (and its subprojects) with that target version. For a version that another project shares, the issues of the other projects are not included.
 - **Assignees**: calculated for each assignee. Issues with no assignee are grouped as "no assigned". The chart shows the estimated working hours per day and a line for "Basis hours of day".
 - **Parent issues**: calculated from the chosen parent issue and its descendants.
 - **Trackers**: calculated for each tracker.
