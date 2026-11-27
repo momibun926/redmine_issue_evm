@@ -11,6 +11,7 @@ This guide explains how to use the EVM plugin (redmine_issue_evm 7.0.2, for Redm
 | Just start using it | [Getting started with the minimum setup](quick-start.md) |
 | Understand the EVM values and charts | [Reading EVM](evm-basics.md) |
 | Use baselines or project reports | [Going further](advanced.md) |
+| Use the EVM values from Excel or other services (REST API) | [Going further](advanced.md#7-rest-api-use-the-evm-values-from-excel-and-other-services) |
 | Look up what each screen does | [Feature reference](features.md) |
 | Fix wrong values or a screen that does not show | [FAQ and troubleshooting](faq.md) |
 

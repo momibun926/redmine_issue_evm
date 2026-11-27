@@ -10,6 +10,7 @@
 | [プロジェクト報告](#2-プロジェクト報告定期的に状況を記録する) | 週次・月次でEVMの値と所見を残したい |
 | [内訳画面](#3-内訳画面遅れの原因を絞り込む) | 遅れや超過が、どのバージョン・担当者・作業から来ているかを知りたい |
 | [基準日の変更とCSV](#4-基準日の変更とcsv出力) | 過去の時点の値を見たい、Excelで加工したい |
+| [REST API](#7-rest-apiexcelや他のサービスからevm値を使う) | ExcelやほかのサービスからEVMの値を使いたい |
 
 ## 1. ベースライン（計画を記録して変更を見る）
 
@@ -120,3 +121,101 @@ h3. 対策
 | 休日の除外・地域 | 海外拠点のプロジェクトなど、祝日の地域が違うとき |
 | ETCの計算方法 | 予測が楽観的すぎる・悲観的すぎると感じるとき（[EVMの読み方](evm-basics.md#3-予測) を参照） |
 | 閾値 | 赤やオレンジの表示が多すぎる・少なすぎるとき |
+
+## 7. REST API（Excelや他のサービスからEVM値を使う）
+
+EVMタブの表と同じ値（BAC・PV・EV・AC・SV・CV・SPI・CPI・CR・ETC・EAC・VAC・TCPI、ES値）を、JSON または XML で取得できます。Excelに取り込んで独自の集計表を作る、複数のプロジェクトの値を一覧にする、チャットツールに毎週通知する、といった使い方ができます。パラメータと応答の項目の一覧は、[README](../../README_ja.md#rest-api) を参照してください。
+
+### 準備
+
+1. 管理者が **管理 > 設定 > API** で「RESTによるWebサービスを有効にする」をオンにします。
+2. 呼び出すユーザーは、対象のプロジェクトのメンバーで、「EVMプラグインタブの表示」の権限が必要です。
+3. そのユーザーの **個人設定** の画面の右側で、**APIアクセスキー** を確認します（「表示」をクリック）。
+
+ほかのサービスから定期的に呼び出す場合は、そのための専用のユーザーを作り、必要なプロジェクトだけのメンバーにしておくと、見える範囲を絞れます。
+
+### 呼び出し方
+
+```
+https://<Redmineのアドレス>/projects/<プロジェクトの識別子>/evms.json
+```
+
+| パラメータ | 値 | 意味 |
+| --- | --- | --- |
+| `baseline` | `latest`（省略時） | 最新のベースラインで計算します。ベースラインがなければ、ベースラインなしで計算します。 |
+| | `none` | ベースラインを使わず、今のチケットの状態で計算します。 |
+| `basis_date` | `2026-11-27` の形 | 基準日。省略すると今日です。 |
+
+APIアクセスキーは、`X-Redmine-API-Key` ヘッダーで渡します。どちらの計算か（ベースラインの名前、またはなし）は、応答の `baseline` に入ります。`hours` が時間、`days` が日数（共通設定の「一日の基準時間」で割った値）で、EVMタブの表の上段・下段と同じ値です。
+
+### Excelから使う（Power Query）
+
+Excel（Microsoft 365、Excel 2016 以降の Windows 版）の Power Query で取り込むと、**更新** ボタンでいつでも最新の値にできます。
+
+1. **データ > データの取得 > その他のデータソースから > 空のクエリ** を選びます。
+2. Power Query エディターで **ホーム > 詳細エディター** を開き、次の内容に置き換えます。`url`・`project`・`apiKey` は自分の環境に合わせてください。
+
+```
+let
+    url = "https://redmine.example.com",
+    project = "myproject",
+    apiKey = "<APIアクセスキー>",
+    source = Json.Document(Web.Contents(url, [
+        RelativePath = "projects/" & project & "/evms.json",
+        Query = [baseline = "latest"],
+        Headers = [#"X-Redmine-API-Key" = apiKey]
+    ])),
+    evm = source[evm],
+    table = Table.FromColumns(
+        {Record.FieldNames(evm[hours]), Record.FieldValues(evm[hours]), Record.FieldValues(evm[days])},
+        {"指標", "時間", "日数"})
+in
+    table
+```
+
+3. 「資格情報の指定が必要です」と表示されたら **資格情報の編集** をクリックし、**匿名** を選んで **接続** します（キーはヘッダーで渡しているため）。
+4. **ホーム > 閉じて読み込む** で、シートに「指標・時間・日数」の表ができます。値を新しくするときは **データ > すべて更新** です。
+
+- ベースラインを使わない値にするには、`baseline = "latest"` を `baseline = "none"` にします。過去の日の値にするには、`Query = [baseline = "latest", basis_date = "2026-11-01"]` のように基準日を足します。
+- プロジェクトが完了していると、ETC・EAC・VAC・TCPI は空欄になります（EVMタブの「-」と同じ）。
+- **注意**: APIアクセスキーはブックの中に保存されます。キーを入れたブックは他の人に渡さないでください。ブックを共有するときは、使う人がそれぞれ自分のキーに書き換えるようにします。キーが漏れたら、個人設定の画面でリセットすると古いキーは使えなくなります。
+
+### 他のサービス・スクリプトから使う
+
+コマンドラインで確かめるには curl が手軽です。
+
+```
+curl -H "X-Redmine-API-Key: <APIアクセスキー>" "https://redmine.example.com/projects/myproject/evms.json?baseline=none"
+```
+
+Python の例（SPIとCPIを表示する）:
+
+```python
+import requests
+
+res = requests.get(
+    "https://redmine.example.com/projects/myproject/evms.json",
+    params={"baseline": "latest"},
+    headers={"X-Redmine-API-Key": "<APIアクセスキー>"},
+    timeout=30,
+)
+res.raise_for_status()
+evm = res.json()["evm"]
+print(evm["basis_date"], "SPI", evm["hours"]["spi"], "CPI", evm["hours"]["cpi"])
+```
+
+使い方の例:
+
+- **定期的な記録・通知**: 毎週決まった曜日に呼び出して、SPI・CPI をスプレッドシートに追記したり、チャットに通知したりします。[プロジェクト報告](#2-プロジェクト報告定期的に状況を記録する) と違って、Redmine の画面を開かずに記録できます。
+- **複数プロジェクトの一覧**: プロジェクトの識別子を変えて順に呼び出し、プロジェクトごとの SPI・CPI を1つの表にまとめます。
+- **しきい値でのアラート**: SPI や CPI が共通設定の閾値を下回ったら通知する、といった判定を外部で行います。
+
+### うまくいかないとき
+
+| 状態 | 原因と対処 |
+| --- | --- |
+| 403 Forbidden | REST API が無効、ユーザーがプロジェクトのメンバーでない・権限がない、またはプロジェクトでEVMのモジュールが有効になっていない |
+| 401 Unauthorized | APIアクセスキーが違う、または渡されていない |
+| 404 Not Found | プロジェクトの識別子が違う |
+| 422 と `errors` | `baseline` が `latest`・`none` 以外、`basis_date` が日付でない、またはプロジェクトに共通設定がない（メッセージを確認） |
+| `no_data` が `true` | 計算の対象になるチケット（開始日・期日・予定工数があるもの）がない |
