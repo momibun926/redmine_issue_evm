@@ -98,3 +98,19 @@ Yes. The project's EVM includes the issues of all its subprojects.
 ### I want to calculate with an older baseline
 
 In **Options > Use baseline for EVM value** on the EVM page, choose the baseline and click **Apply**.
+
+### What happens to the EVM data when a project is deleted?
+
+The common setting, baselines and project reports are deleted with it (including those of its subprojects). Archiving a project deletes nothing.
+
+In older versions of the plugin, the EVM data stayed after the project was deleted. To see how many such records are left, run this in the Redmine folder:
+
+```
+bundle exec rake redmine_issue_evm:orphans:count RAILS_ENV=production
+```
+
+To delete them, run the following. This cannot be undone, so back up the database first.
+
+```
+bundle exec rake redmine_issue_evm:orphans:delete RAILS_ENV=production
+```

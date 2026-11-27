@@ -21,6 +21,9 @@ else
   end
 end
 
+# delete the plugin's records together with the project
+Project.include EvmProjectPatch unless Project.include?(EvmProjectPatch)
+
 # module define
 Redmine::Plugin.register :redmine_issue_evm do
   name "Redmine Issue Evm plugin"
