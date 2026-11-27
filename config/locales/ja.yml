@@ -187,3 +187,7 @@ ja:
   # EVM of assignee
   no_assignee: 担当者なし
   estimated_working_hours: 日毎予定時間
+  # REST API
+  error_api_no_evm_setting: "このプロジェクトのEVM設定がありません。"
+  error_api_baseline_option: "baseline は latest か none を指定してください。"
+  error_api_basis_date: "基準日が正しい日付ではありません。"

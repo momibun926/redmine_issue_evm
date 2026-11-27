@@ -257,6 +257,61 @@ For those who manage tasks with a hierarchical structure of issues.
 **Chart by tracker**
 For those who manage trackers in a subdivided manner and do not want to include some trackers in the EVM calculation. You can select only the trackers you need and display the chart.
 
+# REST API
+The EVM values (the same values as the "EVM" and "ES" tables of the main page) can be read in the same way as Redmine's REST API.
+
+```
+GET /projects/<project identifier or id>/evms.json
+GET /projects/<project identifier or id>/evms.xml
+```
+
+* Turn on "Enable REST web service" in Administration > Settings > API.
+* Authentication is the same as Redmine's REST API (the API access key in the `X-Redmine-API-Key` header or the `key` parameter, or basic authentication).
+* The "View EVM" permission is needed (project members only).
+
+**Parameters**
+
+|Parameter|Value|Description|
+|---|---|---|
+|`baseline`|`latest` (default)|Calculate with the latest baseline. When the project has no baseline, it is calculated without one (`baseline` is `null`).|
+||`none`|Calculate without a baseline, with the current state of the issues.|
+|`basis_date`|`YYYY-MM-DD`|Basis date. Today (in the user's time zone) when it is not given.|
+
+**Example**
+
+```
+curl -H "X-Redmine-API-Key: <API access key>" "https://redmine.example.com/projects/myproject/evms.json?baseline=none&basis_date=2026-01-08"
+```
+
+```json
+{
+  "evm": {
+    "project": { "id": 7, "name": "EVM scenario" },
+    "basis_date": "2026-01-08",
+    "baseline": null,
+    "working_hours": 8.0,
+    "no_data": false,
+    "ev_state": "progress",
+    "plan_state": "within_duration",
+    "finished_date": null,
+    "plan_start_date": "2026-01-05",
+    "plan_due_date": "2026-01-16",
+    "hours": { "bac": 60.0, "complete_ev": 33.3, "pv": 32.0, "ev": 20.0, "ac": 16.0, "sv": -12.0, "cv": 4.0,
+               "spi": 0.63, "cpi": 1.25, "cr": 0.79, "etc": 32.0, "eac": 48.0, "vac": 12.0, "tcpi": 0.9 },
+    "days": { "bac": 7.5, "complete_ev": 33.3, "pv": 4.0, "ev": 2.5, "ac": 2.0, "sv": -1.5, "cv": 0.5,
+              "spi": 0.63, "cpi": 1.25, "cr": 0.79, "etc": 4.0, "eac": 6.0, "vac": 1.5, "tcpi": 0.9 },
+    "earned_schedule": { "sac": 12, "es": 2, "at": 4, "tv": -2, "tpi": 0.5, "teac": 24, "tvac": -12 }
+  }
+}
+```
+
+* `baseline`: the baseline used for the calculation (`id`, `subject`, `created_on`), or `null` without a baseline.
+* `hours` is in hours, `days` in person-days (divided by `working_hours`, the "Basis hours of day" of the common setting).
+* `ev_state`: `no_work` (no finished issues), `progress` or `finished`. `plan_state`: `before_plan`, `within_duration` or `overdue`.
+* When the project is finished (`finished_date` is given), `etc`, `eac`, `vac`, `tcpi`, `teac` and `tvac` are `null` ("-" on the page).
+* When there are no issues to calculate, `no_data` is `true` and there are no values such as `hours`.
+* Errors (status 422, `{"errors": [...]}`): `baseline` other than `latest` or `none`, `basis_date` that is not a date, or no common setting in the project.
+
 # Screenshots
 **Overview - EVM**
 ![evm sample screenshot](./images/screenshot_main1.png "overview")

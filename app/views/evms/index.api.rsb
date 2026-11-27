@@ -1,0 +1,61 @@
+# EVM values of the project (REST API: GET /projects/:project_id/evms.json or .xml).
+# The values are the ones of the main page: the EVM and ES tables, in hours and in days.
+evm = @project_evm
+baseline = @selectable_baseline.detect { |b| b.id.to_s == @cfg_param[:baseline_id].to_s }
+working_hours = @cfg_param[:working_hours]
+# ETC, EAC, VAC and TCPI are not given once the project is finished (shown as "-" on the page)
+finished = evm.finished_date.present?
+
+api.evm do
+  api.project(id: @project.id, name: @project.name)
+  api.basis_date @cfg_param[:basis_date]
+  if baseline
+    api.baseline do
+      api.id baseline.id
+      api.subject baseline.subject
+      api.created_on baseline.created_on
+    end
+  else
+    api.baseline nil
+  end
+  api.working_hours working_hours
+  api.no_data @no_data
+
+  unless @no_data
+    # ev_state: no_work, progress or finished. plan_state: before_plan, within_duration or overdue
+    api.ev_state evm.ev.state(evm.pv).to_s
+    api.plan_state evm.pv.state.to_s
+    api.finished_date evm.finished_date
+    api.plan_start_date evm.pv.start_date
+    api.plan_due_date evm.pv.due_date
+
+    [[:hours, 1], [:days, working_hours]].each do |unit, hours|
+      api.__send__(unit) do
+        api.bac evm.bac(hours)
+        api.complete_ev evm.complete_ev(hours)
+        api.pv evm.today_pv(hours)
+        api.ev evm.today_ev(hours)
+        api.ac evm.today_ac(hours)
+        api.sv evm.today_sv(hours)
+        api.cv evm.today_cv(hours)
+        api.spi evm.today_spi(hours)
+        api.cpi evm.today_cpi(hours)
+        api.cr evm.today_cr(hours)
+        api.etc(finished ? nil : evm.etc(hours))
+        api.eac(finished ? nil : evm.eac(hours))
+        api.vac(finished ? nil : evm.vac(hours))
+        api.tcpi(finished ? nil : evm.tcpi(hours))
+      end
+    end
+
+    api.earned_schedule do
+      api.sac evm.sac
+      api.es evm.today_es
+      api.at evm.today_at
+      api.tv evm.today_tv
+      api.tpi evm.today_tpi
+      api.teac(finished ? nil : evm.teac)
+      api.tvac(finished ? nil : evm.tvac)
+    end
+  end
+end

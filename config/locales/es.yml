@@ -185,3 +185,7 @@
   # EVM of assignee
   no_assignee: "sin asignación"
   estimated_working_hours: "Horas de trabajo estimadas"
+  # REST API
+  error_api_no_evm_setting: "Este proyecto no tiene la configuración de EVM."
+  error_api_baseline_option: "La línea base debe ser latest o none."
+  error_api_basis_date: "La fecha de estado no es una fecha válida."

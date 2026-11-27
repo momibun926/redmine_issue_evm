@@ -261,6 +261,61 @@ PV,EV,ACが計算されている日だけ、SPI,CPI,CRを計算して表示し�
 **トラッカー別チャート**
 トラッカーを細分化して管理している人向けです。EVMの計算対象にしたくないトラッカーがある場合は、必要なトラッカーだけ選択してチャートを表示することができます。
 
+# REST API
+EVM値（メインページの「EVM値」「ES値」の表と同じ値）を、Redmine の REST API と同じ方法で取得できます。
+
+```
+GET /projects/<プロジェクトの識別子またはID>/evms.json
+GET /projects/<プロジェクトの識別子またはID>/evms.xml
+```
+
+* 管理 > 設定 > API で「RESTによるWebサービスを有効にする」をオンにしてください。
+* 認証は Redmine の REST API と同じです（APIアクセスキーを `X-Redmine-API-Key` ヘッダーか `key` パラメータで渡す、またはベーシック認証）。
+* 「EVMプラグインタブの表示」の権限が必要です（プロジェクトのメンバーのみ）。
+
+**パラメータ**
+
+|パラメータ|値|説明|
+|---|---|---|
+|`baseline`|`latest`（省略時）|最新のベースラインで計算します。ベースラインがないプロジェクトでは、ベースラインなしで計算します（`baseline` は `null`）。|
+||`none`|ベースラインを使わず、最新のチケットの状態で計算します。|
+|`basis_date`|`YYYY-MM-DD`|基準日。省略時は今日（利用者のタイムゾーン）。|
+
+**例**
+
+```
+curl -H "X-Redmine-API-Key: <APIアクセスキー>" "https://redmine.example.com/projects/myproject/evms.json?baseline=none&basis_date=2026-01-08"
+```
+
+```json
+{
+  "evm": {
+    "project": { "id": 7, "name": "EVM scenario" },
+    "basis_date": "2026-01-08",
+    "baseline": null,
+    "working_hours": 8.0,
+    "no_data": false,
+    "ev_state": "progress",
+    "plan_state": "within_duration",
+    "finished_date": null,
+    "plan_start_date": "2026-01-05",
+    "plan_due_date": "2026-01-16",
+    "hours": { "bac": 60.0, "complete_ev": 33.3, "pv": 32.0, "ev": 20.0, "ac": 16.0, "sv": -12.0, "cv": 4.0,
+               "spi": 0.63, "cpi": 1.25, "cr": 0.79, "etc": 32.0, "eac": 48.0, "vac": 12.0, "tcpi": 0.9 },
+    "days": { "bac": 7.5, "complete_ev": 33.3, "pv": 4.0, "ev": 2.5, "ac": 2.0, "sv": -1.5, "cv": 0.5,
+              "spi": 0.63, "cpi": 1.25, "cr": 0.79, "etc": 4.0, "eac": 6.0, "vac": 1.5, "tcpi": 0.9 },
+    "earned_schedule": { "sac": 12, "es": 2, "at": 4, "tv": -2, "tpi": 0.5, "teac": 24, "tvac": -12 }
+  }
+}
+```
+
+* `baseline`: 計算に使ったベースライン（`id`、`subject`、`created_on`）。ベースラインなしのときは `null`。
+* `hours` は時間、`days` は人日（共通設定の「一日の基準時間」`working_hours` で割った値）。
+* `ev_state`: `no_work`（完了したチケットなし）、`progress`、`finished`。`plan_state`: `before_plan`（計画前）、`within_duration`（計画期間中）、`overdue`（期日超過）。
+* プロジェクトが完了している（`finished_date` がある）ときは、`etc`・`eac`・`vac`・`tcpi`・`teac`・`tvac` は `null`（画面では「-」）。
+* 計算対象のチケットがないときは `no_data` が `true` で、`hours` などの値はありません。
+* エラー（ステータス 422、`{"errors": [...]}`）: `baseline` が `latest`・`none` 以外、`basis_date` が日付でない、プロジェクトに共通設定がない。
+
 # 画面サンプル
 **メインページ-EVM**
 ![evm sample screenshot](./images/screenshot_main1.png "overview")

@@ -187,3 +187,7 @@ zh:
   # EVM of assignee
   no_assignee: 没有负责人
   estimated_working_hours: 预计工时
+  # REST API
+  error_api_no_evm_setting: "此项目没有EVM设置。"
+  error_api_baseline_option: "基线必须是 latest 或 none。"
+  error_api_basis_date: "基准日期不是有效的日期。"

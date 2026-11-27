@@ -6,16 +6,24 @@
 # 3. calculate EVM all projects include desendant
 # 4. incomplete issues
 # 5. export to CSV
+# 6. REST API (index.json / index.xml): EVM values of the project
 #
 class EvmsController < BaseevmController
   include EvmUtil
   include ProjectEvmBuilder
+  # Values of the baseline option of the REST API.
+  # latest: the latest baseline of the project, none: no baseline (the current issues)
+  API_BASELINE_OPTIONS = %w[latest none].freeze
   # menu
   menu_item :issuevm
+  # REST API (authenticated with the API key, as Redmine's own API)
+  accept_api_auth :index
   # Before action (override)
   before_action :authorize
+  # The options of the REST API must be valid
+  before_action :check_api_options, only: :index, if: :api_request?
   # A baseline that is not of this project is not found
-  before_action :find_selected_baseline, only: :index
+  before_action :find_selected_baseline, only: :index, unless: :api_request?
 
   # View of main page.
   # If the settings are not entry, go to the settings page.
@@ -24,27 +32,60 @@ class EvmsController < BaseevmController
   # 2. get selectable list(baseline)
   # 3. calculate EVM of project
   # 4. fetch incomplete issues
-  # 5. export CSV
+  # 5. export CSV, or the EVM values (REST API)
   #
   def index
     # redirect emv setting
-    return redirect_to(new_project_evmsetting_path) if @emv_setting.blank?
+    return no_evm_setting if @emv_setting.blank?
 
     assign_view_options
     # calculate EVM (project)
     create_evm_data
-    # create other information
-    create_other_information
-    # for create report
-    create_report_param
-    # export
     respond_to do |format|
-      format.html
+      format.html { create_page_information }
       format.csv { send_evm_csv }
+      format.api
     end
   end
 
   private
+
+  # The project has no EVM setting: the setting page, or an error (REST API).
+  #
+  def no_evm_setting
+    return render_api_errors(l(:error_api_no_evm_setting)) if api_request?
+
+    redirect_to(new_project_evmsetting_path)
+  end
+
+  # Chart data, other information and the values for the report (the page only).
+  #
+  def create_page_information
+    # create chart data
+    @evm_chart_data = ChartDataMaker.evm_chart_data(@project_evm)
+    # create performance chart data
+    @performance_chart_data = ChartDataMaker.performance_chart_data(@project_evm)
+    # create other information
+    create_other_information
+    # for create report
+    create_report_param
+  end
+
+  # Check the options of the REST API: baseline and basis_date.
+  #
+  def check_api_options
+    errors = []
+    errors << l(:error_api_baseline_option) unless API_BASELINE_OPTIONS.include?(api_baseline_option)
+    errors << l(:error_api_basis_date) if params[:basis_date].present? && requested_basis_date.nil?
+    render_api_errors(errors) if errors.any?
+  end
+
+  # The baseline option of the REST API; latest when it is not given.
+  #
+  # @return [Object] option value
+  def api_baseline_option
+    params[:baseline].presence || "latest"
+  end
 
   # Set the options of the view request to the cfg_param,
   # and the selectable baseline (and the selected one).
@@ -95,10 +136,6 @@ class EvmsController < BaseevmController
     @no_data = evm_issues(@project).blank?
     # calculate EVM (shared with EvmHookViewListener, see ProjectEvmBuilder)
     @project_evm = build_project_evm(@project, @cfg_param)
-    # create chart data
-    @evm_chart_data = ChartDataMaker.evm_chart_data(@project_evm)
-    # create performance chart data
-    @performance_chart_data = ChartDataMaker.performance_chart_data(@project_evm)
   end
 
   # create other information data
@@ -127,8 +164,11 @@ class EvmsController < BaseevmController
   end
 
   # set default aseline id
+  # REST API: the latest baseline, or none (see API_BASELINE_OPTIONS).
   #
   def default_baseline_id
+    return (api_baseline_option == "latest" ? @selectable_baseline.first&.id : nil) if api_request?
+
     if params[:evmbaseline_id].nil? && params[:no_use_baseline].nil?
       @selectable_baseline.blank? ? nil : @selectable_baseline.first.id
     else

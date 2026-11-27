@@ -184,3 +184,7 @@
   no_assignee: Nepřiděleno
   estimated_working_hours: Předpokládaný počet hodin
   label_no_evm_setting: Je třeba provést počáteční nastavení pluginu EVM. Klikněte na záložku EVM.
+  # REST API
+  error_api_no_evm_setting: "Tento projekt nemá nastavení EVM."
+  error_api_baseline_option: "Baseline musí být latest nebo none."
+  error_api_basis_date: "Datum reportu není platné datum."
