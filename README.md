@@ -31,6 +31,22 @@ When "Exclude the non-working days of Redmine and the public holidays (from the 
 
 After the upgrade, check the non-working days of Redmine. If they are not Saturday and Sunday, tell your users about this change.
 
+## "View EVM" is for the members of the project only
+**If you upgrade from an earlier version, check this.**
+
+The "View EVM" permission has been described as "only the members of the project can use it", but this was not in effect. This version fixes it.
+
+| | Earlier versions | This version |
+|---|---|---|
+| The "Non member" and "Anonymous" roles | The permission could be given | The permission is not shown in **Administration > Roles and permissions** and cannot be given |
+| The roles of the members of the project | The permission can be given | No change |
+
+* If you gave this permission to the "Non member" or "Anonymous" role in an earlier version, the setting stays in the database, and those users can still see the EVM pages until the role is saved again.
+* When the role is saved again, the permission is removed. Then the users who are not members of the project, and the users who are not logged in, can no longer see the EVM pages.
+* If you showed the EVM of a public project to people who are not its members, add them to the members of the project.
+
+After the upgrade, open the "Non member" and "Anonymous" roles in **Administration > Roles and permissions** and save them again to remove this permission.
+
 # Main features
 ## Calculate EVM with charts
 * All projects (including descendant projects) with ES
