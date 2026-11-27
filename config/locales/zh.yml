@@ -115,7 +115,7 @@ zh:
   label_limit_spi: SPI阈值，必须小于0.99。
   label_limit_cpi: CPI阈值，必须小于0.99。
   label_limit_cr: CR阈值，必须小于0.99。
-  label_exclude_holidays: 计算天数时排除节假日和周末。
+  label_exclude_holidays: 计算天数时排除 Redmine 的非工作日和节假日（依据 holidays gem）。
   label_region: 获取节假日的地区
   label_display_performance: 绩效指数图表
   label_display_incomplete: 未完成工作项列表

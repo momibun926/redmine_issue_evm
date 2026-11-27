@@ -114,7 +114,7 @@
   label_limit_spi: SPI práh.
   label_limit_cpi: CPI práh.
   label_limit_cr: CR práh.
-  label_exclude_holidays: bez svátků
+  label_exclude_holidays: Vyloučit z výpočtu počtu dnů dny pracovního volna/klidu Redmine a svátky (podle gemu holidays)
   label_region: Svátky podle regionu
   label_display_incomplete: Nedokončené úkoly
   label_display_performance: Výkon

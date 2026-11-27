@@ -12,6 +12,25 @@ For how to use the plugin, what each feature does and the simplest way to run it
 
 This plugin uses the features of Redmine 7 (for example, the SVG icons). It does not work with earlier versions of Redmine.
 
+# Important changes
+## Working days (non-working days)
+**If you upgrade from an earlier version, check this.**
+
+When "Exclude the non-working days of Redmine and the public holidays (from the holidays gem)" is checked in the common setting, the days of the week that are excluded have changed.
+
+| | Earlier versions | This version |
+|---|---|---|
+| Days of the week to exclude | Saturday and Sunday (fixed) | "Non-working days" in **Administration > Settings > Issue tracking** of Redmine |
+| Public holidays | Holidays of the region from the holidays gem | No change |
+
+* If the non-working days of Redmine are the default (Saturday and Sunday), the results do not change.
+* If the non-working days are not Saturday and Sunday, the working days of the PV change, and so do the values such as PV, SPI and the forecast finish date. The same days of the week are non-working days as in the other pages of Redmine, such as the Gantt chart.
+* If all seven days are selected as non-working days, no day of the week is excluded, as in Redmine.
+* The PV of the baselines is recalculated in the same way, so the change in the non-working days does not cause a variance from the baseline.
+* The values recorded in the reports that were created earlier (PV and SV) do not change. They can differ from the reports that you create after the upgrade by the change in the non-working days.
+
+After the upgrade, check the non-working days of Redmine. If they are not Saturday and Sunday, tell your users about this change.
+
 # Main features
 ## Calculate EVM with charts
 * All projects (including descendant projects) with ES

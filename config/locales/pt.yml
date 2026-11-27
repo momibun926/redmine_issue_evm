@@ -114,7 +114,7 @@ pt:
   label_limit_spi: Limite do SPI.
   label_limit_cpi: Limite do CPI.
   label_limit_cr: Limite do CR.
-  label_exclude_holidays: Excluir feriados e fins-de-semana na duração dos dias de cálculo.
+  label_exclude_holidays: Excluir os dias não úteis do Redmine e os feriados (da gem holidays) no cálculo da duração dos dias.
   label_region: Regiões para obter um feriado
   label_display_incomplete: Questões Incompletas
   label_display_performance: Desempenho
