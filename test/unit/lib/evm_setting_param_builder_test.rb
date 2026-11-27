@@ -11,8 +11,7 @@ FakeEvmSetting = Struct.new(:view_performance, :view_issuelist, :view_forecast,
 # EvmHookViewListner#view_projects_show_left use to turn an Evmsetting record
 # into the cfg_param hash CalculateEvm and the views read.
 #
-# Two behaviors this test exists specifically to pin down (see the current-state
-# analysis doc, section 10):
+# Two behaviors this test exists specifically to pin down:
 #
 # 1. The hash is keyed :etc_method, matching what CalculateEvm#initialize reads
 #    (options[:etc_method]) -- not :calcetc, the key BaseevmController used to

@@ -2,11 +2,8 @@ require File.expand_path("../../test_helper", __dir__)
 
 # Unit test for BaselineDataFetcher (lib/baseline_data_fetcher.rb).
 #
-# BaselineDataFetcher used to be `include`d into BaseevmController /
-# EvmHookViewListner like the other lib/ modules; it is now called
-# explicitly as BaselineDataFetcher.project_baseline(...) /
-# .selectable_baseline_list(...) (see ProjectEvmBuilder#build_project_evm
-# and the current-state analysis doc, section 12).
+# Called as BaselineDataFetcher.project_baseline(...) /
+# .selectable_baseline_list(...) (see ProjectEvmBuilder#build_project_evm).
 #
 # #selectable_baseline_list issues a real ActiveRecord query and needs a
 # database, so it isn't covered here (no DB is available in this test

@@ -6,9 +6,7 @@
 class EvmbaselinesController < BaseevmController
   # menu
   menu_item :issuevm
-  # Before action -- was missing (see the current-state analysis doc,
-  # section 13); manage_evmbaselines/view_evmbaselines were declared in
-  # init.rb but never actually enforced without this.
+  # Permissions: view_evmbaselines / manage_evmbaselines (init.rb)
   before_action :authorize
   # The baseline of the project in the URL: one of another project is not found
   before_action :find_baseline, only: %i[show edit update destroy]

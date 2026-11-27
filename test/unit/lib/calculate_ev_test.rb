@@ -57,8 +57,7 @@ class CalculateEvTest < ActiveSupport::TestCase
 
   def test_parent_issue_with_a_closed_child_credits_the_child_own_estimated_hours
     # Reachable only when the parent's own done_ratio is 0 (see the elsif chain in
-    # calculate_earned_value). Fixed 2026-09-19 (see the current-state analysis doc,
-    # section 8/14): this branch used to add
+    # calculate_earned_value). This branch used to add
     # issue.estimated_hours * issue.done_ratio / 100, but issue.done_ratio is
     # guaranteed 0 to even reach this branch, so it always contributed 0.0 EV no
     # matter what the child did. A parent's EV is the sum of its children's EV, so

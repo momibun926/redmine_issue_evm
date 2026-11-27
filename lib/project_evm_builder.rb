@@ -1,21 +1,12 @@
 # Builds the project-level CalculateEvm object.
 #
-# Both EvmsController#create_evm_data (the main EVM page) and
-# EvmHookViewListner#view_projects_show_left (the project overview sidebar
-# widget) used to independently re-implement the same three steps: look up
-# the baseline for a given baseline_id, fetch the project's issues/costs,
-# and build a CalculateEvm from them. That duplication is exactly what let
-# the two drift apart over time -- see the current-state analysis doc,
-# section 2 -- so this module is the one place that logic lives now.
+# Used by both the main EVM page (EvmsController#create_evm_data) and the
+# project overview (EvmHookViewListner#view_projects_show_left), so that
+# they calculate the same way: look up the baseline, fetch the project's
+# issues/costs, and build a CalculateEvm from them.
 #
-# Include it alongside IssueDataFetcher (both EvmsController and
-# EvmHookViewListner already do, via BaseevmController / their own
-# includes), since #build_project_evm calls straight through to
-# #evm_issues / #evm_costs on self -- Ruby resolves a bare *method* call via
-# the receiver's ancestor chain at call time, so this works regardless of
-# where ProjectEvmBuilder itself is included from. BaselineDataFetcher is
-# called explicitly below instead (it is no longer include-based; see that
-# file's own comment).
+# Include it alongside IssueDataFetcher: #build_project_evm calls
+# #evm_issues / #evm_costs on self.
 module ProjectEvmBuilder
   # @param [Project] project project (descendants are included, same as
   #   evm_issues/evm_costs).

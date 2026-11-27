@@ -2,19 +2,11 @@
 # This module is a function of create data to display chart.
 # Requires CalculateEvm class.
 #
-# Called as ChartDataMaker.evm_chart_data(...) / ChartDataMaker.performance_chart_data(...)
-# -- not included into controllers -- since every method here is a pure
-# function of its arguments (an already-built CalculateEvm, or plain values):
-# no DB access, no Redmine/Rails helpers, nothing controller-specific. See
-# the current-state analysis doc, section 4/12: this is the first of the
-# lib/ mixins to be moved out of BaseevmController's ancestor chain and into
-# an explicit, visible call, per the priority #4 proposal there.
-#
-# `module_function` below makes every method here both callable as
-# ChartDataMaker.foo(...) and (should anything ever `include ChartDataMaker`
-# again) a private instance method reachable by its bare name -- which is
-# exactly what lets these methods keep calling each other by bare name
-# (chart_duration(evm), evm_round(...), ...) unchanged below.
+# Called as ChartDataMaker.evm_chart_data(...) /
+# ChartDataMaker.performance_chart_data(...). Every method is a pure function
+# of its arguments (a CalculateEvm, or plain values): no DB access and no
+# Redmine/Rails helpers. `module_function` lets the methods call each other
+# by bare name.
 module ChartDataMaker
   # The helpers of the chart range and of the performance chart live in their
   # own files (lib/chart_data_maker/). They are extended (ChartDataMaker.foo)

@@ -2,33 +2,17 @@
 # by version, by tracker and by parent issue (EvmassigneesController,
 # EvmversionsController, EvmtrackersController, EvmparentissuesController).
 #
-# These four pages used to be four independent, near-identical controllers
-# that each repeated the same steps -- read the selected id(s) from params,
+# The four pages share the same steps: read the selected id(s) from params,
 # build the selectable list, fetch issues/costs for every selected id,
-# calculate EVM and build chart data -- differing only in a handful of
-# specifics. One of those differences was a real bug: evmtrackers only
-# supported selecting a single tracker while the other three supported
-# selecting several, because its `create_evm_data` was never updated to loop
-# like the others. This base class factors out everything the four pages
-# share; each subclass only implements the four methods below, and gets
-# multi-selection for free (and consistently) as a result.
+# calculate EVM and build chart data. Each subclass only implements the
+# methods that differ. Not routed directly -- see config/routes.rb.
 #
-# Not routed directly -- see config/routes.rb and the concrete subclasses.
-#
-# NOTE: `menu_item :issuevm` is intentionally *not* declared here and is left
-# to each subclass instead. Redmine's menu_item is set via a plain
-# class-level instance variable in Redmine::MenuManager::MenuController,
-# which Ruby does not automatically inherit -- every other controller in this
-# plugin (including ones outside this hierarchy) declares it individually,
-# and this base class follows the same, verified-safe convention rather than
-# risk silently breaking project-menu highlighting.
+# `menu_item :issuevm` is declared in each subclass, not here: Redmine keeps
+# it in a class-level instance variable, which subclasses do not inherit.
 class EvmBreakdownController < BaseevmController
-  # Before action -- was missing on all four subclasses, and init.rb had no
-  # permission entry for any of them at all (see the current-state analysis
-  # doc, section 13); now covered by view_evms, same as the main EVM page.
-  # Unlike menu_item above, before_action uses Rails' normal callback chain
-  # (not a class-level instance variable), so declaring it once here safely
-  # applies to all four subclasses.
+  # Permission: view_evms (init.rb), same as the main EVM page.
+  # Unlike menu_item, before_action is inherited, so this covers all four
+  # subclasses.
   before_action :authorize
 
   # View of the breakdown page.

@@ -2,15 +2,10 @@ require File.expand_path("evm_calculation_test_helper", __dir__)
 
 # Unit tests for ChartDataMaker (lib/chart_data_maker.rb).
 #
-# ChartDataMaker used to be `include`d into BaseevmController like the
-# other lib/ modules; it is now called explicitly as
-# ChartDataMaker.evm_chart_data(evm) / ChartDataMaker.performance_chart_data(evm)
-# (see EvmsController#create_evm_data and EvmBreakdownController#create_evm_data,
-# and the current-state analysis doc, section 12). This test exists mainly
-# to pin down that the module-function conversion didn't change behavior --
-# every value here was produced by actually running this code (see the
-# commit message for how) against a real CalculateEvm built the same way
-# CalculateEvmTest builds one.
+# Called as ChartDataMaker.evm_chart_data(evm) /
+# ChartDataMaker.performance_chart_data(evm) (see EvmsController and
+# EvmBreakdownController). Every value here was produced by running this code
+# against a real CalculateEvm built the same way CalculateEvmTest builds one.
 class ChartDataMakerTest < ActiveSupport::TestCase
   def test_evm_chart_data_for_a_finished_project_has_no_forecast_series
     # Same fixture as CalculateEvmTest: closes on day 4, basis date day 10 ->

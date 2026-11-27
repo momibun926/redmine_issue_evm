@@ -1,25 +1,16 @@
 require "redmine"
 require "holidays/core_extensions/date"
 
-# Extention for ate class
+# Extension for Date class
 class Date
   include Holidays::CoreExtensions::Date
 end
 
 # for search and activity page
-if Rails.version > "6.0" && Rails.autoloaders.zeitwerk_enabled?
-  Redmine::Activity.register "evmbaseline", plugin: :redmine_issue_evm
-  Redmine::Activity.register "project_evmreport", plugin: :redmine_issue_evm
-  Redmine::Search.available_search_types << "evmbaselines"
-  Redmine::Search.available_search_types << "project_evmreports"
-else
-  Rails.configuration.to_prepare do
-    Redmine::Activity.register "evmbaseline", plugin: :redmine_issue_evm
-    Redmine::Activity.register "project_evmreport", plugin: :redmine_issue_evm
-    Redmine::Search.available_search_types << "evmbaselines"
-    Redmine::Search.available_search_types << "project_evmreports"
-  end
-end
+Redmine::Activity.register "evmbaseline", plugin: :redmine_issue_evm
+Redmine::Activity.register "project_evmreport", plugin: :redmine_issue_evm
+Redmine::Search.available_search_types << "evmbaselines"
+Redmine::Search.available_search_types << "project_evmreports"
 
 # delete the plugin's records together with the project
 Project.include EvmProjectPatch unless Project.include?(EvmProjectPatch)
@@ -32,23 +23,11 @@ Redmine::Plugin.register :redmine_issue_evm do
   version "7.0.0"
   url "https://github.com/momibun926/redmine_issue_evm"
   author_url "https://github.com/momibun926"
+  requires_redmine version_or_higher: "7.0.0"
   project_module :Issuevm do
-    # view_evms also covers the read-only pages that used to have no
-    # `permission` entry at all -- the assignee/version/tracker/parent_issue
-    # breakdown pages, the excluded-issues list and the baseline diff detail
-    # view. See the current-state analysis doc, section 13: none of these
-    # controllers called `before_action :authorize` before, so this
-    # permission was never actually enforced for them.
-    # Not `permission :view_evms, { evms: :index, ... }, require: :member`:
-    # the original had no braces around the actions hash, which in plain
-    # Ruby means `evms: :index, require: :member` collapses into ONE hash
-    # literal (permission gets 2 args total: the name and that hash), not
-    # two separate hash arguments. Braced, this would instead pass 3
-    # arguments (name, actions hash, options hash) -- a different call
-    # shape than what this plugin has run with. Kept unbraced so every new
-    # controller:action pair joins that same single hash exactly like
-    # `require: :member` already did, rather than risk changing how
-    # Redmine's own `permission` method receives :require.
+    # NOTE: `require: :member` is inside the actions hash here (no braces),
+    # so Redmine registers it as an action "require/member" and does not
+    # apply it as an option.
     permission :view_evms,
                evms: :index,
                evmassignees: :index,
@@ -59,17 +38,11 @@ Redmine::Plugin.register :redmine_issue_evm do
                evmbaselinediffdetails: :index,
                require: :member
     permission :manage_evmbaselines,
-               evmbaselines: %i[edit destroy new create update index show history]
+               evmbaselines: %i[edit destroy new create update index show]
     permission :view_evmbaselines,
-               evmbaselines: %i[index history show]
-    # Was `evmsettings: %i[ndex edit]` -- "ndex" is a typo of "index", but
-    # EvmsettingsController has no #index action at all, so that entry was
-    # dead either way. The real gap was :new/:update/:create having no
-    # permission mapped to them, which would have blocked the EVM settings
-    # create/update flow entirely once authorize started being enforced.
+               evmbaselines: %i[index show]
     permission :manage_evmsettings,
                evmsettings: %i[new edit update create]
-    # Added :update -- it was missing, same class of gap as evmsettings above.
     permission :view_project_evmreports,
                evmreports: %i[index show new create edit update destroy]
   end
