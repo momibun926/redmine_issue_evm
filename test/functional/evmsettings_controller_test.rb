@@ -69,6 +69,28 @@ class EvmsettingsControllerTest < Redmine::ControllerTest
     assert_equal [6.0, "method1", "us", 2], [setting.basis_hours, setting.etc_method, setting.region, setting.user_id]
   end
 
+  # Redmine does not reassign the plugin's user_id when a user is deleted,
+  # so the setting can point at a user that no longer exists. (A locked user
+  # still exists and was never a problem.)
+  def test_edit_opens_when_the_user_who_saved_it_was_deleted
+    create_evm_setting(user_id: DELETED_USER_ID)
+
+    get :edit, params: { project_id: @project.id, id: 1 }
+
+    assert_response :success
+    assert_nil controller_ivar(:update_user)
+    assert_select "form"
+  end
+
+  def test_update_works_when_the_user_who_saved_it_was_deleted
+    setting = create_evm_setting(user_id: DELETED_USER_ID)
+
+    patch :update, params: { project_id: @project.id, id: setting.id, evmsetting: { basis_hours: 6 } }
+
+    assert_redirected_to "/projects/#{@project.id}/evms"
+    assert_equal [6.0, 2], [setting.reload.basis_hours, setting.user_id]
+  end
+
   def test_update_with_invalid_values_shows_the_form_again
     setting = create_evm_setting
 
@@ -90,6 +112,9 @@ class EvmsettingsControllerTest < Redmine::ControllerTest
   end
 
   private
+
+  # No user has this id.
+  DELETED_USER_ID = 999_999
 
   def setting_params
     { view_forecast: "1", view_version: "0", view_performance: "1", view_issuelist: "0", basis_hours: 7.5,

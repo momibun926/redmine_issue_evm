@@ -17,7 +17,10 @@ class EvmsettingsController < BaseevmController
   #
   def edit
     @evm_settings = Evmsetting.find_by(project_id: @project.id)
-    @update_user = User.find(@evm_settings.user_id).name
+    # find_by, not find: the user who last saved the setting may have been
+    # deleted (Redmine does not reassign plugin tables), and the page must
+    # still open.
+    @update_user = User.find_by(id: @evm_settings.user_id)&.name
   end
 
   # Update baselie
@@ -66,7 +69,7 @@ class EvmsettingsController < BaseevmController
   # Record the current user as the one who updated the setting.
   def record_updating_user
     @evm_settings.user_id = User.current.id
-    @update_user = User.find(@evm_settings.user_id).name
+    @update_user = User.current.name
   end
 
   # Strong parameter
