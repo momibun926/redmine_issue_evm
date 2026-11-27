@@ -3,9 +3,9 @@ name: Tests
 # Runs RuboCop and the plugin's tests on Redmine 7 with PostgreSQL.
 on:
   push:
-    branches: [redmine7]
+    branches: [master, redmine7]
   pull_request:
-    branches: [redmine7]
+    branches: [master, redmine7]
   workflow_dispatch:
 
 jobs:

@@ -315,7 +315,7 @@ rubocop
 ```
 
 ## Continuous integration (GitHub Actions)
-On every push and pull request to the redmine7 branch, GitHub Actions runs RuboCop, the autoload check and the tests (Redmine 7.0.2, Ruby 4.0, PostgreSQL). The settings are in `.github/workflows/tests.yml`. The results are on the "Actions" tab of the repository, where you can also start a run by hand.
+On every push and pull request to the master and redmine7 branches, GitHub Actions runs RuboCop, the autoload check and the tests (Redmine 7.0.2, Ruby 4.0, PostgreSQL). The settings are in `.github/workflows/tests.yml`. The results are on the "Actions" tab of the repository, where you can also start a run by hand.
 
 ## Contributing
 1. Fork it
