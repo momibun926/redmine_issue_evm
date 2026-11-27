@@ -120,7 +120,7 @@ module EvmFunctionalTestSupport
   # The project's EVM plugin setting, as a project member would have saved it.
   def create_evm_setting(attributes = {}, project = @project)
     Evmsetting.create!({ project_id: project.id, user_id: 2,
-                         view_forecast: true, view_version: true, view_performance: true,
+                         view_forecast: true, view_performance: true,
                          view_issuelist: true, etc_method: "method2", basis_hours: 8,
                          threshold_spi: 0.9, threshold_cpi: 0.9, threshold_cr: 0.9,
                          region: "jp" }.merge(attributes))

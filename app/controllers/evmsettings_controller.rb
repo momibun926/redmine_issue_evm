@@ -55,7 +55,6 @@ class EvmsettingsController < BaseevmController
 
   # Attributes of the setting that the form can change
   PERMITTED_ATTRIBUTES = %i[view_forecast
-                            view_version
                             view_performance
                             view_issuelist
                             basis_hours
