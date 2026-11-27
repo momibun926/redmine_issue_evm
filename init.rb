@@ -25,17 +25,16 @@ Redmine::Plugin.register :redmine_issue_evm do
   author_url "https://github.com/momibun926"
   requires_redmine version_or_higher: "7.0.0"
   project_module :Issuevm do
-    # NOTE: `require: :member` is inside the actions hash here (no braces),
-    # so Redmine registers it as an action "require/member" and does not
-    # apply it as an option.
+    # The braces matter: without them, `require: :member` would become part
+    # of the actions hash instead of the options.
     permission :view_evms,
-               evms: :index,
-               evmassignees: :index,
-               evmversions: :index,
-               evmtrackers: :index,
-               evmparentissues: :index,
-               evmexcludes: :index,
-               evmbaselinediffdetails: :index,
+               { evms: :index,
+                 evmassignees: :index,
+                 evmversions: :index,
+                 evmtrackers: :index,
+                 evmparentissues: :index,
+                 evmexcludes: :index,
+                 evmbaselinediffdetails: :index },
                require: :member
     permission :manage_evmbaselines,
                evmbaselines: %i[edit destroy new create update index show]
