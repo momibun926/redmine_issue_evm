@@ -1,10 +1,5 @@
 require "redmine"
-require "holidays/core_extensions/date"
-
-# Extension for Date class
-class Date
-  include Holidays::CoreExtensions::Date
-end
+require "holidays"
 
 # for search and activity page
 Redmine::Activity.register "evmbaseline", plugin: :redmine_issue_evm
@@ -49,7 +44,4 @@ Redmine::Plugin.register :redmine_issue_evm do
   # menu
   menu :project_menu, :issuevm, { controller: :evms, action: :index },
        caption: :tab_display_name, param: :project_id
-
-  # load holidays
-  Holidays.load_all
 end

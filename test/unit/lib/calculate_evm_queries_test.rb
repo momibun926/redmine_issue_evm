@@ -54,7 +54,7 @@ class CalculateEvmQueriesTest < ActiveSupport::TestCase
       Issue.new(start_date: Date.new(2026, 2, 23), due_date: nil, fixed_version_id: version.id, estimated_hours: 5)
     end
 
-    pv = assert_queries_count(1) { CalculatePv.new(BASIS_DATE, undated, "jp", true) }
+    pv = assert_queries_match(/FROM "versions"/, count: 1) { CalculatePv.new(BASIS_DATE, undated, "jp", true) }
 
     assert_equal Date.new(2026, 2, 27), pv.due_date
     assert_in_delta 15.0, pv.bac

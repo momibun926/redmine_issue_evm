@@ -42,7 +42,7 @@ This plugin uses the features of Redmine 7 (for example, the SVG icons). It does
 * List, show and edit the past reports
 
 ## Common setting
-* Basis hours of a day, excluding holidays and weekends (and the region of the holidays)
+* Basis hours of a day, excluding the non-working days of Redmine and the public holidays from the holidays gem (and the region of the holidays)
 * Calculation method of ETC
 * Forecast chart, performance chart, threshold values and the list of incomplete issues
 
@@ -175,8 +175,8 @@ You can also look at the baselines created in the past.
 * Show the explanation of the EVM values
 
 ## About working days
-1. Weekends and holidays can be excluded from the calculation of PV (set it in the common setting page).
-2. If the period of an issue consists only of weekends and holidays, all of the days are working days.
+1. The non-working days of Redmine and the public holidays (from the holidays gem) can be excluded from the calculation of PV (set it in the common setting page). The non-working days are "Non-working days" in **Administration > Settings > Issue tracking** of Redmine (Saturday and Sunday by default; the examples below use the default).
+2. If the period of an issue consists only of non-working days and holidays, all of the days are working days.
 3. Holidays are provided by the holidays gem. Set the region in the common setting page (the "Common setting" link in the contextual menu).
 
 Example)

@@ -6,7 +6,8 @@ require File.expand_path("evm_calculation_test_helper", __dir__)
 # working days only, and counting SAC / rest days in working days).
 #
 # Mon Jun 15 .. Sun Jun 21, 2026 is used because nothing in that week is a
-# public holiday in :jp, so the result only depends on the weekend rule.
+# public holiday in :jp, so the result only depends on the non-working days of
+# Redmine (Saturday and Sunday by default).
 class CalculatePvHolidayTest < ActiveSupport::TestCase
   def setup
     @issue = FakeIssue.new(Date.new(2026, 6, 15), Date.new(2026, 6, 21), 10.0)
@@ -21,6 +22,15 @@ class CalculatePvHolidayTest < ActiveSupport::TestCase
     assert_equal 10.0, pv.today_value
     assert_equal Date.new(2026, 6, 15), pv.start_date
     assert_equal Date.new(2026, 6, 19), pv.cumulative.keys.max
+  end
+
+  def test_the_non_working_days_of_redmine_decide_the_working_days
+    # Only Sunday is a non-working day: 10h over Mon..Sat = 6 working days
+    pv = with_settings(non_working_week_days: %w[7]) { CalculatePv.new(Date.new(2026, 6, 20), [@issue], :jp, true) }
+
+    assert_equal 6, pv.sac
+    assert_in_delta 10.0 / 6, pv.daily[Date.new(2026, 6, 20)], 1e-9
+    assert_nil pv.daily[Date.new(2026, 6, 21)]
   end
 
   def test_estimate_is_spread_over_all_days_when_holidays_are_not_excluded

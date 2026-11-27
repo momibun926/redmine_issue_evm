@@ -117,7 +117,7 @@ A setting for each project. The page to create it opens the first time you open 
 | Field | Content | Allowed values |
 | --- | --- | --- |
 | Basis hours of day | Hours per day, used to convert hours into days | a number greater than 0 |
-| Exclude holidays and weekend in duration of days calculation | Leaves weekends and public holidays out of the working days | checkbox |
+| Exclude the non-working days of Redmine and the public holidays (from the holidays gem) in duration of days calculation | Leaves the non-working days of Redmine ("Non-working days" in **Administration > Settings > Issue tracking**) and the public holidays (holidays gem) out of the working days | checkbox |
 | Regions to get a holiday | Region of the public holidays (holidays gem) | choose from the list |
 | ETC calculation method | Optimistic / Normal / Pessimistic | one of them (required) |
 | Show forecast line | Shows forecast lines in the EVM chart | checkbox |
