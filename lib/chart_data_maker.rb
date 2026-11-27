@@ -45,8 +45,8 @@ module ChartDataMaker
     add_evm_plot_data(plot_data, evm, duration)
     add_forecast_plot_data(plot_data, evm, duration) if evm.forecast
     # change to JSON
-    PLOT_DATA_KIND.each_with_object({}) do |kind, chart_data|
-      chart_data[kind] = kind.equal?(:labels) ? plot_data[kind] : plot_data[kind].to_json
+    PLOT_DATA_KIND.index_with do |kind|
+      kind.equal?(:labels) ? plot_data[kind] : plot_data[kind].to_json
     end
   end
 

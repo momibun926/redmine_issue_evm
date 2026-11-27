@@ -1,0 +1,94 @@
+name: Tests
+
+# Runs RuboCop and the plugin's tests on Redmine 7 with PostgreSQL.
+on:
+  push:
+    branches: [redmine7]
+  pull_request:
+    branches: [redmine7]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: RuboCop and tests (Redmine 7.0.2, Ruby 4.0, PostgreSQL)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: redmine_test
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      BUNDLE_WITHOUT: development
+
+    defaults:
+      run:
+        working-directory: redmine
+
+    steps:
+      - name: Check out Redmine
+        uses: actions/checkout@v6
+        with:
+          repository: redmine/redmine
+          ref: 7.0.2
+          path: redmine
+
+      - name: Check out the plugin
+        uses: actions/checkout@v6
+        with:
+          path: redmine/plugins/redmine_issue_evm
+
+      # Redmine's Gemfile picks the database gem from this file, so it has
+      # to exist before the gems are installed.
+      - name: Configure the test database
+        run: |
+          cat > config/database.yml <<YAML
+          test:
+            adapter: postgresql
+            database: redmine_test
+            username: root
+            password: root
+            host: 127.0.0.1
+          YAML
+
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+          working-directory: redmine
+
+      - name: Prepare the database
+        run: |
+          bundle exec rake generate_secret_token
+          bundle exec rake db:migrate
+          bundle exec rake redmine:plugins:migrate
+
+      # Run from the plugin folder so that the plugin's .rubocop.yml is used,
+      # with Redmine's Gemfile (it has RuboCop in its test group).
+      - name: RuboCop
+        working-directory: redmine/plugins/redmine_issue_evm
+        env:
+          BUNDLE_GEMFILE: ${{ github.workspace }}/redmine/Gemfile
+        run: bundle exec rubocop --disable-pending-cops
+
+      - name: Autoload check
+        run: bin/rails zeitwerk:check
+
+      # All test files in one process, the same way as on the development VM.
+      - name: Tests
+        run: >-
+          bundle exec ruby -Itest -e
+          'Dir["plugins/redmine_issue_evm/test/**/*_test.rb"].sort.each { |f| require File.expand_path(f) }'

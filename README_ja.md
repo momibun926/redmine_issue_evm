@@ -283,6 +283,9 @@ RuboCop（RuboCop 1.72以上、rubocop-rails、rubocop-performance）でチェ�
 rubocop
 ```
 
+## 自動テスト（GitHub Actions）
+ブランチ redmine7 へのpushとプルリクエストのたびに、GitHub Actions がRuboCop、自動読み込みのチェック、テストを実行します（Redmine 7.0.2、Ruby 4.0、PostgreSQL）。設定は `.github/workflows/tests.yml` にあります。結果はリポジトリの「Actions」タブで見られます。同じタブから手動でも実行できます。
+
 ## 開発への参加
 1. Fork it
 2. Create your feature branch (git checkout -b my-new-feature)
