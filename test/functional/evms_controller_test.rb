@@ -113,10 +113,10 @@ class EvmsControllerTest < Redmine::ControllerTest
 
     chart = controller_ivar(:evm_chart_data)
     assert_equal 15, chart[:labels].length # 2026-01-05 .. 2026-01-19
-    assert_equal "[8.0,16.0,24.0,32.0,40.0,null,null,44.0,48.0,52.0,56.0,60.0,null,null,null]", chart[:pv_actual]
-    assert_equal "[null,8.0,16.0,16.0,null,null,null,null,null,null,null,null,null,null,null]", chart[:ac]
-    assert_equal "[null,null,20.0,20.0,null,null,null,null,null,null,null,null,null,null,null]", chart[:ev]
-    assert_equal 15, JSON.parse(controller_ivar(:performance_chart_data)[:spi]).length
+    assert_equal "[8.0,16.0,24.0,32.0,40.0,null,null,44.0,48.0,52.0,56.0,60.0,null,null,null]", chart[:pv_actual].to_json
+    assert_equal "[null,8.0,16.0,16.0,null,null,null,null,null,null,null,null,null,null,null]", chart[:ac].to_json
+    assert_equal "[null,null,20.0,20.0,null,null,null,null,null,null,null,null,null,null,null]", chart[:ev].to_json
+    assert_equal 15, controller_ivar(:performance_chart_data)[:spi].length
   end
 
   # ---- baseline ----------------------------------------------------------

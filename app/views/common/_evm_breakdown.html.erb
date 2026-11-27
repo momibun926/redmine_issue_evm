@@ -14,8 +14,9 @@
                           options_from_collection_for_select)
     evm_data           - Hash, id => CalculateEvm
     chart_data_by_id   - Hash, id => chart data for that CalculateEvm
-    chart_partial      - String, partial to render the chart with
-    extra_chart_locals - Hash, extra locals merged into the chart partial call
+    chart_kind         - String, kind of chart: "basic" or "assignee" (see
+                          assets/javascripts/evm_chart_controller.js)
+    extra_chart_data   - Hash, extra data of the chart of that kind
     heading_link_method - Symbol or nil; when present, a helper method(id) whose
                           (html-safe) result is shown before the EVM description
                           in the section heading (used by parent issues to link
@@ -55,12 +56,9 @@
     <!-- Charts -->
     <section>
       <h4><%= l(:subtitle_evm_chart_main) %></h4>
-      <%= render partial: chart_partial,
-          locals: { basis_date: convert_to_labels(evm.finished_date || cfg_param[:basis_date]),
-                    chart_data: chart_data_by_id[id],
-                    basis_date_label: basis_date_label(evm.finished_date),
-                    id: id,
-                    tittle: evm.description }.merge(extra_chart_locals) %>
+      <%= evm_chart_tag(chart_kind,
+                        evm_chart_data(chart_data_by_id[id], cfg_param[:basis_date], evm.finished_date).
+                          merge(extra_chart_data)) %>
     </section>
   <% end %>
 </section>

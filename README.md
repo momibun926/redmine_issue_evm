@@ -202,7 +202,7 @@ In Japan, May 3, May 4 and May 5 are holidays.
 |May 3, 2017 (Wed)   |May 7, 2017 (Sunday)|20 hours       |5 days      |4 hours   |
 
 # Charts
-The charts are drawn with Chart.js. Chart.bundle.min.js (Chart.js v2.8.0) and chartjs-plugin-annotation (v0.5.7) are included in this plugin.
+The charts are drawn with the Chart.js that comes with Redmine (v4.5.1 in Redmine 7.0). Chart.js is not included in this plugin.
 
 **Main chart**
 Displays the cumulative PV, EV and AC values of the calculated issues in a time series. If a baseline has been set, the baseline is also displayed.

@@ -37,17 +37,14 @@ module ChartDataMaker
   # * forecast EV (forecast finish date)
   #
   # @param [CalculateEvm] evm evm calculation object
-  # @return [Hash] chart data
+  # @return [Hash{Symbol => Array}] labels and the values of each series, one for each label
   def evm_chart_data(evm)
     plot_data = Hash.new { |h, k| h[k] = [] }
     # start date and end date of chart
     duration = chart_duration(evm)
     add_evm_plot_data(plot_data, evm, duration)
     add_forecast_plot_data(plot_data, evm, duration) if evm.forecast
-    # change to JSON
-    PLOT_DATA_KIND.index_with do |kind|
-      kind.equal?(:labels) ? plot_data[kind] : plot_data[kind].to_json
-    end
+    PLOT_DATA_KIND.index_with { |kind| plot_data[kind] }
   end
 
   # Add the EVM chart series (PV, AC, EV, ...) of each date in the chart duration.

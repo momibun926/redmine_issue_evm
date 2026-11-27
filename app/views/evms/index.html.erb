@@ -76,18 +76,15 @@
     <div class="tab-content">
       <!-- Main Chart -->
       <B class="used-baseline"><%= used_baseline_name(@selectable_baseline, @cfg_param[:baseline_id]) %></B>
-      <%= render partial: "/evms/project_chart_js",
-          locals: { basis_date: convert_to_labels(@project_evm.finished_date || @cfg_param[:basis_date]),
-                    chart_data: @evm_chart_data,
-                    basis_date_label: basis_date_label(@project_evm.finished_date) }%>
+      <%= evm_chart_tag("project", evm_chart_data(@evm_chart_data, @cfg_param[:basis_date], @project_evm.finished_date)) %>
     </div>
     <!-- Performance Chart -->
     <% if @cfg_param[:display_performance] %>
       <input id="TAB-04" type="radio" name="TAB" class="tab-switch" ><label class="tab-label" for="TAB-04"><%= l(:subtitle_evm_chart_performance) %></label>
       <div class="tab-content">
-        <%= render partial: "/evms/performance_chart_js",
-            locals: { basis_date: convert_to_labels(@cfg_param[:basis_date]) ,
-                      performance_chart_data: @performance_chart_data } %>
+        <%= evm_chart_tag("performance",
+                          labels: @performance_chart_data[:labels],
+                          series: @performance_chart_data.except(:labels)) %>
       </div>
     <% end %>
     <!-- Incomplete issue list -->

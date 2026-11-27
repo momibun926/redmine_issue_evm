@@ -24,13 +24,14 @@ class ChartDataMakerTest < ActiveSupport::TestCase
     assert_equal %i[labels pv_actual pv_daily pv_baseline ac ev bac eac eac_daily ac_forecast ev_forecast],
                  chart.keys
     assert_equal 6, chart[:labels].length
-    assert_equal "[2.0,4.0,6.0,8.0,10.0,null]", chart[:pv_actual]
-    assert_equal "[null,6.0,null,10.0,null,null]", chart[:ev]
-    assert_equal "[null,5.0,null,8.0,null,null]", chart[:ac]
+    assert_equal %w[2026-01-01 2026-01-06], [chart[:labels].first, chart[:labels].last]
+    assert_equal "[2.0,4.0,6.0,8.0,10.0,null]", chart[:pv_actual].to_json
+    assert_equal "[null,6.0,null,10.0,null,null]", chart[:ev].to_json
+    assert_equal "[null,5.0,null,8.0,null,null]", chart[:ac].to_json
     # finished_date present -> CalculateEvm#initialize forces @forecast = false,
     # so evm_chart_data's `if evm.forecast` branch never runs and these stay empty.
-    assert_equal "[]", chart[:bac]
-    assert_equal "[]", chart[:eac]
+    assert_equal "[]", chart[:bac].to_json
+    assert_equal "[]", chart[:eac].to_json
   end
 
   def test_evm_chart_data_for_an_unfinished_project_with_forecast_on_fills_the_forecast_series
@@ -46,10 +47,10 @@ class ChartDataMakerTest < ActiveSupport::TestCase
 
     chart = ChartDataMaker.evm_chart_data(evm)
 
-    assert_equal "[10.0,null,null,null,null,10.0]", chart[:bac]
-    assert_equal "[7.5,null,null,null,null,7.5]", chart[:eac]
-    assert_equal "[null,null,3.0,null,7.5,null]", chart[:ac_forecast]
-    assert_equal "[null,null,4.0,null,10.0,null]", chart[:ev_forecast]
+    assert_equal "[10.0,null,null,null,null,10.0]", chart[:bac].to_json
+    assert_equal "[7.5,null,null,null,null,7.5]", chart[:eac].to_json
+    assert_equal "[null,null,3.0,null,7.5,null]", chart[:ac_forecast].to_json
+    assert_equal "[null,null,4.0,null,10.0,null]", chart[:ev_forecast].to_json
   end
 
   def test_performance_chart_data_returns_spi_cpi_cr_series
@@ -65,9 +66,9 @@ class ChartDataMakerTest < ActiveSupport::TestCase
 
     assert_equal %i[labels spi cpi cr], perf.keys
     assert_equal 6, perf[:labels].length
-    assert_equal "[null,1.5,1.67,1.25,null,null]", perf[:spi]
-    assert_equal "[null,1.2,1.25,1.25,null,null]", perf[:cpi]
-    assert_equal "[null,1.8,2.08,1.56,null,null]", perf[:cr]
+    assert_equal "[null,1.5,1.67,1.25,null,null]", perf[:spi].to_json
+    assert_equal "[null,1.2,1.25,1.25,null,null]", perf[:cpi].to_json
+    assert_equal "[null,1.8,2.08,1.56,null,null]", perf[:cr].to_json
   end
 
   # ---- more scenarios (added before splitting evm_chart_data & co. into
@@ -87,13 +88,13 @@ class ChartDataMakerTest < ActiveSupport::TestCase
 
     # chart runs to the day after the baseline's due date (Jan 11): 11 days
     assert_equal 11, chart[:labels].length
-    assert_equal "[2.0,4.0,6.0,8.0,10.0,12.0,14.0,16.0,18.0,20.0,null]", chart[:pv_baseline]
-    assert_equal "[2.0,4.0,6.0,8.0,10.0,null,null,null,null,null,null]", chart[:pv_actual]
-    assert_equal "[null,6.0,8.0,null,null,null,null,null,null,null,null]", chart[:ac]
-    assert_equal "[null,4.0,4.0,null,null,null,null,null,null,null,null]", chart[:ev]
+    assert_equal "[2.0,4.0,6.0,8.0,10.0,12.0,14.0,16.0,18.0,20.0,null]", chart[:pv_baseline].to_json
+    assert_equal "[2.0,4.0,6.0,8.0,10.0,null,null,null,null,null,null]", chart[:pv_actual].to_json
+    assert_equal "[null,6.0,8.0,null,null,null,null,null,null,null,null]", chart[:ac].to_json
+    assert_equal "[null,4.0,4.0,null,null,null,null,null,null,null,null]", chart[:ev].to_json
     # BAC is the baseline's (20h)
-    assert_equal "[20.0,null,null,null,null,null,null,null,null,null,20.0]", chart[:bac]
-    assert_equal "[null,29.88,40.0,null,null,null,null,null,null,null,null]", chart[:eac_daily]
+    assert_equal "[20.0,null,null,null,null,null,null,null,null,null,20.0]", chart[:bac].to_json
+    assert_equal "[null,29.88,40.0,null,null,null,null,null,null,null,null]", chart[:eac_daily].to_json
   end
 
   def test_evm_chart_data_for_an_overdue_project_forecasts_beyond_the_due_date
@@ -106,9 +107,9 @@ class ChartDataMakerTest < ActiveSupport::TestCase
 
     # forecast finish is Jan 12, so the chart runs to Jan 13
     assert_equal 13, chart[:labels].length
-    assert_equal "[]", chart[:pv_baseline]
-    assert_equal "[null,null,null,null,null,null,null,null,null,8.0,null,20.0,null]", chart[:ac_forecast]
-    assert_equal "[null,null,null,null,null,null,null,null,null,4.0,null,10.0,null]", chart[:ev_forecast]
+    assert_equal "[]", chart[:pv_baseline].to_json
+    assert_equal "[null,null,null,null,null,null,null,null,null,8.0,null,20.0,null]", chart[:ac_forecast].to_json
+    assert_equal "[null,null,null,null,null,null,null,null,null,4.0,null,10.0,null]", chart[:ev_forecast].to_json
   end
 
   def test_performance_chart_data_fills_the_days_between_dates_with_values
@@ -126,12 +127,12 @@ class ChartDataMakerTest < ActiveSupport::TestCase
 
     assert_equal 22, perf[:labels].length
     assert_equal "[null,2.0,1.67,1.5,1.4,1.33,1.29,1.25,1.11,1.08,1.05,1.03,1.02,1.0,0.93,0.88,null,null,null,null,null,null]",
-                 perf[:spi]
+                 perf[:spi].to_json
     assert_equal "[null,2.0,1.82,1.71,1.65,1.6,1.57,1.54,1.54,1.54,1.55,1.55,1.55,1.56,1.56,1.56,null,null,null,null,null,null]",
-                 perf[:cpi]
+                 perf[:cpi].to_json
     # EV: 20% / 50% / 70% of 40h
     assert_equal "[null,8.0,null,null,null,null,null,null,20.0,null,null,null,null,null,28.0,28.0,null,null,null,null,null,null]",
-                 chart[:ev]
+                 chart[:ev].to_json
   end
 
   def test_module_function_keeps_these_methods_private_if_ever_mixed_in

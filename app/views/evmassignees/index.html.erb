@@ -10,6 +10,7 @@
               select_options: options_for_select(@selectable_options, @cfg_param[:selected_assignee_id]),
               evm_data: @evm_data,
               chart_data_by_id: @evm_chart_data,
-              chart_partial: "/evmassignees/assignee_evm_chart_js",
-              extra_chart_locals: { working_hours: @cfg_param[:working_hours] },
+              chart_kind: "assignee",
+              extra_chart_data: { workingHours: @cfg_param[:working_hours],
+                                  pvDailyLabel: l(:estimated_working_hours) },
               heading_link_method: nil } %>
