@@ -2,7 +2,7 @@
 # an Evmsetting record.
 #
 # Used by BaseevmController#find_common_setting (the EVM pages) and
-# EvmHookViewListner#view_projects_show_left (the project overview), so that
+# EvmHookViewListener#view_projects_show_left (the project overview), so that
 # both pass the same options -- holidays, region, ETC method and so on -- to
 # the calculation. The ETC method goes under :etc_method, the key
 # CalculateEvm reads.

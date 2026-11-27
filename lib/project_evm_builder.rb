@@ -1,7 +1,7 @@
 # Builds the project-level CalculateEvm object.
 #
 # Used by both the main EVM page (EvmsController#create_evm_data) and the
-# project overview (EvmHookViewListner#view_projects_show_left), so that
+# project overview (EvmHookViewListener#view_projects_show_left), so that
 # they calculate the same way: look up the baseline, fetch the project's
 # issues/costs, and build a CalculateEvm from them.
 #

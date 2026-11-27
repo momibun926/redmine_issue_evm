@@ -1,4 +1,4 @@
-require File.expand_path("../../test_helper", __dir__)
+require File.expand_path("evm_calculation_test_helper", __dir__)
 
 # Unit tests for EvmUtil (lib/evm_util.rb): the working-day calculation shared
 # by CalculatePv and the reports helper, and the baseline-variance checks used
@@ -9,6 +9,8 @@ require File.expand_path("../../test_helper", __dir__)
 # these tests pin down *which* message each branch picks without depending on
 # a locale file or on Redmine::I18n being mixed into the test case.
 class EvmUtilTest < ActiveSupport::TestCase
+  include EvmTestStubs
+
   # Host for the EvmUtil mixin. Not defined inside the test case: EvmUtil is
   # mixed into plain classes (CalculatePv, EvmreportsHelper) in the plugin too.
   class Host
@@ -132,5 +134,22 @@ class EvmUtilTest < ActiveSupport::TestCase
     state = @util.check_baseline_variance(FakeProjectEvm.new(actual, baseline))
 
     assert_equal "no_changed", state[:bac]
+  end
+
+  def test_public_holiday_looks_up_each_date_and_region_once
+    new_years_day = Date.new(2026, 1, 1)
+    calls = 0
+    looked_up = lambda do |region|
+      calls += 1
+      region == "jp"
+    end
+
+    results = stub_method(new_years_day, :holiday?, looked_up) do
+      [@util.public_holiday?(new_years_day, "jp"), @util.public_holiday?(new_years_day, "jp"),
+       @util.public_holiday?(new_years_day, "us")]
+    end
+
+    assert_equal [true, true, false], results
+    assert_equal 2, calls
   end
 end

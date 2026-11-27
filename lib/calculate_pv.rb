@@ -110,11 +110,22 @@ class CalculatePv < BaseCalculateEvm
   # @param [Issue] issue target issue
   # @param [Hash] temp_pv PV hash. Key:Date, Value:PV of each days. It is updated.
   def add_issue_planed_value(issue, temp_pv)
-    issue.due_date ||= Version.find(issue.fixed_version_id).effective_date
+    issue.due_date ||= version_due_date(issue.fixed_version_id)
     pv_days = working_days(issue.start_date, issue.due_date, @exclude_holiday, @region)
     hours_per_day = issue_hours_per_day(issue.estimated_hours.to_f, pv_days.length)
     pv_days.each do |date|
       temp_pv[date] = add_daily_evm_value(temp_pv[date], hours_per_day)
+    end
+  end
+
+  # Due date of a version, looked up once for each version.
+  #
+  # @param [Integer] version_id id of the version
+  # @return [Date] due date of the version
+  def version_due_date(version_id)
+    @version_due_dates ||= {}
+    @version_due_dates.fetch(version_id) do
+      @version_due_dates[version_id] = Version.find(version_id).effective_date
     end
   end
 

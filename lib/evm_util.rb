@@ -57,10 +57,22 @@ module EvmUtil
   def working_days(start_date, end_date, exclude_holiday, region)
     issue_days = (start_date..end_date).to_a
     if exclude_holiday
-      working_days = issue_days.reject { |e| e.wday.zero? || e.wday == 6 || e.holiday?(region) }
+      working_days = issue_days.reject { |e| e.wday.zero? || e.wday == 6 || public_holiday?(e, region) }
       working_days.empty? ? issue_days : working_days
     else
       issue_days
     end
+  end
+
+  # Whether a date is a public holiday of the region. Each date is looked up
+  # once for each object: the issues of a project share most of their days.
+  #
+  # @param [Date] date date
+  # @param [String] region region of the holidays
+  # @return [Boolean] true if it is a holiday
+  def public_holiday?(date, region)
+    @holiday_cache ||= {}
+    key = [date, region]
+    @holiday_cache.fetch(key) { @holiday_cache[key] = date.holiday?(region) }
   end
 end
